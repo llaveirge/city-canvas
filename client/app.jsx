@@ -1,6 +1,7 @@
 import React from 'react';
 import Home from './pages/home';
 import MyCanvas from './pages/my-canvas';
+import NotFound from './pages/not-found';
 import { parseRoute } from './lib';
 
 export default class App extends React.Component {
@@ -25,7 +26,7 @@ export default class App extends React.Component {
     if (route.path === 'myCanvas') {
       return <MyCanvas />;
     }
-
+    return <NotFound />;
   }
 
   render() {
