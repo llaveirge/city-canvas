@@ -1,17 +1,26 @@
 import React from 'react';
-import { Card, Button } from 'react-bootstrap';
+import { Card, Button, Image, Container } from 'react-bootstrap';
 
 export default function PostCard(props) {
   return (
     <>
       <Card>
-        <Card.Img style={{ width: '100vw', maxHeight: '55vh', objectFit: 'cover' }} className='img-fluid' variant="top" src='https://i.guim.co.uk/img/media/aea3419b27b51390303b7a202e0725f0155841a2/0_0_3000_1800/master/3000.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=c715cc3a4fd6a5bac37bc316f0ebe370' />
-        <Card.Body>
-          <Card.Title className='head-text pri-color'>Cool Title</Card.Title>
-          <Card.Text className='artist-text pri-color'>
-            Artist: That One Guy
-          </Card.Text>
-          <Button>On The Map</Button>
+        <Card.Img style={{ width: '100vw', maxHeight: '55vh', objectFit: 'cover' }} className='img-fluid' variant="top" src={props.artUrl} />
+        <Card.Body className='pt-2'>
+          <Container className='d-flex px-0'>
+            <Container className='img-cont' >
+              <Image className='profile-pic' src={props.profileUrl}></Image>
+            </Container>
+            <Container className='art-info'>
+              <Card.Title as='h4' className='head-text pri-color py-2'>{props.title}</Card.Title>
+              <Card.Text className='artist-text pri-color'>
+                Artist: {props.artist}
+              </Card.Text>
+            </Container>
+          </Container>
+          <Container className='d-grid'>
+            <Button size='lg' className='mt-3'>Update</Button>
+          </Container>
         </Card.Body>
       </Card>
     </>

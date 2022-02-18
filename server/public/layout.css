@@ -1,0 +1,25 @@
+.img-cont {
+  height: 60px;
+  width: 60px;
+  padding: 0;
+}
+
+.art-info {
+  padding: 0 1rem;
+}
+
+.card {
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 376px) {
+  .img-cont {
+    height: 79px;
+    width: 79px;
+    padding: 0;
+  }
+
+  .card {
+    margin-bottom: 2.8rem;
+  }
+}

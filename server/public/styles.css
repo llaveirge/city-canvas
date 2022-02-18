@@ -14,10 +14,6 @@ h5 {
   font-weight: 500;
 }
 
-/* @include media-breakpoint-up(md) {
-
-} */
-
 .btn:hover {
   background-color: #21cad6;
 }
@@ -52,4 +48,25 @@ h5 {
 .artist-text {
   font-size: 1rem;
   font-weight: bold;
+}
+
+.profile-pic {
+  object-fit: cover;
+  border-radius: 50%;
+  border: 1.5px solid #0eeaf8;
+  height: 60px;
+  width: 60px;
+}
+
+@media (min-width: 375px) {
+  .profile-pic {
+    height: 79px;
+    width: 79px;
+  }
+
+  .img-cont {
+    height: 79px;
+    width: 79px;
+    padding: 0;
+  }
 }
