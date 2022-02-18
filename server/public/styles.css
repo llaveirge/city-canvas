@@ -1,17 +1,25 @@
 body {
   font-family: Montserrat, serif;
-  font-size: 16px;
+  font-size: 1rem;
 }
 
-h1 {
-  color: #292929;
+h5 {
+  font-weight: 600;
 }
 
 .btn {
   background-color: #0eeaf8;
   border-style: none;
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 500;
+}
+
+/* @include media-breakpoint-up(md) {
+
+} */
+
+.btn:hover {
+  background-color: #21cad6;
 }
 
 .nav-drop:hover {
@@ -30,4 +38,18 @@ h1 {
 
 .head-text {
   font-family: "Rock Salt", cursive;
+}
+
+.menu {
+  font-size: 1.5rem;
+}
+
+.card {
+  border: 1px solid #0eeaf8;
+  filter: drop-shadow(2px 5px 2px #b9b8b89c);
+}
+
+.artist-text {
+  font-size: 1rem;
+  font-weight: bold;
 }
