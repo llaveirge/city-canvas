@@ -2,6 +2,7 @@ import React from 'react';
 import Home from './pages/home';
 import MyCanvas from './pages/my-canvas';
 import NotFound from './pages/not-found';
+import AppNav from './components/navbar';
 import { parseRoute } from './lib';
 
 export default class App extends React.Component {
@@ -32,6 +33,7 @@ export default class App extends React.Component {
   render() {
     return (
     <>
+      <AppNav />
       { this.renderPage() }
     </>
     );
