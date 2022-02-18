@@ -6,7 +6,7 @@ export default class MyCanvas extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      pins: [1]
+      pins: []
     };
   }
 
