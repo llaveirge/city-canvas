@@ -1,15 +1,31 @@
 body {
   font-family: Montserrat, serif;
+  font-size: 16px;
+}
+
+h1 {
+  color: #292929;
+}
+
+.btn {
+  background-color: #0eeaf8;
+  border-style: none;
+  font-size: 18px;
+  font-weight: 500;
 }
 
 .nav-drop:hover {
-  color: aqua;
+  color: #0eeaf8;
   background-color: white;
   font-weight: bold;
 }
 
-.pri-color {
+.pri-bk-color {
   background-color: #692584;
+}
+
+.pri-color {
+  color: #692584;
 }
 
 .head-text {

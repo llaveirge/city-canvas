@@ -3,7 +3,7 @@ import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
 
 export default function AppNav(props) {
   return (
- <Navbar variant="dark" className="pri-color">
+ <Navbar variant="dark" className="pri-bk-color">
     <Container>
     <Navbar.Brand className='head-text' href="#">Home</Navbar.Brand>
     <Nav className="me-auto">
