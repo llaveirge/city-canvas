@@ -5,7 +5,7 @@ export default function PostCard(props) {
   return (
     <>
       <Card>
-        <Card.Img style={{ width: '100vw', maxHeight: '55vh', objectFit: 'cover' }} className='img-fluid' variant="top" src={props.artUrl} />
+        <Card.Img style={{ width: '100vw', maxHeight: '55vh', objectFit: 'cover' }} className='img-fluid' variant="top" src={props.artPhotoUrl} />
         <Card.Body className='pt-2'>
           <Container className='d-flex px-0'>
             <Container className='img-cont' >
@@ -14,7 +14,7 @@ export default function PostCard(props) {
             <Container className='art-info'>
               <Card.Title as='h4' className='head-text pri-color py-2'>{props.title}</Card.Title>
               <Card.Text className='artist-text pri-color'>
-                Artist: {props.artist}
+                Artist: {props.artistName}
               </Card.Text>
             </Container>
           </Container>

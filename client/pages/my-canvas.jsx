@@ -10,6 +10,14 @@ export default class MyCanvas extends React.Component {
     };
   }
 
+  componentDidMount() {
+    fetch('/api/my-canvas-pins')
+      .then(response => response.json())
+      .then(pins => {
+        this.setState({ pins });
+      });
+  }
+
   render() {
     const pins = this.state.pins;
     return (
@@ -32,15 +40,15 @@ export default class MyCanvas extends React.Component {
           {pins.length
             ? <><PostCard
             title="Cool Art Thing"
-            artUrl='https://images.fineartamerica.com/images-medium-large-5/colorado-springs-mural-allen-beatty.jpg'
+            artPhotoUrl='https://images.fineartamerica.com/images-medium-large-5/colorado-springs-mural-allen-beatty.jpg'
             profileUrl='https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
-            artist='That One Guy'
+            artistName='That One Guy'
             />
             <PostCard
             title="Another Cool Art Thing"
-            artUrl='https://bloximages.newyork1.vip.townnews.com/gazette.com/content/tncms/assets/v3/editorial/1/11/111fbde2-a061-11ea-ad32-bfb117588960/5ecedbafd9e1f.image.jpg?crop=1637%2C1228%2C0%2C19&resize=1637%2C1228&order=crop%2Cresize'
+            artPhotoUrl='https://bloximages.newyork1.vip.townnews.com/gazette.com/content/tncms/assets/v3/editorial/1/11/111fbde2-a061-11ea-ad32-bfb117588960/5ecedbafd9e1f.image.jpg?crop=1637%2C1228%2C0%2C19&resize=1637%2C1228&order=crop%2Cresize'
             profileUrl='https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
-            artist='That One Guy'
+            artistName='That One Guy'
             /></>
             : <h5 className="pri-color text-center">Nothing to see here...<br/>Get out and start pinning some street art!</h5>}
         </Col>
