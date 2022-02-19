@@ -28,7 +28,7 @@ export default class MyCanvas extends React.Component {
         <Row>
           <Col></Col>
           <Col xs={10} md={8} className="d-grid">
-        <Button size ="lg">
+        <Button href="#new-pin" size ="lg">
           Create a City Canvas Pin
         </Button>
         </Col>
