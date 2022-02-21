@@ -36,10 +36,10 @@ export default class App extends React.Component {
 
   render() {
     return (
-    <>
-     <AppNav />
-        { this.renderPage() }
-    </>
+      <>
+        <AppNav />
+          { this.renderPage() }
+      </>
     );
   }
 }

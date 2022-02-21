@@ -6,6 +6,11 @@ h5 {
   font-weight: 600;
 }
 
+.nf {
+  font-weight: 700;
+  font-size: 4rem;
+}
+
 .head-text {
   font-family: "Rock Salt", cursive;
 }

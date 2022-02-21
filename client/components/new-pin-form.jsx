@@ -116,5 +116,4 @@ export default class NewPinForm extends React.Component {
       </Container>
     );
   }
-
 }

@@ -4,16 +4,16 @@
   padding: 0;
 }
 
-.art-info {
-  padding: 0 1rem;
-}
-
 .card {
   margin-bottom: 1.5rem;
 }
 
 .feed-cont {
   max-width: 1200px;
+}
+
+.art-info {
+  padding: 0 1rem;
 }
 
 @media (min-width: 376px) {
