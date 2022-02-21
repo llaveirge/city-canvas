@@ -4,6 +4,5 @@ export default function parseRoute(hashRoute) {
   }
   const [path, queryString] = hashRoute.split('?');
   const params = new URLSearchParams(queryString);
-  // will likely use params for dedicated post pages (?)
   return { path, params };
 }

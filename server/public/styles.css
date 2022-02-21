@@ -1,6 +1,5 @@
 body {
   font-family: Montserrat, serif;
-  font-size: 1rem;
 }
 
 h5 {
@@ -46,7 +45,6 @@ h5 {
 }
 
 .artist-text {
-  font-size: 1rem;
   font-weight: bold;
 }
 

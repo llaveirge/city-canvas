@@ -40,7 +40,6 @@ export default class NewPinForm extends React.Component {
     fetch('/api/post-pin', req)
       .then(res => res.json())
       .then(response => {
-        // console.log('From form, response body:', response);
         this.setState({
           title: '',
           artist: '',

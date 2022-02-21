@@ -36,7 +36,7 @@ export default class MyCanvas extends React.Component {
         <Col></Col>
         </Row>
       </Container>
-      <Container>
+      <Container className="feed-cont">
       <h3 className='head-text pri-color py-2'>My City Canvas</h3>
       <Row className='pt-2'>
         <Col className='justify-content-center'>
