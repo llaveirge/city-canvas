@@ -23,7 +23,8 @@ app.get('/api/my-canvas-pins', (req, res, next) => {
     "postId", "title", "artistName", "artPhotoUrl", "reported", "userId"
   from
     "posts"
-  where "userId" = $1;
+  where "userId" = $1
+  order by "createdAt" DESC;
   `;
 
   const params = [userId];

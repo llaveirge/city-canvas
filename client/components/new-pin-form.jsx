@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Button } from 'react-bootstrap';
+import { Container, Button, Form } from 'react-bootstrap';
 
 export default class NewPinForm extends React.Component {
   constructor(props) {
@@ -46,10 +46,10 @@ export default class NewPinForm extends React.Component {
           artist: '',
           info: '',
           lat: 42.3594411,
-          lng: -71.080346,
-          image: 'here'
+          lng: -71.080346
         });
         this.fileInputRef.current.value = null;
+        window.location.hash = 'myCanvas';
       })
       .catch(err => console.error('Fetch Failed!', err));
   }
@@ -58,70 +58,63 @@ export default class NewPinForm extends React.Component {
     const { handleChange, handleSubmit } = this;
 
     return (
-      <form onSubmit={handleSubmit}>
-        <Row>
-        <label htmlFor='title'>
-          Street Art Title:
-        </label>
-        <input
-          required
-          autoFocus
-          id='title'
-          type='text'
-          name='title'
-          placeholder='Enter Title'
-          onChange={handleChange}
-        />
-        </Row>
-        <Row>
-         <label htmlFor='artist'>
-          Artist Name or Tag:
-        </label>
-        <input
-          required
-          autoFocus
-          id='artist'
-          type='text'
-          name='artist'
-          placeholder='Enter Artist Name or Tag'
-          onChange={handleChange}
-        />
-        </Row>
-        <Row>
-         <label htmlFor='image'>
-          Artist Name or Tag:
-        </label>
-        <input
-          required
-          autoFocus
-          id='image'
-          type='file'
-          name='image'
-          ref={this.fileInputRef}
-          accept=".png, .jpg, .jpeg, .gif"
-          onChange={handleChange}
-        />
-        </Row>
-          <Row>
-         <label htmlFor='info'>
-          Description or Information:
-        </label>
-        <textarea
-          required
-          autoFocus
-          id='info'
-          name='info'
-          placeholder='Add some information about this pin...'
-          onChange={handleChange}
-        />
-        </Row>
-        <Row>
-          <Button type='submit'>
+      <Container className = "form-container px-0">
+        <Form onSubmit={handleSubmit}>
+          <Form.Label className="mt-2" htmlFor='title'>
+            Street Art Title:
+          </Form.Label>
+          <Form.Control
+            required
+            autoFocus
+            id='title'
+            type='text'
+            name='title'
+            value={this.state.title}
+            placeholder='Enter Title'
+            onChange={handleChange}
+          />
+          <Form.Label htmlFor='artist'>
+            Artist Name or Tag:
+          </Form.Label>
+          <Form.Control
+            required
+            autoFocus
+            id='artist'
+            type='text'
+            name='artist'
+            value={this.state.artist}
+            placeholder='Enter Artist Name or Tag'
+            onChange={handleChange}
+          />
+          <Form.Label>Street Art Photo:</Form.Label>
+          <Form.Control
+            required
+            autoFocus
+            id='image'
+            type='file'
+            name='image'
+            ref={this.fileInputRef}
+            accept=".png, .jpg, .jpeg, .gif"
+          />
+          <Form.Label htmlFor='info'>
+            Description or Information:
+          </Form.Label>
+          <Form.Control
+            as="textarea"
+            rows={4}
+            required
+            autoFocus
+            id='info'
+            name='info'
+            value={this.state.info}
+            placeholder='Add some information about this pin...'
+            onChange={handleChange}
+          />
+          <Button className="mt-3"type='submit'>
             Submit
           </Button>
-        </Row>
-
-      </form>
+        </Form>
+      </Container>
     );
   }
 

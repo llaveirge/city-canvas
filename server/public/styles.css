@@ -7,6 +7,10 @@ h5 {
   font-weight: 600;
 }
 
+.head-text {
+  font-family: "Rock Salt", cursive;
+}
+
 .btn {
   background-color: #0eeaf8;
   border-style: none;
@@ -30,10 +34,6 @@ h5 {
 
 .pri-color {
   color: #692584;
-}
-
-.head-text {
-  font-family: "Rock Salt", cursive;
 }
 
 .menu {
@@ -69,4 +69,17 @@ h5 {
     width: 79px;
     padding: 0;
   }
+}
+
+.form-label {
+  color: #212529;
+  font-weight: 700;
+}
+
+.form-control {
+  border: 2px solid #0eeaf8;
+}
+
+.form-control:focus {
+  border-color: #692584;
 }

@@ -22,6 +22,7 @@ export default class MyCanvas extends React.Component {
   render() {
     const pins = this.state.pins;
     const userProfileUrl = this.state.user.profileUrl; // may need to move this to app to access state
+
     return (
     <>
       <Container fluid className="pri-bk-color my-4 py-3">
