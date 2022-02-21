@@ -77,7 +77,6 @@ export default class NewPinForm extends React.Component {
           </Form.Label>
           <Form.Control
             required
-            autoFocus
             id='artist'
             type='text'
             name='artist'
@@ -88,7 +87,6 @@ export default class NewPinForm extends React.Component {
           <Form.Label>Street Art Photo:</Form.Label>
           <Form.Control
             required
-            autoFocus
             id='image'
             type='file'
             name='image'
@@ -102,7 +100,6 @@ export default class NewPinForm extends React.Component {
             as="textarea"
             rows={4}
             required
-            autoFocus
             id='info'
             name='info'
             value={this.state.info}
