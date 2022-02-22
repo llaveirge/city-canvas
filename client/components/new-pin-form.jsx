@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Button, Form } from 'react-bootstrap';
+import NewPinMap from './new-pin-map';
 
 export default class NewPinForm extends React.Component {
   constructor(props) {
@@ -8,10 +9,10 @@ export default class NewPinForm extends React.Component {
       title: '',
       artist: '',
       info: '',
-      lat: 42.3594411,
-      lng: -71.080346
+      marker: {}
     };
 
+    this.setMarker = this.setMarker.bind(this);
     this.fileInputRef = React.createRef();
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -20,6 +21,10 @@ export default class NewPinForm extends React.Component {
   handleChange(event) {
     const { name, value } = event.target;
     this.setState({ [name]: value });
+  }
+
+  setMarker(marker) {
+    this.setState({ marker });
   }
 
   handleSubmit(event) {
@@ -97,6 +102,7 @@ export default class NewPinForm extends React.Component {
             Description or Information:
           </Form.Label>
           <Form.Control
+            className='mb-3'
             as="textarea"
             rows={4}
             required
@@ -106,6 +112,7 @@ export default class NewPinForm extends React.Component {
             placeholder='Add some information about this pin...'
             onChange={handleChange}
           />
+          <NewPinMap marker={this.state.marker} setMarker={this.setMarker}></NewPinMap>
           <Button className="mt-3"type='submit'>
             Submit
           </Button>

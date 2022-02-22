@@ -6,24 +6,19 @@ import {
   Marker
 } from '@react-google-maps/api';
 
-const mapContStyle = {
-  width: '550px',
-  height: '320px'
-};
-
 const center = { lat: 39.744137, lng: -104.950050 };
 
-export default function NewPinMap() {
+export default function NewPinMap(props) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
   });
 
   // Set state:
-  const [marker, setMarker] = React.useState({});
+  // const [marker, setMarker] = React.useState({});
 
   // Set a custom marker via click:
   const onMapClick = React.useCallback(event => {
-    setMarker({
+    props.setMarker({
       lat: event.latLng.lat(),
       lng: event.latLng.lng()
     });
@@ -41,9 +36,10 @@ export default function NewPinMap() {
     mapRef.current.setZoom(17);
   }, []);
 
+  // Use Geolocation to Locate the user for targeting via a button:
   function GeoLocate({ panTo }) {
     return (
-      <button onClick={() => {
+      <button type='button' onClick={() => {
         navigator.geolocation.getCurrentPosition(position => {
           panTo({
             lat: position.coords.latitude, lng: position.coords.longitude
@@ -61,7 +57,7 @@ export default function NewPinMap() {
   return (
   <div>
     <GoogleMap
-      mapContainerStyle={mapContStyle}
+      mapContainerClassName='form-map'
       zoom={10}
       center={ center }
       onClick={onMapClick}
@@ -70,7 +66,7 @@ export default function NewPinMap() {
 
       <GeoLocate panTo={panTo} />
 
-      <Marker position={{ lat: +marker.lat, lng: +marker.lng }}
+      <Marker position={{ lat: +props.marker.lat, lng: +props.marker.lng }}
       icon={{
         url: '/pt_pin_sm.png',
         scaledSize: new window.google.maps.Size(35, 35)

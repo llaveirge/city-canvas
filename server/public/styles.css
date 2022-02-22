@@ -72,6 +72,11 @@ h5 {
     width: 79px;
     padding: 0;
   }
+
+  .form-map {
+    width: 550px;
+    height: 320px;
+  }
 }
 
 .form-label {
@@ -85,6 +90,11 @@ h5 {
 
 .form-control:focus {
   border-color: #692584;
+}
+
+.form-map {
+  width: 550px;
+  height: 320px;
 }
 
 .target {
