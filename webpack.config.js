@@ -35,7 +35,7 @@ module.exports = {
     static: {
       directory: serverPublicPath,
       publicPath: '/',
-      watch: true
+      watch: false
     },
     proxy: {
       '/api': `http://localhost:${process.env.PORT}`

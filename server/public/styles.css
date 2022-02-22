@@ -1,0 +1,88 @@
+body {
+  font-family: Montserrat, serif;
+}
+
+h5 {
+  font-weight: 600;
+}
+
+.nf {
+  font-weight: 700;
+  font-size: 4rem;
+}
+
+.head-text {
+  font-family: "Rock Salt", cursive;
+}
+
+.btn {
+  background-color: #0eeaf8;
+  border-style: none;
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+.btn:hover {
+  background-color: #21cad6;
+}
+
+.nav-drop:hover {
+  color: #0eeaf8;
+  background-color: white;
+  font-weight: bold;
+}
+
+.pri-bk-color {
+  background-color: #692584;
+}
+
+.pri-color {
+  color: #692584;
+}
+
+.menu {
+  font-size: 1.5rem;
+}
+
+.card {
+  border: 1px solid #0eeaf8;
+  filter: drop-shadow(2px 5px 2px #b9b8b89c);
+}
+
+.artist-text {
+  font-weight: bold;
+}
+
+.profile-pic {
+  object-fit: cover;
+  border-radius: 50%;
+  border: 1.5px solid #0eeaf8;
+  height: 60px;
+  width: 60px;
+}
+
+@media (min-width: 375px) {
+  .profile-pic {
+    height: 79px;
+    width: 79px;
+  }
+
+  .img-cont {
+    height: 79px;
+    width: 79px;
+    padding: 0;
+  }
+}
+
+.form-label {
+  color: #212529;
+  font-weight: 700;
+}
+
+.form-control {
+  border: 2px solid #0eeaf8;
+}
+
+.form-control:focus {
+  border-color: #692584;
+}

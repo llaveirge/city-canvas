@@ -1,0 +1,37 @@
+.img-cont {
+  height: 60px;
+  width: 60px;
+  padding: 0;
+}
+
+.card {
+  margin-bottom: 1.5rem;
+}
+
+.feed-cont {
+  max-width: 1200px;
+}
+
+.art-info {
+  padding: 0 1rem;
+}
+
+@media (min-width: 376px) {
+  .img-cont {
+    height: 79px;
+    width: 79px;
+    padding: 0;
+  }
+
+  .card {
+    margin-bottom: 2.8rem;
+  }
+}
+
+.form-container {
+  max-width: 550px;
+}
+
+.form-label {
+  padding-top: 1.25rem;
+}
