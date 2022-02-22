@@ -37,7 +37,11 @@ export default function NewPinMap() {
         });
       }}>
 
-      <Marker position={{ lat: marker.lat, lng: marker.lng }}/>
+      <Marker position={{ lat: marker.lat, lng: marker.lng }}
+      icon={{
+        url: '/pt_pin_sm.png',
+        scaledSize: new window.google.maps.Size(35, 35)
+      }}/>
 
     </GoogleMap>
   </div>
