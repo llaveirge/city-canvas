@@ -30,14 +30,25 @@ export default class Home extends React.Component {
       }
       ]
     };
+
+    this.matchUser = this.matchUser.bind(this);
+  }
+
+  matchUser(pin) {
+    const id = pin.userId;
+    const users = this.state.users;
+    for (const user of users) {
+      if (user.userId === id) {
+        return user.profileUrl;
+      }
+    }
   }
 
   render() {
     const { pins } = this.state;
-    const { users } = this.state;
 
     return (
-      <Container>
+      <Container className='feed-cont'>
         <Row className='pt-2'>
           <Col className='justify-content-center'>
             {pins.map(pin => (
@@ -45,7 +56,7 @@ export default class Home extends React.Component {
               key={pin.postId}
               title={pin.title}
               artPhotoUrl={pin.artPhotoUrl}
-              profileUrl={users.userProfileUrl} // will need to figure this out - maybe make a helper function?
+              profileUrl={ this.matchUser(pin) }
               artistName={pin.artistName}
               />
             ))}
