@@ -29,13 +29,14 @@ export default class NewPinForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { title, artist, info, lat, lng } = this.state;
+    const { title, artist, info, marker } = this.state;
+
     const formData = new FormData();
     formData.append('title', title);
     formData.append('artist', artist);
     formData.append('info', info);
-    formData.append('lat', lat);
-    formData.append('lng', lng);
+    formData.append('lat', marker.lat);
+    formData.append('lng', marker.lng);
     formData.append('image', this.fileInputRef.current.files[0]);
 
     const req = {
@@ -49,8 +50,7 @@ export default class NewPinForm extends React.Component {
           title: '',
           artist: '',
           info: '',
-          lat: 42.3594411,
-          lng: -71.080346
+          marker: {}
         });
         this.fileInputRef.current.value = null;
         window.location.hash = 'myCanvas';
