@@ -58,6 +58,7 @@ export default class Home extends React.Component {
               artPhotoUrl={pin.artPhotoUrl}
               profileUrl={ this.matchUser(pin) }
               artistName={pin.artistName}
+              button='View More'
               />
             ))}
           </Col>
