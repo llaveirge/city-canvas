@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Button, Form } from 'react-bootstrap';
+import NewPinMap from './new-pin-map';
 
 export default class NewPinForm extends React.Component {
   constructor(props) {
@@ -8,10 +9,10 @@ export default class NewPinForm extends React.Component {
       title: '',
       artist: '',
       info: '',
-      lat: 42.3594411,
-      lng: -71.080346
+      marker: {}
     };
 
+    this.setMarker = this.setMarker.bind(this);
     this.fileInputRef = React.createRef();
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -22,15 +23,20 @@ export default class NewPinForm extends React.Component {
     this.setState({ [name]: value });
   }
 
+  setMarker(marker) {
+    this.setState({ marker });
+  }
+
   handleSubmit(event) {
     event.preventDefault();
-    const { title, artist, info, lat, lng } = this.state;
+    const { title, artist, info, marker } = this.state;
+
     const formData = new FormData();
     formData.append('title', title);
     formData.append('artist', artist);
     formData.append('info', info);
-    formData.append('lat', lat);
-    formData.append('lng', lng);
+    formData.append('lat', marker.lat);
+    formData.append('lng', marker.lng);
     formData.append('image', this.fileInputRef.current.files[0]);
 
     const req = {
@@ -44,13 +50,14 @@ export default class NewPinForm extends React.Component {
           title: '',
           artist: '',
           info: '',
-          lat: 42.3594411,
-          lng: -71.080346
+          marker: {},
+          error: ''
         });
         this.fileInputRef.current.value = null;
         window.location.hash = 'myCanvas';
       })
       .catch(err => console.error('Fetch Failed!', err));
+
   }
 
   render() {
@@ -106,7 +113,9 @@ export default class NewPinForm extends React.Component {
             placeholder='Add some information about this pin...'
             onChange={handleChange}
           />
-          <Button className="mt-3"type='submit'>
+          <p className='form-label'> Click the map to drop a pin at the Street Art location: </p>
+          <NewPinMap marker={this.state.marker} setMarker={this.setMarker}></NewPinMap>
+          <Button className="mt-3 mb-5" type='submit'>
             Submit
           </Button>
         </Form>
