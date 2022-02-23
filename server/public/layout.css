@@ -16,6 +16,18 @@
   padding: 0 1rem;
 }
 
+.form-map {
+  width: 305px;
+  height: 320px;
+}
+
+@media (min-width: 360px) {
+  .form-map {
+    width: 350px;
+    height: 320px;
+  }
+}
+
 @media (min-width: 376px) {
   .img-cont {
     height: 79px;
@@ -25,6 +37,32 @@
 
   .card {
     margin-bottom: 2.8rem;
+  }
+
+  .form-map {
+    width: 450px;
+    height: 320px;
+  }
+}
+
+@media (min-width: 450px) {
+  .form-map {
+    width: 450px;
+    height: 320px;
+  }
+}
+
+@media (min-width: 530px) {
+  .form-map {
+    width: 500px;
+    height: 320px;
+  }
+}
+
+@media (min-width: 766px) {
+  .form-map {
+    width: 550px;
+    height: 320px;
   }
 }
 

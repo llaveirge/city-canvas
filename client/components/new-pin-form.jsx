@@ -50,12 +50,14 @@ export default class NewPinForm extends React.Component {
           title: '',
           artist: '',
           info: '',
-          marker: {}
+          marker: {},
+          error: ''
         });
         this.fileInputRef.current.value = null;
         window.location.hash = 'myCanvas';
       })
       .catch(err => console.error('Fetch Failed!', err));
+
   }
 
   render() {
@@ -102,7 +104,6 @@ export default class NewPinForm extends React.Component {
             Description or Information:
           </Form.Label>
           <Form.Control
-            className='mb-3'
             as="textarea"
             rows={4}
             required
@@ -112,8 +113,9 @@ export default class NewPinForm extends React.Component {
             placeholder='Add some information about this pin...'
             onChange={handleChange}
           />
+          <p className='form-label'> Click the map to drop a pin at the Street Art location: </p>
           <NewPinMap marker={this.state.marker} setMarker={this.setMarker}></NewPinMap>
-          <Button className="mt-3"type='submit'>
+          <Button className="mt-3 mb-5" type='submit'>
             Submit
           </Button>
         </Form>

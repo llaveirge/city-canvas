@@ -39,8 +39,18 @@ app.get('/api/my-canvas-pins', (req, res, next) => {
 // Post new pin to to Posts Database:
 app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
   const { title, artist, info, lat, lng } = req.body;
-  if (!title || !artist || !info) {
-    throw new ClientError(400, 'title, artist, and info are all required fields');
+
+  if (!title) {
+    throw new ClientError(400, 'title is a required field');
+  }
+  if (!artist) {
+    throw new ClientError(400, 'artist is a required field');
+  }
+  if (!info) {
+    throw new ClientError(400, 'info is a required field');
+  }
+  if (!lat || !lng) {
+    throw new ClientError(400, 'lat and lng are required fields');
   }
 
   const url = `/images/${req.file.filename}`;

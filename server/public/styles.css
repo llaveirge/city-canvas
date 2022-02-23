@@ -61,7 +61,19 @@ h5 {
   width: 60px;
 }
 
-@media (min-width: 375px) {
+.target {
+  position: absolute;
+  top: 0.65rem;
+  right: 10%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 40px;
+  z-index: 2;
+  background-color: #0eeaf8;
+  border-radius: 3px;
+}
+
+@media (min-width: 376px) {
   .profile-pic {
     height: 79px;
     width: 79px;
@@ -73,9 +85,16 @@ h5 {
     padding: 0;
   }
 
-  .form-map {
-    width: 550px;
-    height: 320px;
+  .target {
+    position: absolute;
+    top: 0.65rem;
+    right: 8%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 40px;
+    z-index: 2;
+    background-color: #0eeaf8;
+    border-radius: 3px;
   }
 }
 
@@ -90,21 +109,4 @@ h5 {
 
 .form-control:focus {
   border-color: #692584;
-}
-
-.form-map {
-  width: 550px;
-  height: 320px;
-}
-
-.target {
-  position: absolute;
-  top: 0.65rem;
-  right: 8%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 40px;
-  z-index: 2;
-  background-color: #0eeaf8;
-  border-radius: 3px;
 }

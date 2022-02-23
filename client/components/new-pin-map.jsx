@@ -13,9 +13,6 @@ export default function NewPinMap(props) {
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
   });
 
-  // Set state:
-  // const [marker, setMarker] = React.useState({});
-
   // Set a custom marker via click:
   const onMapClick = React.useCallback(event => {
     props.setMarker({
