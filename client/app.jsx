@@ -32,6 +32,10 @@ export default class App extends React.Component {
     if (route.path === 'new-pin') {
       return <NewPin />;
     }
+    if (route.path === 'pins') {
+      const postId = route.params.get('postId');
+      return <PinPage postId={postId} />;
+    }
     return <NotFound />;
   }
 

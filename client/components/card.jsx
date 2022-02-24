@@ -19,7 +19,7 @@ export default function PostCard(props) {
             </Container>
           </Container>
           <Container className='d-grid'>
-            <Button size='lg' className='mt-3'>{props.button}</Button>
+            <Button size='lg' className='mt-3' href={props.href}>{props.button}</Button>
           </Container>
         </Card.Body>
       </Card>
