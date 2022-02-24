@@ -36,7 +36,7 @@ app.get('/api/my-canvas-pins', (req, res, next) => {
     .catch(err => next(err));
 });
 
-// Get all pins from Posts Database for home feed:
+// Get all pins from 'posts' table and associated user data from 'users' table for home feed:
 app.get('/api/home-feed', (req, res, next) => {
   const sql = `
     select
@@ -60,7 +60,7 @@ app.get('/api/home-feed', (req, res, next) => {
     .catch(err => next(err));
 });
 
-// Post new pin to to Posts Database:
+// Post new pin to to 'Posts' table:
 app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
   const { title, artist, info, lat, lng } = req.body;
 

@@ -24,6 +24,5 @@ export default function PostCard(props) {
         </Card.Body>
       </Card>
     </>
-
   );
 }
