@@ -19,17 +19,41 @@ app.get('/api/my-canvas-pins', (req, res, next) => {
   const userId = 1; // will need to update this after authentication
 
   const sql = `
-  select
-    "postId", "title", "artistName", "artPhotoUrl", "reported", "userId"
-  from
-    "posts"
-  where "userId" = $1
-  order by "createdAt" DESC;
+    select
+      "postId", "title", "artistName", "artPhotoUrl", "reported", "userId"
+    from
+      "posts"
+    where "userId" = $1
+    order by "createdAt" DESC;
   `;
 
   const params = [userId];
 
   db.query(sql, params)
+    .then(response => {
+      res.json(response.rows);
+    })
+    .catch(err => next(err));
+});
+
+// Get all pins from Posts Database for home feed:
+app.get('/api/home-feed', (req, res, next) => {
+  const sql = `
+    select
+      "p"."postId",
+      "p"."title",
+      "p"."artistName",
+      "p"."artPhotoUrl",
+      "p"."reported",
+      "p"."userId",
+      "u"."userName",
+      "u"."photoUrl"
+    from "posts" as "p"
+    join "users" as "u" using ("userId")
+    order by "p"."createdAt" DESC;
+   `;
+
+  db.query(sql)
     .then(response => {
       res.json(response.rows);
     })
