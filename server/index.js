@@ -19,12 +19,12 @@ app.get('/api/my-canvas-pins', (req, res, next) => {
   const userId = 1; // will need to update this after authentication
 
   const sql = `
-  select
-    "postId", "title", "artistName", "artPhotoUrl", "reported", "userId"
-  from
-    "posts"
-  where "userId" = $1
-  order by "createdAt" DESC;
+    select
+      "postId", "title", "artistName", "artPhotoUrl", "reported", "userId"
+    from
+      "posts"
+    where "userId" = $1
+    order by "createdAt" DESC;
   `;
 
   const params = [userId];
@@ -36,7 +36,31 @@ app.get('/api/my-canvas-pins', (req, res, next) => {
     .catch(err => next(err));
 });
 
-// Post new pin to to Posts Database:
+// Get all pins from 'posts' table and associated user data from 'users' table for home feed:
+app.get('/api/home-feed', (req, res, next) => {
+  const sql = `
+    select
+      "p"."postId",
+      "p"."title",
+      "p"."artistName",
+      "p"."artPhotoUrl",
+      "p"."reported",
+      "p"."userId",
+      "u"."userName",
+      "u"."photoUrl"
+    from "posts" as "p"
+    join "users" as "u" using ("userId")
+    order by "p"."createdAt" DESC;
+   `;
+
+  db.query(sql)
+    .then(response => {
+      res.json(response.rows);
+    })
+    .catch(err => next(err));
+});
+
+// Post new pin to to 'Posts' table:
 app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
   const { title, artist, info, lat, lng } = req.body;
 
