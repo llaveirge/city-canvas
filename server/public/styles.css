@@ -1,5 +1,6 @@
 body {
   font-family: Montserrat, serif;
+  color: #292929;
 }
 
 h5 {
@@ -49,14 +50,17 @@ h5 {
   filter: drop-shadow(2px 5px 2px #b9b8b89c);
 }
 
-.artist-text {
-  font-weight: bold;
+.map-link {
+  color: #0eeaf8;
+  font-size: 1.125rem;
+  text-decoration: none;
 }
 
 .profile-pic {
   object-fit: cover;
   border-radius: 50%;
   border: 1.5px solid #0eeaf8;
+  background-color: #0eeaf8;
   height: 60px;
   width: 60px;
 }
@@ -96,10 +100,14 @@ h5 {
     background-color: #0eeaf8;
     border-radius: 3px;
   }
+
+  .username {
+    font-size: 1.125rem;
+  }
 }
 
 .form-label {
-  color: #212529;
+  color: #292929;
   font-weight: 700;
 }
 

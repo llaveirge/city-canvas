@@ -4,6 +4,7 @@ import MyCanvas from './pages/my-canvas';
 import NotFound from './pages/not-found';
 import AppNav from './components/navbar';
 import NewPin from './pages/new-pin';
+import PinPage from './pages/pin-page';
 import { parseRoute } from './lib';
 
 export default class App extends React.Component {
@@ -38,7 +39,8 @@ export default class App extends React.Component {
     return (
       <>
         <AppNav />
-          { this.renderPage() }
+          <PinPage />
+          {/* { this.renderPage() } */}
       </>
     );
   }
