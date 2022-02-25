@@ -78,7 +78,7 @@ export default function PinMap(props) {
             onCloseClick={() => { setInfoWindow(null); }}>
               <div>
                 <div className='info-img-cont'>
-                  <img className='info-img' src={props.img}></img>
+                  <a href={`#pins?postId=${props.id}`}><img className='info-img' src={props.img}></img></a>
                 </div>
               </div>
             </InfoWindow>
