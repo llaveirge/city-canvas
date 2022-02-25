@@ -5,6 +5,7 @@ import NotFound from './pages/not-found';
 import AppNav from './components/navbar';
 import NewPin from './pages/new-pin';
 import PinPage from './pages/pin-page';
+import PinMap from './pages/pin-map';
 import { parseRoute } from './lib';
 
 export default class App extends React.Component {
@@ -35,6 +36,9 @@ export default class App extends React.Component {
     if (route.path === 'pins') {
       const postId = route.params.get('postId');
       return <PinPage postId={+postId} />;
+    }
+    if (route.path === 'pin-map') {
+      return <PinMap />;
     }
     return <NotFound />;
   }

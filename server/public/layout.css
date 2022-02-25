@@ -21,6 +21,11 @@
   height: 320px;
 }
 
+.pin-map {
+  width: 100vw;
+  height: 88.5vh;
+}
+
 @media (min-width: 360px) {
   .form-map {
     width: 350px;

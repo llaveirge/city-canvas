@@ -1,6 +1,9 @@
 body {
   font-family: Montserrat, serif;
   color: #292929;
+  background-image: url("white_brick_fade.png");
+  background-attachment: fixed;
+  background-position: center;
 }
 
 h5 {
@@ -116,6 +119,12 @@ h5 {
     border-radius: 3px;
   }
 
+  .pin-pg {
+    position: absolute;
+    top: 0.65rem;
+    right: 3rem;
+  }
+
   .username {
     font-size: 1.125rem;
   }
@@ -132,4 +141,9 @@ h5 {
 
 .form-control:focus {
   border-color: #692584;
+}
+
+.btm-brdr {
+  height: 3rem;
+  background-color: #692584;
 }
