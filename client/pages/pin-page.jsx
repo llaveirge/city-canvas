@@ -5,7 +5,7 @@ export default class PinPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      pin: null
+      pin: {}
     };
   }
 
@@ -16,8 +16,17 @@ export default class PinPage extends React.Component {
   }
 
   render() {
-    if (!this.state.pin) return null;
     const { pin } = this.state;
+
+    if (pin.error) {
+      return (
+        <Container className='text-center'>
+          <h2 className='mt-5 pri-color nf'> 404 </h2>
+          <p className='my-2'>{pin.error}</p>
+          <a href="#" className='pri-color'>Return to the City Canvas home feed</a>
+        </Container>
+      );
+    }
 
     return (
       <>

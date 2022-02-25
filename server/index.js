@@ -83,7 +83,7 @@ app.get('/api/pins/:postId', (req, res, next) => {
   db.query(sql, params)
     .then(response => {
       if (!response.rows[0]) {
-        throw new ClientError(404, `This isn't the pin you're looking for... no, really, there is no pin with postId ${postId}.`);
+        throw new ClientError(404, `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`);
       }
       res.json(response.rows[0]);
     })
