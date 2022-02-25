@@ -1,14 +1,10 @@
 import React from 'react';
-
 import { Navbar } from 'react-bootstrap';
-
 import {
   GoogleMap,
   useLoadScript,
   Marker
 } from '@react-google-maps/api';
-
-const center = { lat: 39.744137, lng: -104.950050 }; // Change this to props?
 
 export default function PinMap(props) {
 
@@ -16,6 +12,7 @@ export default function PinMap(props) {
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
   });
 
+  // Prevent re-renders with useRef, specifically when placing markers;
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback(map => {
     mapRef.current = map;
@@ -26,6 +23,9 @@ export default function PinMap(props) {
     mapRef.current.panTo({ lat, lng });
     mapRef.current.setZoom(17);
   }, []);
+
+  // Get coordinates from props:
+  const center = { lat: props.lat, lng: props.lng };
 
   // Use Geolocation to Locate the user for targeting via a button:
   function GeoLocate({ panTo }) {

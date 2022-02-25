@@ -38,7 +38,9 @@ export default class App extends React.Component {
       return <PinPage postId={+postId} />;
     }
     if (route.path === 'pin-map') {
-      return <PinMap />;
+      const lat = route.params.get('lat');
+      const lng = route.params.get('lng');
+      return <PinMap lat={+lat} lng={+lng}/>;
     }
     return <NotFound />;
   }
