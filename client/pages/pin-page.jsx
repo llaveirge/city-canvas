@@ -21,9 +21,9 @@ export default class PinPage extends React.Component {
     if (pin.error) {
       return (
         <Container className='text-center'>
-          <h2 className='mt-5 pri-color nf'> 404 </h2>
-          <p className='my-2'>{pin.error}</p>
-          <a href="#" className='pri-color'>Return to the City Canvas home feed</a>
+          <h2 className='mt-5 pri-color nf'>404</h2>
+            <p className='my-2'>{pin.error}</p>
+            <a href="#" className='pri-color'>Return to the City Canvas home feed</a>
         </Container>
       );
     }
@@ -36,14 +36,14 @@ export default class PinPage extends React.Component {
         </Container>
         <Container className='mt-4 feed-cont'>
           <Card className='flex-sm-row'>
-              <Col>
-                <Card.Img className='full-pin-img' src={ pin.artPhotoUrl } />
-              </Col>
-              <Col className='custom-basis'>
-                <Card.Body>
-                  <Card.Title as='h4' className='py-2 head-text pri-color'>
-                    { pin.title }
-                  </Card.Title>
+            <Col>
+              <Card.Img className='full-pin-img' src={ pin.artPhotoUrl } />
+            </Col>
+            <Col className='custom-basis'>
+              <Card.Body>
+                <Card.Title as='h4' className='py-2 head-text pri-color'>
+                  { pin.title }
+                </Card.Title>
                   <Card.Text className='fw-bold pri-color pb-1'>
                     Artist: { pin.artistName }
                   </Card.Text>
@@ -53,8 +53,8 @@ export default class PinPage extends React.Component {
                   <Card.Text className='pt-4'>
                     { pin.comment }
                   </Card.Text>
-                </Card.Body>
-              </Col>
+              </Card.Body>
+            </Col>
           </Card>
         </Container>
       </>

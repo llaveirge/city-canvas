@@ -61,7 +61,6 @@ app.get('/api/home-feed', (req, res, next) => {
 });
 
 // Get a specific pin from 'posts' table and associated user data from 'users' table for 'PinPage':
-
 app.get('/api/pins/:postId', (req, res, next) => {
   const postId = Number(req.params.postId);
   if (!postId || postId < 0) {
