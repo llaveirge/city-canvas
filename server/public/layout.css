@@ -78,3 +78,15 @@
 .form-label {
   padding-top: 1.25rem;
 }
+
+.info-img-cont {
+  height: 140px;
+  width: 200px;
+  padding: 0;
+}
+
+.info-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

@@ -77,7 +77,9 @@ export default function PinMap(props) {
             <InfoWindow position={ { lat: center.lat, lng: center.lng }}
             onCloseClick={() => { setInfoWindow(null); }}>
               <div>
-                testing!
+                <div className='info-img-cont'>
+                  <img className='info-img' src={props.img}></img>
+                </div>
               </div>
             </InfoWindow>
             )
