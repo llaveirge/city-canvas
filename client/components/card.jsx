@@ -13,13 +13,13 @@ export default function PostCard(props) {
             </Container>
             <Container className='art-info'>
               <Card.Title as='h4' className='head-text pri-color py-2'>{props.title}</Card.Title>
-              <Card.Text className='artist-text pri-color'>
-                Artist: {props.artistName}
-              </Card.Text>
+                <Card.Text className='fw-bold pri-color'>
+                  Artist: {props.artistName}
+                </Card.Text>
             </Container>
           </Container>
           <Container className='d-grid'>
-            <Button size='lg' className='mt-3'>{props.button}</Button>
+            <Button size='lg' className='mt-3' href={props.href}>{props.button}</Button>
           </Container>
         </Card.Body>
       </Card>

@@ -60,6 +60,35 @@ app.get('/api/home-feed', (req, res, next) => {
     .catch(err => next(err));
 });
 
+// Get a specific pin from 'posts' table and associated user data from 'users' table for 'PinPage':
+app.get('/api/pins/:postId', (req, res, next) => {
+  const postId = Number(req.params.postId);
+  if (!postId || postId < 0) {
+    throw new ClientError(400, 'postId must be a positive integer');
+  }
+
+  const sql = `
+    select
+      "p".*,
+      "u"."userName",
+      "u"."photoUrl"
+    from "posts" as "p"
+    join "users" as "u" using ("userId")
+    where "postId" = $1
+    order by "p"."createdAt" DESC;
+   `;
+
+  const params = [postId];
+  db.query(sql, params)
+    .then(response => {
+      if (!response.rows[0]) {
+        throw new ClientError(404, `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`);
+      }
+      res.json(response.rows[0]);
+    })
+    .catch(err => next(err));
+});
+
 // Post new pin to to 'Posts' table:
 app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
   const { title, artist, info, lat, lng } = req.body;
