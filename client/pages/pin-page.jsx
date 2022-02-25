@@ -44,7 +44,7 @@ export default class PinPage extends React.Component {
                 <Card.Title as='h4' className='py-2 head-text pri-color'>
                   { pin.title }
                 </Card.Title>
-                  <Card.Text className='fw-bold pri-color pb-1'>
+                  <Card.Text className='fw-bold pri-color pb-sm-1'>
                     Artist: { pin.artistName }
                   </Card.Text>
                   <Card.Link className='fw-bold map-link'>
