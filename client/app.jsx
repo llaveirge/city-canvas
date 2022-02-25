@@ -40,7 +40,8 @@ export default class App extends React.Component {
     if (route.path === 'pin-map') {
       const lat = route.params.get('lat');
       const lng = route.params.get('lng');
-      return <PinMap lat={+lat} lng={+lng}/>;
+      const img = route.params.get('img');
+      return <PinMap lat={+lat} lng={+lng} img={img}/>;
     }
     return <NotFound />;
   }

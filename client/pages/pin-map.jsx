@@ -3,7 +3,8 @@ import { Navbar } from 'react-bootstrap';
 import {
   GoogleMap,
   useLoadScript,
-  Marker
+  Marker,
+  InfoWindow
 } from '@react-google-maps/api';
 
 export default function PinMap(props) {
@@ -11,6 +12,9 @@ export default function PinMap(props) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
   });
+
+  // Set infoWindow state to marker location or null, to toggle info window:
+  const [infoWindow, setInfoWindow] = React.useState(null);
 
   // Prevent re-renders with useRef, specifically when placing markers;
   const mapRef = React.useRef();
@@ -60,8 +64,24 @@ export default function PinMap(props) {
         <Marker position={{ lat: center.lat, lng: center.lng }}
         icon={{
           url: '/pt_pin_sm.png',
-          scaledSize: new window.google.maps.Size(50, 50)
-        }}/>
+          scaledSize: new window.google.maps.Size(50, 50),
+          anchor: new window.google.maps.Point(25, 40)
+        }}
+        onClick={() => {
+          setInfoWindow({ center });
+        }}
+        />
+
+        {infoWindow
+          ? (
+            <InfoWindow position={ { lat: center.lat, lng: center.lng }}
+            onCloseClick={() => { setInfoWindow(null); }}>
+              <div>
+                testing!
+              </div>
+            </InfoWindow>
+            )
+          : null}
 
       </GoogleMap>
     </div>
