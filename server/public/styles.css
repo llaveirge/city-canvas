@@ -6,10 +6,6 @@ body {
   background-position: center;
 }
 
-h5 {
-  font-weight: 600;
-}
-
 .nf {
   font-weight: 700;
   font-size: 4rem;
@@ -57,6 +53,10 @@ h5 {
   color: #0eeaf8;
   font-size: 1.125rem;
   text-decoration: none;
+}
+
+.map-link:hover {
+  color: #21cad6;
 }
 
 .profile-pic {
@@ -150,5 +150,5 @@ h5 {
 
 .dir-link {
   font-size: 1rem;
-  font-family: Montserrat, serif;
+  font-family: Montserrat, sans-serif;
 }

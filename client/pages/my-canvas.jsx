@@ -52,7 +52,7 @@ export default class MyCanvas extends React.Component {
                   href=''
                 />
               ))
-              : <h5 className="pri-color text-center">Nothing to see here...<br/>Get out and start pinning some street art!</h5>}
+              : <h5 className="pri-color text-center font-weight-bold">Nothing to see here...<br/>Get out and start pinning some street art!</h5>}
           </Col>
         </Row>
       </Container>
