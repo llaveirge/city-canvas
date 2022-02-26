@@ -48,7 +48,7 @@ export default class PinPage extends React.Component {
                   <Card.Text className='fw-bold pri-color pb-sm-1'>
                     Artist: { pin.artistName }
                   </Card.Text>
-                  <Card.Link href={`#pin-map?lat=${pin.lat}&lng=${pin.lng}&img=${pin.artPhotoUrl}&id=${pin.postId}`} className='fw-bold map-link'>
+                  <Card.Link href={`#pin-map?pinId=${pin.postId}&lat=${pin.lat}&lng=${pin.lng}&img=${encodeURIComponent(pin.artPhotoUrl)}`} className='fw-bold map-link'>
                     <i className="me-2 fas fa-map-marker-alt fa-lg"></i>On The Map
                   </Card.Link>
                   <Card.Text className='pt-4'>

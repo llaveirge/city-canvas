@@ -16,7 +16,7 @@ export default function PinMap(props) {
   // Set infoWindow state to marker location or null, to toggle info window:
   const [infoWindow, setInfoWindow] = React.useState(null);
 
-  // Prevent re-renders with useRef, specifically when placing markers;
+  // Prevent re-renders with useRef, specifically when placing markers:
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback(map => {
     mapRef.current = map;
@@ -74,12 +74,13 @@ export default function PinMap(props) {
 
         {infoWindow
           ? (
-            <InfoWindow position={ { lat: center.lat, lng: center.lng }}
+            <InfoWindow position={{ lat: center.lat, lng: center.lng }}
             onCloseClick={() => { setInfoWindow(null); }}>
               <div>
                 <div className='info-img-cont'>
-                  <a href={`#pins?postId=${props.id}`}><img className='info-img' src={props.img}></img></a>
-                </div>
+                  <a href={`#pins?postId=${props.pinId}`}><img className='info-img' src={props.img}></img></a>
+                </div >
+                <p className='text-center dir-link'><a href={`https://www.google.com/maps/search/?api=1&query=${center.lat}%2C${center.lng}`}>Get Directions</a></p>
               </div>
             </InfoWindow>
             )

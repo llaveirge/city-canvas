@@ -41,8 +41,8 @@ export default class App extends React.Component {
       const lat = route.params.get('lat');
       const lng = route.params.get('lng');
       const img = route.params.get('img');
-      const id = route.params.get('id');
-      return <PinMap lat={+lat} lng={+lng} img={img} id={id}/>;
+      const pinId = route.params.get('pinId');
+      return <PinMap lat={+lat} lng={+lng} img={img} pinId={pinId}/>;
     }
     return <NotFound />;
   }

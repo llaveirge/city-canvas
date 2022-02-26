@@ -1,5 +1,5 @@
 body {
-  font-family: Montserrat, serif;
+  font-family: Montserrat, sans-serif;
   color: #292929;
   background-image: url("white_brick_fade.png");
   background-attachment: fixed;
@@ -148,14 +148,7 @@ h5 {
   background-color: #692584;
 }
 
-.info-img-cont {
-  height: 140px;
-  width: 200px;
-  padding: 0;
-}
-
-.info-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.dir-link {
+  font-size: 1rem;
+  font-family: Montserrat, serif;
 }
