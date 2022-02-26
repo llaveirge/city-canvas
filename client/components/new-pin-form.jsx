@@ -64,9 +64,9 @@ export default class NewPinForm extends React.Component {
     const { handleChange, handleSubmit } = this;
 
     return (
-      <Container className = "form-container px-0">
+      <Container className = 'form-container px-0'>
         <Form onSubmit={handleSubmit}>
-          <Form.Label className="mt-2" htmlFor='title'>
+          <Form.Label className='mt-2' htmlFor='title'>
             Street Art Title:
           </Form.Label>
           <Form.Control
@@ -98,13 +98,13 @@ export default class NewPinForm extends React.Component {
             type='file'
             name='image'
             ref={this.fileInputRef}
-            accept=".png, .jpg, .jpeg, .gif"
+            accept='.png, .jpg, .jpeg, .gif'
           />
           <Form.Label htmlFor='info'>
             Description or Information:
           </Form.Label>
           <Form.Control
-            as="textarea"
+            as='textarea'
             rows={4}
             required
             id='info'
@@ -115,7 +115,7 @@ export default class NewPinForm extends React.Component {
           />
           <p className='form-label'> Click the map to drop a pin at the Street Art location: </p>
           <NewPinMap marker={this.state.marker} setMarker={this.setMarker}></NewPinMap>
-          <Button className="mt-3 mb-5" type='submit'>
+          <Button className='mt-3 mb-5' type='submit'>
             Submit
           </Button>
         </Form>

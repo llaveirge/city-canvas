@@ -5,7 +5,10 @@ export default function PostCard(props) {
   return (
     <>
       <Card>
-        <Card.Img style={{ width: '100vw', maxHeight: '55vh', objectFit: 'cover' }} className='img-fluid' variant="top" src={props.artPhotoUrl} />
+        <Card.Img style={{ width: '100vw', maxHeight: '55vh', objectFit: 'cover' }}
+        className='img-fluid'
+        variant='top'
+        src={props.artPhotoUrl} />
         <Card.Body className='pt-2'>
           <Container className='d-flex px-0'>
             <Container className='img-cont' >

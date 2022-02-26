@@ -43,7 +43,7 @@ export default function NewPinMap(props) {
           });
         }, () => null);
       }}>
-        <img className='target' src='/target-audience.png' alt="Target my location!"/>
+        <img className='target' src='/target-audience.png' alt='Target my location!'/>
       </button>
     );
   }

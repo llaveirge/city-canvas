@@ -41,7 +41,7 @@ export default function PinMap(props) {
           });
         }, () => null);
       }}>
-        <img className='target pin-pg' src='/target-audience.png' alt="Target my location!"/>
+        <img className='target pin-pg' src='/target-audience.png' alt='Target my location!'/>
       </button>
     );
   }
@@ -51,44 +51,44 @@ export default function PinMap(props) {
 
   return (
     <>
-    <div>
-      <GoogleMap
-        mapContainerClassName='pin-map'
-        zoom={17}
-        center={ center }
-        onLoad={onMapLoad}
-        >
+      <div>
+        <GoogleMap
+          mapContainerClassName='pin-map'
+          zoom={17}
+          center={ center }
+          onLoad={onMapLoad}
+          >
 
-        <GeoLocate panTo={panTo} />
+          <GeoLocate panTo={panTo} />
 
-        <Marker position={{ lat: center.lat, lng: center.lng }}
-        icon={{
-          url: '/pt_pin_sm.png',
-          scaledSize: new window.google.maps.Size(50, 50),
-          anchor: new window.google.maps.Point(25, 40)
-        }}
-        onClick={() => {
-          setInfoWindow({ center });
-        }}
-        />
+          <Marker position={{ lat: center.lat, lng: center.lng }}
+          icon={{
+            url: '/pt_pin_sm.png',
+            scaledSize: new window.google.maps.Size(50, 50),
+            anchor: new window.google.maps.Point(25, 40)
+          }}
+          onClick={() => {
+            setInfoWindow({ center });
+          }}
+          />
 
-        {infoWindow
-          ? (
-            <InfoWindow position={{ lat: center.lat, lng: center.lng }}
-            onCloseClick={() => { setInfoWindow(null); }}>
-              <div>
-                <div className='info-img-cont'>
-                  <a href={`#pins?postId=${props.pinId}`}><img className='info-img' src={props.img}></img></a>
-                </div >
-                <p className='text-center dir-link'><a href={`https://www.google.com/maps/search/?api=1&query=${center.lat}%2C${center.lng}`}>Get Directions</a></p>
-              </div>
-            </InfoWindow>
-            )
-          : null}
+          {infoWindow
+            ? (
+              <InfoWindow position={{ lat: center.lat, lng: center.lng }}
+              onCloseClick={() => { setInfoWindow(null); }}>
+                <div>
+                  <div className='info-img-cont'>
+                    <a href={`#pins?postId=${props.pinId}`}><img className='info-img' src={props.img}></img></a>
+                  </div >
+                  <p className='text-center dir-link'><a href={`https://www.google.com/maps/search/?api=1&query=${center.lat}%2C${center.lng}`}>Get Directions</a></p>
+                </div>
+              </InfoWindow>
+              )
+            : null}
 
-      </GoogleMap>
-    </div>
-    <Navbar fixed="bottom"className='fluid btm-brdr'></Navbar>
+        </GoogleMap>
+      </div>
+      <Navbar fixed='bottom'className='fluid btm-brdr'></Navbar>
     </>
   );
 }
