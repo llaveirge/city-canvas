@@ -6,7 +6,7 @@ import {
   Marker
 } from '@react-google-maps/api';
 
-const center = { lat: 39.744137, lng: -104.950050 };
+const center = { lat: 38.836419, lng: -104.8276377 };
 
 export default function NewPinMap(props) {
   const { isLoaded, loadError } = useLoadScript({
