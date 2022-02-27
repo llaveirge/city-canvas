@@ -152,3 +152,24 @@ body {
   font-size: 1rem;
   font-family: Montserrat, sans-serif;
 }
+
+.report {
+  position: absolute;
+  bottom: 25px;
+  color: #b6b6b6;
+}
+
+.report:hover {
+  color: #f54f31;
+}
+
+.fav {
+  position: absolute;
+  bottom: 30px;
+  right: 25px;
+  color: #b6b6b6;
+}
+
+.fav:hover {
+  color: #0eeaf8;
+}

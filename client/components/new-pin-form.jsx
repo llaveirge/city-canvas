@@ -76,7 +76,7 @@ export default class NewPinForm extends React.Component {
             type='text'
             name='title'
             value={this.state.title}
-            placeholder='Enter Title'
+            placeholder='Enter Title, or "Unknown"'
             onChange={handleChange}
           />
           <Form.Label htmlFor='artist'>
@@ -88,7 +88,7 @@ export default class NewPinForm extends React.Component {
             type='text'
             name='artist'
             value={this.state.artist}
-            placeholder='Enter Artist Name or Tag'
+            placeholder='Enter Artist Name or Tag, or "Unknown"'
             onChange={handleChange}
           />
           <Form.Label>Street Art Photo:</Form.Label>

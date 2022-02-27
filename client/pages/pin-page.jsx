@@ -54,6 +54,12 @@ export default class PinPage extends React.Component {
                   <Card.Text className='pt-4'>
                     { pin.comment }
                   </Card.Text>
+                  <Card.Link className='report'>
+                    Report as removed from view
+                  </Card.Link>
+                  <Card.Link>
+                    <i className='fav fas fa-heart fa-lg'></i>
+                  </Card.Link>
               </Card.Body>
             </Col>
           </Card>
