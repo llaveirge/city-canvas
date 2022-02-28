@@ -16,15 +16,15 @@ export default function PinMap(props) {
   // Set infoWindow state to marker location or null, to toggle info window:
   const [infoWindow, setInfoWindow] = React.useState(null);
 
-  // Prevent re-renders with useRef, specifically when placing markers:
+  // Prevent re-renders with useRef, specifically when placing/accessing/modifying markers:
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback(map => {
     mapRef.current = map;
   }, []);
 
   // Pan to a location:
-  const panTo = React.useCallback(({ lat, lng }) => {
-    mapRef.current.panTo({ lat, lng });
+  const panToLoc = React.useCallback(({ lat, lng }) => {
+    mapRef.current.panToLoc({ lat, lng });
     mapRef.current.setZoom(17);
   }, []);
 
@@ -32,11 +32,11 @@ export default function PinMap(props) {
   const center = { lat: props.lat, lng: props.lng };
 
   // Use Geolocation to Locate the user for targeting via a button:
-  function GeoLocate({ panTo }) {
+  function GeoLocate({ panToLoc }) {
     return (
       <button type='button' onClick={() => {
         navigator.geolocation.getCurrentPosition(position => {
-          panTo({
+          panToLoc({
             lat: position.coords.latitude, lng: position.coords.longitude
           });
         }, () => null);
@@ -47,7 +47,7 @@ export default function PinMap(props) {
   }
 
   if (loadError) return 'Error loading map';
-  if (!isLoaded) return 'Loading Map';
+  if (!isLoaded) return 'Loading map, one moment...';
 
   return (
     <>
@@ -59,7 +59,7 @@ export default function PinMap(props) {
           onLoad={onMapLoad}
           >
 
-          <GeoLocate panTo={panTo} />
+          <GeoLocate panToLoc={panToLoc} />
 
           <Marker position={{ lat: center.lat, lng: center.lng }}
           icon={{
@@ -80,14 +80,16 @@ export default function PinMap(props) {
                   <div className='info-img-cont'>
                     <a href={`#pins?postId=${props.pinId}`}><img className='info-img' src={props.img}></img></a>
                   </div >
-                  <p className='text-center dir-link'><a href={`https://www.google.com/maps/search/?api=1&query=${center.lat}%2C${center.lng}`}>Get Directions</a></p>
+                  <p className='text-center dir-link'>
+                    <a href={`https://www.google.com/maps/search/?api=1&query=${center.lat}%2C${center.lng}`}>Get Directions</a>
+                  </p>
                 </div>
               </InfoWindow>
               )
             : null}
-
         </GoogleMap>
       </div>
+
       <Navbar fixed='bottom'className='fluid btm-brdr'></Navbar>
     </>
   );
