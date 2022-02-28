@@ -23,8 +23,8 @@ export default function PinMap(props) {
   }, []);
 
   // Pan to a location:
-  const panToLoc = React.useCallback(({ lat, lng }) => {
-    mapRef.current.panToLoc({ lat, lng });
+  const panTo = React.useCallback(({ lat, lng }) => {
+    mapRef.current.panTo({ lat, lng });
     mapRef.current.setZoom(17);
   }, []);
 
@@ -32,11 +32,11 @@ export default function PinMap(props) {
   const center = { lat: props.lat, lng: props.lng };
 
   // Use Geolocation to Locate the user for targeting via a button:
-  function GeoLocate({ panToLoc }) {
+  function GeoLocate({ panTo }) {
     return (
       <button type='button' onClick={() => {
         navigator.geolocation.getCurrentPosition(position => {
-          panToLoc({
+          panTo({
             lat: position.coords.latitude, lng: position.coords.longitude
           });
         }, () => null);
@@ -59,7 +59,7 @@ export default function PinMap(props) {
           onLoad={onMapLoad}
           >
 
-          <GeoLocate panToLoc={panToLoc} />
+          <GeoLocate panTo={panTo} />
 
           <Marker position={{ lat: center.lat, lng: center.lng }}
           icon={{
