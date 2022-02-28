@@ -54,12 +54,12 @@ export default function PinMap(props) {
       <div>
         <GoogleMap
           mapContainerClassName='pin-map'
-          zoom={17}
+          zoom={ 17 }
           center={ center }
-          onLoad={onMapLoad}
+          onLoad={ onMapLoad }
           >
 
-          <GeoLocate panTo={panTo} />
+          <GeoLocate panTo={ panTo } />
 
           <Marker position={{ lat: center.lat, lng: center.lng }}
           icon={{
