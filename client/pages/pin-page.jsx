@@ -31,11 +31,11 @@ export default class PinPage extends React.Component {
 
     return (
       <>
-        <Container className='d-flex pt-sm-5 pt-3 align-items-center feed-cont'>
+        <Container className='d-flex pt-sm-5 pt-3 align-items-center pin-cont'>
           <Image className='profile-pic' src={ pin.photoUrl }></Image>
           <p className='username mb-0 ms-3'>{ pin.userName }</p>
         </Container>
-        <Container className='mt-4 feed-cont'>
+        <Container className='mt-4 pin-cont'>
           <Card className='flex-sm-row'>
             <Col>
               <Card.Img className='full-pin-img' src={ pin.artPhotoUrl } />
@@ -54,6 +54,12 @@ export default class PinPage extends React.Component {
                   <Card.Text className='pt-4'>
                     { pin.comment }
                   </Card.Text>
+                  <Card.Link className='report'>
+                    Report as removed from view
+                  </Card.Link>
+                  <Card.Link>
+                    <i className='fav fas fa-heart fa-lg'></i>
+                  </Card.Link>
               </Card.Body>
             </Col>
           </Card>

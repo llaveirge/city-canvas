@@ -16,7 +16,7 @@ export default function PinMap(props) {
   // Set infoWindow state to marker location or null, to toggle info window:
   const [infoWindow, setInfoWindow] = React.useState(null);
 
-  // Prevent re-renders with useRef, specifically when placing markers:
+  // Prevent re-renders with useRef, specifically when placing/accessing/modifying markers:
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback(map => {
     mapRef.current = map;
@@ -47,19 +47,19 @@ export default function PinMap(props) {
   }
 
   if (loadError) return 'Error loading map';
-  if (!isLoaded) return 'Loading Map';
+  if (!isLoaded) return 'Loading map, one moment...';
 
   return (
     <>
       <div>
         <GoogleMap
           mapContainerClassName='pin-map'
-          zoom={17}
+          zoom={ 17 }
           center={ center }
-          onLoad={onMapLoad}
+          onLoad={ onMapLoad }
           >
 
-          <GeoLocate panTo={panTo} />
+          <GeoLocate panTo={ panTo } />
 
           <Marker position={{ lat: center.lat, lng: center.lng }}
           icon={{
@@ -80,14 +80,16 @@ export default function PinMap(props) {
                   <div className='info-img-cont'>
                     <a href={`#pins?postId=${props.pinId}`}><img className='info-img' src={props.img}></img></a>
                   </div >
-                  <p className='text-center dir-link'><a href={`https://www.google.com/maps/search/?api=1&query=${center.lat}%2C${center.lng}`}>Get Directions</a></p>
+                  <p className='text-center dir-link'>
+                    <a href={`https://www.google.com/maps/search/?api=1&query=${center.lat}%2C${center.lng}`}>Get Directions</a>
+                  </p>
                 </div>
               </InfoWindow>
               )
             : null}
-
         </GoogleMap>
       </div>
+
       <Navbar fixed='bottom'className='fluid btm-brdr'></Navbar>
     </>
   );
