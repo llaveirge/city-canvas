@@ -56,8 +56,8 @@ export default class App extends React.Component {
     return (
       <>
         <AppNav />
-          {/* { this.renderPage() } */}
-          <UpdatePin />;
+          { this.renderPage() }
+          {/* <UpdatePin />; */}
       </>
     );
   }

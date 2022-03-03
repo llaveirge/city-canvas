@@ -6,17 +6,33 @@ export default class UpdatePinForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: 'Low Rider',
-      artist: 'Mel CK',
-      info: 'Some Stuff',
-      marker: { lat: 39.315385891065084, lng: -103.62775848810695 },
-      center: { lat: 39.315385891065084, lng: -103.62775848810695 }
+      title: '',
+      artist: '',
+      info: '',
+      marker: {},
+      center: {},
+      postId: '',
+      reported: false
     };
 
     this.setMarker = this.setMarker.bind(this);
     this.fileInputRef = React.createRef();
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    fetch(`api/pins/${this.props.postId}`)
+      .then(res => res.json())
+      .then(pin => this.setState({
+        title: pin.title,
+        artist: pin.artistName,
+        info: pin.comment,
+        marker: { lat: pin.lat, lng: pin.lng },
+        center: { lat: pin.lat, lng: pin.lng },
+        postId: pin.postId,
+        reported: pin.reported
+      }));
   }
 
   handleChange(event) {

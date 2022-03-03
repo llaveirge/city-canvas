@@ -49,7 +49,7 @@ export default function NewPinMap(props) {
   }
 
   if (loadError) return 'Error loading map';
-  if (!isLoaded) return 'Loading Map';
+  if (!isLoaded) return 'Loading map, one moment...';
 
   return (
   <div>

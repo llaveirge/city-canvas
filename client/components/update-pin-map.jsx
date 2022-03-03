@@ -11,7 +11,8 @@ export default function UpdatePinMap(props) {
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
   });
 
-  const center = { lat: +props.center.lat, lng: +props.center.lng };
+  // Set center based on pin position:
+  const center = { lat: props.center.lat, lng: props.center.lng };
 
   // Set a custom marker via click:
   const onMapClick = React.useCallback(event => {
@@ -25,7 +26,6 @@ export default function UpdatePinMap(props) {
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback(map => {
     mapRef.current = map;
-
   }, []);
 
   // Pan to a location:
@@ -49,8 +49,8 @@ export default function UpdatePinMap(props) {
     );
   }
 
-  if (loadError) return 'Error loading map';
-  if (!isLoaded) return 'Loading Map';
+  if (loadError) return <h2>Error loading map</h2>;
+  if (!isLoaded || isNaN(center.lat) || isNaN(center.lng)) return <h2>Loading map, one moment...</h2>;
 
   return (
   <div>
@@ -64,7 +64,7 @@ export default function UpdatePinMap(props) {
 
       <GeoLocate panTo={panTo} />
 
-      <Marker position={{ lat: +props.marker.lat, lng: +props.marker.lng }}
+      <Marker position={{ lat: props.marker.lat, lng: props.marker.lng }}
       icon={{
         url: '/pt_pin_sm.png',
         scaledSize: new window.google.maps.Size(35, 35)
