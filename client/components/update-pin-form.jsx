@@ -1,15 +1,15 @@
 import React from 'react';
 import { Container, Button, Form } from 'react-bootstrap';
-import NewPinMap from './new-pin-map';
+import UpdatePinMap from './update-pin-map';
 
 export default class UpdatePinForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: '',
-      artist: '',
-      info: '',
-      marker: {}
+      title: 'Low Rider',
+      artist: 'Mel CK',
+      info: 'Some Stuff',
+      marker: { lat: 39.315385891065084, lng: -103.62775848810695 }
     };
 
     this.setMarker = this.setMarker.bind(this);
@@ -28,35 +28,34 @@ export default class UpdatePinForm extends React.Component {
   }
 
   handleSubmit(event) {
-    event.preventDefault();
-    const { title, artist, info, marker } = this.state;
+    // event.preventDefault();
+    // const { title, artist, info, marker } = this.state;
 
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('artist', artist);
-    formData.append('info', info);
-    formData.append('lat', marker.lat);
-    formData.append('lng', marker.lng);
-    formData.append('image', this.fileInputRef.current.files[0]);
+    // const formData = new FormData();
+    // formData.append('title', title);
+    // formData.append('artist', artist);
+    // formData.append('info', info);
+    // formData.append('lat', marker.lat);
+    // formData.append('lng', marker.lng);
+    // formData.append('image', this.fileInputRef.current.files[0]);
 
-    const req = {
-      method: 'POST',
-      body: formData
-    };
-    fetch('/api/post-pin', req)
-      .then(res => res.json())
-      .then(response => {
-        this.setState({
-          title: '',
-          artist: '',
-          info: '',
-          marker: {},
-          error: ''
-        });
-        this.fileInputRef.current.value = null;
-        window.location.hash = 'myCanvas';
-      })
-      .catch(err => console.error('Fetch Failed!', err));
+    // const req = {
+    //   method: 'POST',
+    //   body: formData
+    // };
+    // fetch('/api/post-pin', req)
+    //   .then(res => res.json())
+    //   .then(response => {
+    //     this.setState({
+    //       title: '',
+    //       artist: '',
+    //       info: '',
+    //       marker: {}
+    //     });
+    //     this.fileInputRef.current.value = null;
+    //     window.location.hash = 'myCanvas';
+    //   })
+    //   .catch(err => console.error('Fetch Failed!', err));
 
   }
 
@@ -114,7 +113,7 @@ export default class UpdatePinForm extends React.Component {
             onChange={handleChange}
           />
           <p className='form-label'> Click the map to drop a pin at the Street Art location: </p>
-          <NewPinMap marker={this.state.marker} setMarker={this.setMarker}></NewPinMap>
+          <UpdatePinMap marker={this.state.marker} setMarker={this.setMarker}></UpdatePinMap>
           <Button className='mt-3 mb-5' type='submit'>
             Submit
           </Button>
