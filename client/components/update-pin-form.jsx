@@ -9,7 +9,8 @@ export default class UpdatePinForm extends React.Component {
       title: 'Low Rider',
       artist: 'Mel CK',
       info: 'Some Stuff',
-      marker: { lat: 39.315385891065084, lng: -103.62775848810695 }
+      marker: { lat: 39.315385891065084, lng: -103.62775848810695 },
+      center: { lat: 39.315385891065084, lng: -103.62775848810695 }
     };
 
     this.setMarker = this.setMarker.bind(this);
@@ -113,7 +114,7 @@ export default class UpdatePinForm extends React.Component {
             onChange={handleChange}
           />
           <p className='form-label'> Click the map to drop a pin at the Street Art location: </p>
-          <UpdatePinMap marker={this.state.marker} setMarker={this.setMarker}></UpdatePinMap>
+          <UpdatePinMap marker={this.state.marker} setMarker={this.setMarker} center={this.state.center}></UpdatePinMap>
           <Button className='mt-3 mb-5' type='submit'>
             Submit
           </Button>

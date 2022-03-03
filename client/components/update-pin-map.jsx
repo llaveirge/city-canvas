@@ -11,7 +11,7 @@ export default function UpdatePinMap(props) {
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
   });
 
-  const center = { lat: +props.marker.lat, lng: +props.marker.lng };
+  const center = { lat: +props.center.lat, lng: +props.center.lng };
 
   // Set a custom marker via click:
   const onMapClick = React.useCallback(event => {
@@ -56,10 +56,10 @@ export default function UpdatePinMap(props) {
   <div>
     <GoogleMap
       mapContainerClassName='form-map'
-      zoom={10}
+      zoom={ 10 }
       center={ center }
-      onClick={onMapClick}
-      onLoad={onMapLoad}
+      onClick={ onMapClick }
+      onLoad={ onMapLoad }
       >
 
       <GeoLocate panTo={panTo} />
