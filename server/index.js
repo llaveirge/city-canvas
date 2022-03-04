@@ -28,7 +28,6 @@ app.get('/api/my-canvas-pins', (req, res, next) => {
   `;
 
   const params = [userId];
-
   db.query(sql, params)
     .then(response => {
       res.json(response.rows);

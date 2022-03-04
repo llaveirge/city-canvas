@@ -57,7 +57,6 @@ export default class NewPinForm extends React.Component {
         window.location.hash = 'myCanvas';
       })
       .catch(err => console.error('Fetch Failed!', err));
-
   }
 
   render() {
@@ -65,7 +64,7 @@ export default class NewPinForm extends React.Component {
 
     return (
       <Container className = 'form-container px-0'>
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={ handleSubmit }>
           <Form.Label className='mt-2' htmlFor='title'>
             Street Art Title:
           </Form.Label>
@@ -75,9 +74,9 @@ export default class NewPinForm extends React.Component {
             id='title'
             type='text'
             name='title'
-            value={this.state.title}
+            value={ this.state.title }
             placeholder='Enter Title, or "Unknown"'
-            onChange={handleChange}
+            onChange={ handleChange }
           />
           <Form.Label htmlFor='artist'>
             Artist Name or Tag:
@@ -87,9 +86,9 @@ export default class NewPinForm extends React.Component {
             id='artist'
             type='text'
             name='artist'
-            value={this.state.artist}
+            value={ this.state.artist }
             placeholder='Enter Artist Name or Tag, or "Unknown"'
-            onChange={handleChange}
+            onChange={ handleChange }
           />
           <Form.Label>Street Art Photo:</Form.Label>
           <Form.Control
@@ -97,7 +96,7 @@ export default class NewPinForm extends React.Component {
             id='image'
             type='file'
             name='image'
-            ref={this.fileInputRef}
+            ref={ this.fileInputRef }
             accept='.png, .jpg, .jpeg, .gif'
           />
           <Form.Label htmlFor='info'>
@@ -105,16 +104,21 @@ export default class NewPinForm extends React.Component {
           </Form.Label>
           <Form.Control
             as='textarea'
-            rows={4}
+            rows={ 4 }
             required
             id='info'
             name='info'
-            value={this.state.info}
+            value={ this.state.info }
             placeholder='Add some information about this pin...'
-            onChange={handleChange}
+            onChange={ handleChange }
           />
-          <p className='form-label'> Click the map to drop a pin at the Street Art location: </p>
-          <NewPinMap marker={this.state.marker} setMarker={this.setMarker}></NewPinMap>
+          <p className='form-label'>
+            Click the map to drop a pin at the Street Art location:
+          </p>
+          <NewPinMap
+            marker={ this.state.marker }
+            setMarker={ this.setMarker }>
+          </NewPinMap>
           <Button className='mt-3 mb-5' type='submit'>
             Submit
           </Button>

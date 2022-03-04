@@ -36,18 +36,18 @@ export default class App extends React.Component {
     }
     if (route.path === 'pins') {
       const postId = route.params.get('postId');
-      return <PinPage postId={+postId} />;
+      return <PinPage postId={ +postId } />;
     }
     if (route.path === 'pin-map') {
       const lat = route.params.get('lat');
       const lng = route.params.get('lng');
       const img = route.params.get('img');
       const pinId = route.params.get('pinId');
-      return <PinMap lat={+lat} lng={+lng} img={img} pinId={pinId}/>;
+      return <PinMap lat={ +lat } lng={ +lng } img={ img } pinId={ pinId }/>;
     }
     if (route.path === 'update-pin') {
       const postId = route.params.get('postId');
-      return <UpdatePin postId={+postId} />;
+      return <UpdatePin postId={ +postId } />;
     }
     return <NotFound />;
   }

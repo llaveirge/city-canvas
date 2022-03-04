@@ -57,6 +57,7 @@ export default class UpdatePinForm extends React.Component {
     if (this.fileInputRef.current.value !== '') {
       formData.append('image', this.fileInputRef.current.files[0]);
     }
+
     const req = {
       method: 'PATCH',
       body: formData
@@ -68,20 +69,20 @@ export default class UpdatePinForm extends React.Component {
           title: '',
           artist: '',
           info: '',
-          marker: {}
+          marker: {},
+          center: {}
         });
         this.fileInputRef.current.value = null;
         window.location.hash = 'myCanvas';
       })
       .catch(err => console.error('Fetch Failed!', err));
-
   }
 
   render() {
     const { handleChange, handleSubmit } = this;
     return (
       <Container className = 'form-container px-0'>
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={ handleSubmit }>
           <Form.Label className='mt-2' htmlFor='title'>
             Street Art Title:
           </Form.Label>
@@ -91,9 +92,9 @@ export default class UpdatePinForm extends React.Component {
             id='title'
             type='text'
             name='title'
-            value={this.state.title}
+            value={ this.state.title }
             placeholder='Enter Title, or "Unknown"'
-            onChange={handleChange}
+            onChange={ handleChange }
           />
           <Form.Label htmlFor='artist'>
             Artist Name or Tag:
@@ -103,16 +104,16 @@ export default class UpdatePinForm extends React.Component {
             id='artist'
             type='text'
             name='artist'
-            value={this.state.artist}
+            value={ this.state.artist }
             placeholder='Enter Artist Name or Tag, or "Unknown"'
-            onChange={handleChange}
+            onChange={ handleChange }
           />
           <Form.Label>Street Art Photo:</Form.Label>
           <Form.Control
             id='image'
             type='file'
             name='image'
-            ref={this.fileInputRef}
+            ref={ this.fileInputRef }
             accept='.png, .jpg, .jpeg, .gif'
           />
           <Form.Label htmlFor='info'>
@@ -120,16 +121,22 @@ export default class UpdatePinForm extends React.Component {
           </Form.Label>
           <Form.Control
             as='textarea'
-            rows={4}
+            rows={ 4 }
             required
             id='info'
             name='info'
-            value={this.state.info}
+            value={ this.state.info }
             placeholder='Add some information about this pin...'
-            onChange={handleChange}
+            onChange={ handleChange }
           />
-          <p className='form-label'> Click the map to drop a pin at the Street Art location: </p>
-          <UpdatePinMap marker={this.state.marker} setMarker={this.setMarker} center={this.state.center}></UpdatePinMap>
+          <p className='form-label'>
+            Click the map to drop a pin at the Street Art location:
+          </p>
+          <UpdatePinMap
+            marker={ this.state.marker }
+            setMarker={ this.setMarker }
+            center={ this.state.center }>
+          </UpdatePinMap>
           <Button className='mt-3 mb-5' type='submit'>
             Submit
           </Button>

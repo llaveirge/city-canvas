@@ -41,7 +41,10 @@ export default function PinMap(props) {
           });
         }, () => null);
       }}>
-        <img className='target pin-pg' src='/target-audience.png' alt='Target my location!'/>
+        <img className='target pin-pg'
+          src='/target-audience.png'
+          alt='Target my location!'
+          />
       </button>
     );
   }
@@ -78,10 +81,14 @@ export default function PinMap(props) {
               onCloseClick={() => { setInfoWindow(null); }}>
                 <div>
                   <div className='info-img-cont'>
-                    <a href={`#pins?postId=${props.pinId}`}><img className='info-img' src={props.img}></img></a>
+                    <a href={`#pins?postId=${props.pinId}`}>
+                      <img className='info-img' src={props.img}></img>
+                    </a>
                   </div >
                   <p className='text-center dir-link'>
-                    <a href={`https://www.google.com/maps/search/?api=1&query=${center.lat}%2C${center.lng}`}>Get Directions</a>
+                    <a href={`https://www.google.com/maps/search/?api=1&query=${center.lat}%2C${center.lng}`}>
+                      Get Directions
+                    </a>
                   </p>
                 </div>
               </InfoWindow>
