@@ -24,11 +24,10 @@ app.get('/api/my-canvas-pins', (req, res, next) => {
     from
       "posts"
     where "userId" = $1
-    order by "createdAt" DESC;
+    order by "createdAt" DESC, "postId" DESC;
   `;
 
   const params = [userId];
-
   db.query(sql, params)
     .then(response => {
       res.json(response.rows);
@@ -50,7 +49,7 @@ app.get('/api/home-feed', (req, res, next) => {
       "u"."photoUrl"
     from "posts" as "p"
     join "users" as "u" using ("userId")
-    order by "p"."createdAt" DESC;
+    order by "p"."createdAt" DESC, "p"."postId" DESC;
    `;
 
   db.query(sql)
@@ -74,8 +73,7 @@ app.get('/api/pins/:postId', (req, res, next) => {
       "u"."photoUrl"
     from "posts" as "p"
     join "users" as "u" using ("userId")
-    where "postId" = $1
-    order by "p"."createdAt" DESC;
+    where "postId" = $1;
    `;
 
   const params = [postId];
@@ -114,11 +112,65 @@ app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
       values ($1, $2, $3, $4, $5, $6, $7)
     returning *
   `;
+
   const params = [title, artist, url, info, lat, lng, userId];
   db.query(sql, params)
     .then(response => {
       const [pin] = response.rows;
       res.status(201).json(pin);
+    })
+    .catch(err => next(err));
+});
+
+// Update a post pin in posts table
+app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
+  const postId = Number(req.params.postId);
+  const { title, artist, info, lat, lng } = req.body;
+
+  if (!postId || postId < 0) {
+    throw new ClientError(400, 'postId must be a positive integer');
+  }
+  if (!title) {
+    throw new ClientError(400, 'title is a required field');
+  }
+  if (!artist) {
+    throw new ClientError(400, 'artist is a required field');
+  }
+  if (!info) {
+    throw new ClientError(400, 'info is a required field');
+  }
+  if (!lat || !lng) {
+    throw new ClientError(400, 'lat and lng are required fields');
+  }
+
+  // Check to see if the image was updated, if not, set 'url' to null:
+  let url;
+  if ('file' in req) {
+    url = `/images/${req.file.filename}`;
+  } else {
+    url = null;
+  }
+
+  const sql = `
+  update "posts"
+    set "title" = $2,
+      "artistName" = $3,
+      "comment" = $4,
+      "lat" = $5,
+      "lng" = $6
+      ${url ? ',"artPhotoUrl" = $7' : ''}
+    where "postId" = $1
+    returning *;
+    `;
+  const params = [postId, title, artist, info, lat, lng];
+  if (url !== null) params.push(url);
+  db.query(sql, params)
+    .then(response => {
+      const [pin] = response.rows;
+      if (!pin) {
+        throw new ClientError(404, `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`);
+      }
+      res.json(pin);
     })
     .catch(err => next(err));
 });

@@ -6,12 +6,13 @@ import {
   Marker
 } from '@react-google-maps/api';
 
-const center = { lat: 38.836419, lng: -104.8276377 };
-
-export default function NewPinMap(props) {
+export default function UpdatePinMap(props) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
   });
+
+  // Set center based on pin position:
+  const center = { lat: props.center.lat, lng: props.center.lng };
 
   // Set a custom marker via click:
   const onMapClick = React.useCallback(event => {
@@ -48,14 +49,14 @@ export default function NewPinMap(props) {
     );
   }
 
-  if (loadError) return 'Error loading map';
-  if (!isLoaded) return 'Loading map, one moment...';
+  if (loadError) return <h2>Error loading map</h2>;
+  if (!isLoaded || isNaN(center.lat) || isNaN(center.lng)) return <h2>Loading map, one moment...</h2>;
 
   return (
   <div>
     <GoogleMap
       mapContainerClassName='form-map'
-      zoom={ 10 }
+      zoom={ 17 }
       center={ center }
       onClick={ onMapClick }
       onLoad={ onMapLoad }

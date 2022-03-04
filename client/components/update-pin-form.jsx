@@ -1,21 +1,38 @@
 import React from 'react';
 import { Container, Button, Form } from 'react-bootstrap';
-import NewPinMap from './new-pin-map';
+import UpdatePinMap from './update-pin-map';
 
-export default class NewPinForm extends React.Component {
+export default class UpdatePinForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       title: '',
       artist: '',
       info: '',
-      marker: {}
+      marker: {},
+      center: {},
+      postId: '',
+      reported: false
     };
 
     this.setMarker = this.setMarker.bind(this);
     this.fileInputRef = React.createRef();
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    fetch(`api/pins/${this.props.postId}`)
+      .then(res => res.json())
+      .then(pin => this.setState({
+        title: pin.title,
+        artist: pin.artistName,
+        info: pin.comment,
+        marker: { lat: pin.lat, lng: pin.lng },
+        center: { lat: pin.lat, lng: pin.lng },
+        postId: pin.postId,
+        reported: pin.reported
+      }));
   }
 
   handleChange(event) {
@@ -35,15 +52,17 @@ export default class NewPinForm extends React.Component {
     formData.append('title', title);
     formData.append('artist', artist);
     formData.append('info', info);
-    formData.append('lat', marker.lat);
-    formData.append('lng', marker.lng);
-    formData.append('image', this.fileInputRef.current.files[0]);
+    formData.append('lat', +marker.lat);
+    formData.append('lng', +marker.lng);
+    if (this.fileInputRef.current.value !== '') {
+      formData.append('image', this.fileInputRef.current.files[0]);
+    }
 
     const req = {
-      method: 'POST',
+      method: 'PATCH',
       body: formData
     };
-    fetch('/api/post-pin', req)
+    fetch(`/api/pins/${this.props.postId}`, req)
       .then(res => res.json())
       .then(response => {
         this.setState({
@@ -51,7 +70,7 @@ export default class NewPinForm extends React.Component {
           artist: '',
           info: '',
           marker: {},
-          error: ''
+          center: {}
         });
         this.fileInputRef.current.value = null;
         window.location.hash = 'myCanvas';
@@ -61,7 +80,6 @@ export default class NewPinForm extends React.Component {
 
   render() {
     const { handleChange, handleSubmit } = this;
-
     return (
       <Container className = 'form-container px-0'>
         <Form onSubmit={ handleSubmit }>
@@ -92,7 +110,6 @@ export default class NewPinForm extends React.Component {
           />
           <Form.Label>Street Art Photo:</Form.Label>
           <Form.Control
-            required
             id='image'
             type='file'
             name='image'
@@ -115,10 +132,11 @@ export default class NewPinForm extends React.Component {
           <p className='form-label'>
             Click the map to drop a pin at the Street Art location:
           </p>
-          <NewPinMap
+          <UpdatePinMap
             marker={ this.state.marker }
-            setMarker={ this.setMarker }>
-          </NewPinMap>
+            setMarker={ this.setMarker }
+            center={ this.state.center }>
+          </UpdatePinMap>
           <Button className='mt-3 mb-5' type='submit'>
             Submit
           </Button>
