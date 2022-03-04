@@ -56,13 +56,13 @@ export default function UpdatePinMap(props) {
   <div>
     <GoogleMap
       mapContainerClassName='form-map'
-      zoom={ 15 }
+      zoom={ 17 }
       center={ center }
       onClick={ onMapClick }
       onLoad={ onMapLoad }
       >
 
-      <GeoLocate panTo={panTo} />
+      <GeoLocate panTo={ panTo } />
 
       <Marker position={{ lat: +props.marker.lat, lng: +props.marker.lng }}
       icon={{
