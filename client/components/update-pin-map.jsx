@@ -64,7 +64,7 @@ export default function UpdatePinMap(props) {
 
       <GeoLocate panTo={panTo} />
 
-      <Marker position={{ lat: props.marker.lat, lng: props.marker.lng }}
+      <Marker position={{ lat: +props.marker.lat, lng: +props.marker.lng }}
       icon={{
         url: '/pt_pin_sm.png',
         scaledSize: new window.google.maps.Size(35, 35)

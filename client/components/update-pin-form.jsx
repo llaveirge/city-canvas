@@ -45,40 +45,40 @@ export default class UpdatePinForm extends React.Component {
   }
 
   handleSubmit(event) {
-    // event.preventDefault();
-    // const { title, artist, info, marker } = this.state;
+    event.preventDefault();
+    const { title, artist, info, marker } = this.state;
 
-    // const formData = new FormData();
-    // formData.append('title', title);
-    // formData.append('artist', artist);
-    // formData.append('info', info);
-    // formData.append('lat', marker.lat);
-    // formData.append('lng', marker.lng);
-    // formData.append('image', this.fileInputRef.current.files[0]);
-
-    // const req = {
-    //   method: 'POST',
-    //   body: formData
-    // };
-    // fetch('/api/post-pin', req)
-    //   .then(res => res.json())
-    //   .then(response => {
-    //     this.setState({
-    //       title: '',
-    //       artist: '',
-    //       info: '',
-    //       marker: {}
-    //     });
-    //     this.fileInputRef.current.value = null;
-    //     window.location.hash = 'myCanvas';
-    //   })
-    //   .catch(err => console.error('Fetch Failed!', err));
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('artist', artist);
+    formData.append('info', info);
+    formData.append('lat', +marker.lat);
+    formData.append('lng', +marker.lng);
+    if (this.fileInputRef.current.value !== '') {
+      formData.append('image', this.fileInputRef.current.files[0]);
+    }
+    const req = {
+      method: 'PATCH',
+      body: formData
+    };
+    fetch(`/api/pins/${this.props.postId}`, req)
+      .then(res => res.json())
+      .then(response => {
+        this.setState({
+          title: '',
+          artist: '',
+          info: '',
+          marker: {}
+        });
+        this.fileInputRef.current.value = null;
+        window.location.hash = 'myCanvas';
+      })
+      .catch(err => console.error('Fetch Failed!', err));
 
   }
 
   render() {
     const { handleChange, handleSubmit } = this;
-
     return (
       <Container className = 'form-container px-0'>
         <Form onSubmit={handleSubmit}>

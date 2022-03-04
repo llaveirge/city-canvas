@@ -145,20 +145,27 @@ app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
     throw new ClientError(400, 'lat and lng are required fields');
   }
 
-  const url = `/images/${req.file.filename}`;
+  let url;
+  if ('file' in req) {
+    url = `/images/${req.file.filename}`;
+  } else {
+    url = null;
+  }
+
+  const params = [postId, title, artist, info, lat, lng];
+  if (url !== null) params.push(url);
 
   const sql = `
   update "posts"
     set "title" = $2,
       "artistName" = $3,
-      "artPhotoUrl" = $4,
-      "comment" = $5,
-      "lat" = $6,
-      "lng" = $7
+      "comment" = $4,
+      "lat" = $5,
+      "lng" = $6
+      ${url ? ',"artPhotoUrl" = $7' : ''}
     where "postId" = $1
     returning *;
     `;
-  const params = [postId, title, artist, url, info, lat, lng];
 
   db.query(sql, params)
     .then(response => {
