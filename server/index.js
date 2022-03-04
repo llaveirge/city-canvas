@@ -123,6 +123,54 @@ app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
     .catch(err => next(err));
 });
 
+// Update a post pin in posts table
+app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
+  const postId = Number(req.params.postId);
+  const { title, artist, info, lat, lng } = req.body;
+
+  if (!postId || postId < 0) {
+    throw new ClientError(400, 'postId must be a positive integer');
+  }
+
+  if (!title) {
+    throw new ClientError(400, 'title is a required field');
+  }
+  if (!artist) {
+    throw new ClientError(400, 'artist is a required field');
+  }
+  if (!info) {
+    throw new ClientError(400, 'info is a required field');
+  }
+  if (!lat || !lng) {
+    throw new ClientError(400, 'lat and lng are required fields');
+  }
+
+  const url = `/images/${req.file.filename}`;
+
+  const sql = `
+  update "posts"
+    set "title" = $2,
+      "artistName" = $3,
+      "artPhotoUrl" = $4,
+      "comment" = $5,
+      "lat" = $6,
+      "lng" = $7
+    where "postId" = $1
+    returning *;
+    `;
+  const params = [postId, title, artist, url, info, lat, lng];
+
+  db.query(sql, params)
+    .then(response => {
+      const [pin] = response.rows;
+      if (!pin) {
+        throw new ClientError(404, `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`);
+      }
+      res.json(pin);
+    })
+    .catch(err => next(err));
+});
+
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {

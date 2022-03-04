@@ -109,7 +109,7 @@ export default class UpdatePinForm extends React.Component {
           />
           <Form.Label>Street Art Photo:</Form.Label>
           <Form.Control
-            required
+            // required
             id='image'
             type='file'
             name='image'
