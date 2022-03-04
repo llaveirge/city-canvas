@@ -114,6 +114,7 @@ app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
       values ($1, $2, $3, $4, $5, $6, $7)
     returning *
   `;
+
   const params = [title, artist, url, info, lat, lng, userId];
   db.query(sql, params)
     .then(response => {
@@ -131,7 +132,6 @@ app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
   if (!postId || postId < 0) {
     throw new ClientError(400, 'postId must be a positive integer');
   }
-
   if (!title) {
     throw new ClientError(400, 'title is a required field');
   }
@@ -145,15 +145,13 @@ app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
     throw new ClientError(400, 'lat and lng are required fields');
   }
 
+  // Check to see if the image was updated, if not, set 'url' to null:
   let url;
   if ('file' in req) {
     url = `/images/${req.file.filename}`;
   } else {
     url = null;
   }
-
-  const params = [postId, title, artist, info, lat, lng];
-  if (url !== null) params.push(url);
 
   const sql = `
   update "posts"
@@ -166,7 +164,8 @@ app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
     where "postId" = $1
     returning *;
     `;
-
+  const params = [postId, title, artist, info, lat, lng];
+  if (url !== null) params.push(url);
   db.query(sql, params)
     .then(response => {
       const [pin] = response.rows;
