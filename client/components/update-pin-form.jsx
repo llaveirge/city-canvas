@@ -140,6 +140,9 @@ export default class UpdatePinForm extends React.Component {
           <Button className='mt-3 mb-5' type='submit'>
             Submit
           </Button>
+          <Button className='mt-3 mb-5 del' type='button'>
+            Delete
+          </Button>
         </Form>
       </Container>
     );

@@ -173,3 +173,8 @@ body {
 .fav:hover {
   color: #0eeaf8;
 }
+
+.del {
+  background-color: #f54f31;
+  float: right;
+}
