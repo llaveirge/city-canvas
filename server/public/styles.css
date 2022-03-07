@@ -178,3 +178,11 @@ body {
   background-color: #f54f31;
   float: right;
 }
+
+.del:hover {
+  background-color: #c7422b;
+}
+
+.cancel {
+  background-color: #b6b6b6;
+}
