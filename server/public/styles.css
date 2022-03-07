@@ -186,3 +186,11 @@ body {
 .cancel {
   background-color: #b6b6b6;
 }
+
+.cancel:hover {
+  background-color: #797777;
+}
+
+.modal-title {
+  color: #f54f31;
+}

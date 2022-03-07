@@ -1,6 +1,7 @@
 import React from 'react';
-import { Container, Button, Form, Modal } from 'react-bootstrap';
+import { Container, Button, Form } from 'react-bootstrap';
 import UpdatePinMap from './update-pin-map';
+import ModalDelete from './modal-deleted';
 
 export default class UpdatePinForm extends React.Component {
   constructor(props) {
@@ -12,6 +13,7 @@ export default class UpdatePinForm extends React.Component {
       marker: {},
       center: {},
       postId: '',
+      deleted: '',
       reported: false,
       show: false
     };
@@ -35,7 +37,8 @@ export default class UpdatePinForm extends React.Component {
         marker: { lat: pin.lat, lng: pin.lng },
         center: { lat: pin.lat, lng: pin.lng },
         postId: pin.postId,
-        reported: pin.reported
+        reported: pin.reported,
+        deleted: pin.deleted
       }));
   }
 
@@ -45,6 +48,10 @@ export default class UpdatePinForm extends React.Component {
 
   handleClose() {
     this.setState({ show: false });
+  }
+
+  deletePin() {
+    event.preventDefault();
   }
 
   handleChange(event) {
@@ -158,27 +165,10 @@ export default class UpdatePinForm extends React.Component {
             </Button>
           </Form>
         </Container>
-        <Modal
+        <ModalDelete
           show={this.state.show}
           onHide={this.handleClose}
-          keyboard={false}
-          centered
-        >
-          <Modal.Header closeButton>
-            <Modal.Title>Delete This City Canvas Pin</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            Are you sure you want to delete this City Canvas pin?
-          </Modal.Body>
-          <Modal.Footer>
-            <Button className='cancel' onClick={this.handleClose}>
-              Cancel
-            </Button>
-            <Button className='del'>
-              Delete
-            </Button>
-          </Modal.Footer>
-        </Modal>
+        />
       </>
     );
   }

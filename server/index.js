@@ -162,6 +162,7 @@ app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
     where "postId" = $1
     returning *;
     `;
+
   const params = [postId, title, artist, info, lat, lng];
   if (url !== null) params.push(url);
   db.query(sql, params)
@@ -171,6 +172,31 @@ app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
         throw new ClientError(404, `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`);
       }
       res.json(pin);
+    })
+    .catch(err => next(err));
+});
+
+// Mark a pin as deleted:
+app.patch('/api/delete-pin/:postId', (req, res, next) => {
+  const postId = Number(req.params.postId);
+  if (!postId || postId < 0) {
+    throw new ClientError(400, 'postId must be a positive integer');
+  }
+
+  const sql = `
+  update "posts"
+    set "deleted" = now()
+    where "postId" = $1
+    returning "deleted";
+  `;
+  const params = [postId];
+  db.query(sql, params)
+    .then(response => {
+      const [deleted] = response.rows;
+      if (!deleted) {
+        throw new ClientError(404, `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`);
+      }
+      res.json(deleted);
     })
     .catch(err => next(err));
 });
