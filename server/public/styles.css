@@ -173,3 +173,25 @@ body {
 .fav:hover {
   color: #0eeaf8;
 }
+
+.del {
+  background-color: #f54f31;
+  float: right;
+}
+
+.del:hover,
+.del:focus {
+  background-color: #c7422b;
+}
+
+.cancel {
+  background-color: #b6b6b6;
+}
+
+.cancel:hover {
+  background-color: #797777;
+}
+
+.modal-title {
+  color: #f54f31;
+}

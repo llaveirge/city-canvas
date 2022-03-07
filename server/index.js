@@ -24,6 +24,7 @@ app.get('/api/my-canvas-pins', (req, res, next) => {
     from
       "posts"
     where "userId" = $1
+      and "deleted" is NULL
     order by "createdAt" DESC, "postId" DESC;
   `;
 
@@ -49,6 +50,7 @@ app.get('/api/home-feed', (req, res, next) => {
       "u"."photoUrl"
     from "posts" as "p"
     join "users" as "u" using ("userId")
+    where "p"."deleted" is NULL
     order by "p"."createdAt" DESC, "p"."postId" DESC;
    `;
 
@@ -73,7 +75,8 @@ app.get('/api/pins/:postId', (req, res, next) => {
       "u"."photoUrl"
     from "posts" as "p"
     join "users" as "u" using ("userId")
-    where "postId" = $1;
+    where "postId" = $1
+     and "p"."deleted" is NULL
    `;
 
   const params = [postId];
@@ -160,8 +163,10 @@ app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
       "lng" = $6
       ${url ? ',"artPhotoUrl" = $7' : ''}
     where "postId" = $1
+     and "deleted" is NULL
     returning *;
     `;
+
   const params = [postId, title, artist, info, lat, lng];
   if (url !== null) params.push(url);
   db.query(sql, params)
@@ -171,6 +176,31 @@ app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
         throw new ClientError(404, `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`);
       }
       res.json(pin);
+    })
+    .catch(err => next(err));
+});
+
+// Mark a pin as deleted:
+app.patch('/api/delete-pin/:postId', (req, res, next) => {
+  const postId = Number(req.params.postId);
+  if (!postId || postId < 0) {
+    throw new ClientError(400, 'postId must be a positive integer');
+  }
+
+  const sql = `
+  update "posts"
+    set "deleted" = now()
+    where "postId" = $1
+    returning "deleted";
+  `;
+  const params = [postId];
+  db.query(sql, params)
+    .then(response => {
+      const [deleted] = response.rows;
+      if (!deleted) {
+        throw new ClientError(404, `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`);
+      }
+      res.json(deleted);
     })
     .catch(err => next(err));
 });

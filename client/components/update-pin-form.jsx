@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Button, Form } from 'react-bootstrap';
 import UpdatePinMap from './update-pin-map';
+import ModalDelete from './modal-deleted';
 
 export default class UpdatePinForm extends React.Component {
   constructor(props) {
@@ -12,13 +13,17 @@ export default class UpdatePinForm extends React.Component {
       marker: {},
       center: {},
       postId: '',
-      reported: false
+      reported: false,
+      show: false
     };
 
     this.setMarker = this.setMarker.bind(this);
     this.fileInputRef = React.createRef();
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.handleShow = this.handleShow.bind(this);
+    this.deletePin = this.deletePin.bind(this);
   }
 
   componentDidMount() {
@@ -31,8 +36,38 @@ export default class UpdatePinForm extends React.Component {
         marker: { lat: pin.lat, lng: pin.lng },
         center: { lat: pin.lat, lng: pin.lng },
         postId: pin.postId,
-        reported: pin.reported
+        reported: pin.reported,
+        deleted: pin.deleted
       }));
+  }
+
+  handleShow() {
+    this.setState({ show: true });
+  }
+
+  handleClose() {
+    this.setState({ show: false });
+  }
+
+  deletePin() {
+    event.preventDefault();
+    const req = {
+      method: 'PATCH'
+    };
+    fetch(`/api/delete-pin/${this.props.postId}`, req)
+      .then(res => res.json())
+      .then(response => {
+        this.setState({
+          title: '',
+          artist: '',
+          info: '',
+          marker: {},
+          center: {}
+        });
+        this.fileInputRef.current.value = null;
+        window.location.hash = 'myCanvas';
+      })
+      .catch(err => console.error('Fetch Failed!', err));
   }
 
   handleChange(event) {
@@ -81,67 +116,77 @@ export default class UpdatePinForm extends React.Component {
   render() {
     const { handleChange, handleSubmit } = this;
     return (
-      <Container className = 'form-container px-0'>
-        <Form onSubmit={ handleSubmit }>
-          <Form.Label className='mt-2' htmlFor='title'>
-            Street Art Title:
-          </Form.Label>
-          <Form.Control
-            required
-            autoFocus
-            id='title'
-            type='text'
-            name='title'
-            value={ this.state.title }
-            placeholder='Enter Title, or "Unknown"'
-            onChange={ handleChange }
-          />
-          <Form.Label htmlFor='artist'>
-            Artist Name or Tag:
-          </Form.Label>
-          <Form.Control
-            required
-            id='artist'
-            type='text'
-            name='artist'
-            value={ this.state.artist }
-            placeholder='Enter Artist Name or Tag, or "Unknown"'
-            onChange={ handleChange }
-          />
-          <Form.Label>Street Art Photo:</Form.Label>
-          <Form.Control
-            id='image'
-            type='file'
-            name='image'
-            ref={ this.fileInputRef }
-            accept='.png, .jpg, .jpeg, .gif'
-          />
-          <Form.Label htmlFor='info'>
-            Description or Information:
-          </Form.Label>
-          <Form.Control
-            as='textarea'
-            rows={ 4 }
-            required
-            id='info'
-            name='info'
-            value={ this.state.info }
-            placeholder='Add some information about this pin...'
-            onChange={ handleChange }
-          />
-          <p className='form-label'>
-            Click the map to drop a pin at the Street Art location:
-          </p>
-          <UpdatePinMap
-            marker={ this.state.marker }
-            setMarker={ this.setMarker }
-            center={ this.state.center }>
-          </UpdatePinMap>
-          <Button className='mt-3 mb-5' type='submit'>
-            Submit
-          </Button>
-        </Form>
-      </Container>
+      <>
+        <Container className = 'form-container px-0'>
+          <Form onSubmit={ handleSubmit }>
+            <Form.Label className='mt-2' htmlFor='title'>
+              Street Art Title:
+            </Form.Label>
+            <Form.Control
+              required
+              autoFocus
+              id='title'
+              type='text'
+              name='title'
+              value={ this.state.title }
+              placeholder='Enter Title, or "Unknown"'
+              onChange={ handleChange }
+            />
+            <Form.Label htmlFor='artist'>
+              Artist Name or Tag:
+            </Form.Label>
+            <Form.Control
+              required
+              id='artist'
+              type='text'
+              name='artist'
+              value={ this.state.artist }
+              placeholder='Enter Artist Name or Tag, or "Unknown"'
+              onChange={ handleChange }
+            />
+            <Form.Label>Street Art Photo:</Form.Label>
+            <Form.Control
+              id='image'
+              type='file'
+              name='image'
+              ref={ this.fileInputRef }
+              accept='.png, .jpg, .jpeg, .gif'
+            />
+            <Form.Label htmlFor='info'>
+              Description or Information:
+            </Form.Label>
+            <Form.Control
+              as='textarea'
+              rows={ 4 }
+              required
+              id='info'
+              name='info'
+              value={ this.state.info }
+              placeholder='Add some information about this pin...'
+              onChange={ handleChange }
+            />
+            <p className='form-label'>
+              Click the map to drop a pin at the Street Art location:
+            </p>
+            <UpdatePinMap
+              marker={ this.state.marker }
+              setMarker={ this.setMarker }
+              center={ this.state.center }>
+            </UpdatePinMap>
+            <Button className='mt-3 mb-5' type='submit'>
+              Submit
+            </Button>
+            <Button className='mt-3 mb-5 del' type='button' onClick={this.handleShow}>
+              Delete
+            </Button>
+          </Form>
+        </Container>
+        <ModalDelete
+          show={this.state.show}
+          onHide={this.handleClose}
+          deletePin={this.deletePin}
+        />
+      </>
     );
   }
 }
