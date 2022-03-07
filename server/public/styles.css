@@ -179,7 +179,8 @@ body {
   float: right;
 }
 
-.del:hover {
+.del:hover,
+.del:focus {
   background-color: #c7422b;
 }
 
