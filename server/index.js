@@ -24,6 +24,7 @@ app.get('/api/my-canvas-pins', (req, res, next) => {
     from
       "posts"
     where "userId" = $1
+      and "deleted" is NULL
     order by "createdAt" DESC, "postId" DESC;
   `;
 
@@ -49,6 +50,7 @@ app.get('/api/home-feed', (req, res, next) => {
       "u"."photoUrl"
     from "posts" as "p"
     join "users" as "u" using ("userId")
+    where "p"."deleted" is NULL
     order by "p"."createdAt" DESC, "p"."postId" DESC;
    `;
 
@@ -73,7 +75,8 @@ app.get('/api/pins/:postId', (req, res, next) => {
       "u"."photoUrl"
     from "posts" as "p"
     join "users" as "u" using ("userId")
-    where "postId" = $1;
+    where "postId" = $1
+     and "p"."deleted" is NULL
    `;
 
   const params = [postId];
@@ -160,6 +163,7 @@ app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
       "lng" = $6
       ${url ? ',"artPhotoUrl" = $7' : ''}
     where "postId" = $1
+     and "deleted" is NULL
     returning *;
     `;
 
