@@ -19,7 +19,7 @@ export default function ModalDelete(props) {
           <Button className='cancel' onClick={props.onHide}>
             Cancel
           </Button>
-          <Button className='del'>
+          <Button className='del' onClick={props.deletePin}>
               Delete
             </Button>
         </Modal.Footer>

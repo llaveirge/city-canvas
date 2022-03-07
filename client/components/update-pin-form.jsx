@@ -13,7 +13,6 @@ export default class UpdatePinForm extends React.Component {
       marker: {},
       center: {},
       postId: '',
-      deleted: '',
       reported: false,
       show: false
     };
@@ -24,7 +23,7 @@ export default class UpdatePinForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleShow = this.handleShow.bind(this);
-
+    this.deletePin = this.deletePin.bind(this);
   }
 
   componentDidMount() {
@@ -52,6 +51,23 @@ export default class UpdatePinForm extends React.Component {
 
   deletePin() {
     event.preventDefault();
+    const req = {
+      method: 'PATCH'
+    };
+    fetch(`/api/delete-pin/${this.props.postId}`, req)
+      .then(res => res.json())
+      .then(response => {
+        this.setState({
+          title: '',
+          artist: '',
+          info: '',
+          marker: {},
+          center: {}
+        });
+        this.fileInputRef.current.value = null;
+        window.location.hash = 'myCanvas';
+      })
+      .catch(err => console.error('Fetch Failed!', err));
   }
 
   handleChange(event) {
@@ -168,6 +184,7 @@ export default class UpdatePinForm extends React.Component {
         <ModalDelete
           show={this.state.show}
           onHide={this.handleClose}
+          deletePin={this.deletePin}
         />
       </>
     );
