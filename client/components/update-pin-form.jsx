@@ -167,7 +167,6 @@ export default class UpdatePinForm extends React.Component {
             <UpdatePinMap
               marker={ this.state.marker }
               setMarker={ this.setMarker }>
-              {/* // center={ this.state.center } */}
             </UpdatePinMap>
             <Button className='mt-3 mb-5' type='submit'>
               Submit
