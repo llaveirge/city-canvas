@@ -56,7 +56,7 @@ export default function UpdatePinMap(props) {
   <div>
     <GoogleMap
       mapContainerClassName='form-map'
-      zoom={ 3 }
+      zoom={ 8 }
       center={ center }
       onClick={ onMapClick }
       onLoad={ onMapLoad }

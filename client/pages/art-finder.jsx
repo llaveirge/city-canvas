@@ -7,7 +7,7 @@ import {
   InfoWindow
 } from '@react-google-maps/api';
 
-const center = { lat: 39.811107, lng: -96.684512 };
+const center = { lat: 39.223014, lng: -105.001887 };
 
 export default function ArtFinder(props) {
   const { isLoaded, loadError } = useLoadScript({
@@ -26,7 +26,7 @@ export default function ArtFinder(props) {
   // Pan to a location:
   const panTo = React.useCallback(({ lat, lng }) => {
     mapRef.current.panTo({ lat, lng });
-    mapRef.current.setZoom(13);
+    mapRef.current.setZoom(14);
   }, []);
 
   // Fetch all the pins and and set them as markers in state:
@@ -35,8 +35,7 @@ export default function ArtFinder(props) {
       .then(response => response.json())
       .then(markers => {
         setMarkers(markers);
-      })
-      .catch(err => console.error('Fetch Failed!', err));
+      });
   }, []);
 
   // Use Geolocation to Locate the user for targeting via a button:
@@ -65,7 +64,7 @@ export default function ArtFinder(props) {
       <div>
         <GoogleMap
           mapContainerClassName='pin-map'
-          zoom = { 5 }
+          zoom = { 8 }
           center={ center }
           onLoad= { onMapLoad }
           >
