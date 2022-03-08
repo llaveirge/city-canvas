@@ -34,7 +34,7 @@ export default class UpdatePinForm extends React.Component {
         artist: pin.artistName,
         info: pin.comment,
         marker: { lat: pin.lat, lng: pin.lng },
-        center: { lat: pin.lat, lng: pin.lng },
+        // center: { lat: pin.lat, lng: pin.lng },
         postId: pin.postId,
         reported: pin.reported,
         deleted: pin.deleted
@@ -61,8 +61,8 @@ export default class UpdatePinForm extends React.Component {
           title: '',
           artist: '',
           info: '',
-          marker: {},
-          center: {}
+          marker: {}
+          // center: {}
         });
         this.fileInputRef.current.value = null;
         window.location.hash = 'myCanvas';
@@ -104,8 +104,8 @@ export default class UpdatePinForm extends React.Component {
           title: '',
           artist: '',
           info: '',
-          marker: {},
-          center: {}
+          marker: {}
+          // center: {}
         });
         this.fileInputRef.current.value = null;
         window.location.hash = 'myCanvas';
@@ -170,8 +170,8 @@ export default class UpdatePinForm extends React.Component {
             </p>
             <UpdatePinMap
               marker={ this.state.marker }
-              setMarker={ this.setMarker }
-              center={ this.state.center }>
+              setMarker={ this.setMarker }>
+              {/* // center={ this.state.center } */}
             </UpdatePinMap>
             <Button className='mt-3 mb-5' type='submit'>
               Submit

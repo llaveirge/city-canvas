@@ -6,13 +6,13 @@ import {
   Marker
 } from '@react-google-maps/api';
 
+// Must keep center coordinates outside of component to prevent re-rendering:
+const center = { lat: 38.836419, lng: -104.8276377 };
+
 export default function UpdatePinMap(props) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
   });
-
-  // Set center based on pin position:
-  const center = { lat: props.center.lat, lng: props.center.lng };
 
   // Set a custom marker via click:
   const onMapClick = React.useCallback(event => {
@@ -56,7 +56,7 @@ export default function UpdatePinMap(props) {
   <div>
     <GoogleMap
       mapContainerClassName='form-map'
-      zoom={ 17 }
+      zoom={ 3 }
       center={ center }
       onClick={ onMapClick }
       onLoad={ onMapLoad }

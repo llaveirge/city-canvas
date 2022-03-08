@@ -7,6 +7,7 @@ import NewPin from './pages/new-pin';
 import PinPage from './pages/pin-page';
 import PinMap from './pages/pin-map';
 import UpdatePin from './pages/update-pin';
+import ArtFinder from './pages/art-finder';
 import { parseRoute } from './lib';
 
 export default class App extends React.Component {
@@ -56,7 +57,8 @@ export default class App extends React.Component {
     return (
       <>
         <AppNav />
-          { this.renderPage() }
+          {/* { this.renderPage() } */}
+        <ArtFinder />
       </>
     );
   }
