@@ -7,16 +7,14 @@ import {
   InfoWindow
 } from '@react-google-maps/api';
 
+const center = { lat: 38.836419, lng: -104.8276377 };
+
 export default function ArtFinder(props) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
   });
 
-  // const [markers, setMarkers] = React.useState([]);
-
-  const markers = [{ postId: 3, img: 'https://www.uncovercolorado.com/wp-content/uploads/2020/12/colorado-springs-murals-take-back-the-power.jpg', lat: 38.834158324677844, lng: -104.82302912287078 },
-    { postId: 7, img: 'https://bloximages.newyork1.vip.townnews.com/gazette.com/content/tncms/assets/v3/editorial/1/11/111fbde2-a061-11ea-ad32-bfb117588960/5ecedbafd9e1f.image.jpg?crop=1637%2C1228%2C0%2C19&resize=1637%2C1228&order=crop%2Cresize', lat: 38.83387105305894, lng: -104.82266124016441 }];
-
+  const [markers, setMarkers] = React.useState([]);
   const [selected, setSelected] = React.useState(null);
 
   // Prevent re-renders with useRef, specifically when placing/accessing/modifying markers:
@@ -31,10 +29,15 @@ export default function ArtFinder(props) {
     mapRef.current.setZoom(13);
   }, []);
 
-  // useEffect(() => {
-  //   fetch('/api/art-finder')
-  //   .then()
-  // })
+  // Fetch all the pins and and set them as markers in state:
+  React.useEffect(() => {
+    fetch('/api/home-feed')
+      .then(response => response.json())
+      .then(markers => {
+        setMarkers(markers);
+      })
+      .catch(err => console.error('Fetch Failed!', err));
+  }, []);
 
   // Use Geolocation to Locate the user for targeting via a button:
   function GeoLocate({ panTo }) {
@@ -57,24 +60,14 @@ export default function ArtFinder(props) {
   if (loadError) return 'Error loading map';
   if (!isLoaded) return 'Loading map, one moment...';
 
-  const nearMe = navigator.geolocation.getCurrentPosition(position => {
-    panTo({
-      lat: position.coords.latitude, lng: position.coords.longitude
-    });
-  }, () => null);
-
-  if (loadError) return 'Error loading map';
-  if (!isLoaded) return 'Loading map, one moment...';
-
   return (
-
     <>
       <div>
         <GoogleMap
           mapContainerClassName='pin-map'
-          zoom = { 13 }
-          center={ nearMe}
-          onLoad= {onMapLoad}
+          zoom = { 5 }
+          center={ center }
+          onLoad= { onMapLoad }
           >
 
           <GeoLocate panTo={ panTo } />
@@ -101,7 +94,7 @@ export default function ArtFinder(props) {
                 <div>
                   <div className='info-img-cont'>
                     <a href={`#pins?postId=${selected.postId}`}>
-                      <img className='info-img' src={selected.img}></img>
+                      <img className='info-img' src={selected.artPhotoUrl}></img>
                     </a>
                   </div>
                   <p className='text-center dir-link pt-1'>
@@ -112,7 +105,6 @@ export default function ArtFinder(props) {
               </div>
             </InfoWindow>)
               : null}
-
         </GoogleMap>
       </div>
 

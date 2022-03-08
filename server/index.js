@@ -46,6 +46,8 @@ app.get('/api/home-feed', (req, res, next) => {
       "p"."artPhotoUrl",
       "p"."reported",
       "p"."userId",
+      "p"."lat",
+      "p"."lng",
       "u"."userName",
       "u"."photoUrl"
     from "posts" as "p"
