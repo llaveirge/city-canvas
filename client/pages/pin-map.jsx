@@ -77,7 +77,8 @@ export default function PinMap(props) {
 
           {infoWindow
             ? (
-              <InfoWindow position={{ lat: center.lat, lng: center.lng }}
+              <InfoWindow
+              position={{ lat: center.lat, lng: center.lng }}
               onCloseClick={() => { setInfoWindow(null); }}>
                 <div>
                   <div className='info-img-cont'>
@@ -85,7 +86,7 @@ export default function PinMap(props) {
                       <img className='info-img' src={props.img}></img>
                     </a>
                   </div >
-                  <p className='text-center dir-link'>
+                  <p className='text-center dir-link pt-1'>
                     <a href={`https://www.google.com/maps/search/?api=1&query=${center.lat}%2C${center.lng}`}>
                       Get Directions
                     </a>

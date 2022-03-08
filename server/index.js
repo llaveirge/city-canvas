@@ -46,6 +46,8 @@ app.get('/api/home-feed', (req, res, next) => {
       "p"."artPhotoUrl",
       "p"."reported",
       "p"."userId",
+      "p"."lat",
+      "p"."lng",
       "u"."userName",
       "u"."photoUrl"
     from "posts" as "p"
@@ -155,17 +157,17 @@ app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
   }
 
   const sql = `
-  update "posts"
-    set "title" = $2,
-      "artistName" = $3,
-      "comment" = $4,
-      "lat" = $5,
-      "lng" = $6
-      ${url ? ',"artPhotoUrl" = $7' : ''}
-    where "postId" = $1
-     and "deleted" is NULL
+    update "posts"
+      set "title" = $2,
+        "artistName" = $3,
+        "comment" = $4,
+        "lat" = $5,
+        "lng" = $6
+        ${url ? ',"artPhotoUrl" = $7' : ''}
+      where "postId" = $1
+      and "deleted" is NULL
     returning *;
-    `;
+  `;
 
   const params = [postId, title, artist, info, lat, lng];
   if (url !== null) params.push(url);
@@ -188,9 +190,9 @@ app.patch('/api/delete-pin/:postId', (req, res, next) => {
   }
 
   const sql = `
-  update "posts"
-    set "deleted" = now()
-    where "postId" = $1
+    update "posts"
+      set "deleted" = now()
+      where "postId" = $1
     returning "deleted";
   `;
   const params = [postId];

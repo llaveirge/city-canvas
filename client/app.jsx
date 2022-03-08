@@ -7,6 +7,7 @@ import NewPin from './pages/new-pin';
 import PinPage from './pages/pin-page';
 import PinMap from './pages/pin-map';
 import UpdatePin from './pages/update-pin';
+import ArtFinder from './pages/art-finder';
 import { parseRoute } from './lib';
 
 export default class App extends React.Component {
@@ -48,6 +49,9 @@ export default class App extends React.Component {
     if (route.path === 'update-pin') {
       const postId = route.params.get('postId');
       return <UpdatePin postId={ +postId } />;
+    }
+    if (route.path === 'art-finder') {
+      return <ArtFinder />;
     }
     return <NotFound />;
   }
