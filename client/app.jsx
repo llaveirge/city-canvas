@@ -50,6 +50,9 @@ export default class App extends React.Component {
       const postId = route.params.get('postId');
       return <UpdatePin postId={ +postId } />;
     }
+    if (route.path === 'art-finder') {
+      return <ArtFinder />;
+    }
     return <NotFound />;
   }
 
@@ -57,8 +60,7 @@ export default class App extends React.Component {
     return (
       <>
         <AppNav />
-          {/* { this.renderPage() } */}
-        <ArtFinder />
+          { this.renderPage() }
       </>
     );
   }

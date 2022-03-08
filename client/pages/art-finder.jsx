@@ -7,7 +7,7 @@ import {
   InfoWindow
 } from '@react-google-maps/api';
 
-const center = { lat: 38.836419, lng: -104.8276377 };
+const center = { lat: 39.811107, lng: -96.684512 };
 
 export default function ArtFinder(props) {
   const { isLoaded, loadError } = useLoadScript({
