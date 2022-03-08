@@ -21,7 +21,7 @@ export default function ModalDelete(props) {
           </Button>
           <Button className='del' onClick={props.deletePin}>
               Delete
-            </Button>
+          </Button>
         </Modal.Footer>
       </Modal>
     </>

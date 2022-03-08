@@ -17,7 +17,7 @@ export default function ArtFinder(props) {
   const [markers, setMarkers] = React.useState([]);
   const [selected, setSelected] = React.useState(null);
 
-  // Prevent re-renders with useRef, specifically when placing/accessing/modifying markers:
+  // Prevent re-renders with useRef, specifically when placing markers:
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback(map => {
     mapRef.current = map;
@@ -48,10 +48,11 @@ export default function ArtFinder(props) {
           });
         }, () => null);
       }}>
-        <img className='target pin-pg'
+        <img
+          className='target pin-pg'
           src='/target-audience.png'
           alt='Target my location!'
-          />
+        />
       </button>
     );
   }
@@ -87,7 +88,8 @@ export default function ArtFinder(props) {
           ))}
 
             {selected
-              ? (<InfoWindow
+              ? (
+              <InfoWindow
               position={{ lat: selected.lat, lng: selected.lng }}
               onCloseClick={() => { setSelected(null); }}>
                 <div>
@@ -96,13 +98,14 @@ export default function ArtFinder(props) {
                       <img className='info-img' src={selected.artPhotoUrl}></img>
                     </a>
                   </div>
-                  <p className='text-center dir-link pt-1'>
-                    <a href={`https://www.google.com/maps/search/?api=1&query=${selected.lat}%2C${selected.lng}`}>
-                      Get Directions
-                    </a>
-                  </p>
-              </div>
-            </InfoWindow>)
+                    <p className='text-center dir-link pt-1'>
+                      <a href={`https://www.google.com/maps/search/?api=1&query=${selected.lat}%2C${selected.lng}`}>
+                        Get Directions
+                      </a>
+                    </p>
+                </div>
+              </InfoWindow>
+                )
               : null}
         </GoogleMap>
       </div>

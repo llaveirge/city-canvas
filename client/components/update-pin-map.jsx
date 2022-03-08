@@ -6,7 +6,6 @@ import {
   Marker
 } from '@react-google-maps/api';
 
-// Must keep center coordinates outside of component to prevent re-rendering:
 const center = { lat: 38.836419, lng: -104.8276377 };
 
 export default function UpdatePinMap(props) {
@@ -64,11 +63,13 @@ export default function UpdatePinMap(props) {
 
       <GeoLocate panTo={ panTo } />
 
-      <Marker position={{ lat: +props.marker.lat, lng: +props.marker.lng }}
-      icon={{
-        url: '/pt_pin_sm.png',
-        scaledSize: new window.google.maps.Size(35, 35)
-      }}/>
+      <Marker
+        position={{ lat: +props.marker.lat, lng: +props.marker.lng }}
+        icon={{
+          url: '/pt_pin_sm.png',
+          scaledSize: new window.google.maps.Size(35, 35)
+        }}
+        />
 
     </GoogleMap>
   </div>

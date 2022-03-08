@@ -43,7 +43,11 @@ export default function NewPinMap(props) {
           });
         }, () => null);
       }}>
-        <img className='target' src='/target-audience.png' alt='Target my location!'/>
+        <img
+          className='target'
+          src='/target-audience.png'
+          alt='Target my location!'
+        />
       </button>
     );
   }
@@ -63,11 +67,13 @@ export default function NewPinMap(props) {
 
       <GeoLocate panTo={ panTo } />
 
-      <Marker position={{ lat: +props.marker.lat, lng: +props.marker.lng }}
-      icon={{
-        url: '/pt_pin_sm.png',
-        scaledSize: new window.google.maps.Size(35, 35)
-      }}/>
+      <Marker
+        position={{ lat: +props.marker.lat, lng: +props.marker.lng }}
+        icon={{
+          url: '/pt_pin_sm.png',
+          scaledSize: new window.google.maps.Size(35, 35)
+        }}
+        />
 
     </GoogleMap>
   </div>
