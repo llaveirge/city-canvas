@@ -78,7 +78,7 @@ app.get('/api/pins/:postId', (req, res, next) => {
     from "posts" as "p"
     join "users" as "u" using ("userId")
     where "postId" = $1
-     and "p"."deleted" is NULL
+     and "p"."deleted" is NULL;
    `;
 
   const params = [postId];
@@ -115,7 +115,7 @@ app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
   const sql = `
     insert into "posts" ("title", "artistName", "artPhotoUrl", "comment", "lat", "lng", "userId")
       values ($1, $2, $3, $4, $5, $6, $7)
-    returning *
+    returning *;
   `;
 
   const params = [title, artist, url, info, lat, lng, userId];
@@ -123,6 +123,32 @@ app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
     .then(response => {
       const [pin] = response.rows;
       res.status(201).json(pin);
+    })
+    .catch(err => next(err));
+});
+
+// Add pin to saved posts:
+app.post('/api/save-post', (req, res, next) => {
+  const { postId } = req.body;
+  const userId = 1; // will need to update this after authentication
+  if (!postId || postId < 0) {
+    throw new ClientError(400, 'postId must be a positive integer');
+  }
+  if (!userId || userId < 0) {
+    throw new ClientError(400, 'invalid user ID');
+  }
+
+  const sql = `
+    insert into "savedPosts" ("postId", "userId")
+      values ($1, $2)
+    returning *;
+  `;
+
+  const params = [postId, userId];
+  db.query(sql, params)
+    .then(response => {
+      const [saved] = response.rows;
+      res.status(201).json(saved);
     })
     .catch(err => next(err));
 });
