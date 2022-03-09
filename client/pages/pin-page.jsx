@@ -5,7 +5,8 @@ export default class PinPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      pin: {}
+      pin: {},
+      saved: false
     };
   }
 
