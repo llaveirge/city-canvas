@@ -92,6 +92,25 @@ app.get('/api/pins/:postId', (req, res, next) => {
     .catch(err => next(err));
 });
 
+// Get all saved posts from 'savedPosts' table for specified userId:
+app.get('/api/saved-posts', (req, res, next) => {
+  const userId = 1; // will need to update this after authentication
+
+  const sql = `
+    select *
+      from "savedPosts"
+      where "userId" = $1
+      order by "createdAt" DESC, "postId" DESC;
+  `;
+
+  const params = [sql, userId];
+  db.query(sql, params)
+    .then(response => {
+      res.json(response.rows);
+    })
+    .catch(err => next(err));
+});
+
 // Post new pin to to 'Posts' table:
 app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
   const { title, artist, info, lat, lng } = req.body;
@@ -131,11 +150,11 @@ app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
 app.post('/api/save-post', (req, res, next) => {
   const { postId } = req.body;
   const userId = 1; // will need to update this after authentication
-  if (!postId || postId < 0) {
+  if (!postId || postId < 0 || isNaN(postId)) {
     throw new ClientError(400, 'postId must be a positive integer');
   }
-  if (!userId || userId < 0) {
-    throw new ClientError(400, 'invalid user ID');
+  if (!userId || userId < 0 || isNaN(userId)) {
+    throw new ClientError(400, 'invalid userId');
   }
 
   const sql = `
@@ -147,6 +166,9 @@ app.post('/api/save-post', (req, res, next) => {
   const params = [postId, userId];
   db.query(sql, params)
     .then(response => {
+      if (!response.rows) {
+        throw new ClientError(404, `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`);
+      }
       const [saved] = response.rows;
       res.status(201).json(saved);
     })
