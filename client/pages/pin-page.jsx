@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Col, Image, Card } from 'react-bootstrap';
+import { Container, Col, Image, Card, Button } from 'react-bootstrap';
 
 export default class PinPage extends React.Component {
   constructor(props) {
@@ -74,18 +74,18 @@ export default class PinPage extends React.Component {
                     >
                     <i className='me-2 fas fa-map-marker-alt fa-lg'></i>On The Map
                   </Card.Link>
-                  <Card.Text className='pt-4'>
+                  <Card.Text className='pt-4 pb-5'>
                     { pin.comment }
                   </Card.Text>
                   <Card.Link className='report'>
                     Report as removed from view
                   </Card.Link>
-                  <Card.Link>
+                  <Button type="button" className="p-0 bg-white fav">
                     <i className={ pin.saved === null
-                      ? 'fav grey fas fa-heart fa-lg'
-                      : 'fav sec-color fas fa-heart fa-lg' }
+                      ? 'grey fas fa-heart fa-lg'
+                      : 'sec-color fas fa-heart fa-lg' }
                       onClick={ this.saveToFavorites }></i>
-                  </Card.Link>
+                  </Button>
               </Card.Body>
             </Col>
           </Card>

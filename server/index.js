@@ -14,7 +14,8 @@ app.use(jsonMiddleware);
 
 app.use(staticMiddleware);
 
-// Get My Canvas Pins from Posts Database:
+/* Get My Canvas pins from 'posts' table with associated pin data from
+'savedPosts' table: */
 app.get('/api/my-canvas-pins', (req, res, next) => {
   const userId = 1; // will need to update this after authentication
 
@@ -43,7 +44,8 @@ app.get('/api/my-canvas-pins', (req, res, next) => {
     .catch(err => next(err));
 });
 
-// Get all pins from 'posts' table and associated user data from 'users' table for home feed:
+/* Get all pins from 'posts' table and associated user data from 'users' and
+'savedPosts' tables for home feed: */
 app.get('/api/home-feed', (req, res, next) => {
   const sql = `
     select
@@ -73,7 +75,8 @@ app.get('/api/home-feed', (req, res, next) => {
     .catch(err => next(err));
 });
 
-// Get a specific pin from 'posts' table and associated user data from 'users' table for 'PinPage':
+/* Get a specific pin from 'posts' table and associated user data from 'users'
+and 'savedPosts' tables for 'PinPage': */
 app.get('/api/pins/:postId', (req, res, next) => {
   const postId = Number(req.params.postId);
   if (!postId || postId < 0) {
@@ -124,7 +127,7 @@ app.get('/api/saved-posts', (req, res, next) => {
     .catch(err => next(err));
 });
 
-// Post new pin to to 'Posts' table:
+// Post new pin to to 'posts' table:
 app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
   const { title, artist, info, lat, lng } = req.body;
 

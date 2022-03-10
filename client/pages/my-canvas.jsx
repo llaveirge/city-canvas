@@ -7,7 +7,7 @@ export default class MyCanvas extends React.Component {
     super(props);
     this.state = {
       pins: [],
-      user: { profileUrl: 'https://i.redd.it/gikb0vjg40651.jpg' }
+      user: { profileUrl: 'https://i.redd.it/gikb0vjg40651.jpg' } // will update after authentication
     };
   }
 
