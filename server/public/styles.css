@@ -40,6 +40,18 @@ body {
   color: #692584;
 }
 
+.sec-color {
+  color: #0eeaf8;
+}
+
+.sec-bk-color {
+  background-color: #0eeaf8;
+}
+
+.grey {
+  color: #b6b6b6;
+}
+
 .menu {
   font-size: 1.5rem;
 }
@@ -167,7 +179,6 @@ body {
   position: absolute;
   bottom: 30px;
   right: 25px;
-  color: #b6b6b6;
 }
 
 .fav:hover {

@@ -74,10 +74,13 @@ app.get('/api/pins/:postId', (req, res, next) => {
     select
       "p".*,
       "u"."userName",
-      "u"."photoUrl"
+      "u"."photoUrl",
+      "sp"."createdAt" as "saved",
+      "sp"."userId" as "saver"
     from "posts" as "p"
     join "users" as "u" using ("userId")
-    where "postId" = $1
+    left join "savedPosts" as "sp" using ("postId")
+    where "p"."postId" = $1
      and "p"."deleted" is NULL;
    `;
 
@@ -103,7 +106,7 @@ app.get('/api/saved-posts', (req, res, next) => {
       order by "createdAt" DESC, "postId" DESC;
   `;
 
-  const params = [sql, userId];
+  const params = [userId];
   db.query(sql, params)
     .then(response => {
       res.json(response.rows);
@@ -147,9 +150,10 @@ app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
 });
 
 // Add pin to saved posts:
-app.post('/api/save-post', (req, res, next) => {
-  const { postId } = req.body;
+app.post('/api/save-post/:postId', (req, res, next) => {
+  const postId = Number(req.params.postId);
   const userId = 1; // will need to update this after authentication
+
   if (!postId || postId < 0 || isNaN(postId)) {
     throw new ClientError(400, 'postId must be a positive integer');
   }

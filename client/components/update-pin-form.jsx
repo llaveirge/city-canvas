@@ -26,7 +26,7 @@ export default class UpdatePinForm extends React.Component {
   }
 
   componentDidMount() {
-    fetch(`api/pins/${this.props.postId}`)
+    fetch(`/api/pins/${this.props.postId}`)
       .then(res => res.json())
       .then(pin => this.setState({
         title: pin.title,

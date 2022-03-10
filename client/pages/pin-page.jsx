@@ -5,15 +5,33 @@ export default class PinPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      pin: {},
-      saved: false
+      pin: {}
     };
+
+    this.saveToFavorites = this.saveToFavorites.bind(this);
   }
 
   componentDidMount() {
     fetch(`/api/pins/${this.props.postId}`)
       .then(res => res.json())
       .then(pin => this.setState({ pin }));
+
+  }
+
+  saveToFavorites() {
+    const req = {
+      method: 'POST'
+    };
+    fetch(`/api/save-post/${this.props.postId}`, req)
+      .then(res => res.json())
+      .then(savedPost => {
+        const updatedPin = this.state.pin;
+        updatedPin.saved = savedPost.createdAt;
+        updatedPin.saver = savedPost.userId;
+
+        this.setState({ updatedPin });
+      })
+      .catch(err => console.error('Fetch Failed!', err));
   }
 
   render() {
@@ -63,7 +81,10 @@ export default class PinPage extends React.Component {
                     Report as removed from view
                   </Card.Link>
                   <Card.Link>
-                    <i className='fav fas fa-heart fa-lg'></i>
+                    <i className={ pin.saved === null
+                      ? 'fav grey fas fa-heart fa-lg'
+                      : 'fav sec-color fas fa-heart fa-lg' }
+                      onClick={ this.saveToFavorites }></i>
                   </Card.Link>
               </Card.Body>
             </Col>
