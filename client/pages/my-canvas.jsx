@@ -43,13 +43,14 @@ export default class MyCanvas extends React.Component {
             {pins.length
               ? pins.map(pin => (
                 <PostCard
-                  key={pin.postId}
-                  title={pin.title}
-                  artPhotoUrl={pin.artPhotoUrl}
-                  profileUrl={userProfileUrl}
-                  artistName={pin.artistName}
+                  key={ pin.postId }
+                  title={ pin.title }
+                  artPhotoUrl={ pin.artPhotoUrl }
+                  profileUrl={ userProfileUrl }
+                  artistName={ pin.artistName }
                   button='Update'
-                  href={`#update-pin?postId=${pin.postId}`}
+                  href={ `#update-pin?postId=${pin.postId}` }
+                  saved={ pin.saved }
                 />
               ))
               : <h5 className='pri-color text-center font-weight-bold'>
