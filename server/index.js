@@ -56,9 +56,12 @@ app.get('/api/home-feed', (req, res, next) => {
       "p"."lat",
       "p"."lng",
       "u"."userName",
-      "u"."photoUrl"
+      "u"."photoUrl",
+      "sp"."createdAt" as "saved",
+      "sp"."userId" as "saver"
     from "posts" as "p"
     join "users" as "u" using ("userId")
+    left join "savedPosts" as "sp" using ("postId")
     where "p"."deleted" is NULL
     order by "p"."createdAt" DESC, "p"."postId" DESC;
    `;
