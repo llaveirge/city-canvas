@@ -185,6 +185,11 @@ body {
   color: #0eeaf8;
 }
 
+.feed-fav {
+  position: absolute;
+  right: 25px;
+}
+
 .del {
   background-color: #f54f31;
   float: right;
