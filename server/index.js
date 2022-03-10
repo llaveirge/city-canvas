@@ -20,12 +20,19 @@ app.get('/api/my-canvas-pins', (req, res, next) => {
 
   const sql = `
     select
-      "postId", "title", "artistName", "artPhotoUrl", "reported", "userId"
-    from
-      "posts"
-    where "userId" = $1
-      and "deleted" is NULL
-    order by "createdAt" DESC, "postId" DESC;
+      "p"."postId",
+      "p"."title",
+      "p"."artistName",
+      "p"."artPhotoUrl",
+      "p"."reported",
+      "p"."userId",
+      "sp"."createdAt" as "saved",
+      "sp"."userId" as "saver"
+    from "posts" as "p"
+    left join "savedPosts" as "sp" using ("postId")
+    where "p"."userId" = $1
+      and "p"."deleted" is NULL
+    order by "p"."createdAt" DESC, "postId" DESC;
   `;
 
   const params = [userId];
