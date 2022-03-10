@@ -44,7 +44,7 @@ export default function NewPinMap(props) {
         }, () => null);
       }}>
         <img
-          className='target'
+          className='target sec-bk-color'
           src='/target-audience.png'
           alt='Target my location!'
         />

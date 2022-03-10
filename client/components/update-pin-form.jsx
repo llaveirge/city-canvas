@@ -39,10 +39,12 @@ export default class UpdatePinForm extends React.Component {
       }));
   }
 
+  // Show modal:
   handleShow() {
     this.setState({ show: true });
   }
 
+  // Close modal:
   handleClose() {
     this.setState({ show: false });
   }

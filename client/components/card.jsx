@@ -12,7 +12,7 @@ export default function PostCard(props) {
         <Card.Body className='pt-2'>
           <Container className='d-flex px-0'>
             <Container className='img-cont' >
-              <Image className='profile-pic' src={ props.profileUrl }></Image>
+              <Image className='profile-pic sec-bk-color' src={ props.profileUrl }></Image>
             </Container>
             <Container className='art-info'>
               <Card.Title as='h4' className='head-text pri-color py-2'>{ props.title }</Card.Title>

@@ -49,7 +49,7 @@ export default function ArtFinder(props) {
         }, () => null);
       }}>
         <img
-          className='target pin-pg'
+          className='target sec-bk-color pin-pg'
           src='/target-audience.png'
           alt='Target my location!'
         />
