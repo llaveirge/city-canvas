@@ -52,7 +52,10 @@ export default class PinPage extends React.Component {
     return (
       <>
         <Container className='d-flex pt-sm-5 pt-3 align-items-center pin-cont'>
-          <Image className='profile-pic sec-bk-color' src={ pin.photoUrl }></Image>
+          <Image
+            className='profile-pic sec-bk-color'
+            src={ pin.photoUrl }
+          ></Image>
           <p className='username mb-0 ms-3'>{ pin.userName }</p>
         </Container>
         <Container className='mt-4 pin-cont'>
@@ -72,7 +75,8 @@ export default class PinPage extends React.Component {
                     href={`#pin-map?pinId=${pin.postId}&lat=${pin.lat}&lng=${pin.lng}&img=${encodeURIComponent(pin.artPhotoUrl)}`}
                     className='fw-bold sec-color map-link'
                     >
-                    <i className='me-2 fas fa-map-marker-alt fa-lg'></i>On The Map
+                    <i className='me-2 fas fa-map-marker-alt fa-lg'></i>
+                    On The Map
                   </Card.Link>
                   <Card.Text className='pt-4 pb-5'>
                     { pin.comment }

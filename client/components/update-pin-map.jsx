@@ -49,7 +49,9 @@ export default function UpdatePinMap(props) {
   }
 
   if (loadError) return <h2>Error loading map</h2>;
-  if (!isLoaded || isNaN(center.lat) || isNaN(center.lng)) return <h2>Loading map, one moment...</h2>;
+  if (!isLoaded || isNaN(center.lat) || isNaN(center.lng)) {
+    return <h2>Loading map, one moment...</h2>;
+  }
 
   return (
   <div>

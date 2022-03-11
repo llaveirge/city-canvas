@@ -101,7 +101,10 @@ app.get('/api/pins/:postId', (req, res, next) => {
   db.query(sql, params)
     .then(response => {
       if (!response.rows[0]) {
-        throw new ClientError(404, `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`);
+        throw new ClientError(
+          404,
+          `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`
+        );
       }
       res.json(response.rows[0]);
     })
@@ -184,7 +187,10 @@ app.post('/api/save-post/:postId', (req, res, next) => {
   db.query(sql, params)
     .then(response => {
       if (!response.rows) {
-        throw new ClientError(404, `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`);
+        throw new ClientError(
+          404,
+          `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`
+        );
       }
       const [saved] = response.rows;
       res.status(201).json(saved);
@@ -240,7 +246,10 @@ app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
     .then(response => {
       const [pin] = response.rows;
       if (!pin) {
-        throw new ClientError(404, `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`);
+        throw new ClientError(
+          404,
+          `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`
+        );
       }
       res.json(pin);
     })
@@ -265,7 +274,10 @@ app.patch('/api/delete-pin/:postId', (req, res, next) => {
     .then(response => {
       const [deleted] = response.rows;
       if (!deleted) {
-        throw new ClientError(404, `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`);
+        throw new ClientError(
+          404,
+          `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`
+        );
       }
       res.json(deleted);
     })
