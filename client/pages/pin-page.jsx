@@ -15,7 +15,6 @@ export default class PinPage extends React.Component {
     fetch(`/api/pins/${this.props.postId}`)
       .then(res => res.json())
       .then(pin => this.setState({ pin }));
-
   }
 
   saveToFavorites() {

@@ -179,14 +179,15 @@ app.post('/api/save-post/:postId', (req, res, next) => {
 
   const sql = `
     insert into "savedPosts" ("postId", "userId")
-      values ($1, $2)
+      select $1, $2
+    where exists (select 1 from "posts" where "postId" = $1 )
     returning *;
   `;
 
   const params = [postId, userId];
   db.query(sql, params)
     .then(response => {
-      if (!response.rows) {
+      if (!response.rows[0]) {
         throw new ClientError(
           404,
           `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`
@@ -269,6 +270,7 @@ app.patch('/api/delete-pin/:postId', (req, res, next) => {
       where "postId" = $1
     returning "deleted";
   `;
+
   const params = [postId];
   db.query(sql, params)
     .then(response => {
