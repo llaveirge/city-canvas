@@ -169,9 +169,11 @@ body {
   position: absolute;
   bottom: 30px;
   right: 25px;
+
+  /* cursor: pointer; */
 }
 
-.fav:hover {
+.hrtbtn:hover {
   color: #0eeaf8;
 }
 

@@ -43,7 +43,10 @@ export default function UpdatePinMap(props) {
           });
         }, () => null);
       }}>
-        <img className='target' src='/target-audience.png' alt='Target my location!'/>
+        <img
+        className='target sec-bk-color'
+        src='/target-audience.png'
+        alt='Target my location!'/>
       </button>
     );
   }

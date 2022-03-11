@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Col, Image, Card, Button } from 'react-bootstrap';
+import { Container, Col, Image, Card } from 'react-bootstrap';
 
 export default class PinPage extends React.Component {
   constructor(props) {
@@ -19,6 +19,7 @@ export default class PinPage extends React.Component {
   }
 
   saveToFavorites() {
+    event.preventDefault();
     const req = {
       method: 'POST'
     };
@@ -84,12 +85,12 @@ export default class PinPage extends React.Component {
                   <Card.Link className='report grey'>
                     Report as removed from view
                   </Card.Link>
-                  <Button type="button" className="p-0 bg-white fav">
+                  <Card.Link href='' className="p-0 bg-white fav">
                     <i className={ pin.saved === null
-                      ? 'grey fas fa-heart fa-lg'
+                      ? 'grey hrtbtn fas fa-heart fa-lg'
                       : 'sec-color fas fa-heart fa-lg' }
                       onClick={ this.saveToFavorites }></i>
-                  </Button>
+                  </Card.Link>
               </Card.Body>
             </Col>
           </Card>
