@@ -7,12 +7,31 @@ export default class PinPage extends React.Component {
     this.state = {
       pin: {}
     };
+
+    this.saveToFavorites = this.saveToFavorites.bind(this);
   }
 
   componentDidMount() {
     fetch(`/api/pins/${this.props.postId}`)
       .then(res => res.json())
       .then(pin => this.setState({ pin }));
+  }
+
+  saveToFavorites() {
+    event.preventDefault();
+    const req = {
+      method: 'POST'
+    };
+    fetch(`/api/save-post/${this.props.postId}`, req)
+      .then(res => res.json())
+      .then(savedPost => {
+        const updatedPin = this.state.pin;
+        updatedPin.saved = savedPost.createdAt;
+        updatedPin.saver = savedPost.userId;
+
+        this.setState({ updatedPin });
+      })
+      .catch(err => console.error('Fetch Failed!', err));
   }
 
   render() {
@@ -33,7 +52,10 @@ export default class PinPage extends React.Component {
     return (
       <>
         <Container className='d-flex pt-sm-5 pt-3 align-items-center pin-cont'>
-          <Image className='profile-pic' src={ pin.photoUrl }></Image>
+          <Image
+            className='profile-pic sec-bk-color'
+            src={ pin.photoUrl }
+          ></Image>
           <p className='username mb-0 ms-3'>{ pin.userName }</p>
         </Container>
         <Container className='mt-4 pin-cont'>
@@ -51,18 +73,22 @@ export default class PinPage extends React.Component {
                   </Card.Text>
                   <Card.Link
                     href={`#pin-map?pinId=${pin.postId}&lat=${pin.lat}&lng=${pin.lng}&img=${encodeURIComponent(pin.artPhotoUrl)}`}
-                    className='fw-bold map-link'
+                    className='fw-bold sec-color map-link'
                     >
-                    <i className='me-2 fas fa-map-marker-alt fa-lg'></i>On The Map
+                    <i className='me-2 fas fa-map-marker-alt fa-lg'></i>
+                    On The Map
                   </Card.Link>
-                  <Card.Text className='pt-4'>
+                  <Card.Text className='pt-4 pb-5'>
                     { pin.comment }
                   </Card.Text>
-                  <Card.Link className='report'>
+                  <Card.Link className='report grey'>
                     Report as removed from view
                   </Card.Link>
-                  <Card.Link>
-                    <i className='fav fas fa-heart fa-lg'></i>
+                  <Card.Link href='' className="p-0 bg-white fav">
+                    <i className={ pin.saved === null
+                      ? 'grey hrtbtn fas fa-heart fa-lg'
+                      : 'sec-color fas fa-heart fa-lg' }
+                      onClick={ this.saveToFavorites }></i>
                   </Card.Link>
               </Card.Body>
             </Col>

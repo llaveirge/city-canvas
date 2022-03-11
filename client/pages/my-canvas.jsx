@@ -8,6 +8,7 @@ export default class MyCanvas extends React.Component {
     this.state = {
       pins: [],
       user: { profileUrl: 'https://i.redd.it/gikb0vjg40651.jpg' }
+      // will update after authentication
     };
   }
 
@@ -21,7 +22,8 @@ export default class MyCanvas extends React.Component {
 
   render() {
     const pins = this.state.pins;
-    const userProfileUrl = this.state.user.profileUrl; // may need to move this to app to access state
+    const userProfileUrl = this.state.user.profileUrl;
+    // may need to move this ^^ to app to access state
 
     return (
     <>
@@ -43,17 +45,19 @@ export default class MyCanvas extends React.Component {
             {pins.length
               ? pins.map(pin => (
                 <PostCard
-                  key={pin.postId}
-                  title={pin.title}
-                  artPhotoUrl={pin.artPhotoUrl}
-                  profileUrl={userProfileUrl}
-                  artistName={pin.artistName}
+                  key={ pin.postId }
+                  title={ pin.title }
+                  artPhotoUrl={ pin.artPhotoUrl }
+                  profileUrl={ userProfileUrl }
+                  artistName={ pin.artistName }
                   button='Update'
-                  href={`#update-pin?postId=${pin.postId}`}
+                  href={ `#update-pin?postId=${pin.postId}` }
+                  saved={ pin.saved }
                 />
               ))
               : <h5 className='pri-color text-center font-weight-bold'>
-                Nothing to see here...<br/>Get out and start pinning some street art!
+                  Nothing to see here...
+                  <br/>Get out and start pinning some street art!
                 </h5>}
           </Col>
         </Row>

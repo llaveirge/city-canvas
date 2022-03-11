@@ -49,7 +49,7 @@ export default function ArtFinder(props) {
         }, () => null);
       }}>
         <img
-          className='target pin-pg'
+          className='target sec-bk-color pin-pg'
           src='/target-audience.png'
           alt='Target my location!'
         />
@@ -95,7 +95,10 @@ export default function ArtFinder(props) {
                 <div>
                   <div className='info-img-cont'>
                     <a href={`#pins?postId=${selected.postId}`}>
-                      <img className='info-img' src={selected.artPhotoUrl}></img>
+                      <img
+                      className='info-img'
+                      src={selected.artPhotoUrl}
+                      ></img>
                     </a>
                   </div>
                     <p className='text-center dir-link pt-1'>
@@ -110,7 +113,7 @@ export default function ArtFinder(props) {
         </GoogleMap>
       </div>
 
-      <Navbar fixed='bottom'className='fluid btm-brdr'></Navbar>
+      <Navbar fixed='bottom'className='fluid btm-brdr pri-bk-color'></Navbar>
     </>
   );
 }

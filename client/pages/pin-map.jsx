@@ -16,7 +16,7 @@ export default function PinMap(props) {
   // Set infoWindow state to marker location or null, to toggle info window:
   const [infoWindow, setInfoWindow] = React.useState(null);
 
-  // Prevent re-renders with useRef, specifically when placing/accessing/modifying markers:
+  // Prevent re-renders with useRef, specifically when placing markers:
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback(map => {
     mapRef.current = map;
@@ -41,7 +41,7 @@ export default function PinMap(props) {
           });
         }, () => null);
       }}>
-        <img className='target pin-pg'
+        <img className='target sec-bk-color pin-pg'
           src='/target-audience.png'
           alt='Target my location!'
           />
@@ -98,7 +98,7 @@ export default function PinMap(props) {
         </GoogleMap>
       </div>
 
-      <Navbar fixed='bottom'className='fluid btm-brdr'></Navbar>
+      <Navbar fixed='bottom'className='fluid btm-brdr pri-bk-color'></Navbar>
     </>
   );
 }

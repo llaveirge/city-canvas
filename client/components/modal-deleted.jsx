@@ -5,8 +5,8 @@ export default function ModalDelete(props) {
   return (
     <>
      <Modal
-        show={props.show}
-        onHide={props.onHide}
+        show={ props.show }
+        onHide={ props.onHide }
         centered
       >
         <Modal.Header closeButton>
@@ -16,10 +16,10 @@ export default function ModalDelete(props) {
           Are you sure you want to delete this City Canvas pin?
         </Modal.Body>
         <Modal.Footer>
-          <Button className='cancel' onClick={props.onHide}>
+          <Button className='cancel' onClick={ props.onHide }>
             Cancel
           </Button>
-          <Button className='del' onClick={props.deletePin}>
+          <Button className='del' onClick={ props.deletePin }>
               Delete
           </Button>
         </Modal.Footer>

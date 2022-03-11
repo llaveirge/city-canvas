@@ -43,13 +43,18 @@ export default function UpdatePinMap(props) {
           });
         }, () => null);
       }}>
-        <img className='target' src='/target-audience.png' alt='Target my location!'/>
+        <img
+        className='target sec-bk-color'
+        src='/target-audience.png'
+        alt='Target my location!'/>
       </button>
     );
   }
 
   if (loadError) return <h2>Error loading map</h2>;
-  if (!isLoaded || isNaN(center.lat) || isNaN(center.lng)) return <h2>Loading map, one moment...</h2>;
+  if (!isLoaded || isNaN(center.lat) || isNaN(center.lng)) {
+    return <h2>Loading map, one moment...</h2>;
+  }
 
   return (
   <div>

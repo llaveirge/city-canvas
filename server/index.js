@@ -14,18 +14,26 @@ app.use(jsonMiddleware);
 
 app.use(staticMiddleware);
 
-// Get My Canvas Pins from Posts Database:
+/* Get My Canvas pins from 'posts' table with associated pin data from
+'savedPosts' table: */
 app.get('/api/my-canvas-pins', (req, res, next) => {
   const userId = 1; // will need to update this after authentication
 
   const sql = `
     select
-      "postId", "title", "artistName", "artPhotoUrl", "reported", "userId"
-    from
-      "posts"
-    where "userId" = $1
-      and "deleted" is NULL
-    order by "createdAt" DESC, "postId" DESC;
+      "p"."postId",
+      "p"."title",
+      "p"."artistName",
+      "p"."artPhotoUrl",
+      "p"."reported",
+      "p"."userId",
+      "sp"."createdAt" as "saved",
+      "sp"."userId" as "saver"
+    from "posts" as "p"
+    left join "savedPosts" as "sp" using ("postId")
+    where "p"."userId" = $1
+      and "p"."deleted" is NULL
+    order by "p"."createdAt" DESC, "postId" DESC;
   `;
 
   const params = [userId];
@@ -36,7 +44,8 @@ app.get('/api/my-canvas-pins', (req, res, next) => {
     .catch(err => next(err));
 });
 
-// Get all pins from 'posts' table and associated user data from 'users' table for home feed:
+/* Get all pins from 'posts' table and associated user data from 'users' and
+'savedPosts' tables for home feed: */
 app.get('/api/home-feed', (req, res, next) => {
   const sql = `
     select
@@ -49,9 +58,12 @@ app.get('/api/home-feed', (req, res, next) => {
       "p"."lat",
       "p"."lng",
       "u"."userName",
-      "u"."photoUrl"
+      "u"."photoUrl",
+      "sp"."createdAt" as "saved",
+      "sp"."userId" as "saver"
     from "posts" as "p"
     join "users" as "u" using ("userId")
+    left join "savedPosts" as "sp" using ("postId")
     where "p"."deleted" is NULL
     order by "p"."createdAt" DESC, "p"."postId" DESC;
    `;
@@ -63,7 +75,8 @@ app.get('/api/home-feed', (req, res, next) => {
     .catch(err => next(err));
 });
 
-// Get a specific pin from 'posts' table and associated user data from 'users' table for 'PinPage':
+/* Get a specific pin from 'posts' table and associated user data from 'users'
+and 'savedPosts' tables for 'PinPage': */
 app.get('/api/pins/:postId', (req, res, next) => {
   const postId = Number(req.params.postId);
   if (!postId || postId < 0) {
@@ -74,25 +87,50 @@ app.get('/api/pins/:postId', (req, res, next) => {
     select
       "p".*,
       "u"."userName",
-      "u"."photoUrl"
+      "u"."photoUrl",
+      "sp"."createdAt" as "saved",
+      "sp"."userId" as "saver"
     from "posts" as "p"
     join "users" as "u" using ("userId")
-    where "postId" = $1
-     and "p"."deleted" is NULL
+    left join "savedPosts" as "sp" using ("postId")
+    where "p"."postId" = $1
+     and "p"."deleted" is NULL;
    `;
 
   const params = [postId];
   db.query(sql, params)
     .then(response => {
       if (!response.rows[0]) {
-        throw new ClientError(404, `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`);
+        throw new ClientError(
+          404,
+          `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`
+        );
       }
       res.json(response.rows[0]);
     })
     .catch(err => next(err));
 });
 
-// Post new pin to to 'Posts' table:
+// Get all saved posts from 'savedPosts' table for specified userId:
+app.get('/api/saved-posts', (req, res, next) => {
+  const userId = 1; // will need to update this after authentication
+
+  const sql = `
+    select *
+      from "savedPosts"
+      where "userId" = $1
+      order by "createdAt" DESC, "postId" DESC;
+  `;
+
+  const params = [userId];
+  db.query(sql, params)
+    .then(response => {
+      res.json(response.rows);
+    })
+    .catch(err => next(err));
+});
+
+// Post new pin to to 'posts' table:
 app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
   const { title, artist, info, lat, lng } = req.body;
 
@@ -115,7 +153,7 @@ app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
   const sql = `
     insert into "posts" ("title", "artistName", "artPhotoUrl", "comment", "lat", "lng", "userId")
       values ($1, $2, $3, $4, $5, $6, $7)
-    returning *
+    returning *;
   `;
 
   const params = [title, artist, url, info, lat, lng, userId];
@@ -123,6 +161,40 @@ app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
     .then(response => {
       const [pin] = response.rows;
       res.status(201).json(pin);
+    })
+    .catch(err => next(err));
+});
+
+// Add pin to saved posts:
+app.post('/api/save-post/:postId', (req, res, next) => {
+  const postId = Number(req.params.postId);
+  const userId = 1; // will need to update this after authentication
+
+  if (!postId || postId < 0 || isNaN(postId)) {
+    throw new ClientError(400, 'postId must be a positive integer');
+  }
+  if (!userId || userId < 0 || isNaN(userId)) {
+    throw new ClientError(400, 'invalid userId');
+  }
+
+  const sql = `
+    insert into "savedPosts" ("postId", "userId")
+      select $1, $2
+    where exists (select 1 from "posts" where "postId" = $1 )
+    returning *;
+  `;
+
+  const params = [postId, userId];
+  db.query(sql, params)
+    .then(response => {
+      if (!response.rows[0]) {
+        throw new ClientError(
+          404,
+          `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`
+        );
+      }
+      const [saved] = response.rows;
+      res.status(201).json(saved);
     })
     .catch(err => next(err));
 });
@@ -175,7 +247,10 @@ app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
     .then(response => {
       const [pin] = response.rows;
       if (!pin) {
-        throw new ClientError(404, `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`);
+        throw new ClientError(
+          404,
+          `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`
+        );
       }
       res.json(pin);
     })
@@ -195,12 +270,16 @@ app.patch('/api/delete-pin/:postId', (req, res, next) => {
       where "postId" = $1
     returning "deleted";
   `;
+
   const params = [postId];
   db.query(sql, params)
     .then(response => {
       const [deleted] = response.rows;
       if (!deleted) {
-        throw new ClientError(404, `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`);
+        throw new ClientError(
+          404,
+          `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`
+        );
       }
       res.json(deleted);
     })

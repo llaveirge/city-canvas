@@ -26,7 +26,7 @@ export default class UpdatePinForm extends React.Component {
   }
 
   componentDidMount() {
-    fetch(`api/pins/${this.props.postId}`)
+    fetch(`/api/pins/${this.props.postId}`)
       .then(res => res.json())
       .then(pin => this.setState({
         title: pin.title,
@@ -39,10 +39,12 @@ export default class UpdatePinForm extends React.Component {
       }));
   }
 
+  // Show modal:
   handleShow() {
     this.setState({ show: true });
   }
 
+  // Close modal:
   handleClose() {
     this.setState({ show: false });
   }
@@ -171,15 +173,18 @@ export default class UpdatePinForm extends React.Component {
             <Button className='mt-3 mb-5' type='submit'>
               Submit
             </Button>
-            <Button className='mt-3 mb-5 del' type='button' onClick={this.handleShow}>
-              Delete
+            <Button
+              className='mt-3 mb-5 del'
+              type='button'
+              onClick={ this.handleShow }>
+                Delete
             </Button>
           </Form>
         </Container>
         <ModalDelete
-          show={this.state.show}
-          onHide={this.handleClose}
-          deletePin={this.deletePin}
+          show={ this.state.show }
+          onHide={ this.handleClose }
+          deletePin={ this.deletePin }
         />
       </>
     );

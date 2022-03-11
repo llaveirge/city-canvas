@@ -34,6 +34,7 @@ export default class Home extends React.Component {
               artistName={ pin.artistName }
               button='View More'
               href={`#pins?postId=${pin.postId}`}
+              saved={ pin.saved }
               />
             ))}
           </Col>

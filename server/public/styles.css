@@ -40,6 +40,18 @@ body {
   color: #692584;
 }
 
+.sec-color {
+  color: #0eeaf8;
+}
+
+.sec-bk-color {
+  background-color: #0eeaf8;
+}
+
+.grey {
+  color: #b6b6b6;
+}
+
 .menu {
   font-size: 1.5rem;
 }
@@ -50,7 +62,6 @@ body {
 }
 
 .map-link {
-  color: #0eeaf8;
   font-size: 1.125rem;
   text-decoration: none;
 }
@@ -63,7 +74,6 @@ body {
   object-fit: cover;
   border-radius: 50%;
   border: 1.5px solid #0eeaf8;
-  background-color: #0eeaf8;
   height: 60px;
   width: 60px;
 }
@@ -76,7 +86,6 @@ body {
   width: 100%;
   max-width: 40px;
   z-index: 2;
-  background-color: #0eeaf8;
   border-radius: 3px;
 }
 
@@ -115,7 +124,6 @@ body {
     width: 100%;
     max-width: 40px;
     z-index: 2;
-    background-color: #0eeaf8;
     border-radius: 3px;
   }
 
@@ -143,11 +151,6 @@ body {
   border-color: #692584;
 }
 
-.btm-brdr {
-  height: 3rem;
-  background-color: #692584;
-}
-
 .dir-link {
   font-size: 1rem;
   font-family: Montserrat, sans-serif;
@@ -156,7 +159,6 @@ body {
 .report {
   position: absolute;
   bottom: 25px;
-  color: #b6b6b6;
 }
 
 .report:hover {
@@ -167,11 +169,17 @@ body {
   position: absolute;
   bottom: 30px;
   right: 25px;
-  color: #b6b6b6;
+
+  /* cursor: pointer; */
 }
 
-.fav:hover {
+.hrtbtn:hover {
   color: #0eeaf8;
+}
+
+.feed-fav {
+  position: absolute;
+  right: 25px;
 }
 
 .del {
