@@ -116,7 +116,7 @@ app.get('/api/pins/:postId', (req, res, next) => {
 
 /* Get all saved posts from 'savedPosts' table and the associated pin data
 for the specified userId (saver): */
-app.get('/api/saved-posts', (req, res, next) => {
+app.get('/api/saved-pins', (req, res, next) => {
   const userId = 1; // will need to update this after authentication
   if (!userId || userId < 0) {
     throw new ClientError(400, 'postId must be a positive integer');

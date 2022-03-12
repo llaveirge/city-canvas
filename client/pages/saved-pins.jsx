@@ -6,23 +6,16 @@ export default class SavedPins extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      pins: [
-        {
-          artPhotoUrl: 'https://bloximages.newyork1.vip.townnews.com/gazette.com/content/tncms/assets/v3/editorial/1/11/111fbde2-a061-11ea-ad32-bfb117588960/5ecedbafd9e1f.image.jpg?crop=1637%2C1228%2C0%2C19&resize=1637%2C1228&order=crop%2Cresize',
-          artistName: 'Matthew Carlson',
-          lat: 38.83387105305894,
-          lng: -104.82266124016441,
-          photoUrl: 'https://i.redd.it/gikb0vjg40651.jpg',
-          postId: 7,
-          reported: false,
-          saved: '2022-03-11T19:24:49.044Z',
-          saver: 1,
-          title: 'Guardian',
-          userId: 1,
-          UserName: 'TheRealSlimBaggins'
-        }
-      ]
+      pins: []
     };
+  }
+
+  componentDidMount() {
+    fetch('/api/saved-pins')
+      .then(response => response.json())
+      .then(pins => {
+        this.setState({ pins });
+      });
   }
 
   render() {
