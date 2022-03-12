@@ -18,6 +18,9 @@ app.use(staticMiddleware);
 'savedPosts' table: */
 app.get('/api/my-canvas-pins', (req, res, next) => {
   const userId = 1; // will need to update this after authentication
+  if (!userId || userId < 0) {
+    throw new ClientError(400, 'postId must be a positive integer');
+  }
 
   const sql = `
     select
@@ -111,15 +114,34 @@ app.get('/api/pins/:postId', (req, res, next) => {
     .catch(err => next(err));
 });
 
-// Get all saved posts from 'savedPosts' table for specified userId:
+/* Get all saved posts from 'savedPosts' table and the associated pin data
+for the specified userId (saver): */
 app.get('/api/saved-posts', (req, res, next) => {
   const userId = 1; // will need to update this after authentication
+  if (!userId || userId < 0) {
+    throw new ClientError(400, 'postId must be a positive integer');
+  }
 
   const sql = `
-    select *
-      from "savedPosts"
-      where "userId" = $1
-      order by "createdAt" DESC, "postId" DESC;
+    select
+      "p"."postId",
+      "sp"."createdAt" as "savedTime",
+      "sp"."userId" as "saver",
+      "p"."title",
+      "p"."artistName",
+      "p"."artPhotoUrl",
+      "p"."reported",
+      "p"."userId" as "poster",
+      "p"."lat",
+      "p"."lng",
+      "u"."userName",
+      "u"."photoUrl"
+      from "posts" as "p"
+      join "users" as "u" using("userId")
+      join "savedPosts" as "sp" using ("postId")
+      where "p"."deleted" is NULL
+        and "sp"."userId" = $1
+      order by "sp"."createdAt" DESC, "sp"."postId" DESC;
   `;
 
   const params = [userId];
