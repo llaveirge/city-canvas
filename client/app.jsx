@@ -54,6 +54,10 @@ export default class App extends React.Component {
     if (route.path === 'art-finder') {
       return <ArtFinder />;
     }
+    if (route.path === 'my-saved-pins') {
+      return <SavedPins />;
+    }
+
     return <NotFound />;
   }
 
@@ -61,8 +65,7 @@ export default class App extends React.Component {
     return (
       <>
         <AppNav />
-          {/* { this.renderPage() } */}
-          <SavedPins />
+          { this.renderPage() }
       </>
     );
   }
