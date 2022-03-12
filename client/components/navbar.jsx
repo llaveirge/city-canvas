@@ -11,7 +11,7 @@ export default function AppNav(props) {
             <NavDropdown.Item className='nav-drop' href='#myCanvas'>
               My Canvas Pins
             </NavDropdown.Item>
-            <NavDropdown.Item className='nav-drop' href='#mySavedPins'>
+            <NavDropdown.Item className='nav-drop' href='#my-saved-pins'>
               My Saved Pins
             </NavDropdown.Item>
           </NavDropdown>
