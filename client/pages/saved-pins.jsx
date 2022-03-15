@@ -41,7 +41,9 @@ export default class SavedPins extends React.Component {
               ))
               : <h5 className='pri-color text-center font-weight-bold'>
                   Nothing to see here...
-                  <br/>Browse the <a className='sec-color no-decoration' href='#'>City Canvas Home feed</a> and save your favorite pins!
+                  <br/>Browse the <a className='sec-color no-decoration' href='#'>
+                      City Canvas Home feed
+                    </a> and save your favorite pins!
                 </h5>
               }
           </Col>
