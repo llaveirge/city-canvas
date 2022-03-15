@@ -54,7 +54,7 @@ export default class NewPinForm extends React.Component {
           error: ''
         });
         this.fileInputRef.current.value = null;
-        window.location.hash = 'myCanvas';
+        window.location.hash = 'my-canvas';
       })
       .catch(err => console.error('Fetch Failed!', err));
   }

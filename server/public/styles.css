@@ -169,8 +169,6 @@ body {
   position: absolute;
   bottom: 30px;
   right: 25px;
-
-  /* cursor: pointer; */
 }
 
 .hrtbtn:hover {
@@ -202,4 +200,12 @@ body {
 
 .modal-title {
   color: #f54f31;
+}
+
+.no-decoration {
+  text-decoration: none;
+}
+
+.no-decoration:hover {
+  color: #21cad6;
 }

@@ -8,6 +8,7 @@ import PinPage from './pages/pin-page';
 import PinMap from './pages/pin-map';
 import UpdatePin from './pages/update-pin';
 import ArtFinder from './pages/art-finder';
+import SavedPins from './pages/saved-pins';
 import { parseRoute } from './lib';
 
 export default class App extends React.Component {
@@ -29,7 +30,7 @@ export default class App extends React.Component {
     if (route.path === '') {
       return <Home />;
     }
-    if (route.path === 'myCanvas') {
+    if (route.path === 'my-canvas') {
       return <MyCanvas />;
     }
     if (route.path === 'new-pin') {
@@ -53,6 +54,10 @@ export default class App extends React.Component {
     if (route.path === 'art-finder') {
       return <ArtFinder />;
     }
+    if (route.path === 'my-saved-pins') {
+      return <SavedPins />;
+    }
+
     return <NotFound />;
   }
 

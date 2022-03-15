@@ -57,26 +57,26 @@ export default function UpdatePinMap(props) {
   }
 
   return (
-  <div>
-    <GoogleMap
-      mapContainerClassName='form-map'
-      zoom={ 8 }
-      center={ center }
-      onClick={ onMapClick }
-      onLoad={ onMapLoad }
-      >
+    <div>
+      <GoogleMap
+        mapContainerClassName='form-map'
+        zoom={ 8 }
+        center={ center }
+        onClick={ onMapClick }
+        onLoad={ onMapLoad }
+        >
 
-      <GeoLocate panTo={ panTo } />
+        <GeoLocate panTo={ panTo } />
 
-      <Marker
-        position={{ lat: +props.marker.lat, lng: +props.marker.lng }}
-        icon={{
-          url: '/pt_pin_sm.png',
-          scaledSize: new window.google.maps.Size(35, 35)
-        }}
-        />
+        <Marker
+          position={{ lat: +props.marker.lat, lng: +props.marker.lng }}
+          icon={{
+            url: '/pt_pin_sm.png',
+            scaledSize: new window.google.maps.Size(35, 35)
+          }}
+          />
 
-    </GoogleMap>
-  </div>
+      </GoogleMap>
+    </div>
   );
 }

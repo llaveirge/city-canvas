@@ -72,7 +72,7 @@ export default function ArtFinder(props) {
 
           <GeoLocate panTo={ panTo } />
 
-          {markers.map(marker => (
+          { markers.map(marker => (
             <Marker
               key={marker.postId}
               position={{ lat: marker.lat, lng: marker.lng }}
@@ -85,31 +85,31 @@ export default function ArtFinder(props) {
                 setSelected(marker);
               }}
               />
-          ))}
+          )) }
 
-            {selected
+            { selected
               ? (
               <InfoWindow
               position={{ lat: selected.lat, lng: selected.lng }}
               onCloseClick={() => { setSelected(null); }}>
                 <div>
                   <div className='info-img-cont'>
-                    <a href={`#pins?postId=${selected.postId}`}>
+                    <a href={ `#pins?postId=${selected.postId}` }>
                       <img
                       className='info-img'
-                      src={selected.artPhotoUrl}
+                      src={ selected.artPhotoUrl }
                       ></img>
                     </a>
                   </div>
                     <p className='text-center dir-link pt-1'>
-                      <a href={`https://www.google.com/maps/search/?api=1&query=${selected.lat}%2C${selected.lng}`}>
+                      <a href={ `https://www.google.com/maps/search/?api=1&query=${selected.lat}%2C${selected.lng}` }>
                         Get Directions
                       </a>
                     </p>
                 </div>
               </InfoWindow>
                 )
-              : null}
+              : null }
         </GoogleMap>
       </div>
 
