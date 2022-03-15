@@ -26,7 +26,7 @@ export default class SavedPins extends React.Component {
           <h3 className='head-text pri-color mt-3 py-3'>My Saved City Canvas</h3>
         <Row className='pt-2'>
           <Col className='justify-content-center'>
-            {pins.length
+            { pins.length
               ? pins.map(pin => (
                 <PostCard
                   key={ pin.postId }
@@ -35,7 +35,7 @@ export default class SavedPins extends React.Component {
                   profileUrl={ pin.photoUrl }
                   artistName={ pin.artistName }
                   button='View More'
-                  href={`#pins?postId=${pin.postId}`}
+                  href={ `#pins?postId=${pin.postId}` }
                   saved={ pin.saved }
                 />
               ))

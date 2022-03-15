@@ -64,7 +64,7 @@ export default class UpdatePinForm extends React.Component {
           marker: {}
         });
         this.fileInputRef.current.value = null;
-        window.location.hash = 'myCanvas';
+        window.location.hash = 'my-canvas';
       })
       .catch(err => console.error('Fetch Failed!', err));
   }
@@ -106,7 +106,7 @@ export default class UpdatePinForm extends React.Component {
           marker: {}
         });
         this.fileInputRef.current.value = null;
-        window.location.hash = 'myCanvas';
+        window.location.hash = 'my-canvas';
       })
       .catch(err => console.error('Fetch Failed!', err));
   }

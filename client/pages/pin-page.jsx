@@ -41,7 +41,7 @@ export default class PinPage extends React.Component {
       return (
         <Container className='text-center'>
           <h2 className='mt-5 pri-color nf'>404</h2>
-            <p className='my-2'>{pin.error}</p>
+            <p className='my-2'>{ pin.error }</p>
             <a href='#' className='pri-color'>
               Return to the City Canvas home feed
             </a>
@@ -72,7 +72,7 @@ export default class PinPage extends React.Component {
                     Artist: { pin.artistName }
                   </Card.Text>
                   <Card.Link
-                    href={`#pin-map?pinId=${pin.postId}&lat=${pin.lat}&lng=${pin.lng}&img=${encodeURIComponent(pin.artPhotoUrl)}`}
+                    href={ `#pin-map?pinId=${pin.postId}&lat=${pin.lat}&lng=${pin.lng}&img=${encodeURIComponent(pin.artPhotoUrl)}` }
                     className='fw-bold sec-color map-link'
                     >
                     <i className='me-2 fas fa-map-marker-alt fa-lg'></i>

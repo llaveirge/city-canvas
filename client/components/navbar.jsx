@@ -8,7 +8,7 @@ export default function AppNav(props) {
       <Navbar.Brand className='head-text menu' href='#'>Home</Navbar.Brand>
         <Nav className='me-auto'>
           <NavDropdown title='My Canvas'>
-            <NavDropdown.Item className='nav-drop' href='#myCanvas'>
+            <NavDropdown.Item className='nav-drop' href='#my-canvas'>
               My Canvas Pins
             </NavDropdown.Item>
             <NavDropdown.Item className='nav-drop' href='#my-saved-pins'>

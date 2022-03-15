@@ -30,7 +30,7 @@ export default class App extends React.Component {
     if (route.path === '') {
       return <Home />;
     }
-    if (route.path === 'myCanvas') {
+    if (route.path === 'my-canvas') {
       return <MyCanvas />;
     }
     if (route.path === 'new-pin') {

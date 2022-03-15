@@ -30,7 +30,7 @@ export default class MyCanvas extends React.Component {
       <Container fluid className='pri-bk-color my-4 py-3'>
         <Row>
           <Col></Col>
-          <Col xs={10} md={8} className='d-grid'>
+          <Col xs={ 10 } md={ 8 } className='d-grid'>
             <Button href='#new-pin' size ='lg'>
               Create a City Canvas Pin
             </Button>
