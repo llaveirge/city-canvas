@@ -171,8 +171,12 @@ body {
   right: 25px;
 }
 
-.hrtbtn:hover {
+.not-saved:hover {
   color: #0eeaf8;
+}
+
+.saved:hover {
+  color: #b6b6b6;
 }
 
 .feed-fav {

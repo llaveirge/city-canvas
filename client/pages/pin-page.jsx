@@ -8,7 +8,8 @@ export default class PinPage extends React.Component {
       pin: {}
     };
 
-    this.saveToFavorites = this.saveToFavorites.bind(this);
+    this.toggleSaved = this.toggleSaved.bind(this);
+
   }
 
   componentDidMount() {
@@ -17,21 +18,37 @@ export default class PinPage extends React.Component {
       .then(pin => this.setState({ pin }));
   }
 
-  saveToFavorites() {
+  toggleSaved() {
     event.preventDefault();
-    const req = {
-      method: 'POST'
-    };
-    fetch(`/api/save-post/${this.props.postId}`, req)
-      .then(res => res.json())
-      .then(savedPost => {
-        const updatedPin = this.state.pin;
-        updatedPin.saved = savedPost.createdAt;
-        updatedPin.saver = savedPost.userId;
+    // Save pin:
+    if (this.state.pin.saved === null) {
+      const req = {
+        method: 'POST'
+      };
+      fetch(`/api/save-post/${this.props.postId}`, req)
+        .then(res => res.json())
+        .then(savedPost => {
+          const updatedPin = this.state.pin;
+          updatedPin.saved = savedPost.createdAt;
+          updatedPin.saver = savedPost.userId;
 
-        this.setState({ updatedPin });
-      })
-      .catch(err => console.error('Fetch Failed!', err));
+          this.setState({ pin: updatedPin });
+        })
+        .catch(err => console.error('Fetch Failed!', err));
+    } else {
+      // Delete from saved:
+      const req = {
+        method: 'DELETE'
+      };
+      fetch(`/api/delete-saved/${this.props.postId}`, req)
+        .then(deletedPost => {
+          const updatedPin = this.state.pin;
+          updatedPin.saved = null;
+          updatedPin.saver = null;
+          this.setState({ pin: updatedPin });
+        })
+        .catch(err => console.error('Fetch Failed!', err));
+    }
   }
 
   render() {
@@ -86,9 +103,9 @@ export default class PinPage extends React.Component {
                   </Card.Link>
                   <Card.Link href='' className="p-0 bg-white fav">
                     <i className={ pin.saved === null
-                      ? 'grey hrtbtn fas fa-heart fa-lg'
-                      : 'sec-color fas fa-heart fa-lg' }
-                      onClick={ this.saveToFavorites }></i>
+                      ? 'grey not-saved fas fa-heart fa-lg'
+                      : 'sec-color saved fas fa-heart fa-lg' }
+                      onClick={ this.toggleSaved }></i>
                   </Card.Link>
               </Card.Body>
             </Col>
