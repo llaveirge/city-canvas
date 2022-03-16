@@ -48,10 +48,6 @@ body {
   background-color: #0eeaf8;
 }
 
-.grey {
-  color: #b6b6b6;
-}
-
 .menu {
   font-size: 1.5rem;
 }
@@ -171,8 +167,14 @@ body {
   right: 25px;
 }
 
-.not-saved:hover {
-  color: #0eeaf8;
+@media (min-width: 450px) {
+  .not-saved:hover {
+    color: #0eeaf8;
+  }
+}
+
+.grey {
+  color: #b6b6b6;
 }
 
 .feed-fav {
