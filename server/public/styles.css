@@ -175,10 +175,6 @@ body {
   color: #0eeaf8;
 }
 
-.saved:hover {
-  color: #b6b6b6;
-}
-
 .feed-fav {
   position: absolute;
   right: 25px;
