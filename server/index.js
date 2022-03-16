@@ -308,6 +308,36 @@ app.patch('/api/delete-pin/:postId', (req, res, next) => {
     .catch(err => next(err));
 });
 
+// Delete a saved pin from the saved table:
+app.delete('/api/delete-saved/:postId', (req, res, next) => {
+  const userId = 1; // will need to update this after authentication
+  const postId = Number(req.params.postId);
+  if (!postId || postId < 0 || isNaN(postId)) {
+    throw new ClientError(400, 'postId must be a positive integer');
+  }
+
+  const sql = `
+  delete from "savedPosts"
+    where "postId" = $1
+    and "userId" = $2
+  returning *;
+  `;
+
+  const params = [postId, userId];
+  db.query(sql, params)
+    .then(response => {
+      const [deleted] = response.rows;
+      if (!deleted) {
+        throw new ClientError(
+          404,
+          `This isn't the pin you're looking for... no, really, you haven't saved a post with a postId of ${postId}.`
+        );
+      }
+      res.sendStatus(204);
+    })
+    .catch(err => next(err));
+});
+
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {
