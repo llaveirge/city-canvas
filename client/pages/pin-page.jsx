@@ -9,6 +9,8 @@ export default class PinPage extends React.Component {
     };
 
     this.toggleSaved = this.toggleSaved.bind(this);
+    this.reportPin = this.reportPin.bind(this);
+
   }
 
   componentDidMount() {
@@ -48,6 +50,20 @@ export default class PinPage extends React.Component {
         })
         .catch(err => console.error('Fetch Failed!', err));
     }
+  }
+
+  reportPin() {
+    event.preventDefault();
+    const req = {
+      method: 'PATCH'
+    };
+    fetch(`/api/report/${this.props.postId}`, req)
+      .then(res => res.json())
+      .then(reported => {
+        const updatedPin = this.state.pin;
+        updatedPin.reported = true;
+        this.setState({ pin: updatedPin });
+      });
   }
 
   render() {
