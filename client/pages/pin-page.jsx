@@ -1,15 +1,19 @@
 import React from 'react';
 import { Container, Col, Image, Card } from 'react-bootstrap';
+import ModalReport from '../components/modal-report';
 
 export default class PinPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      pin: {}
+      pin: {},
+      show: false
     };
 
     this.toggleSaved = this.toggleSaved.bind(this);
     this.reportPin = this.reportPin.bind(this);
+    this.handleShow = this.handleShow.bind(this);
+    this.handleClose = this.handleClose.bind(this);
 
   }
 
@@ -66,6 +70,16 @@ export default class PinPage extends React.Component {
       });
   }
 
+  // Show modal:
+  handleShow() {
+    this.setState({ show: true });
+  }
+
+  // Close modal:
+  handleClose() {
+    this.setState({ show: false });
+  }
+
   render() {
     const { pin } = this.state;
 
@@ -113,7 +127,7 @@ export default class PinPage extends React.Component {
                   <Card.Text className='pt-4 pb-5'>
                     { pin.comment }
                   </Card.Text>
-                  <Card.Link className='report grey'>
+                  <Card.Link className='report grey' onClick={ this.handleShow }>
                     Report as removed from view
                   </Card.Link>
                   <Card.Link href='' className="p-0 bg-white fav">
@@ -126,6 +140,10 @@ export default class PinPage extends React.Component {
             </Col>
           </Card>
         </Container>
+        <ModalReport
+          show={ this.state.show }
+          onHide={ this.handleClose }
+        />
       </>
     );
   }
