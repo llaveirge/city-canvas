@@ -67,6 +67,7 @@ export default class PinPage extends React.Component {
         const updatedPin = this.state.pin;
         updatedPin.reported = true;
         this.setState({ pin: updatedPin });
+        this.handleClose();
       });
   }
 
@@ -143,6 +144,7 @@ export default class PinPage extends React.Component {
         <ModalReport
           show={ this.state.show }
           onHide={ this.handleClose }
+          report={ this.reportPin }
         />
       </>
     );

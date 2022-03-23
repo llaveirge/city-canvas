@@ -19,7 +19,7 @@ export default function ModalReport(props) {
           <Button className='cancel' onClick={ props.onHide }>
             Cancel
           </Button>
-          <Button className='del' onClick={ props.reportPin }>
+          <Button className='del' onClick={ props.report }>
             Report
           </Button>
         </Modal.Footer>
