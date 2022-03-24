@@ -128,9 +128,16 @@ export default class PinPage extends React.Component {
                   <Card.Text className='pt-4 pb-5'>
                     { pin.comment }
                   </Card.Text>
-                  <Card.Link className='report grey' onClick={ this.handleShow }>
+                  { pin.reported === false
+                    ? <Card.Link className='report grey' onClick={ this.handleShow }>
+                      Report as removed from view
+                    </Card.Link>
+                    : <Card.Text className='report modal-title'>Reported as removed from view
+                       </Card.Text>
+                  }
+                  {/* <Card.Link className='report grey' onClick={ this.handleShow }>
                     Report as removed from view
-                  </Card.Link>
+                  </Card.Link> */}
                   <Card.Link href='' className="p-0 bg-white fav">
                     <i className={ pin.saved === null
                       ? 'grey not-saved fas fa-heart fa-lg'
