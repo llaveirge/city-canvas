@@ -129,7 +129,7 @@ export default class PinPage extends React.Component {
                     { pin.comment }
                   </Card.Text>
                   { pin.reported === false
-                    ? <Card.Link className='report grey' onClick={ this.handleShow }>
+                    ? <Card.Link role='button' className='report grey' onClick={ this.handleShow }>
                       Report as removed from view
                     </Card.Link>
                     : <Card.Text className='report modal-title'>Reported as removed from view
