@@ -142,9 +142,6 @@ export default class PinPage extends React.Component {
                         Reported as removed from view
                     </Card.Text>
                   }
-                  {/* <Card.Link className='report grey' onClick={ this.handleShow }>
-                    Report as removed from view
-                  </Card.Link> */}
                   <Card.Link href='' className="p-0 bg-white fav">
                     <i className={ pin.saved === null
                       ? 'grey not-saved fas fa-heart fa-lg'
