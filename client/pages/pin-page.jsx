@@ -112,7 +112,13 @@ export default class PinPage extends React.Component {
             </Col>
             <Col className='custom-basis'>
               <Card.Body>
-                <Card.Title as='h4' className='py-2 head-text pri-color'>
+                <Card.Title as='h4' className={ `head-text pri-color py-2 ${pin.reported === true ? 'title-margin-right' : ''}` }>
+                  { pin.reported === true
+                    ? <span className='align-top icon-removed'>
+                      <i className='fas fa-exclamation fa-sm'></i>
+                      <i className='ml-half fas fa-eye-slash fa-sm'></i>
+                    </span>
+                    : null}
                   { pin.title }
                 </Card.Title>
                   <Card.Text className='fw-bold pri-color pb-sm-1'>
@@ -132,8 +138,9 @@ export default class PinPage extends React.Component {
                     ? <Card.Link role='button' className='report grey' onClick={ this.handleShow }>
                       Report as removed from view
                     </Card.Link>
-                    : <Card.Text className='report modal-title'>Reported as removed from view
-                       </Card.Text>
+                    : <Card.Text className='report modal-title'>
+                        Reported as removed from view
+                    </Card.Text>
                   }
                   {/* <Card.Link className='report grey' onClick={ this.handleShow }>
                     Report as removed from view

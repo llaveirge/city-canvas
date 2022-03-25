@@ -211,3 +211,17 @@ body {
 .no-decoration:hover {
   color: #21cad6;
 }
+
+.icon-removed {
+  color: #f54f31;
+  position: absolute;
+  right: 25px;
+}
+
+.ml-half {
+  margin-left: 0.25rem;
+}
+
+.title-margin-right {
+  margin-right: 2.6rem;
+}
