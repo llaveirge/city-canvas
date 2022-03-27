@@ -10,7 +10,7 @@ export default function ModalDelete(props) {
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title>Delete This City Canvas Pin</Modal.Title>
+          <Modal.Title className='warning'>Delete This City Canvas Pin</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           Are you sure you want to delete this City Canvas pin?
@@ -19,7 +19,7 @@ export default function ModalDelete(props) {
           <Button className='cancel' onClick={ props.onHide }>
             Cancel
           </Button>
-          <Button className='del' onClick={ props.deletePin }>
+          <Button className='del warning-bk' onClick={ props.deletePin }>
               Delete
           </Button>
         </Modal.Footer>

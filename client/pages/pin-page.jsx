@@ -112,11 +112,11 @@ export default class PinPage extends React.Component {
             </Col>
             <Col className='custom-basis'>
               <Card.Body>
-                <Card.Title as='h4' className={ `head-text pri-color py-2 ${pin.reported === true ? 'title-margin-right' : ''}` }>
+                <Card.Title as='h4' className={ `head-text pri-color py-2 ${pin.reported === true ? 'me-5' : ''}` }>
                   { pin.reported === true
-                    ? <span className='align-top icon-removed'>
+                    ? <span className='align-top warning absolute-right'>
                       <i className='fas fa-exclamation fa-sm'></i>
-                      <i className='ml-half fas fa-eye-slash fa-sm'></i>
+                      <i className='ms-1 fas fa-eye-slash fa-sm'></i>
                     </span>
                     : null}
                   { pin.title }
@@ -135,14 +135,14 @@ export default class PinPage extends React.Component {
                     { pin.comment }
                   </Card.Text>
                   { pin.reported === false
-                    ? <Card.Link role='button' className='report grey' onClick={ this.handleShow }>
+                    ? <Card.Link role='button' className='ab-bottom grey' onClick={ this.handleShow }>
                       Report as removed from view
                     </Card.Link>
-                    : <Card.Text className='report modal-title'>
+                    : <Card.Text className='ab-bottom warning mb-0 me-5'>
                         Reported as removed from view
                     </Card.Text>
                   }
-                  <Card.Link href='' className="p-0 bg-white fav">
+                  <Card.Link href='' className="p-0 bg-white ab-bottom-right">
                     <i className={ pin.saved === null
                       ? 'grey not-saved fas fa-heart fa-lg'
                       : 'sec-color fas fa-heart fa-lg' }

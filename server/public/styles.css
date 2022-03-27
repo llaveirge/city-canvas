@@ -48,6 +48,10 @@ body {
   background-color: #0eeaf8;
 }
 
+.warning {
+  color: #f54f31;
+}
+
 .menu {
   font-size: 1.5rem;
 }
@@ -152,16 +156,16 @@ body {
   font-family: Montserrat, sans-serif;
 }
 
-.report {
+.ab-bottom {
   position: absolute;
   bottom: 25px;
 }
 
-.report:hover {
+.ab-bottom:hover {
   color: #f54f31;
 }
 
-.fav {
+.ab-bottom-right {
   position: absolute;
   bottom: 30px;
   right: 25px;
@@ -177,14 +181,13 @@ body {
   color: #b6b6b6;
 }
 
-.feed-fav {
+.absolute-right {
   position: absolute;
   right: 25px;
 }
 
-.del {
+.warning-bk {
   background-color: #f54f31;
-  float: right;
 }
 
 .del:hover,
@@ -200,28 +203,10 @@ body {
   background-color: #797777;
 }
 
-.modal-title {
-  color: #f54f31;
-}
-
 .no-decoration {
   text-decoration: none;
 }
 
 .no-decoration:hover {
   color: #21cad6;
-}
-
-.icon-removed {
-  color: #f54f31;
-  position: absolute;
-  right: 25px;
-}
-
-.ml-half {
-  margin-left: 0.25rem;
-}
-
-.title-margin-right {
-  margin-right: 2.6rem;
 }
