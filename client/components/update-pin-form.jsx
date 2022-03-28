@@ -174,7 +174,7 @@ export default class UpdatePinForm extends React.Component {
               Submit
             </Button>
             <Button
-              className='mt-3 mb-5 del'
+              className='mt-3 mb-5 warning-bk del float-end'
               type='button'
               onClick={ this.handleShow }>
                 Delete

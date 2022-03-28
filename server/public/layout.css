@@ -1,3 +1,7 @@
+body {
+  min-width: 320px;
+}
+
 .img-cont {
   height: 60px;
   width: 60px;

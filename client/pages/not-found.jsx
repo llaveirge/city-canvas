@@ -7,7 +7,9 @@ export default function NotFound(props) {
         <p className='my-2'>
           <em>This isn&apos;t the page you&apos;re looking for...</em>
           <br/>
-          <a href='#' className='pri-color'>Return to the City Canvas home page</a>
+          <a href='#' className='pri-color'>
+            Return to the City Canvas home page
+          </a>
         </p>
     </div>
   );

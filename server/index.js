@@ -308,6 +308,35 @@ app.patch('/api/delete-pin/:postId', (req, res, next) => {
     .catch(err => next(err));
 });
 
+// Report a post as removed from view:
+app.patch('/api/report/:postId', (req, res, next) => {
+  const postId = Number(req.params.postId);
+  if (!postId || postId < 0) {
+    throw new ClientError(400, 'postId must be a positive integer');
+  }
+
+  const sql = `
+  update "posts"
+    set "reported" = true
+    where "postId" = $1
+  returning "reported";
+  `;
+
+  const params = [postId];
+  db.query(sql, params)
+    .then(response => {
+      const [reported] = response.rows;
+      if (!reported) {
+        throw new ClientError(
+          404,
+            `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`
+        );
+      }
+      res.json(reported);
+    })
+    .catch(err => next(err));
+});
+
 // Delete a saved pin from the saved table:
 app.delete('/api/delete-saved/:postId', (req, res, next) => {
   const userId = 1; // will need to update this after authentication

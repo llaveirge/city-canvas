@@ -19,14 +19,27 @@ export default function PostCard(props) {
               </Image>
             </Container>
             <Container className='art-info'>
-              <Card.Title as='h4' className='head-text pri-color py-2'>
+              <Card.Title
+                as='h4'
+                className={
+                  `head-text pri-color py-2 ${props.reported === true
+                    ? 'me-5'
+                    : ''}`
+                }
+              >
+                { props.reported === true
+                  ? <span className='warning absolute-right'>
+                      <i className='fas fa-exclamation fa-sm'></i>
+                      <i className='ms-1 fas fa-eye-slash fa-sm'></i>
+                    </span>
+                  : null}
                 { props.title }
               </Card.Title>
                 <Card.Text className='fw-bold pri-color pin-text'>
                   Artist: { props.artistName }
                   { props.saved === null
                     ? null
-                    : <i className='feed-fav sec-color fas fa-heart fa-lg'></i> }
+                    : <i className='absolute-right sec-color fas fa-heart fa-lg ms-2'></i> }
                 </Card.Text>
             </Container>
           </Container>
