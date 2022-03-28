@@ -144,11 +144,11 @@ export default class PinPage extends React.Component {
                   { pin.reported === false
                     ? <Card.Link
                         role='button'
-                        className='ab-bottom grey'
+                        className='ab-bottom grey report me-5'
                         onClick={ this.handleShow }>
                           Report as removed from view
                       </Card.Link>
-                    : <Card.Text className='ab-bottom warning mb-0 me-5'>
+                    : <Card.Text className='ab-bottom warning report mb-0 me-5'>
                         Reported as removed from view
                       </Card.Text>
                   }
