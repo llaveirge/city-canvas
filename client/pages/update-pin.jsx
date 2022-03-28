@@ -1,6 +1,5 @@
 import React from 'react';
 import UpdatePinForm from '../components/update-pin-form';
-
 import { Container } from 'react-bootstrap';
 
 export default class UpdatePin extends React.Component {
