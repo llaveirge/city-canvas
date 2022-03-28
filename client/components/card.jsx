@@ -19,7 +19,14 @@ export default function PostCard(props) {
               </Image>
             </Container>
             <Container className='art-info'>
-              <Card.Title as='h4' className={ `head-text pri-color py-2 ${props.reported === true ? 'me-5' : ''}` }>
+              <Card.Title
+                as='h4'
+                className={
+                  `head-text pri-color py-2 ${props.reported === true
+                    ? 'me-5'
+                    : ''}`
+                }
+              >
                 { props.reported === true
                   ? <span className='warning absolute-right'>
                       <i className='fas fa-exclamation fa-sm'></i>

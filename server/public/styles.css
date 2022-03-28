@@ -52,6 +52,10 @@ body {
   color: #f54f31;
 }
 
+.warning-bk {
+  background-color: #f54f31;
+}
+
 .menu {
   font-size: 1.5rem;
 }
@@ -184,10 +188,6 @@ body {
 .absolute-right {
   position: absolute;
   right: 25px;
-}
-
-.warning-bk {
-  background-color: #f54f31;
 }
 
 .del:hover,
