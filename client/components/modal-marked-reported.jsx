@@ -6,8 +6,8 @@ export default function ModalMarkedReported(props) {
   return (
     <>
      <Modal
-        // show={ props.showReported }
-        // onHide={ props.onHideReported }
+        show={ props.show }
+        onHide={ props.onHide}
         centered
       >
         <Modal.Header closeButton>

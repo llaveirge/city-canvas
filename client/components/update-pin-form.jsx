@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Button, Form } from 'react-bootstrap';
 import UpdatePinMap from './update-pin-map';
 import ModalDelete from './modal-deleted';
+import ModalMarkedReported from './modal-marked-reported';
 
 export default class UpdatePinForm extends React.Component {
   constructor(props) {
@@ -12,8 +13,9 @@ export default class UpdatePinForm extends React.Component {
       info: '',
       marker: {},
       postId: '',
-      reported: false,
-      show: false
+      reported: '',
+      show: false,
+      showReported: ''
     };
 
     this.setMarker = this.setMarker.bind(this);
@@ -23,6 +25,8 @@ export default class UpdatePinForm extends React.Component {
     this.handleClose = this.handleClose.bind(this);
     this.handleShow = this.handleShow.bind(this);
     this.deletePin = this.deletePin.bind(this);
+    this.handleShowReported = this.handleShowReported.bind(this);
+
   }
 
   componentDidMount() {
@@ -35,18 +39,24 @@ export default class UpdatePinForm extends React.Component {
         marker: { lat: pin.lat, lng: pin.lng },
         postId: pin.postId,
         reported: pin.reported,
-        deleted: pin.deleted
+        deleted: pin.deleted,
+        showReported: pin.reported
       }));
   }
 
-  // Show modal:
+  // Show Delete modal:
   handleShow() {
     this.setState({ show: true });
   }
 
-  // Close modal:
+  // Close Delete modal:
   handleClose() {
     this.setState({ show: false });
+  }
+
+  // Show Reported Modal:
+  handleShowReported() {
+    this.setState({ showReported: true });
   }
 
   deletePin() {
@@ -115,6 +125,7 @@ export default class UpdatePinForm extends React.Component {
     const { handleChange, handleSubmit } = this;
     return (
       <>
+        <ModalMarkedReported show={ this.state.showReported } />
         <Container className = 'form-container px-0'>
           <Form onSubmit={ handleSubmit }>
             <Form.Label className='mt-2' htmlFor='title'>
