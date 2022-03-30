@@ -47,6 +47,10 @@ export default class UpdatePinForm extends React.Component {
 
   // Show Delete modal:
   handleShowDelete() {
+    if (this.state.showReported === true) {
+      this.handleCloseReported();
+    }
+
     this.setState({ showDelete: true });
   }
 
@@ -147,7 +151,8 @@ export default class UpdatePinForm extends React.Component {
       <>
         <ModalMarkedReported
           show={ this.state.showReported }
-          onHide={ this.handleCloseReported }/>
+          onHide={ this.handleCloseReported }
+          showDelete={ this.handleShowDelete }/>
 
         <Container className = 'form-container px-0'>
           <Form onSubmit={ handleSubmit }>

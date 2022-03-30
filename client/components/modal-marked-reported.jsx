@@ -23,7 +23,7 @@ export default function ModalMarkedReported(props) {
           <Button onClick={ props.onHide }>
             Update
           </Button>
-          <Button className='del warning-bk'>
+          <Button className='del warning-bk' onClick={ props.showDelete }>
               Delete
           </Button>
         </Modal.Footer>
