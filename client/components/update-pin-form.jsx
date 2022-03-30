@@ -26,6 +26,7 @@ export default class UpdatePinForm extends React.Component {
     this.handleShow = this.handleShow.bind(this);
     this.deletePin = this.deletePin.bind(this);
     this.handleShowReported = this.handleShowReported.bind(this);
+    this.handleCloseReported = this.handleCloseReported.bind(this);
 
   }
 
@@ -57,6 +58,10 @@ export default class UpdatePinForm extends React.Component {
   // Show Reported Modal:
   handleShowReported() {
     this.setState({ showReported: true });
+  }
+
+  handleCloseReported() {
+    this.setState({ showReported: false });
   }
 
   deletePin() {
@@ -125,7 +130,10 @@ export default class UpdatePinForm extends React.Component {
     const { handleChange, handleSubmit } = this;
     return (
       <>
-        <ModalMarkedReported show={ this.state.showReported } />
+        <ModalMarkedReported
+          show={ this.state.showReported }
+          onHide={ this.handleCloseReported }/>
+
         <Container className = 'form-container px-0'>
           <Form onSubmit={ handleSubmit }>
             <Form.Label className='mt-2' htmlFor='title'>
@@ -192,6 +200,7 @@ export default class UpdatePinForm extends React.Component {
             </Button>
           </Form>
         </Container>
+
         <ModalDelete
           show={ this.state.show }
           onHide={ this.handleClose }
