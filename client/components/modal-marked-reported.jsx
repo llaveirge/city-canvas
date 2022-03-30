@@ -20,7 +20,7 @@ export default function ModalMarkedReported(props) {
           Please update the pin with accurate information or delete.
         </Modal.Body>
         <Modal.Footer>
-          <Button>
+          <Button onClick={ props.onHide }>
             Update
           </Button>
           <Button className='del warning-bk'>
