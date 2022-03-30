@@ -14,7 +14,7 @@ export default class UpdatePinForm extends React.Component {
       marker: {},
       postId: '',
       reported: '',
-      show: false,
+      showDelete: false,
       showReported: ''
     };
 
@@ -22,8 +22,8 @@ export default class UpdatePinForm extends React.Component {
     this.fileInputRef = React.createRef();
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-    this.handleShow = this.handleShow.bind(this);
+    this.handleCloseDelete = this.handleCloseDelete.bind(this);
+    this.handleShowDelete = this.handleShowDelete.bind(this);
     this.deletePin = this.deletePin.bind(this);
     this.handleShowReported = this.handleShowReported.bind(this);
     this.handleCloseReported = this.handleCloseReported.bind(this);
@@ -46,13 +46,13 @@ export default class UpdatePinForm extends React.Component {
   }
 
   // Show Delete modal:
-  handleShow() {
-    this.setState({ show: true });
+  handleShowDelete() {
+    this.setState({ showDelete: true });
   }
 
   // Close Delete modal:
-  handleClose() {
-    this.setState({ show: false });
+  handleCloseDelete() {
+    this.setState({ showDelete: false });
   }
 
   // Show Reported Modal:
@@ -89,6 +89,7 @@ export default class UpdatePinForm extends React.Component {
     this.setState({ [name]: value });
   }
 
+  // Set marker coordinates for map:
   setMarker(marker) {
     this.setState({ marker });
   }
@@ -195,15 +196,15 @@ export default class UpdatePinForm extends React.Component {
             <Button
               className='mt-3 mb-5 warning-bk del float-end'
               type='button'
-              onClick={ this.handleShow }>
+              onClick={ this.handleShowDelete }>
                 Delete
             </Button>
           </Form>
         </Container>
 
         <ModalDelete
-          show={ this.state.show }
-          onHide={ this.handleClose }
+          show={ this.state.showDelete }
+          onHide={ this.handleCloseDelete }
           deletePin={ this.deletePin }
         />
       </>
