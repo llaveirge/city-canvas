@@ -316,10 +316,39 @@ app.patch('/api/report/:postId', (req, res, next) => {
   }
 
   const sql = `
-  update "posts"
-    set "reported" = true
-    where "postId" = $1
-  returning "reported";
+    update "posts"
+      set "reported" = true
+      where "postId" = $1
+    returning "reported";
+  `;
+
+  const params = [postId];
+  db.query(sql, params)
+    .then(response => {
+      const [reported] = response.rows;
+      if (!reported) {
+        throw new ClientError(
+          404,
+            `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`
+        );
+      }
+      res.json(reported);
+    })
+    .catch(err => next(err));
+});
+
+// Update reported value in posts table to false:
+app.patch('/api/remove-reported/:postId', (req, res, next) => {
+  const postId = Number(req.params.postId);
+  if (!postId || postId < 0) {
+    throw new ClientError(400, 'postId must be a positive integer');
+  }
+
+  const sql = `
+    update "posts"
+      set "reported" = false
+      where "postId" = $1
+    returning "reported";
   `;
 
   const params = [postId];
