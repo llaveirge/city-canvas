@@ -253,6 +253,7 @@ app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
   const sql = `
     update "posts"
       set "title" = $2,
+        "reported" = false,
         "artistName" = $3,
         "comment" = $4,
         "lat" = $5,
@@ -338,33 +339,33 @@ app.patch('/api/report/:postId', (req, res, next) => {
 });
 
 // Update reported value in posts table to false:
-app.patch('/api/remove-reported/:postId', (req, res, next) => {
-  const postId = Number(req.params.postId);
-  if (!postId || postId < 0) {
-    throw new ClientError(400, 'postId must be a positive integer');
-  }
+// app.patch('/api/remove-reported/:postId', (req, res, next) => {
+//   const postId = Number(req.params.postId);
+//   if (!postId || postId < 0) {
+//     throw new ClientError(400, 'postId must be a positive integer');
+//   }
 
-  const sql = `
-    update "posts"
-      set "reported" = false
-      where "postId" = $1
-    returning "reported";
-  `;
+//   const sql = `
+//     update "posts"
+//       set "reported" = false
+//       where "postId" = $1
+//     returning "reported";
+//   `;
 
-  const params = [postId];
-  db.query(sql, params)
-    .then(response => {
-      const [reported] = response.rows;
-      if (!reported) {
-        throw new ClientError(
-          404,
-            `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`
-        );
-      }
-      res.json(reported);
-    })
-    .catch(err => next(err));
-});
+//   const params = [postId];
+//   db.query(sql, params)
+//     .then(response => {
+//       const [reported] = response.rows;
+//       if (!reported) {
+//         throw new ClientError(
+//           404,
+//             `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`
+//         );
+//       }
+//       res.json(reported);
+//     })
+//     .catch(err => next(err));
+// });
 
 // Delete a saved pin from the saved table:
 app.delete('/api/delete-saved/:postId', (req, res, next) => {
