@@ -27,7 +27,7 @@ export default class UpdatePinForm extends React.Component {
     this.deletePin = this.deletePin.bind(this);
     this.handleShowReported = this.handleShowReported.bind(this);
     this.handleCloseReported = this.handleCloseReported.bind(this);
-
+    this.removeReported = this.removeReported.bind(this);
   }
 
   componentDidMount() {
@@ -62,6 +62,20 @@ export default class UpdatePinForm extends React.Component {
 
   handleCloseReported() {
     this.setState({ showReported: false });
+  }
+
+  removeReported() {
+    const req = {
+      method: 'PATCH'
+    };
+    fetch(`api/remove-reported/${this.postId}`, req)
+      .then(res => res.json())
+      .then(response =>
+        this.setState({
+          reported: false,
+          showReported: false
+        }))
+      .catch(err => console.error('Fetch Failed!', err));
   }
 
   deletePin() {
