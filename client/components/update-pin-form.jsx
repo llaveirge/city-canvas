@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Button, Form } from 'react-bootstrap';
 import UpdatePinMap from './update-pin-map';
 import ModalDelete from './modal-deleted';
+import ModalMarkedReported from './modal-marked-reported';
 
 export default class UpdatePinForm extends React.Component {
   constructor(props) {
@@ -12,17 +13,20 @@ export default class UpdatePinForm extends React.Component {
       info: '',
       marker: {},
       postId: '',
-      reported: false,
-      show: false
+      reported: '',
+      showDelete: false,
+      showReported: ''
     };
 
     this.setMarker = this.setMarker.bind(this);
     this.fileInputRef = React.createRef();
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-    this.handleShow = this.handleShow.bind(this);
+    this.handleCloseDelete = this.handleCloseDelete.bind(this);
+    this.handleShowDelete = this.handleShowDelete.bind(this);
     this.deletePin = this.deletePin.bind(this);
+    this.handleShowReported = this.handleShowReported.bind(this);
+    this.handleCloseReported = this.handleCloseReported.bind(this);
   }
 
   componentDidMount() {
@@ -35,18 +39,33 @@ export default class UpdatePinForm extends React.Component {
         marker: { lat: pin.lat, lng: pin.lng },
         postId: pin.postId,
         reported: pin.reported,
-        deleted: pin.deleted
+        deleted: pin.deleted,
+        showReported: pin.reported
       }));
   }
 
-  // Show modal:
-  handleShow() {
-    this.setState({ show: true });
+  // Show Delete modal:
+  handleShowDelete() {
+    if (this.state.showReported) {
+      this.handleCloseReported();
+    }
+
+    this.setState({ showDelete: true });
   }
 
-  // Close modal:
-  handleClose() {
-    this.setState({ show: false });
+  // Close Delete modal:
+  handleCloseDelete() {
+    this.setState({ showDelete: false });
+  }
+
+  // Show Reported modal:
+  handleShowReported() {
+    this.setState({ showReported: true });
+  }
+
+  // Close Reported modal
+  handleCloseReported() {
+    this.setState({ showReported: false });
   }
 
   deletePin() {
@@ -74,6 +93,7 @@ export default class UpdatePinForm extends React.Component {
     this.setState({ [name]: value });
   }
 
+  // Set marker coordinates for map:
   setMarker(marker) {
     this.setState({ marker });
   }
@@ -112,9 +132,23 @@ export default class UpdatePinForm extends React.Component {
   }
 
   render() {
-    const { handleChange, handleSubmit } = this;
+    const {
+      handleChange,
+      handleSubmit,
+      handleCloseReported,
+      handleShowDelete,
+      handleCloseDelete,
+      deletePin,
+      state
+    } = this;
+
     return (
       <>
+        <ModalMarkedReported
+          show={ state.showReported }
+          onHide={ handleCloseReported }
+          showDelete={ handleShowDelete }/>
+
         <Container className = 'form-container px-0'>
           <Form onSubmit={ handleSubmit }>
             <Form.Label className='mt-2' htmlFor='title'>
@@ -126,7 +160,7 @@ export default class UpdatePinForm extends React.Component {
               id='title'
               type='text'
               name='title'
-              value={ this.state.title }
+              value={ state.title }
               placeholder='Enter Title, or "Unknown"'
               onChange={ handleChange }
             />
@@ -138,7 +172,7 @@ export default class UpdatePinForm extends React.Component {
               id='artist'
               type='text'
               name='artist'
-              value={ this.state.artist }
+              value={ state.artist }
               placeholder='Enter Artist Name or Tag, or "Unknown"'
               onChange={ handleChange }
             />
@@ -159,7 +193,7 @@ export default class UpdatePinForm extends React.Component {
               required
               id='info'
               name='info'
-              value={ this.state.info }
+              value={ state.info }
               placeholder='Add some information about this pin...'
               onChange={ handleChange }
             />
@@ -167,7 +201,7 @@ export default class UpdatePinForm extends React.Component {
               Click the map to drop a pin at the Street Art location:
             </p>
             <UpdatePinMap
-              marker={ this.state.marker }
+              marker={ state.marker }
               setMarker={ this.setMarker }>
             </UpdatePinMap>
             <Button className='mt-3 mb-5' type='submit'>
@@ -176,15 +210,16 @@ export default class UpdatePinForm extends React.Component {
             <Button
               className='mt-3 mb-5 warning-bk del float-end'
               type='button'
-              onClick={ this.handleShow }>
+              onClick={ handleShowDelete }>
                 Delete
             </Button>
           </Form>
         </Container>
+
         <ModalDelete
-          show={ this.state.show }
-          onHide={ this.handleClose }
-          deletePin={ this.deletePin }
+          show={ state.showDelete }
+          onHide={ handleCloseDelete }
+          deletePin={ deletePin }
         />
       </>
     );

@@ -253,6 +253,7 @@ app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
   const sql = `
     update "posts"
       set "title" = $2,
+        "reported" = false,
         "artistName" = $3,
         "comment" = $4,
         "lat" = $5,
@@ -316,10 +317,10 @@ app.patch('/api/report/:postId', (req, res, next) => {
   }
 
   const sql = `
-  update "posts"
-    set "reported" = true
-    where "postId" = $1
-  returning "reported";
+    update "posts"
+      set "reported" = true
+      where "postId" = $1
+    returning "reported";
   `;
 
   const params = [postId];
