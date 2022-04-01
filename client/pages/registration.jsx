@@ -4,7 +4,12 @@ import React from 'react';
 export default class Registration extends React.Component {
   render() {
     return (
-    <h3>Reporting from Registration page!</h3>
+      <>
+      <div className='registration-cont'>
+        <h1> Registration Page </h1>
+      </div>
+
+      </>
     );
   }
 }

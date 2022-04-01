@@ -68,9 +68,8 @@ export default class App extends React.Component {
   render() {
     return (
       <>
-        <AppNav />
-          {/* { this.renderPage() } */}
-          <Registration />
+        { this.state.route.path === 'sign-up' ? null : <AppNav /> }
+          { this.renderPage() }
       </>
     );
   }
