@@ -229,4 +229,11 @@ body {
   background-repeat: none;
   background-size: cover;
   background-position: 50% 55%;
+  display: flex;
+
+  /* flex-direction: column; */
+}
+
+.reg-form-col {
+  max-width: 500px;
 }
