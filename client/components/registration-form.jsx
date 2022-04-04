@@ -11,9 +11,18 @@ export default class RegistrationForm extends React.Component {
       username: '',
       password: ''
     };
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
   }
 
   render() {
+    const { handleChange } = this;
+
     return (
         <Container className='cont-registration bg-white d-flex justify-content-center pt-md-5'>
           <Col className='reg-form-col'>
@@ -32,6 +41,7 @@ export default class RegistrationForm extends React.Component {
               name='first'
               placeholder='Enter First Name'
               autoComplete='given-name'
+              onChange={ handleChange }
             />
             <Form.Label className='mt-2' htmlFor='last'>
                   Last Name
@@ -43,6 +53,7 @@ export default class RegistrationForm extends React.Component {
               name='last'
               placeholder='Enter Last Name'
               autoComplete='family-name'
+              onChange={ handleChange }
             />
              <Form.Label className='mt-2' htmlFor='email'>
                   Email
@@ -54,6 +65,7 @@ export default class RegistrationForm extends React.Component {
               name='email'
               placeholder='Enter Email Address'
               autoComplete='email'
+              onChange={ handleChange }
             />
              <Form.Label className='mt-2' htmlFor='username'>
                   Username
@@ -65,6 +77,7 @@ export default class RegistrationForm extends React.Component {
               name='username'
               placeholder='Username'
               autoComplete='username'
+              onChange={ handleChange }
             />
             <Form.Label>Profile Photo</Form.Label>
             <Form.Control
@@ -84,6 +97,7 @@ export default class RegistrationForm extends React.Component {
               name='password'
               placeholder='Enter Password'
               autoComplete='new-password'
+              onChange={ handleChange }
             />
             <Button className='mt-4 mb-2' type='submit'>
               Submit
