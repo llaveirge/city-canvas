@@ -6,6 +6,14 @@ body {
   background-position: center;
 }
 
+.pg-registration {
+  background-image: url("./reg-bkg.jpg");
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: 50% 55%;
+  display: flex;
+}
+
 .nf {
   font-weight: 700;
   font-size: 4rem;
@@ -103,6 +111,12 @@ body {
 
 .report {
   font-size: 0.875rem;
+}
+
+@media (min-height: 400px) {
+  .pg-registration {
+    height: 100vh;
+  }
 }
 
 @media (min-width: 576px) {
@@ -219,21 +233,4 @@ body {
 
 .no-decoration:hover {
   color: #21cad6;
-}
-
-.pg-registration {
-  background-image: url("./reg-bkg.jpg");
-  height: 100vh;
-  width: 100vw;
-  background-attachment: fixed;
-  background-repeat: none;
-  background-size: cover;
-  background-position: 50% 55%;
-  display: flex;
-
-  /* flex-direction: column; */
-}
-
-.reg-form-col {
-  max-width: 500px;
 }

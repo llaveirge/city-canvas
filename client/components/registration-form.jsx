@@ -2,12 +2,22 @@ import React from 'react';
 import { Container, Col, Button, Form } from 'react-bootstrap';
 
 export default class RegistrationForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      first: '',
+      last: '',
+      email: '',
+      username: '',
+      password: ''
+    };
+  }
 
   render() {
     return (
-        <Container className='cont-registration bg-white d-flex justify-content-center pt-5 py-sm-0'>
+        <Container className='cont-registration bg-white d-flex justify-content-center pt-sm-5'>
           <Col className='reg-form-col'>
-            <h1 className='head-text pri-color pt-3 pt-sm-5 text-center'>
+            <h1 className='head-text pri-color text-center mt-2'>
                 Create an Account
               </h1>
           <Form>
@@ -60,7 +70,7 @@ export default class RegistrationForm extends React.Component {
               ref={ this.fileInputRef }
               accept='.png, .jpg, .jpeg, .gif'
             />
-             <Form.Label className='mt-2' htmlFor='username'>
+             <Form.Label className='mt-2' htmlFor='password'>
                   Create Your Password
             </Form.Label>
             <Form.Control
@@ -70,7 +80,7 @@ export default class RegistrationForm extends React.Component {
               name='password'
               placeholder='Enter Password'
             />
-            <Button className='mt-3 mb-4' type='submit'>
+            <Button className='mt-4 mb-2' type='submit'>
               Submit
             </Button>
         </Form>

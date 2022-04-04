@@ -4,6 +4,7 @@ body {
 
 .cont-registration {
   max-width: 800px;
+  min-width: 300px;
 }
 
 .img-cont {
@@ -105,4 +106,8 @@ body {
 
 .btm-brdr {
   height: 3rem;
+}
+
+.reg-form-col {
+  max-width: 500px;
 }
