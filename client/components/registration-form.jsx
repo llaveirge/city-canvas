@@ -15,9 +15,9 @@ export default class RegistrationForm extends React.Component {
 
   render() {
     return (
-        <Container className='cont-registration bg-white d-flex justify-content-center pt-sm-5'>
+        <Container className='cont-registration bg-white d-flex justify-content-center pt-md-5'>
           <Col className='reg-form-col'>
-            <h1 className='head-text pri-color text-center mt-2'>
+            <h1 className='head-text pri-color text-center mt-4'>
                 Create an Account
               </h1>
           <Form>
@@ -31,6 +31,7 @@ export default class RegistrationForm extends React.Component {
               type='text'
               name='first'
               placeholder='Enter First Name'
+              autoComplete='given-name'
             />
             <Form.Label className='mt-2' htmlFor='last'>
                   Last Name
@@ -41,6 +42,7 @@ export default class RegistrationForm extends React.Component {
               type='text'
               name='last'
               placeholder='Enter Last Name'
+              autoComplete='family-name'
             />
              <Form.Label className='mt-2' htmlFor='email'>
                   Email
@@ -51,6 +53,7 @@ export default class RegistrationForm extends React.Component {
               type='email'
               name='email'
               placeholder='Enter Email Address'
+              autoComplete='email'
             />
              <Form.Label className='mt-2' htmlFor='username'>
                   Username
@@ -61,8 +64,9 @@ export default class RegistrationForm extends React.Component {
               type='text'
               name='username'
               placeholder='Username'
+              autoComplete='username'
             />
-            <Form.Label>Profile Photo:</Form.Label>
+            <Form.Label>Profile Photo</Form.Label>
             <Form.Control
               id='image'
               type='file'
@@ -79,6 +83,7 @@ export default class RegistrationForm extends React.Component {
               type='password'
               name='password'
               placeholder='Enter Password'
+              autoComplete='new-password'
             />
             <Button className='mt-4 mb-2' type='submit'>
               Submit

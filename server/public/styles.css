@@ -11,7 +11,7 @@ body {
   background-attachment: fixed;
   background-size: cover;
   background-position: 50% 55%;
-  display: flex;
+  min-height: 100vh;
 }
 
 .nf {
@@ -111,12 +111,6 @@ body {
 
 .report {
   font-size: 0.875rem;
-}
-
-@media (min-height: 400px) {
-  .pg-registration {
-    height: 100vh;
-  }
 }
 
 @media (min-width: 576px) {
