@@ -222,7 +222,7 @@ app.post('/api/save-post/:postId', (req, res, next) => {
 });
 
 // Add new user to 'users' table:
-app.post('/api/auth/sign-up', (req, res, next) => {
+app.post('/api/auth/sign-up', uploadsMiddleware, (req, res, next) => {
   const { first, last, email, username, password } = req.body;
 
   if (!first) {
@@ -244,7 +244,7 @@ app.post('/api/auth/sign-up', (req, res, next) => {
     throw new ClientError(400, 'password must include at least six characters and one number');
   }
 
-  const url = 'https://pbs.twimg.com/profile_images/1237550450/mstom.jpg';
+  const url = `/images/${req.file.filename}`;
 
   argon2
     .hash(password)

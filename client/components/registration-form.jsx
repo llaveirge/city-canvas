@@ -34,6 +34,24 @@ export default class RegistrationForm extends React.Component {
     formData.append('username', username);
     formData.append('password', password);
     formData.append('image', this.fileInputRef.current.files[0]);
+
+    const req = {
+      method: 'POST',
+      body: formData
+    };
+    fetch('/api/auth/sign-up', req)
+      .then(res => res.json())
+      .then(response => {
+        this.setState({
+          first: '',
+          last: '',
+          email: '',
+          username: '',
+          password: ''
+        });
+        this.fileInputRef.current.value = null;
+      })
+      .catch(err => console.error('Fetch Failed!', err));
   }
 
   render() {
