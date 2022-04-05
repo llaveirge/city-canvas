@@ -10,7 +10,7 @@ CREATE TABLE "users" (
 	"firstName" TEXT NOT NULL,
 	"lastName" TEXT NOT NULL,
 	"email" TEXT NOT NULL UNIQUE,
-	"userName" TEXT NOT NULL,
+	"userName" TEXT NOT NULL UNIQUE,
 	"photoUrl" TEXT NOT NULL,
 	"hashedPassword" TEXT NOT NULL,
 	"createdAt" timestamptz NOT NULL default now(),

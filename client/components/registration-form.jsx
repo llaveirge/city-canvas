@@ -28,7 +28,7 @@ export default class RegistrationForm extends React.Component {
           <Col className='reg-form-col'>
             <h1 className='head-text pri-color text-center mt-4'>
                 Create an Account
-              </h1>
+            </h1>
           <Form>
             <Form.Label className='mt-2' htmlFor='first'>
                   First Name
@@ -99,6 +99,10 @@ export default class RegistrationForm extends React.Component {
               autoComplete='new-password'
               onChange={ handleChange }
             />
+            <Form.Text className="text-muted">
+              Password must include at least six characters and one number.
+            </Form.Text>
+            <br />
             <Button className='mt-4 mb-2' type='submit'>
               Submit
             </Button>

@@ -5,7 +5,7 @@ const ClientError = require('./client-error');
 const errorMiddleware = require('./error-middleware');
 const staticMiddleware = require('./static-middleware');
 const uploadsMiddleware = require('./uploads-middleware');
-
+const argon2 = require('argon2');
 const app = express();
 
 const jsonMiddleware = express.json();
@@ -219,6 +219,57 @@ app.post('/api/save-post/:postId', (req, res, next) => {
       res.status(201).json(saved);
     })
     .catch(err => next(err));
+});
+
+// Add new user to 'users' table:
+app.post('/api/auth/sign-up', (req, res, next) => {
+  const { first, last, email, username, password } = req.body;
+
+  if (!first) {
+    throw new ClientError(400, 'first name is a required field');
+  }
+  if (!last) {
+    throw new ClientError(400, 'last name is a required field');
+  }
+  if (!email || /@/.test(email) === false) {
+    throw new ClientError(400, 'a valid email address is a required field');
+  }
+  if (!password) {
+    throw new ClientError(400, 'password is a required field');
+  }
+  if (!username) {
+    throw new ClientError(400, 'username is a required field');
+  }
+  if (password.length < 6 || /\d/.test(password) === false) {
+    throw new ClientError(400, 'password must include at least six characters and one number');
+  }
+
+  const url = 'https://pbs.twimg.com/profile_images/1237550450/mstom.jpg';
+
+  argon2
+    .hash(password)
+    .then(hashedPassword => {
+      const sql = `
+          insert into "users" ("firstName", "lastName", "email", "userName", "photoUrl", "hashedPassword")
+            values ($1, $2, $3, $4, $5, $6)
+          returning "userId", "userName", "createdAt";
+        `;
+      const params = [first, last, email, username, url, hashedPassword];
+      return db.query(sql, params);
+    })
+    .then(response => {
+      const [user] = response.rows;
+      res.status(201).json(user);
+    })
+    .catch(err => {
+      if (err.code === '23505' && err.detail.includes('email')) {
+        return next(new ClientError(400, 'Sorry, that email already exists'));
+      }
+      if (err.code === '23505' && err.detail.includes('userName')) {
+        return next(new ClientError(400, 'Sorry, that username already exists'));
+      }
+      next(err);
+    });
 });
 
 // Update a post pin in posts table
