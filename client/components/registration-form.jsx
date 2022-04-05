@@ -13,6 +13,9 @@ export default class RegistrationForm extends React.Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.fileInputRef = React.createRef();
+    this.handleSubmit = this.handleSubmit.bind(this);
+
   }
 
   handleChange(event) {
@@ -20,8 +23,21 @@ export default class RegistrationForm extends React.Component {
     this.setState({ [name]: value });
   }
 
+  handleSubmit(event) {
+    event.preventDefault();
+    const { first, last, email, username, password } = this.state;
+
+    const formData = new FormData();
+    formData.append('first', first);
+    formData.append('last', last);
+    formData.append('email', email);
+    formData.append('username', username);
+    formData.append('password', password);
+    formData.append('image', this.fileInputRef.current.files[0]);
+  }
+
   render() {
-    const { handleChange } = this;
+    const { handleChange, handleSubmit } = this;
 
     return (
         <Container className='cont-registration bg-white d-flex justify-content-center pt-md-5'>
@@ -29,7 +45,7 @@ export default class RegistrationForm extends React.Component {
             <h1 className='head-text pri-color text-center mt-4'>
                 Create an Account
             </h1>
-          <Form>
+          <Form onSubmit={ handleSubmit }>
             <Form.Label className='mt-2' htmlFor='first'>
                   First Name
             </Form.Label>
