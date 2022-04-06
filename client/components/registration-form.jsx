@@ -9,13 +9,32 @@ export default class RegistrationForm extends React.Component {
       last: '',
       email: '',
       username: '',
-      password: ''
+      password: '',
+      passwordError: '',
+      usernameError: '',
+      emailError: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.fileInputRef = React.createRef();
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
+  componentDidMount() {
+    fetch('/api/users/usernames')
+      .then(res => res.json())
+      .then(usernames => {
+        const users = [];
+        for (const obj of usernames) {
+          for (const key in obj) {
+            users.push(obj[key]);
+          }
+        }
+
+        this.setState({
+          existingUsernames: users
+        });
+      });
   }
 
   handleChange(event) {
@@ -40,18 +59,32 @@ export default class RegistrationForm extends React.Component {
       body: formData
     };
     fetch('/api/auth/sign-up', req)
-      .then(res => res.json())
-      .then(response => {
-        this.setState({
-          first: '',
-          last: '',
-          email: '',
-          username: '',
-          password: ''
-        });
-        this.fileInputRef.current.value = null;
+      .then(res => {
+        if (!res.ok) {
+          res.json().then(response => {
+            if (response.error.includes('username')) {
+              this.setState({ usernameError: response.error });
+            } else if (response.error.includes('email')) {
+              this.setState({ emailError: response.error });
+            } else if (response.error.includes('password')) {
+              this.setState({ passwordError: response.error });
+            }
+          });
+        } else {
+          this.setState({
+            first: '',
+            last: '',
+            email: '',
+            username: '',
+            password: '',
+            passwordError: '',
+            existingUsernames: [],
+            usernameError: ''
+          });
+          this.fileInputRef.current.value = null;
+        }
       })
-      .catch(err => console.error('Fetch Failed!', err));
+      .catch(err => console.error('Fetch Has Failed!', err));
   }
 
   render() {
@@ -75,6 +108,7 @@ export default class RegistrationForm extends React.Component {
               name='first'
               placeholder='Enter First Name'
               autoComplete='given-name'
+              value={ this.state.first }
               onChange={ handleChange }
             />
             <Form.Label className='mt-2' htmlFor='last'>
@@ -87,6 +121,7 @@ export default class RegistrationForm extends React.Component {
               name='last'
               placeholder='Enter Last Name'
               autoComplete='family-name'
+              value={ this.state.last }
               onChange={ handleChange }
             />
              <Form.Label className='mt-2' htmlFor='email'>
@@ -99,6 +134,7 @@ export default class RegistrationForm extends React.Component {
               name='email'
               placeholder='Enter Email Address'
               autoComplete='email'
+              value={ this.state.email }
               onChange={ handleChange }
             />
              <Form.Label className='mt-2' htmlFor='username'>
@@ -111,6 +147,7 @@ export default class RegistrationForm extends React.Component {
               name='username'
               placeholder='Username'
               autoComplete='username'
+              value={ this.state.username }
               onChange={ handleChange }
             />
             <Form.Label>Profile Photo</Form.Label>
@@ -131,6 +168,7 @@ export default class RegistrationForm extends React.Component {
               name='password'
               placeholder='Enter Password'
               autoComplete='new-password'
+              value={ this.state.password }
               onChange={ handleChange }
             />
             <Form.Text className="text-muted">
