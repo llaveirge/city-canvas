@@ -78,8 +78,8 @@ export default class RegistrationForm extends React.Component {
             username: '',
             password: '',
             passwordError: '',
-            existingUsernames: [],
-            usernameError: ''
+            usernameError: '',
+            emailError: ''
           });
           this.fileInputRef.current.value = null;
         }
