@@ -241,7 +241,7 @@ app.post('/api/auth/sign-up', uploadsMiddleware, (req, res, next) => {
     throw new ClientError(400, 'username is a required field');
   }
   if (password.length < 6 || /\d/.test(password) === false) {
-    throw new ClientError(400, 'password must include at least six characters and one number');
+    throw new ClientError(400, 'Invalid password: Password must include at least six characters and one number');
   }
 
   const url = `/images/${req.file.filename}`;

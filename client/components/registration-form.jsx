@@ -18,6 +18,7 @@ export default class RegistrationForm extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.fileInputRef = React.createRef();
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.passwordMessage = this.passwordMessage.bind(this);
   }
 
   componentDidMount() {
@@ -40,6 +41,22 @@ export default class RegistrationForm extends React.Component {
   handleChange(event) {
     const { name, value } = event.target;
     this.setState({ [name]: value });
+  }
+
+  passwordMessage(passwordStatus) {
+    if (passwordStatus) {
+      return (
+        <Form.Text id='passwordErrorMessage' className='d-block warning'>
+          {this.state.passwordError}
+        </Form.Text>
+      );
+    } else {
+      return (
+        <Form.Text id='passwordHelpBlock' className='d-block' muted>
+          Password must include at least six characters and one number.
+        </Form.Text>
+      );
+    }
   }
 
   handleSubmit(event) {
@@ -88,7 +105,7 @@ export default class RegistrationForm extends React.Component {
   }
 
   render() {
-    const { handleChange, handleSubmit } = this;
+    const { handleChange, handleSubmit, passwordMessage } = this;
 
     return (
         <Container className='cont-registration bg-white d-flex justify-content-center pt-md-5'>
@@ -136,8 +153,12 @@ export default class RegistrationForm extends React.Component {
               autoComplete='email'
               value={ this.state.email }
               onChange={ handleChange }
+              aria-describedby='emailErrorMessage'
             />
-             <Form.Label className='mt-2' htmlFor='username'>
+             <Form.Text id='emailErrorMessage' className='d-block warning'>
+            { this.state.emailError ? this.state.emailError : null }
+            </Form.Text>
+            <Form.Label className='mt-2' htmlFor='username'>
                   Username
             </Form.Label>
             <Form.Control
@@ -149,8 +170,12 @@ export default class RegistrationForm extends React.Component {
               autoComplete='username'
               value={ this.state.username }
               onChange={ handleChange }
+              aria-describedby='usernameErrorMessage'
             />
-            <Form.Label>Profile Photo</Form.Label>
+             <Form.Text id='usernameErrorMessage' className='d-block warning'>
+            { this.state.usernameError ? this.state.usernameError : null }
+            </Form.Text>
+            <Form.Label className='mt-2' htmlFor='image'>Profile Photo</Form.Label>
             <Form.Control
               id='image'
               type='file'
@@ -170,12 +195,11 @@ export default class RegistrationForm extends React.Component {
               autoComplete='new-password'
               value={ this.state.password }
               onChange={ handleChange }
+              aria-describedby='passwordHelpBlock passwordErrorMessage'
             />
-            <Form.Text className="text-muted">
-              Password must include at least six characters and one number.
-            </Form.Text>
+            {passwordMessage(this.state.passwordError)}
             <br />
-            <Button className='mt-4 mb-2' type='submit'>
+            <Button className='mt-2 mb-2' type='submit'>
               Submit
             </Button>
         </Form>
