@@ -21,23 +21,6 @@ export default class RegistrationForm extends React.Component {
     this.passwordMessage = this.passwordMessage.bind(this);
   }
 
-  componentDidMount() {
-    fetch('/api/users/usernames')
-      .then(res => res.json())
-      .then(usernames => {
-        const users = [];
-        for (const obj of usernames) {
-          for (const key in obj) {
-            users.push(obj[key]);
-          }
-        }
-
-        this.setState({
-          existingUsernames: users
-        });
-      });
-  }
-
   handleChange(event) {
     const { name, value } = event.target;
     this.setState({ [name]: value });

@@ -58,8 +58,9 @@ export default class App extends React.Component {
     if (route.path === 'my-saved-pins') {
       return <SavedPins />;
     }
-    if (route.path === 'sign-up') {
-      return <Registration />;
+    if (route.path === 'registration') {
+      const form = route.params.get('form');
+      return <Registration form={ form }/>;
     }
 
     return <NotFound />;
@@ -68,7 +69,7 @@ export default class App extends React.Component {
   render() {
     return (
       <>
-        { this.state.route.path === 'sign-up' ? null : <AppNav /> }
+        { this.state.route.path === 'registration' ? null : <AppNav /> }
           { this.renderPage() }
       </>
     );
