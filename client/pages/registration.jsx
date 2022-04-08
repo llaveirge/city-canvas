@@ -8,9 +8,9 @@ export default function Registration(props) {
 
   return (
       <>
-      <div className='pg-registration d-flex py-5 py-md-0'>
-        { form === 'sign-up' ? <RegistrationForm /> : <SignInForm /> }
-      </div>
+        <div className='pg-registration d-flex py-5 py-md-0'>
+          { form === 'sign-up' ? <RegistrationForm /> : <SignInForm /> }
+        </div>
       </>
   );
 

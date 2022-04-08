@@ -228,3 +228,11 @@ body {
 .no-decoration:hover {
   color: #21cad6;
 }
+
+.mar-top-4r {
+  margin-top: 4rem;
+}
+
+.mar-bottom-4r {
+  margin-bottom: 4rem;
+}

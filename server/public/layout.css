@@ -2,9 +2,18 @@ body {
   min-width: 320px;
 }
 
-.cont-registration {
+.registration-cont {
   max-width: 800px;
   min-width: 300px;
+}
+
+.sign-in-cont {
+  max-height: 400px;
+  min-width: 100vw;
+}
+
+.sign-in-form {
+  max-width: 370px;
 }
 
 .img-cont {

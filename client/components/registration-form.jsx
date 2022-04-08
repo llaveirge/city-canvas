@@ -91,7 +91,7 @@ export default class RegistrationForm extends React.Component {
     const { handleChange, handleSubmit, passwordMessage } = this;
 
     return (
-        <Container className='cont-registration bg-white d-flex justify-content-center pt-md-5'>
+        <Container className='registration-cont bg-white d-flex justify-content-center pt-md-5'>
           <Col className='reg-form-col'>
             <h1 className='head-text pri-color text-center mt-4'>
                 Create an Account
