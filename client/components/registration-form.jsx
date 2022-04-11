@@ -181,11 +181,13 @@ export default class RegistrationForm extends React.Component {
               aria-describedby='passwordHelpBlock passwordErrorMessage'
             />
             {passwordMessage(this.state.passwordError)}
-            <br />
-            <Button className='mt-2 mb-2' type='submit'>
-              Submit
-            </Button>
-        </Form>
+            <div className='pb-3 d-flex align-items-baseline justify-content-between'>
+              <Button className='mt-4 mb-2' type='submit'>
+                Submit
+              </Button>
+              <a href='#registration' className='pri-color link'>Already signed up? Sign in </a>
+            </div>
+          </Form>
         </Col>
       </Container>
     );
