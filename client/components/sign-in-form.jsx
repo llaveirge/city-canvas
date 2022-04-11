@@ -49,10 +49,12 @@ export default class SignInForm extends React.Component {
             value={ this.state.password }
             onChange={ this.handleChange}
             />
-            <Button className='mt-2 mar-bottom-4r' type='submit'>
-              Submit
-            </Button>
-
+            <div className='pb-3 d-flex align-items-baseline justify-content-between'>
+              <Button className='mt-2 mar-bottom-4r' type='submit'>
+                Submit
+              </Button>
+              <a href='#registration?form=sign-up' className='pri-color link'>New here? Sign up </a>
+            </div>
         </Form>
         </Row>
       </Container>
