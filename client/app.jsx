@@ -85,7 +85,7 @@ export default class App extends React.Component {
     return (
       <AppContext.Provider value={contextValue}>
         <>
-          { this.state.route.path === 'registration' ? null : <AppNav /> }
+          { route.path === 'registration' ? null : <AppNav /> }
             { this.renderPage() }
         </>
       </AppContext.Provider>

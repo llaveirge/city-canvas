@@ -6,6 +6,7 @@ const errorMiddleware = require('./error-middleware');
 const staticMiddleware = require('./static-middleware');
 const uploadsMiddleware = require('./uploads-middleware');
 const argon2 = require('argon2');
+const jwt = require('jsonwebtoken');
 const app = express();
 
 const jsonMiddleware = express.json();
@@ -148,6 +149,40 @@ app.get('/api/saved-pins', (req, res, next) => {
   db.query(sql, params)
     .then(response => {
       res.json(response.rows);
+    })
+    .catch(err => next(err));
+});
+
+// Authenticate user at sign-in:
+app.get('/api/auth/sign-in', (req, res, next) => {
+  const { username, password } = req.body;
+  if (!username || !password) {
+    throw new ClientError(401, 'Invalid login, please try again.');
+  }
+  const sql = `
+    select "userId",
+      "hashedPassword"
+    from "users"
+    where "userName" = $1;
+  `;
+  const params = [username];
+  db.query(sql, params)
+    .then(response => {
+      const [user] = response.rows;
+      if (!user) {
+        throw new ClientError(401, 'Invalid login, please try again.');
+      }
+      const { userId, hashedPassword } = user;
+      return argon2
+        .verify(hashedPassword, password)
+        .then(isMatching => {
+          if (!isMatching) {
+            throw new ClientError(401, 'Invalid login, please try again.');
+          }
+          const payload = { userId, username };
+          const token = jwt.sign(payload, process.env.TOKEN_SECRET);
+          res.json({ token, user: payload });
+        });
     })
     .catch(err => next(err));
 });
