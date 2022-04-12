@@ -17,16 +17,25 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      user: null,
+      isAuthorizing: true,
       route: parseRoute(window.location.hash)
     };
 
     this.renderPage = this.renderPage.bind(this);
+    this.handleSignIn = this.handleSignIn.bind(this);
   }
 
   componentDidMount() {
     window.addEventListener('hashchange', event => {
       this.setState({ route: parseRoute(window.location.hash) });
     });
+  }
+
+  handleSignIn(result) {
+    const { user, token } = result;
+    window.localStorage.setItem('city-canvas-jwt', token);
+    this.setState({ user });
   }
 
   renderPage() {
@@ -70,8 +79,9 @@ export default class App extends React.Component {
   }
 
   render() {
-    const { route } = this.state;
-    const contextValue = { route };
+    const { route, user } = this.state;
+    const { handleSignIn } = this;
+    const contextValue = { route, user, handleSignIn };
     return (
       <AppContext.Provider value={contextValue}>
         <>
