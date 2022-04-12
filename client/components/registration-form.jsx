@@ -82,6 +82,7 @@ export default class RegistrationForm extends React.Component {
             emailError: ''
           });
           this.fileInputRef.current.value = null;
+          window.location.hash = 'registration';
         }
       })
       .catch(err => console.error('Fetch Has Failed!', err));
