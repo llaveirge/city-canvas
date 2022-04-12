@@ -10,6 +10,7 @@ import UpdatePin from './pages/update-pin';
 import ArtFinder from './pages/art-finder';
 import SavedPins from './pages/saved-pins';
 import Registration from './pages/registration';
+import AppContext from './lib/app-context';
 import { parseRoute } from './lib';
 
 export default class App extends React.Component {
@@ -18,6 +19,8 @@ export default class App extends React.Component {
     this.state = {
       route: parseRoute(window.location.hash)
     };
+
+    this.renderPage = this.renderPage.bind(this);
   }
 
   componentDidMount() {
@@ -67,11 +70,16 @@ export default class App extends React.Component {
   }
 
   render() {
+    const { route } = this.state;
+    const contextValue = { route };
     return (
-      <>
-        { this.state.route.path === 'registration' ? null : <AppNav /> }
-          { this.renderPage() }
-      </>
+      <AppContext.Provider value={contextValue}>
+        <>
+          { this.state.route.path === 'registration' ? null : <AppNav /> }
+            { this.renderPage() }
+        </>
+      </AppContext.Provider>
+
     );
   }
 }
