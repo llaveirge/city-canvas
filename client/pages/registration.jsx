@@ -1,17 +1,23 @@
 import React from 'react';
 import RegistrationForm from '../components/registration-form';
 import SignInForm from '../components/sign-in-form';
+import AppContext from '../lib/app-context';
 
-export default function Registration(props) {
+export default class Registration extends React.Component {
 
-  const form = props.form;
+  render() {
+    const form = this.props.form;
+    const { handleSignIn } = this.context;
 
-  return (
+    return (
       <>
         <div className='pg-registration d-flex py-5 py-md-0'>
-          { form === 'sign-up' ? <RegistrationForm /> : <SignInForm /> }
+          { form === 'sign-up' ? <RegistrationForm /> : <SignInForm onSignIn={ handleSignIn } /> }
         </div>
       </>
-  );
+    );
 
+  }
 }
+
+Registration.contextType = AppContext;

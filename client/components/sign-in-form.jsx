@@ -11,6 +11,7 @@ export default class SignInForm extends React.Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event) {
@@ -18,14 +19,34 @@ export default class SignInForm extends React.Component {
     this.setState({ [name]: value });
   }
 
+  handleSubmit(event) {
+    event.preventDefault();
+    const req = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(this.state)
+    };
+    fetch('/api/auth/sign-in', req)
+      .then(res => res.json())
+      .then(result => {
+        if (result.user && result.token) {
+          this.props.onSignIn(result);
+        }
+      })
+      .catch(err => console.error('Fetch Failed!', err));
+  }
+
   render() {
+    const { handleSubmit } = this;
     return (
       <Container className='sign-in-cont bg-white align-self-center'>
         <Row>
           <h1 className='head-text pri-color text-center mar-top-4r mb-4 py-3'>City Canvas</h1>
         </Row>
         <Row className='d-flex justify-content-center'>
-        <Form className='sign-in-form'>
+        <Form className='sign-in-form' onSubmit={ handleSubmit }>
           <Form.Control
             className='mb-4'
             autoFocus

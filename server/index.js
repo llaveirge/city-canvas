@@ -154,11 +154,13 @@ app.get('/api/saved-pins', (req, res, next) => {
 });
 
 // Authenticate user at sign-in:
-app.get('/api/auth/sign-in', (req, res, next) => {
+app.post('/api/auth/sign-in', (req, res, next) => {
   const { username, password } = req.body;
+
   if (!username || !password) {
     throw new ClientError(401, 'Invalid login, please try again.');
   }
+
   const sql = `
     select "userId",
       "hashedPassword"
