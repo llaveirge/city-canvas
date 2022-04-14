@@ -7,7 +7,11 @@ export default class Registration extends React.Component {
 
   render() {
     const form = this.props.form;
-    const { handleSignIn } = this.context;
+    const { handleSignIn, user } = this.context;
+
+    if (user) {
+      window.location.hash = '#';
+    }
 
     return (
       <>
@@ -16,8 +20,8 @@ export default class Registration extends React.Component {
         </div>
       </>
     );
-
   }
+
 }
 
 Registration.contextType = AppContext;
