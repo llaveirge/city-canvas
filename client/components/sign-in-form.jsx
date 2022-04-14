@@ -45,8 +45,12 @@ export default class SignInForm extends React.Component {
           if (response.error) {
             this.setState({ error: response.error });
           } else if (response.user && response.token) {
-            this.setState({ error: null });
             this.props.onSignIn(response);
+            this.setState({
+              error: null,
+              username: '',
+              password: ''
+            });
           }
         });
       })
