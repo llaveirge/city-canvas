@@ -12,6 +12,17 @@ export default class SignInForm extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.errorMessage = this.errorMessage.bind(this);
+  }
+
+  errorMessage(message) {
+    if (message) {
+      return (
+        <Form.Text id='errorMessage' className='d-block warning'>
+          {message}
+        </Form.Text>
+      );
+    }
   }
 
   handleChange(event) {
@@ -29,17 +40,21 @@ export default class SignInForm extends React.Component {
       body: JSON.stringify(this.state)
     };
     fetch('/api/auth/sign-in', req)
-      .then(res => res.json())
-      .then(result => {
-        if (result.user && result.token) {
-          this.props.onSignIn(result);
-        }
+      .then(res => {
+        res.json().then(response => {
+          if (response.error) {
+            this.setState({ error: response.error });
+          } else if (response.user && response.token) {
+            this.setState({ error: null });
+            this.props.onSignIn(response);
+          }
+        });
       })
       .catch(err => console.error('Fetch Failed!', err));
   }
 
   render() {
-    const { handleSubmit } = this;
+    const { handleSubmit, handleChange, state, errorMessage } = this;
     return (
       <Container className='sign-in-cont bg-white align-self-center'>
         <Row>
@@ -56,21 +71,22 @@ export default class SignInForm extends React.Component {
             name='username'
             placeholder='Username'
             autoComplete='username'
-            value={ this.state.username}
-            onChange={ this.handleChange }
+            value={ state.username}
+            onChange={ handleChange }
             />
             <Form.Control
-            className='mb-4'
             required
             id='password'
             type='password'
             name='password'
             placeholder='Password'
             autoComplete='current-password'
-            value={ this.state.password }
-            onChange={ this.handleChange}
+            value={ state.password }
+            onChange={ handleChange}
+            aria-describedby='errorMessage'
             />
-            <div className='pb-3 d-flex align-items-baseline justify-content-between'>
+            {errorMessage(state.error)}
+            <div className='pb-3 mt-4 d-flex align-items-baseline justify-content-between'>
               <Button className='mt-2 mar-bottom-4r' type='submit'>
                 Submit
               </Button>
