@@ -11,6 +11,7 @@ import ArtFinder from './pages/art-finder';
 import SavedPins from './pages/saved-pins';
 import Registration from './pages/registration';
 import AppContext from './lib/app-context';
+import decodeToken from './lib/decode-token';
 import { parseRoute } from './lib';
 
 export default class App extends React.Component {
@@ -30,6 +31,9 @@ export default class App extends React.Component {
     window.addEventListener('hashchange', event => {
       this.setState({ route: parseRoute(window.location.hash) });
     });
+    const token = window.localStorage.getItem('city-canvas-jwt');
+    const user = token ? decodeToken(token) : null;
+    this.setState({ user, isAuthorizing: false });
   }
 
   handleSignIn(result) {
