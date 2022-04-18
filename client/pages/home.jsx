@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Col, Row } from 'react-bootstrap';
 import PostCard from '../components/card';
+import AppContext from '../lib/app-context';
 
 export default class Home extends React.Component {
   constructor(props) {
@@ -11,15 +12,23 @@ export default class Home extends React.Component {
   }
 
   componentDidMount() {
-    fetch('/api/home-feed')
-      .then(response => response.json())
-      .then(pins => {
-        this.setState({ pins });
-      });
+    const { user } = this.context;
+    if (user) {
+      fetch('/api/home-feed')
+        .then(response => response.json())
+        .then(pins => {
+          this.setState({ pins });
+        });
+    }
   }
 
   render() {
     const { pins } = this.state;
+    const { user } = this.context;
+
+    if (!user) {
+      window.location.hash = '#registration';
+    }
 
     return (
       <Container className='feed-cont'>
@@ -44,3 +53,5 @@ export default class Home extends React.Component {
     );
   }
 }
+
+Home.contextType = AppContext;
