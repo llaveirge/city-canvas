@@ -2,6 +2,7 @@ import React from 'react';
 import RegistrationForm from '../components/registration-form';
 import SignInForm from '../components/sign-in-form';
 import AppContext from '../lib/app-context';
+import Redirect from '../components/redirect';
 
 export default class Registration extends React.Component {
 
@@ -9,9 +10,7 @@ export default class Registration extends React.Component {
     const form = this.props.form;
     const { handleSignIn, user } = this.context;
 
-    if (user) {
-      window.location.hash = '#';
-    }
+    if (user) return <Redirect to='' />;
 
     return (
       <>

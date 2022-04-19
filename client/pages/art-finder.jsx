@@ -1,5 +1,7 @@
 import React from 'react';
 import { Navbar } from 'react-bootstrap';
+import AppContext from '../lib/app-context';
+import Redirect from '../components/redirect';
 import {
   GoogleMap,
   useLoadScript,
@@ -10,6 +12,10 @@ import {
 const center = { lat: 39.223014, lng: -105.001887 };
 
 export default function ArtFinder(props) {
+  // Check if there is a user logged in, if not, redirect to registration page:
+  const validUser = React.useContext(AppContext);
+  if (!validUser.user) return <Redirect to='registration' />;
+
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
   });

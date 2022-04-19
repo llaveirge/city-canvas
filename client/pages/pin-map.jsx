@@ -1,5 +1,7 @@
 import React from 'react';
 import { Navbar } from 'react-bootstrap';
+import Redirect from '../components/redirect';
+import AppContext from '../lib/app-context';
 import {
   GoogleMap,
   useLoadScript,
@@ -8,6 +10,9 @@ import {
 } from '@react-google-maps/api';
 
 export default function PinMap(props) {
+  // Check if there is a user logged in, if not, redirect to registration page:
+  const validUser = React.useContext(AppContext);
+  if (!validUser.user) return <Redirect to='registration' />;
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY

@@ -1,6 +1,8 @@
 import React from 'react';
 import { Container, Col, Image, Card } from 'react-bootstrap';
 import ModalReport from '../components/modal-report';
+import Redirect from '../components/redirect';
+import AppContext from '../lib/app-context';
 
 export default class PinPage extends React.Component {
   constructor(props) {
@@ -18,9 +20,12 @@ export default class PinPage extends React.Component {
   }
 
   componentDidMount() {
-    fetch(`/api/pins/${this.props.postId}`)
-      .then(res => res.json())
-      .then(pin => this.setState({ pin }));
+    const { user } = this.context;
+    if (user) {
+      fetch(`/api/pins/${this.props.postId}`)
+        .then(res => res.json())
+        .then(pin => this.setState({ pin }));
+    }
   }
 
   toggleSaved() {
@@ -83,6 +88,9 @@ export default class PinPage extends React.Component {
 
   render() {
     const { pin } = this.state;
+    const { user } = this.context;
+
+    if (!user) return <Redirect to='registration' />;
 
     if (pin.error) {
       return (
@@ -171,3 +179,5 @@ export default class PinPage extends React.Component {
     );
   }
 }
+
+PinPage.contextType = AppContext;

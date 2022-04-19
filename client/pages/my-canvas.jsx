@@ -1,6 +1,8 @@
 import React from 'react';
 import { Container, Col, Row, Button } from 'react-bootstrap';
 import PostCard from '../components/card';
+import AppContext from '../lib/app-context';
+import Redirect from '../components/redirect';
 
 export default class MyCanvas extends React.Component {
   constructor(props) {
@@ -13,17 +15,23 @@ export default class MyCanvas extends React.Component {
   }
 
   componentDidMount() {
-    fetch('/api/my-canvas-pins')
-      .then(response => response.json())
-      .then(pins => {
-        this.setState({ pins });
-      });
+    const { user } = this.context;
+    if (user) {
+      fetch('/api/my-canvas-pins')
+        .then(response => response.json())
+        .then(pins => {
+          this.setState({ pins });
+        });
+    }
   }
 
   render() {
     const pins = this.state.pins;
     const userProfileUrl = this.state.user.profileUrl;
     // may need to move this ^^ to app to access state
+    const { user } = this.context;
+
+    if (!user) return <Redirect to='registration' />;
 
     return (
     <>
@@ -67,3 +75,4 @@ export default class MyCanvas extends React.Component {
     );
   }
 }
+MyCanvas.contextType = AppContext;
