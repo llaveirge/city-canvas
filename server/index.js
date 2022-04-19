@@ -191,7 +191,7 @@ app.post('/api/auth/sign-in', (req, res, next) => {
 
 // Post new pin to to 'posts' table:
 app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
-  const { title, artist, info, lat, lng } = req.body;
+  const { title, artist, info, lat, lng, userId } = req.body;
 
   if (!title) {
     throw new ClientError(400, 'title is a required field');
@@ -205,9 +205,12 @@ app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
   if (!lat || !lng) {
     throw new ClientError(400, 'lat and lng are required fields');
   }
+  if (!userId) {
+    throw new ClientError(400, 'userId is required');
+  }
 
   const url = `/images/${req.file.filename}`;
-  const userId = 1; // will need to update this after authentication
+  // const userId = 1; // will need to update this after authentication
 
   const sql = `
     insert into "posts" ("title", "artistName", "artPhotoUrl", "comment", "lat", "lng", "userId")

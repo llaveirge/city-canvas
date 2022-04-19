@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Button, Form } from 'react-bootstrap';
 import NewPinMap from './new-pin-map';
+import AppContext from '../lib/app-context';
 
 export default class NewPinForm extends React.Component {
   constructor(props) {
@@ -38,6 +39,7 @@ export default class NewPinForm extends React.Component {
     formData.append('lat', marker.lat);
     formData.append('lng', marker.lng);
     formData.append('image', this.fileInputRef.current.files[0]);
+    formData.append('userId', this.props.user);
 
     const req = {
       method: 'POST',
@@ -129,3 +131,4 @@ export default class NewPinForm extends React.Component {
     );
   }
 }
+NewPinForm.contextType = AppContext;

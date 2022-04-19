@@ -17,7 +17,7 @@ export default class MyCanvas extends React.Component {
   componentDidMount() {
     const { user } = this.context;
     if (user) {
-      fetch('/api/my-canvas-pins')
+      fetch(`/api/my-canvas-pins/${user.userId}`)
         .then(response => response.json())
         .then(pins => {
           this.setState({ pins });
