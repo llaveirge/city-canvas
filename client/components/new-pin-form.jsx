@@ -64,6 +64,7 @@ export default class NewPinForm extends React.Component {
 
     return (
       <Container className = 'form-container px-0'>
+
         <Form onSubmit={ handleSubmit }>
           <Form.Label className='mt-2' htmlFor='title'>
             Street Art Title:
@@ -123,6 +124,7 @@ export default class NewPinForm extends React.Component {
             Submit
           </Button>
         </Form>
+
       </Container>
     );
   }

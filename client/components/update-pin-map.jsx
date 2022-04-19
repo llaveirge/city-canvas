@@ -35,6 +35,7 @@ export default function UpdatePinMap(props) {
 
   // Use Geolocation to Locate the user for targeting via a button:
   function GeoLocate({ panTo }) {
+
     return (
       <button type='button' onClick={() => {
         navigator.geolocation.getCurrentPosition(position => {
@@ -58,6 +59,7 @@ export default function UpdatePinMap(props) {
 
   return (
     <div>
+
       <GoogleMap
         mapContainerClassName='form-map'
         zoom={ 8 }
@@ -77,6 +79,7 @@ export default function UpdatePinMap(props) {
           />
 
       </GoogleMap>
+
     </div>
   );
 }

@@ -17,8 +17,8 @@ app.use(staticMiddleware);
 
 /* Get My Canvas pins from 'posts' table with associated pin data from
 'savedPosts' table: */
-app.get('/api/my-canvas-pins', (req, res, next) => {
-  const userId = 1; // will need to update this after authentication
+app.get('/api/my-canvas-pins/:userId', (req, res, next) => {
+  const userId = Number(req.params.userId);
   if (!userId || userId < 0) {
     throw new ClientError(400, 'postId must be a positive integer');
   }
