@@ -15,7 +15,7 @@ export default class SavedPins extends React.Component {
   componentDidMount() {
     const { user } = this.context;
     if (user) {
-      fetch('/api/saved-pins')
+      fetch(`/api/saved-pins/${user.userId}`)
         .then(response => response.json())
         .then(pins => {
           this.setState({ pins });
