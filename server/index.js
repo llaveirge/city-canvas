@@ -230,7 +230,8 @@ app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
 // Add pin to saved posts:
 app.post('/api/save-post/:postId', (req, res, next) => {
   const postId = Number(req.params.postId);
-  const userId = 1; // will need to update this after authentication
+  // const userId = 1; // will need to update this after authentication
+  const { userId } = req.body;
 
   if (!postId || postId < 0 || isNaN(postId)) {
     throw new ClientError(400, 'postId must be a positive integer');
