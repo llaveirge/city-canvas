@@ -8,9 +8,7 @@ export default class MyCanvas extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      pins: [],
-      user: { profileUrl: 'https://i.redd.it/gikb0vjg40651.jpg' }
-      // will update after authentication
+      pins: []
     };
   }
 
@@ -26,9 +24,7 @@ export default class MyCanvas extends React.Component {
   }
 
   render() {
-    const pins = this.state.pins;
-    const userProfileUrl = this.state.user.profileUrl;
-    // may need to move this ^^ to app to access state
+    const { pins } = this.state;
     const { user } = this.context;
 
     if (!user) return <Redirect to='registration' />;
@@ -56,7 +52,7 @@ export default class MyCanvas extends React.Component {
                   key={ pin.postId }
                   title={ pin.title }
                   artPhotoUrl={ pin.artPhotoUrl }
-                  profileUrl={ userProfileUrl }
+                  profileUrl={ user.photoUrl }
                   artistName={ pin.artistName }
                   button='Update'
                   href={ `#update-pin?postId=${pin.postId}` }
