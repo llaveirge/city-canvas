@@ -163,7 +163,8 @@ app.post('/api/auth/sign-in', (req, res, next) => {
 
   const sql = `
     select "userId",
-      "hashedPassword"
+      "hashedPassword",
+      "photoUrl"
     from "users"
     where "userName" = $1;
   `;
@@ -174,14 +175,14 @@ app.post('/api/auth/sign-in', (req, res, next) => {
       if (!user) {
         throw new ClientError(401, 'Invalid login');
       }
-      const { userId, hashedPassword } = user;
+      const { userId, hashedPassword, photoUrl } = user;
       return argon2
         .verify(hashedPassword, password)
         .then(isMatching => {
           if (!isMatching) {
             throw new ClientError(401, 'Invalid login');
           }
-          const payload = { userId, username };
+          const payload = { userId, username, photoUrl };
           const token = jwt.sign(payload, process.env.TOKEN_SECRET);
           res.json({ token, user: payload });
         });
@@ -210,7 +211,6 @@ app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
   }
 
   const url = `/images/${req.file.filename}`;
-  // const userId = 1; // will need to update this after authentication
 
   const sql = `
     insert into "posts" ("title", "artistName", "artPhotoUrl", "comment", "lat", "lng", "userId")
