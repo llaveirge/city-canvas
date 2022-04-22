@@ -61,7 +61,7 @@ export default class PinPage extends React.Component {
       };
       // update below and fix error
       fetch(`/api/delete-saved/${this.props.postId}`, req)
-        .then(res => res.json())
+        // .then(res => res.json())
         .then(deletedPost => {
           const updatedPin = this.state.pin;
           updatedPin.saved = null;
