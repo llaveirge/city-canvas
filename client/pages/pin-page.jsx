@@ -59,7 +59,7 @@ export default class PinPage extends React.Component {
         },
         body: JSON.stringify(user)
       };
-      // update below
+      // update below and fix error
       fetch(`/api/delete-saved/${this.props.postId}`, req)
         .then(res => res.json())
         .then(deletedPost => {
