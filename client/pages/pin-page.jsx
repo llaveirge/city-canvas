@@ -31,9 +31,10 @@ export default class PinPage extends React.Component {
   toggleSaved() {
     event.preventDefault();
     const { user } = this.context;
+    const { pin } = this.state;
 
     // Save pin:
-    if (this.state.pin.saved === null) {
+    if (pin.saved === null) {
       const req = {
         method: 'POST',
         headers: {
@@ -44,13 +45,13 @@ export default class PinPage extends React.Component {
       fetch(`/api/save-post/${this.props.postId}`, req)
         .then(res => res.json())
         .then(savedPost => {
-          const updatedPin = this.state.pin;
+          const updatedPin = pin;
           updatedPin.saved = savedPost.createdAt;
           updatedPin.saver = savedPost.userId;
           this.setState({ pin: updatedPin });
         })
         .catch(err => console.error('Fetch Failed!', err));
-    } else {
+    } else if (pin.saved) {
       // Delete from saved:
       const req = {
         method: 'DELETE',
@@ -59,11 +60,9 @@ export default class PinPage extends React.Component {
         },
         body: JSON.stringify(user)
       };
-      // update below and fix error
       fetch(`/api/delete-saved/${this.props.postId}`, req)
-        // .then(res => res.json())
-        .then(deletedPost => {
-          const updatedPin = this.state.pin;
+        .then(deletedPin => {
+          const updatedPin = pin;
           updatedPin.saved = null;
           updatedPin.saver = null;
           this.setState({ pin: updatedPin });
