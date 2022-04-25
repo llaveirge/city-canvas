@@ -1,26 +1,35 @@
 import React from 'react';
+import AppContext from '../lib/app-context';
 import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
 
-export default function AppNav(props) {
+export default class AppNav extends React.Component {
 
-  return (
-  <Navbar variant='dark' className='pri-bk-color'>
+  render() {
 
-    <Container>
-      <Navbar.Brand className='head-text menu' href='#'>Home</Navbar.Brand>
-        <Nav className='me-auto'>
-          <NavDropdown title='My Canvas'>
-            <NavDropdown.Item className='nav-drop' href='#my-canvas'>
-              My Canvas Pins
-            </NavDropdown.Item>
-            <NavDropdown.Item className='nav-drop' href='#my-saved-pins'>
-              My Saved Pins
-            </NavDropdown.Item>
-          </NavDropdown>
-          <Nav.Link href='#art-finder'>Art Finder</Nav.Link>
-        </Nav>
-    </Container>
+    const { user, handleSignOut } = this.context;
 
-  </Navbar>
-  );
+    return (
+    <Navbar variant='dark' className='pri-bk-color'>
+
+      <Container>
+        <Navbar.Brand className='head-text menu' href='#'>Home</Navbar.Brand>
+          <Nav className='me-auto'>
+            <NavDropdown title='My Canvas'>
+              <NavDropdown.Item className='nav-drop' href='#my-canvas'>
+                My Canvas Pins
+              </NavDropdown.Item>
+              <NavDropdown.Item className='nav-drop' href='#my-saved-pins'>
+                My Saved Pins
+              </NavDropdown.Item>
+            </NavDropdown>
+            <Nav.Link href='#art-finder'>Art Finder</Nav.Link>
+            { user ? <Nav.Link href='' onClick={handleSignOut}>Sign Out</Nav.Link> : null
+              }
+          </Nav>
+      </Container>
+
+    </Navbar>
+    );
+  }
 }
+AppNav.contextType = AppContext;
