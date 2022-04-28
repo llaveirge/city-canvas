@@ -30,7 +30,7 @@ export default class RegistrationForm extends React.Component {
     if (passwordStatus) {
       return (
         <Form.Text id='passwordErrorMessage' className='d-block warning'>
-          {this.state.passwordError}
+          { this.state.passwordError }
         </Form.Text>
       );
     } else {
@@ -92,7 +92,8 @@ export default class RegistrationForm extends React.Component {
     const { handleChange, handleSubmit, passwordMessage } = this;
 
     return (
-        <Container className='registration-cont bg-white d-flex justify-content-center pt-md-5'>
+        <Container
+          className='registration-cont bg-white d-flex justify-content-center pt-md-5'>
           <Col className='reg-form-col'>
             <h1 className='head-text pri-color text-center mt-4'>
                 Create an Account
@@ -156,10 +157,12 @@ export default class RegistrationForm extends React.Component {
               onChange={ handleChange }
               aria-describedby='usernameErrorMessage'
             />
-             <Form.Text id='usernameErrorMessage' className='d-block warning'>
-            { this.state.usernameError ? this.state.usernameError : null }
+            <Form.Text id='usernameErrorMessage' className='d-block warning'>
+              { this.state.usernameError ? this.state.usernameError : null }
             </Form.Text>
-            <Form.Label className='mt-2' htmlFor='image'>Profile Photo</Form.Label>
+            <Form.Label className='mt-2' htmlFor='image'>
+              Profile Photo
+            </Form.Label>
             <Form.Control
               id='image'
               type='file'
@@ -167,8 +170,8 @@ export default class RegistrationForm extends React.Component {
               ref={ this.fileInputRef }
               accept='.png, .jpg, .jpeg, .gif'
             />
-             <Form.Label className='mt-2' htmlFor='password'>
-                  Create Your Password
+            <Form.Label className='mt-2' htmlFor='password'>
+              Create Your Password
             </Form.Label>
             <Form.Control
               required
@@ -181,12 +184,15 @@ export default class RegistrationForm extends React.Component {
               onChange={ handleChange }
               aria-describedby='passwordHelpBlock passwordErrorMessage'
             />
-            {passwordMessage(this.state.passwordError)}
-            <div className='pb-3 d-flex align-items-baseline justify-content-between'>
+            { passwordMessage(this.state.passwordError) }
+            <div
+              className='pb-3 d-flex align-items-baseline justify-content-between'>
               <Button className='mt-4 mb-2' type='submit'>
                 Submit
               </Button>
-              <a href='#registration' className='pri-color link'>Already signed up? Sign in </a>
+              <a href='#registration' className='pri-color link'>
+                Already signed up? Sign in
+              </a>
             </div>
           </Form>
         </Col>

@@ -90,9 +90,11 @@ export default function PinMap(props) {
                     <a href={ `#pins?postId=${props.pinId}` }>
                       <img className='info-img' src={ props.img }></img>
                     </a>
-                  </div >
+                  </div>
                   <p className='text-center dir-link pt-1'>
-                    <a href={ `https://www.google.com/maps/search/?api=1&query=${center.lat}%2C${center.lng}` }>
+                    <a href={
+                      `https://www.google.com/maps/search/?api=1&query=${center.lat}%2C${center.lng}`
+                      }>
                       Get Directions
                     </a>
                   </p>

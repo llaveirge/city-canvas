@@ -13,8 +13,8 @@ export default class AppNav extends React.Component {
 
       <Container>
         <Navbar.Brand className='head-text menu' href='#'>Home</Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
+          <Navbar.Toggle aria-controls="options-navbar-nav" />
+          <Navbar.Collapse id="options-navbar-nav">
             <Nav className='me-auto'>
               <NavDropdown title='My Canvas'>
                 <NavDropdown.Item className='nav-drop' href='#my-canvas'>
@@ -25,7 +25,11 @@ export default class AppNav extends React.Component {
                 </NavDropdown.Item>
               </NavDropdown>
               <Nav.Link href='#art-finder'>Art Finder</Nav.Link>
-                { user ? <Nav.Link href='' onClick={handleSignOut}>Sign Out</Nav.Link> : null
+                { user
+                  ? <Nav.Link href='' onClick={ handleSignOut }>
+                      Sign Out
+                    </Nav.Link>
+                  : null
                   }
             </Nav>
           </Navbar.Collapse>
@@ -35,4 +39,5 @@ export default class AppNav extends React.Component {
     );
   }
 }
+
 AppNav.contextType = AppContext;

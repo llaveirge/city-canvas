@@ -108,7 +108,9 @@ export default function ArtFinder(props) {
                     </a>
                   </div>
                     <p className='text-center dir-link pt-1'>
-                      <a href={ `https://www.google.com/maps/search/?api=1&query=${selected.lat}%2C${selected.lng}` }>
+                      <a href={
+                        `https://www.google.com/maps/search/?api=1&query=${selected.lat}%2C${selected.lng}`
+                        }>
                         Get Directions
                       </a>
                     </p>

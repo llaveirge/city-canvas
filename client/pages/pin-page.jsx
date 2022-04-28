@@ -143,16 +143,18 @@ export default class PinPage extends React.Component {
                         <i className='fas fa-exclamation fa-sm'></i>
                         <i className='ms-1 fas fa-eye-slash fa-sm'></i>
                       </span>
-                    : null}
+                    : null }
                   { pin.title }
                 </Card.Title>
                   <Card.Text className='fw-bold pri-color pb-sm-1'>
                     Artist: { pin.artistName }
                   </Card.Text>
                   <Card.Link
-                    href={ `#pin-map?pinId=${pin.postId}&lat=${pin.lat}&lng=${pin.lng}&img=${encodeURIComponent(pin.artPhotoUrl)}` }
+                    href={
+                      `#pin-map?pinId=${pin.postId}&lat=${pin.lat}&lng=${pin.lng}&img=${encodeURIComponent(pin.artPhotoUrl)}`
+                    }
                     className='fw-bold sec-color map-link'
-                    >
+                  >
                     <i className='me-2 fas fa-map-marker-alt fa-lg'></i>
                     On The Map
                   </Card.Link>
@@ -180,11 +182,13 @@ export default class PinPage extends React.Component {
             </Col>
           </Card>
         </Container>
+
         <ModalReport
           show={ this.state.show }
           onHide={ this.handleClose }
           report={ this.reportPin }
         />
+
       </>
     );
   }
