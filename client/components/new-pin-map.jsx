@@ -33,7 +33,7 @@ export default function NewPinMap(props) {
     mapRef.current.setZoom(17);
   }, []);
 
-  // Use Geolocation to Locate the user for targeting via a button:
+  // Use Geolocation to locate the user for targeting via a button:
   function GeoLocate({ panTo }) {
     return (
       <button type='button' onClick={() => {

@@ -19,7 +19,7 @@ export default class SignInForm extends React.Component {
     if (message) {
       return (
         <Form.Text id='errorMessage' className='d-block warning'>
-          {message}
+          { message }
         </Form.Text>
       );
     }
