@@ -93,7 +93,8 @@ export default class SignInForm extends React.Component {
               />
               { errorMessage(state.error) }
               <div
-                className='pb-3 mt-4 d-flex align-items-baseline justify-content-between'>
+                className='pb-3 mt-4 d-flex align-items-baseline justify-content-between'
+              >
                 <Button className='mt-2 mar-bottom-4r' type='submit'>
                   Submit
                 </Button>

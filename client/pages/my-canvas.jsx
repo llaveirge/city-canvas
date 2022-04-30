@@ -45,7 +45,7 @@ export default class MyCanvas extends React.Component {
         <Container className='feed-cont'>
           <h3 className='head-text pri-color py-2'>My City Canvas</h3>
           <Row className='pt-2'>
-            <Col className='justify-content-center'>
+            <Col>
               { pins.length
                 ? pins.map(pin => (
                   <PostCard
@@ -60,7 +60,7 @@ export default class MyCanvas extends React.Component {
                     reported={ pin.reported }
                   />
                 ))
-                : <h5 className='pri-color text-center font-weight-bold'>
+                : <h5 className='pri-color text-center fw-bold'>
                     Nothing to see here...
                     <br/>Get out and start pinning some street art!
                   </h5>}

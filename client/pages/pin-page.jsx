@@ -121,7 +121,7 @@ export default class PinPage extends React.Component {
             className='profile-pic sec-bk-color'
             src={ pin.photoUrl }
           ></Image>
-          <p className='username mb-0 ms-3'>{ pin.userName }</p>
+          <p className='feature-font-sm mb-0 ms-3'>{ pin.userName }</p>
         </Container>
         <Container className='mt-4 pin-cont'>
           <Card className='flex-sm-row'>
@@ -153,7 +153,7 @@ export default class PinPage extends React.Component {
                     href={
                       `#pin-map?pinId=${pin.postId}&lat=${pin.lat}&lng=${pin.lng}&img=${encodeURIComponent(pin.artPhotoUrl)}`
                     }
-                    className='fw-bold sec-color map-link'
+                    className='fw-bold sec-color feature-font no-decoration'
                   >
                     <i className='me-2 fas fa-map-marker-alt fa-lg'></i>
                     On The Map
@@ -172,7 +172,7 @@ export default class PinPage extends React.Component {
                         Reported as removed from view
                       </Card.Text>
                   }
-                  <Card.Link href='' className="p-0 bg-white ab-bottom-right">
+                  <Card.Link href='' className="bg-white ab-bottom-right">
                     <i className={ pin.saved === null
                       ? 'grey not-saved fas fa-heart fa-lg'
                       : 'sec-color fas fa-heart fa-lg' }

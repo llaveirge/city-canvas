@@ -14,13 +14,12 @@ body {
   min-height: 100vh;
 }
 
-.nf {
-  font-weight: 700;
-  font-size: 4rem;
-}
-
 .head-text {
   font-family: "Rock Salt", cursive;
+}
+
+.feature-font {
+  font-size: 1.125rem;
 }
 
 .btn {
@@ -75,15 +74,6 @@ body {
 .card {
   border: 1px solid #0eeaf8;
   filter: drop-shadow(2px 5px 2px #b9b8b89c);
-}
-
-.map-link {
-  font-size: 1.125rem;
-  text-decoration: none;
-}
-
-.map-link:hover {
-  color: #21cad6;
 }
 
 .profile-pic {
@@ -159,7 +149,7 @@ body {
     right: 3rem;
   }
 
-  .username {
+  .feature-font-sm {
     font-size: 1.125rem;
   }
 }
@@ -188,28 +178,12 @@ body {
   font-family: Montserrat, sans-serif;
 }
 
-.ab-bottom {
-  position: absolute;
-  bottom: 25px;
-}
-
 .ab-bottom:hover {
   color: #f54f31;
 }
 
-.ab-bottom-right {
-  position: absolute;
-  bottom: 30px;
-  right: 25px;
-}
-
 .grey {
   color: #b6b6b6;
-}
-
-.absolute-right {
-  position: absolute;
-  right: 25px;
 }
 
 .del:hover,
@@ -231,12 +205,4 @@ body {
 
 .no-decoration:hover {
   color: #21cad6;
-}
-
-.mar-top-4r {
-  margin-top: 4rem;
-}
-
-.mar-bottom-4r {
-  margin-bottom: 4rem;
 }

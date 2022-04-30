@@ -32,7 +32,7 @@ export default class Home extends React.Component {
     return (
       <Container className='feed-cont'>
         <Row className='pt-5'>
-          <Col className='justify-content-center'>
+          <Col>
             {pins.map(pin => (
               <PostCard
               key={ pin.postId }

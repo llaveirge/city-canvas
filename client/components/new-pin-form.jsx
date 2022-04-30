@@ -65,7 +65,7 @@ export default class NewPinForm extends React.Component {
     const { handleChange, handleSubmit } = this;
 
     return (
-      <Container className = 'form-container px-0'>
+      <Container className='form-container px-0'>
 
         <Form onSubmit={ handleSubmit }>
           <Form.Label className='mt-2' htmlFor='title'>
