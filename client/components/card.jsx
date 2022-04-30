@@ -37,7 +37,7 @@ export default function PostCard(props) {
               </Card.Title>
                 <Card.Text className='fw-bold pri-color pin-text'>
                   Artist: { props.artistName }
-                  { props.saved === null
+                  { props.saver !== props.userId
                     ? null
                     : <i className='absolute-right sec-color fas fa-heart fa-lg ms-2'></i> }
                 </Card.Text>
