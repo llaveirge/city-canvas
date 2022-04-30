@@ -94,13 +94,13 @@ export default class App extends React.Component {
     if (this.state.isAuthorizing) return null;
 
     const { route, user } = this.state;
-    const { handleSignIn, handleSignOut } = this;
+    const { handleSignIn, handleSignOut, renderPage } = this;
     const contextValue = { route, user, handleSignIn, handleSignOut };
     return (
       <AppContext.Provider value={contextValue}>
         <>
           { route.path === 'registration' ? null : <AppNav /> }
-            { this.renderPage() }
+            { renderPage() }
         </>
       </AppContext.Provider>
     );

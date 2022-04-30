@@ -89,7 +89,7 @@ export default class RegistrationForm extends React.Component {
   }
 
   render() {
-    const { handleChange, handleSubmit, passwordMessage } = this;
+    const { handleChange, handleSubmit, passwordMessage, state } = this;
 
     return (
         <Container
@@ -110,7 +110,7 @@ export default class RegistrationForm extends React.Component {
               name='first'
               placeholder='Enter First Name'
               autoComplete='given-name'
-              value={ this.state.first }
+              value={ state.first }
               onChange={ handleChange }
             />
             <Form.Label className='mt-2' htmlFor='last'>
@@ -123,7 +123,7 @@ export default class RegistrationForm extends React.Component {
               name='last'
               placeholder='Enter Last Name'
               autoComplete='family-name'
-              value={ this.state.last }
+              value={ state.last }
               onChange={ handleChange }
             />
              <Form.Label className='mt-2' htmlFor='email'>
@@ -136,12 +136,12 @@ export default class RegistrationForm extends React.Component {
               name='email'
               placeholder='Enter Email Address'
               autoComplete='email'
-              value={ this.state.email }
+              value={ state.email }
               onChange={ handleChange }
               aria-describedby='emailErrorMessage'
             />
              <Form.Text id='emailErrorMessage' className='d-block warning'>
-            { this.state.emailError ? this.state.emailError : null }
+            { state.emailError ? state.emailError : null }
             </Form.Text>
             <Form.Label className='mt-2' htmlFor='username'>
                   Username
@@ -153,12 +153,12 @@ export default class RegistrationForm extends React.Component {
               name='username'
               placeholder='Username'
               autoComplete='username'
-              value={ this.state.username }
+              value={ state.username }
               onChange={ handleChange }
               aria-describedby='usernameErrorMessage'
             />
             <Form.Text id='usernameErrorMessage' className='d-block warning'>
-              { this.state.usernameError ? this.state.usernameError : null }
+              { state.usernameError ? state.usernameError : null }
             </Form.Text>
             <Form.Label className='mt-2' htmlFor='image'>
               Profile Photo
@@ -180,11 +180,11 @@ export default class RegistrationForm extends React.Component {
               name='password'
               placeholder='Enter Password'
               autoComplete='new-password'
-              value={ this.state.password }
+              value={ state.password }
               onChange={ handleChange }
               aria-describedby='passwordHelpBlock passwordErrorMessage'
             />
-            { passwordMessage(this.state.passwordError) }
+            { passwordMessage(state.passwordError) }
             <div
               className='pb-3 d-flex align-items-baseline justify-content-between'>
               <Button className='mt-4 mb-2' type='submit'>

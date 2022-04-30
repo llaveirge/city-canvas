@@ -62,7 +62,7 @@ export default class NewPinForm extends React.Component {
   }
 
   render() {
-    const { handleChange, handleSubmit } = this;
+    const { handleChange, handleSubmit, state, setMarker } = this;
 
     return (
       <Container className='form-container px-0'>
@@ -77,7 +77,7 @@ export default class NewPinForm extends React.Component {
             id='title'
             type='text'
             name='title'
-            value={ this.state.title }
+            value={ state.title }
             placeholder='Enter Title, or "Unknown"'
             onChange={ handleChange }
           />
@@ -89,7 +89,7 @@ export default class NewPinForm extends React.Component {
             id='artist'
             type='text'
             name='artist'
-            value={ this.state.artist }
+            value={ state.artist }
             placeholder='Enter Artist Name or Tag, or "Unknown"'
             onChange={ handleChange }
           />
@@ -111,7 +111,7 @@ export default class NewPinForm extends React.Component {
             required
             id='info'
             name='info'
-            value={ this.state.info }
+            value={ state.info }
             placeholder='Add some information about this pin...'
             onChange={ handleChange }
           />
@@ -119,8 +119,8 @@ export default class NewPinForm extends React.Component {
             Click the map to drop a pin at the Street Art location:
           </p>
           <NewPinMap
-            marker={ this.state.marker }
-            setMarker={ this.setMarker }>
+            marker={ state.marker }
+            setMarker={ setMarker }>
           </NewPinMap>
           <Button className='mt-3 mb-5' type='submit'>
             Submit
