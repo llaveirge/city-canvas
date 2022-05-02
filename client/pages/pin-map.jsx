@@ -65,19 +65,19 @@ export default function PinMap(props) {
           zoom={ 17 }
           center={ center }
           onLoad={ onMapLoad }
-          >
+        >
 
           <GeoLocate panTo={ panTo } />
 
           <Marker position={{ lat: center.lat, lng: center.lng }}
-          icon={{
-            url: '/pt_pin_sm.png',
-            scaledSize: new window.google.maps.Size(50, 50),
-            anchor: new window.google.maps.Point(25, 40)
-          }}
-          onClick={() => {
-            setInfoWindow({ center });
-          }}
+            icon={{
+              url: '/pt_pin_sm.png',
+              scaledSize: new window.google.maps.Size(50, 50),
+              anchor: new window.google.maps.Point(25, 40)
+            }}
+            onClick={() => {
+              setInfoWindow({ center });
+            }}
           />
 
           { infoWindow

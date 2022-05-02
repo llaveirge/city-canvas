@@ -164,6 +164,7 @@ export default class UpdatePinForm extends React.Component {
               placeholder='Enter Title, or "Unknown"'
               onChange={ handleChange }
             />
+
             <Form.Label htmlFor='artist'>
               Artist Name or Tag:
             </Form.Label>
@@ -176,6 +177,7 @@ export default class UpdatePinForm extends React.Component {
               placeholder='Enter Artist Name or Tag, or "Unknown"'
               onChange={ handleChange }
             />
+
             <Form.Label>Street Art Photo:</Form.Label>
             <Form.Control
               id='image'
@@ -184,6 +186,7 @@ export default class UpdatePinForm extends React.Component {
               ref={ this.fileInputRef }
               accept='.png, .jpg, .jpeg, .gif'
             />
+
             <Form.Label htmlFor='info'>
               Description or Information:
             </Form.Label>
@@ -197,6 +200,7 @@ export default class UpdatePinForm extends React.Component {
               placeholder='Add some information about this pin...'
               onChange={ handleChange }
             />
+
             <p className='form-label'>
               Click the map to drop a pin at the Street Art location:
             </p>
@@ -204,9 +208,11 @@ export default class UpdatePinForm extends React.Component {
               marker={ state.marker }
               setMarker={ this.setMarker }>
             </UpdatePinMap>
+
             <Button className='mt-3 mb-5' type='submit'>
               Submit
             </Button>
+
             <Button
               className='mt-3 mb-5 warning-bk del float-end'
               type='button'

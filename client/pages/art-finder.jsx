@@ -90,7 +90,7 @@ export default function ArtFinder(props) {
               onClick={() => {
                 setSelected(marker);
               }}
-              />
+            />
           )) }
 
             { selected

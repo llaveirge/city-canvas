@@ -52,7 +52,7 @@ export default class SavedPins extends React.Component {
                   <br/>Browse the <a className='sec-color no-decoration' href='#'>
                     City Canvas Home feed</a> and save your favorite pins!
                 </h5>
-              }
+            }
           </Col>
         </Row>
       </Container>

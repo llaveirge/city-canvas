@@ -92,6 +92,7 @@ export default class SignInForm extends React.Component {
               aria-describedby='errorMessage'
               />
               { errorMessage(state.error) }
+
               <div
                 className='pb-3 mt-4 d-flex align-items-baseline justify-content-between'
               >

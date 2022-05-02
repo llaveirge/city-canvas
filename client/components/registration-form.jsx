@@ -96,11 +96,11 @@ export default class RegistrationForm extends React.Component {
           className='registration-cont bg-white d-flex justify-content-center pt-md-5'>
           <Col className='reg-form-col'>
             <h1 className='head-text pri-color text-center mt-4'>
-                Create an Account
+              Create an Account
             </h1>
           <Form onSubmit={ handleSubmit }>
             <Form.Label className='mt-2' htmlFor='first'>
-                  First Name
+              First Name
             </Form.Label>
             <Form.Control
               required
@@ -113,8 +113,9 @@ export default class RegistrationForm extends React.Component {
               value={ state.first }
               onChange={ handleChange }
             />
+
             <Form.Label className='mt-2' htmlFor='last'>
-                  Last Name
+              Last Name
             </Form.Label>
             <Form.Control
               required
@@ -126,8 +127,9 @@ export default class RegistrationForm extends React.Component {
               value={ state.last }
               onChange={ handleChange }
             />
+
              <Form.Label className='mt-2' htmlFor='email'>
-                  Email
+                Email
             </Form.Label>
             <Form.Control
               required
@@ -143,8 +145,9 @@ export default class RegistrationForm extends React.Component {
              <Form.Text id='emailErrorMessage' className='d-block warning'>
             { state.emailError ? state.emailError : null }
             </Form.Text>
+
             <Form.Label className='mt-2' htmlFor='username'>
-                  Username
+              Username
             </Form.Label>
             <Form.Control
               required
@@ -160,6 +163,7 @@ export default class RegistrationForm extends React.Component {
             <Form.Text id='usernameErrorMessage' className='d-block warning'>
               { state.usernameError ? state.usernameError : null }
             </Form.Text>
+
             <Form.Label className='mt-2' htmlFor='image'>
               Profile Photo
             </Form.Label>
@@ -170,6 +174,7 @@ export default class RegistrationForm extends React.Component {
               ref={ this.fileInputRef }
               accept='.png, .jpg, .jpeg, .gif'
             />
+
             <Form.Label className='mt-2' htmlFor='password'>
               Create Your Password
             </Form.Label>
@@ -185,6 +190,7 @@ export default class RegistrationForm extends React.Component {
               aria-describedby='passwordHelpBlock passwordErrorMessage'
             />
             { passwordMessage(state.passwordError) }
+
             <div
               className='pb-3 d-flex align-items-baseline justify-content-between'>
               <Button className='mt-4 mb-2' type='submit'>
