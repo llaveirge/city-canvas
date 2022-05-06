@@ -1,13 +1,12 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
-// import ModalDelete from './modal-deleted';
 
 export default function ModalMarkedReported(props) {
   return (
     <>
      <Modal
         show={ props.show }
-        onHide={ props.onHide}
+        onHide={ props.onHide }
         centered
       >
         <Modal.Header closeButton>

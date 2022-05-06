@@ -1,6 +1,8 @@
 import React from 'react';
 import { Container, Col, Image, Card } from 'react-bootstrap';
 import ModalReport from '../components/modal-report';
+import Redirect from '../components/redirect';
+import AppContext from '../lib/app-context';
 
 export default class PinPage extends React.Component {
   constructor(props) {
@@ -18,36 +20,50 @@ export default class PinPage extends React.Component {
   }
 
   componentDidMount() {
-    fetch(`/api/pins/${this.props.postId}`)
-      .then(res => res.json())
-      .then(pin => this.setState({ pin }));
+    const { user } = this.context;
+    if (user) {
+      fetch(`/api/pins/${this.props.postId}`)
+        .then(res => res.json())
+        .then(pin => this.setState({ pin }));
+    }
   }
 
   toggleSaved() {
     event.preventDefault();
+    const { user } = this.context;
+    const { pin } = this.state;
+
     // Save pin:
-    if (this.state.pin.saved === null) {
+    if (pin.saved === null) {
       const req = {
-        method: 'POST'
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
       };
       fetch(`/api/save-post/${this.props.postId}`, req)
         .then(res => res.json())
         .then(savedPost => {
-          const updatedPin = this.state.pin;
+          const updatedPin = pin;
           updatedPin.saved = savedPost.createdAt;
           updatedPin.saver = savedPost.userId;
-
           this.setState({ pin: updatedPin });
         })
         .catch(err => console.error('Fetch Failed!', err));
-    } else {
+    } else if (pin.saved) {
       // Delete from saved:
       const req = {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
       };
       fetch(`/api/delete-saved/${this.props.postId}`, req)
-        .then(deletedPost => {
-          const updatedPin = this.state.pin;
+        .then(response => response.text())
+        .then(deletedPin => {
+          const updatedPin = pin;
           updatedPin.saved = null;
           updatedPin.saver = null;
           this.setState({ pin: updatedPin });
@@ -83,6 +99,9 @@ export default class PinPage extends React.Component {
 
   render() {
     const { pin } = this.state;
+    const { user } = this.context;
+
+    if (!user) return <Redirect to='registration' />;
 
     if (pin.error) {
       return (
@@ -103,7 +122,7 @@ export default class PinPage extends React.Component {
             className='profile-pic sec-bk-color'
             src={ pin.photoUrl }
           ></Image>
-          <p className='username mb-0 ms-3'>{ pin.userName }</p>
+          <p className='feature-font-sm mb-0 ms-3'>{ pin.userName }</p>
         </Container>
         <Container className='mt-4 pin-cont'>
           <Card className='flex-sm-row'>
@@ -125,16 +144,18 @@ export default class PinPage extends React.Component {
                         <i className='fas fa-exclamation fa-sm'></i>
                         <i className='ms-1 fas fa-eye-slash fa-sm'></i>
                       </span>
-                    : null}
+                    : null }
                   { pin.title }
                 </Card.Title>
                   <Card.Text className='fw-bold pri-color pb-sm-1'>
                     Artist: { pin.artistName }
                   </Card.Text>
                   <Card.Link
-                    href={ `#pin-map?pinId=${pin.postId}&lat=${pin.lat}&lng=${pin.lng}&img=${encodeURIComponent(pin.artPhotoUrl)}` }
-                    className='fw-bold sec-color map-link'
-                    >
+                    href={
+                      `#pin-map?pinId=${pin.postId}&lat=${pin.lat}&lng=${pin.lng}&img=${encodeURIComponent(pin.artPhotoUrl)}`
+                    }
+                    className='fw-bold sec-color feature-font no-decoration'
+                  >
                     <i className='me-2 fas fa-map-marker-alt fa-lg'></i>
                     On The Map
                   </Card.Link>
@@ -152,7 +173,7 @@ export default class PinPage extends React.Component {
                         Reported as removed from view
                       </Card.Text>
                   }
-                  <Card.Link href='' className="p-0 bg-white ab-bottom-right">
+                  <Card.Link href='' className="bg-white ab-bottom-right">
                     <i className={ pin.saved === null
                       ? 'grey not-saved fas fa-heart fa-lg'
                       : 'sec-color fas fa-heart fa-lg' }
@@ -162,12 +183,16 @@ export default class PinPage extends React.Component {
             </Col>
           </Card>
         </Container>
+
         <ModalReport
           show={ this.state.show }
           onHide={ this.handleClose }
           report={ this.reportPin }
         />
+
       </>
     );
   }
 }
+
+PinPage.contextType = AppContext;

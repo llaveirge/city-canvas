@@ -9,24 +9,53 @@ import PinMap from './pages/pin-map';
 import UpdatePin from './pages/update-pin';
 import ArtFinder from './pages/art-finder';
 import SavedPins from './pages/saved-pins';
+import Registration from './pages/registration';
+import AppContext from './lib/app-context';
+import decodeToken from './lib/decode-token';
 import { parseRoute } from './lib';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      user: null,
+      isAuthorizing: true,
       route: parseRoute(window.location.hash)
     };
+
+    this.renderPage = this.renderPage.bind(this);
+    this.handleSignIn = this.handleSignIn.bind(this);
+    this.handleSignOut = this.handleSignOut.bind(this);
+
   }
 
   componentDidMount() {
     window.addEventListener('hashchange', event => {
       this.setState({ route: parseRoute(window.location.hash) });
     });
+    const token = window.localStorage.getItem('city-canvas-jwt');
+    const user = token ? decodeToken(token) : null;
+    this.setState({ user, isAuthorizing: false });
+  }
+
+  handleSignIn(result) {
+    const { user, token } = result;
+    window.localStorage.setItem('city-canvas-jwt', token);
+    this.setState({ user });
+  }
+
+  handleSignOut() {
+    window.localStorage.removeItem('city-canvas-jwt');
+    this.setState({ user: null });
   }
 
   renderPage() {
     const { route } = this.state;
+
+    if (route.path === 'registration') {
+      const form = route.params.get('form');
+      return <Registration form={ form }/>;
+    }
     if (route.path === '') {
       return <Home />;
     }
@@ -62,11 +91,18 @@ export default class App extends React.Component {
   }
 
   render() {
+    if (this.state.isAuthorizing) return null;
+
+    const { route, user } = this.state;
+    const { handleSignIn, handleSignOut, renderPage } = this;
+    const contextValue = { route, user, handleSignIn, handleSignOut };
     return (
-      <>
-        <AppNav />
-          { this.renderPage() }
-      </>
+      <AppContext.Provider value={contextValue}>
+        <>
+          { route.path === 'registration' ? null : <AppNav /> }
+            { renderPage() }
+        </>
+      </AppContext.Provider>
     );
   }
 }

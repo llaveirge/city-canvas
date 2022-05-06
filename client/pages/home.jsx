@@ -1,6 +1,8 @@
 import React from 'react';
 import { Container, Col, Row } from 'react-bootstrap';
 import PostCard from '../components/card';
+import AppContext from '../lib/app-context';
+import Redirect from '../components/redirect';
 
 export default class Home extends React.Component {
   constructor(props) {
@@ -11,20 +13,26 @@ export default class Home extends React.Component {
   }
 
   componentDidMount() {
-    fetch('/api/home-feed')
-      .then(response => response.json())
-      .then(pins => {
-        this.setState({ pins });
-      });
+    const { user } = this.context;
+    if (user) {
+      fetch('/api/home-feed')
+        .then(response => response.json())
+        .then(pins => {
+          this.setState({ pins });
+        });
+    }
   }
 
   render() {
     const { pins } = this.state;
+    const { user } = this.context;
+
+    if (!user) return <Redirect to='registration' />;
 
     return (
       <Container className='feed-cont'>
         <Row className='pt-5'>
-          <Col className='justify-content-center'>
+          <Col>
             {pins.map(pin => (
               <PostCard
               key={ pin.postId }
@@ -34,7 +42,8 @@ export default class Home extends React.Component {
               artistName={ pin.artistName }
               button='View More'
               href={ `#pins?postId=${pin.postId}` }
-              saved={ pin.saved }
+              saver={ pin.saver }
+              userId={ user.userId }
               reported={ pin.reported }
               />
             ))}
@@ -44,3 +53,5 @@ export default class Home extends React.Component {
     );
   }
 }
+
+Home.contextType = AppContext;

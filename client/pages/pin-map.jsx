@@ -1,5 +1,7 @@
 import React from 'react';
 import { Navbar } from 'react-bootstrap';
+import Redirect from '../components/redirect';
+import AppContext from '../lib/app-context';
 import {
   GoogleMap,
   useLoadScript,
@@ -8,6 +10,9 @@ import {
 } from '@react-google-maps/api';
 
 export default function PinMap(props) {
+  // Check if there is a user logged in, if not, redirect to registration page:
+  const validUser = React.useContext(AppContext);
+  if (!validUser.user) return <Redirect to='registration' />;
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
@@ -60,19 +65,19 @@ export default function PinMap(props) {
           zoom={ 17 }
           center={ center }
           onLoad={ onMapLoad }
-          >
+        >
 
           <GeoLocate panTo={ panTo } />
 
           <Marker position={{ lat: center.lat, lng: center.lng }}
-          icon={{
-            url: '/pt_pin_sm.png',
-            scaledSize: new window.google.maps.Size(50, 50),
-            anchor: new window.google.maps.Point(25, 40)
-          }}
-          onClick={() => {
-            setInfoWindow({ center });
-          }}
+            icon={{
+              url: '/pt_pin_sm.png',
+              scaledSize: new window.google.maps.Size(50, 50),
+              anchor: new window.google.maps.Point(25, 40)
+            }}
+            onClick={() => {
+              setInfoWindow({ center });
+            }}
           />
 
           { infoWindow
@@ -85,9 +90,11 @@ export default function PinMap(props) {
                     <a href={ `#pins?postId=${props.pinId}` }>
                       <img className='info-img' src={ props.img }></img>
                     </a>
-                  </div >
+                  </div>
                   <p className='text-center dir-link pt-1'>
-                    <a href={ `https://www.google.com/maps/search/?api=1&query=${center.lat}%2C${center.lng}` }>
+                    <a href={
+                      `https://www.google.com/maps/search/?api=1&query=${center.lat}%2C${center.lng}`
+                      }>
                       Get Directions
                     </a>
                   </p>

@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
   GoogleMap,
   useLoadScript,
@@ -33,7 +32,7 @@ export default function NewPinMap(props) {
     mapRef.current.setZoom(17);
   }, []);
 
-  // Use Geolocation to Locate the user for targeting via a button:
+  // Use Geolocation to locate the user for targeting via a button:
   function GeoLocate({ panTo }) {
     return (
       <button type='button' onClick={() => {
@@ -63,7 +62,7 @@ export default function NewPinMap(props) {
       center={ center }
       onClick={ onMapClick }
       onLoad={ onMapLoad }
-      >
+    >
 
       <GeoLocate panTo={ panTo } />
 
@@ -73,7 +72,7 @@ export default function NewPinMap(props) {
           url: '/pt_pin_sm.png',
           scaledSize: new window.google.maps.Size(35, 35)
         }}
-        />
+      />
 
     </GoogleMap>
   </div>

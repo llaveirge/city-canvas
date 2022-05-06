@@ -1,9 +1,15 @@
 import React from 'react';
 import UpdatePinForm from '../components/update-pin-form';
 import { Container } from 'react-bootstrap';
+import Redirect from '../components/redirect';
+import AppContext from '../lib/app-context';
 
 export default class UpdatePin extends React.Component {
   render() {
+    const { user } = this.context;
+
+    if (!user) return <Redirect to='registration' />;
+
     return (
       <>
         <Container>
@@ -16,3 +22,5 @@ export default class UpdatePin extends React.Component {
     );
   }
 }
+
+UpdatePin.contextType = AppContext;

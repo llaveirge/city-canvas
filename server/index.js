@@ -5,7 +5,8 @@ const ClientError = require('./client-error');
 const errorMiddleware = require('./error-middleware');
 const staticMiddleware = require('./static-middleware');
 const uploadsMiddleware = require('./uploads-middleware');
-
+const argon2 = require('argon2');
+const jwt = require('jsonwebtoken');
 const app = express();
 
 const jsonMiddleware = express.json();
@@ -16,8 +17,8 @@ app.use(staticMiddleware);
 
 /* Get My Canvas pins from 'posts' table with associated pin data from
 'savedPosts' table: */
-app.get('/api/my-canvas-pins', (req, res, next) => {
-  const userId = 1; // will need to update this after authentication
+app.get('/api/my-canvas-pins/:userId', (req, res, next) => {
+  const userId = Number(req.params.userId);
   if (!userId || userId < 0) {
     throw new ClientError(400, 'postId must be a positive integer');
   }
@@ -116,8 +117,8 @@ app.get('/api/pins/:postId', (req, res, next) => {
 
 /* Get all saved posts from 'savedPosts' table and the associated pin data
 for the specified userId (saver): */
-app.get('/api/saved-pins', (req, res, next) => {
-  const userId = 1; // will need to update this after authentication
+app.get('/api/saved-pins/:userId', (req, res, next) => {
+  const userId = Number(req.params.userId);
   if (!userId || userId < 0) {
     throw new ClientError(400, 'postId must be a positive integer');
   }
@@ -152,9 +153,46 @@ app.get('/api/saved-pins', (req, res, next) => {
     .catch(err => next(err));
 });
 
+// Authenticate user at sign-in:
+app.post('/api/auth/sign-in', (req, res, next) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    throw new ClientError(401, 'Invalid login');
+  }
+
+  const sql = `
+    select "userId",
+      "hashedPassword",
+      "photoUrl"
+    from "users"
+    where "userName" = $1;
+  `;
+  const params = [username];
+  db.query(sql, params)
+    .then(response => {
+      const [user] = response.rows;
+      if (!user) {
+        throw new ClientError(401, 'Invalid login');
+      }
+      const { userId, hashedPassword, photoUrl } = user;
+      return argon2
+        .verify(hashedPassword, password)
+        .then(isMatching => {
+          if (!isMatching) {
+            throw new ClientError(401, 'Invalid login');
+          }
+          const payload = { userId, username, photoUrl };
+          const token = jwt.sign(payload, process.env.TOKEN_SECRET);
+          res.json({ token, user: payload });
+        });
+    })
+    .catch(err => next(err));
+});
+
 // Post new pin to to 'posts' table:
 app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
-  const { title, artist, info, lat, lng } = req.body;
+  const { title, artist, info, lat, lng, userId } = req.body;
 
   if (!title) {
     throw new ClientError(400, 'title is a required field');
@@ -168,9 +206,11 @@ app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
   if (!lat || !lng) {
     throw new ClientError(400, 'lat and lng are required fields');
   }
+  if (!userId) {
+    throw new ClientError(400, 'userId is required');
+  }
 
   const url = `/images/${req.file.filename}`;
-  const userId = 1; // will need to update this after authentication
 
   const sql = `
     insert into "posts" ("title", "artistName", "artPhotoUrl", "comment", "lat", "lng", "userId")
@@ -190,7 +230,7 @@ app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
 // Add pin to saved posts:
 app.post('/api/save-post/:postId', (req, res, next) => {
   const postId = Number(req.params.postId);
-  const userId = 1; // will need to update this after authentication
+  const { userId } = req.body;
 
   if (!postId || postId < 0 || isNaN(postId)) {
     throw new ClientError(400, 'postId must be a positive integer');
@@ -219,6 +259,57 @@ app.post('/api/save-post/:postId', (req, res, next) => {
       res.status(201).json(saved);
     })
     .catch(err => next(err));
+});
+
+// Add new user to 'users' table:
+app.post('/api/auth/sign-up', uploadsMiddleware, (req, res, next) => {
+  const { first, last, email, username, password } = req.body;
+
+  if (!first) {
+    throw new ClientError(400, 'first name is a required field');
+  }
+  if (!last) {
+    throw new ClientError(400, 'last name is a required field');
+  }
+  if (!email || /@/.test(email) === false) {
+    throw new ClientError(400, 'a valid email address is a required field');
+  }
+  if (!password) {
+    throw new ClientError(400, 'password is a required field');
+  }
+  if (!username) {
+    throw new ClientError(400, 'username is a required field');
+  }
+  if (password.length < 6 || /\d/.test(password) === false) {
+    throw new ClientError(400, 'Invalid password: Password must include at least six characters and one number');
+  }
+
+  const url = `/images/${req.file.filename}`;
+
+  argon2
+    .hash(password)
+    .then(hashedPassword => {
+      const sql = `
+          insert into "users" ("firstName", "lastName", "email", "userName", "photoUrl", "hashedPassword")
+            values ($1, $2, $3, $4, $5, $6)
+          returning "userId", "userName", "createdAt";
+        `;
+      const params = [first, last, email, username, url, hashedPassword];
+      return db.query(sql, params);
+    })
+    .then(response => {
+      const [user] = response.rows;
+      res.status(201).json(user);
+    })
+    .catch(err => {
+      if (err.code === '23505' && err.detail.includes('email')) {
+        return next(new ClientError(400, 'Sorry, that email already exists'));
+      }
+      if (err.code === '23505' && err.detail.includes('userName')) {
+        return next(new ClientError(400, 'Sorry, that username already exists'));
+      }
+      next(err);
+    });
 });
 
 // Update a post pin in posts table
@@ -340,7 +431,8 @@ app.patch('/api/report/:postId', (req, res, next) => {
 
 // Delete a saved pin from the saved table:
 app.delete('/api/delete-saved/:postId', (req, res, next) => {
-  const userId = 1; // will need to update this after authentication
+  const { userId } = req.body;
+
   const postId = Number(req.params.postId);
   if (!postId || postId < 0 || isNaN(postId)) {
     throw new ClientError(400, 'postId must be a positive integer');

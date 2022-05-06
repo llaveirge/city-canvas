@@ -2,6 +2,20 @@ body {
   min-width: 320px;
 }
 
+.registration-cont {
+  max-width: 800px;
+  min-width: 300px;
+}
+
+.sign-in-cont {
+  max-height: 400px;
+  min-width: 100vw;
+}
+
+.sign-in-form {
+  max-width: 370px;
+}
+
 .img-cont {
   height: 60px;
   width: 60px;
@@ -101,4 +115,32 @@ body {
 
 .btm-brdr {
   height: 3rem;
+}
+
+.reg-form-col {
+  max-width: 500px;
+}
+
+.mar-top-4r {
+  margin-top: 4rem;
+}
+
+.mar-bottom-4r {
+  margin-bottom: 4rem;
+}
+
+.absolute-right {
+  position: absolute;
+  right: 25px;
+}
+
+.ab-bottom-right {
+  position: absolute;
+  bottom: 30px;
+  right: 25px;
+}
+
+.ab-bottom {
+  position: absolute;
+  bottom: 25px;
 }
