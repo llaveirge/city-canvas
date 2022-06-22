@@ -56,8 +56,9 @@ export default class MyCanvas extends React.Component {
                     artistName={ pin.artistName }
                     button='Update'
                     href={ `#update-pin?postId=${pin.postId}` }
-                    saved={ pin.saved }
                     reported={ pin.reported }
+                    saver={ pin.saver }
+                    userId={ user.userId }
                   />
                 ))
                 : <h5 className='pri-color text-center fw-bold'>

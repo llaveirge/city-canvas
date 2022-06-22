@@ -44,7 +44,9 @@ export default class SavedPins extends React.Component {
                   artistName={ pin.artistName }
                   button='View More'
                   href={ `#pins?postId=${pin.postId}` }
-                  saved={ pin.saved }
+                  reported={ pin.reported }
+                  saver={ pin.saver }
+                  userId={ user.userId }
                 />
               ))
               : <h5 className='pri-color text-center font-weight-bold'>

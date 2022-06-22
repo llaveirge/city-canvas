@@ -95,6 +95,10 @@ body {
   border-radius: 3px;
 }
 
+.target:hover {
+  background-color: #21cad6;
+}
+
 .full-pin-img {
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
