@@ -6,8 +6,8 @@ export default function PostCard(props) {
     <>
       <Card>
         <Card.Img
-          style={{ maxHeight: '55vh', objectFit: 'cover' }}
-          className='img-fluid'
+          // style={{ maxHeight: '55vh', objectFit: 'cover' }}
+          className='img-fluid pin-img-top'
           variant='top'
           src={ props.artPhotoUrl } />
         <Card.Body className='pt-2'>

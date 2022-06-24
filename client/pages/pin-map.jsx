@@ -105,7 +105,7 @@ export default function PinMap(props) {
         </GoogleMap>
       </div>
 
-      <Navbar fixed='bottom'className='fluid btm-brdr pri-bk-color'></Navbar>
+      <Navbar fixed='bottom' className='fluid btm-brdr pri-bk-color'></Navbar>
     </>
   );
 }

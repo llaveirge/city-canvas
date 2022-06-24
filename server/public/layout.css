@@ -48,6 +48,25 @@ body {
   height: 88.5vh;
 }
 
+.pin-img-top {
+  max-height: 85vh;
+  object-fit: cover;
+}
+
+.btm-brdr {
+  height: 1.25rem;
+}
+
+@media (min-height: 380px) {
+  .pin-img-top {
+    max-height: 55vh;
+  }
+
+  .btm-brdr {
+    height: 3rem;
+  }
+}
+
 @media (min-width: 360px) {
   .form-map {
     width: 350px;
@@ -111,10 +130,6 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.btm-brdr {
-  height: 3rem;
 }
 
 .reg-form-col {
