@@ -59,7 +59,7 @@ export default function PinMap(props) {
 
   return (
     <>
-      <div>
+      <div className='full-map-cont'>
         <GoogleMap
           mapContainerClassName='pin-map'
           zoom={ 17 }

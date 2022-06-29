@@ -43,11 +43,13 @@ body {
   height: 320px;
 }
 
-.pin-map {
-  width: 100vw;
+/* start new code testing */
+.full-map-cont {
+  height: 93vh;
+}
 
-  /* height: 88.5vh; */
-  min-height: 76vh;
+.pin-map {
+  height: 95%;
 }
 
 .pin-img-top {
@@ -55,51 +57,19 @@ body {
   object-fit: cover;
 }
 
-/* .btm-brdr {
-  height: 1.25rem;
-} */
-
-@media (min-height: 330px) {
-  .pin-map {
-    height: 80vh;
-  }
+.btm-brdr {
+  height: 5%;
 }
 
 @media (min-height: 380px) {
   .pin-img-top {
     max-height: 55vh;
   }
-
-  .pin-map {
-    height: 82vh;
-  }
-
-  /* .btm-brdr {
-    height: 3rem;
-  } */
 }
 
-@media (min-height: 440px) {
-  .pin-map {
-    height: 86vh;
-  }
-}
-
-@media (min-height: 560px) {
-  .pin-map {
-    height: 88.5vh;
-  }
-}
-
-@media (min-height: 680px) {
-  .btm-brdr {
-    height: 1.75rem;
-  }
-}
-
-@media (min-height: 810px) {
-  .btm-brdr {
-    height: 3rem;
+@media (min-height: 940px) {
+  .full-map-cont {
+    height: 95vh;
   }
 }
 

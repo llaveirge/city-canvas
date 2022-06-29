@@ -68,7 +68,7 @@ export default function ArtFinder(props) {
 
   return (
     <>
-      <div>
+      <div className='full-map-cont'>
         <GoogleMap
           mapContainerClassName='pin-map'
           zoom = { 8 }
