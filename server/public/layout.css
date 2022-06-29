@@ -38,12 +38,15 @@ body {
   padding: 0 1rem;
 }
 
-.form-map {
-  width: 305px;
+.form-map-cont {
   height: 320px;
+  width: 100%;
 }
 
-/* start new code testing */
+.form-map {
+  height: 100%;
+}
+
 .full-map-cont {
   height: 93vh;
 }
@@ -73,13 +76,6 @@ body {
   }
 }
 
-@media (min-width: 360px) {
-  .form-map {
-    width: 350px;
-    height: 320px;
-  }
-}
-
 @media (min-width: 376px) {
   .img-cont {
     height: 79px;
@@ -89,32 +85,6 @@ body {
 
   .card {
     margin-bottom: 2.8rem;
-  }
-
-  .form-map {
-    width: 450px;
-    height: 320px;
-  }
-}
-
-@media (min-width: 450px) {
-  .form-map {
-    width: 450px;
-    height: 320px;
-  }
-}
-
-@media (min-width: 530px) {
-  .form-map {
-    width: 516px;
-    height: 320px;
-  }
-}
-
-@media (min-width: 766px) {
-  .form-map {
-    width: 550px;
-    height: 320px;
   }
 }
 

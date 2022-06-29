@@ -55,7 +55,7 @@ export default function NewPinMap(props) {
   if (!isLoaded) return 'Loading map, one moment...';
 
   return (
-  <div>
+  <div className='form-map-cont'>
     <GoogleMap
       mapContainerClassName='form-map'
       zoom={ 8 }

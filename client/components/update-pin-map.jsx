@@ -58,8 +58,7 @@ export default function UpdatePinMap(props) {
   }
 
   return (
-    <div>
-
+    <div className='form-map-cont'>
       <GoogleMap
         mapContainerClassName='form-map'
         zoom={ 8 }
@@ -79,7 +78,6 @@ export default function UpdatePinMap(props) {
         />
 
       </GoogleMap>
-
     </div>
   );
 }
