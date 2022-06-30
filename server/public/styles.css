@@ -77,17 +77,13 @@ body {
 }
 
 .profile-pic {
-  object-fit: cover;
-  border-radius: 50%;
   border: 1.5px solid #0eeaf8;
-  height: 60px;
-  width: 60px;
 }
 
 .target {
   position: absolute;
-  top: 0.65rem;
-  right: 10%;
+  top: 3.6rem;
+  right: -0.6rem;
   transform: translateX(-50%);
   width: 100%;
   max-width: 40px;
@@ -125,32 +121,16 @@ body {
 }
 
 @media (min-width: 376px) {
-  .profile-pic {
-    height: 79px;
-    width: 79px;
-  }
-
-  .img-cont {
-    height: 79px;
-    width: 79px;
-    padding: 0;
-  }
-
   .target {
     position: absolute;
     top: 0.65rem;
-    right: 8%;
+    right: 2.5rem;
+    left: unset;
     transform: translateX(-50%);
     width: 100%;
     max-width: 40px;
     z-index: 2;
     border-radius: 3px;
-  }
-
-  .pin-pg {
-    position: absolute;
-    top: 0.65rem;
-    right: 3rem;
   }
 
   .feature-font-sm {

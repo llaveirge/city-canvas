@@ -46,7 +46,7 @@ export default function PinMap(props) {
           });
         }, () => null);
       }}>
-        <img className='target sec-bk-color pin-pg'
+        <img className='target sec-bk-color'
           src='/target-audience.png'
           alt='Target my location!'
           />
