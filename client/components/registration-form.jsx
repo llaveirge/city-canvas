@@ -192,11 +192,11 @@ export default class RegistrationForm extends React.Component {
             { passwordMessage(state.passwordError) }
 
             <div
-              className='pb-3 d-flex align-items-baseline justify-content-between'>
-              <Button className='mt-4 mb-2' type='submit'>
+              className='pb-3 d-flex align-items-center justify-content-between'>
+              <Button className='mt-4 mb-2 me-2' type='submit'>
                 Submit
               </Button>
-              <a href='#registration' className='pri-color link'>
+              <a href='#registration' className='mt-4 mb-2 pri-color link'>
                 Already signed up? Sign in
               </a>
             </div>

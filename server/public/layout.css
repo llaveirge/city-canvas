@@ -1,6 +1,6 @@
 body {
   min-width: 320px;
-  margin: 0;
+  margin: 0, auto;
 }
 
 .registration-cont {
@@ -9,12 +9,31 @@ body {
 }
 
 .sign-in-cont {
-  max-height: 400px;
+  /* max-height: 400px; updated with sign-in form flex refactoring */
+  min-height: 400px;
   min-width: 100vw;
 }
 
 .sign-in-form {
   max-width: 370px;
+}
+
+.login-heading-row {
+  flex-basis: 100%;
+  flex-grow: 1;
+}
+
+.login-form-row {
+  flex-basis: 100%;
+  flex-grow: 1;
+}
+
+.login-form-actions {
+  flex-direction: column;
+}
+
+.sign-up-link {
+  align-self: center;
 }
 
 .profile-pic {
@@ -81,6 +100,18 @@ body {
 @media (min-height: 940px) {
   .full-map-cont {
     height: 95vh;
+  }
+}
+
+@media (min-width: 365px) {
+  .login-form-actions {
+    flex-wrap: nowrap;
+    align-items: baseline;
+    flex-direction: row;
+  }
+
+  .sign-up-link {
+    align-self: unset;
   }
 }
 
