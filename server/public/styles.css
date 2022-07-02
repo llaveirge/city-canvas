@@ -107,16 +107,15 @@ body {
   font-size: 0.875rem;
 }
 
-@media (min-width: 576px) {
-  .full-pin-img {
-    border-top-right-radius: 0;
-    border-bottom-left-radius: calc(0.25rem - 1px);
+@media (min-width: 325px) {
+  .report {
+    font-size: 1rem;
   }
 }
 
-@media (min-width: 450px) {
-  .not-saved:hover {
-    color: #0eeaf8;
+@media (min-width: 365px) {
+  .login-heading {
+    font-size: 2.5rem;
   }
 }
 
@@ -138,15 +137,16 @@ body {
   }
 }
 
-@media (min-width: 365px) {
-  .login-heading {
-    font-size: 2.5rem;
+@media (min-width: 450px) {
+  .not-saved:hover {
+    color: #0eeaf8;
   }
 }
 
-@media (min-width: 325px) {
-  .report {
-    font-size: 1rem;
+@media (min-width: 576px) {
+  .full-pin-img {
+    border-top-right-radius: 0;
+    border-bottom-left-radius: calc(0.25rem - 1px);
   }
 }
 
