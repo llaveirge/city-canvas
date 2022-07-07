@@ -18,29 +18,42 @@ export default function PostCard(props) {
                 src={ props.profileUrl }>
               </Image>
             </Container>
-            <Container className='art-info'>
-              <Card.Title
-                as='h4'
-                className={
-                  `head-text pri-color py-2 ${props.reported === true
-                    ? 'me-5'
-                    : ''}`
-                }
-              >
+            <Container className='art-info d-flex flex-column'>
+              <Container className='title-report d-flex flex-row justify-content-between px-1'>
+                <Card.Title
+                  as='h4'
+                  className={
+                    `postcard-title head-text pri-color py-2 text-break ${props.reported === true
+                      ? 'me-1'
+                      : ''}`
+                  }
+                >
+                  {/* { props.reported === true
+                    ? <Container className='warning'>
+                        <i className='fas fa-exclamation fa-sm'></i>
+                        <i className='ms-1 fas fa-eye-slash fa-sm'></i>
+                      </Container>
+                    : null} */}
+                  { props.title }
+                </Card.Title>
                 { props.reported === true
-                  ? <span className='warning absolute-right'>
-                      <i className='fas fa-exclamation fa-sm'></i>
-                      <i className='ms-1 fas fa-eye-slash fa-sm'></i>
-                    </span>
+                  ? <span className='warning text-nowrap'>
+                        <i className='fas fa-exclamation fa-sm'></i>
+                        <i className='ms-1 fas fa-eye-slash fa-sm'></i>
+                      </span>
                   : null}
-                { props.title }
-              </Card.Title>
+              </Container>
+              <Container className='artist-save d-flex flex-row justify-content-between px-1'>
                 <Card.Text className='fw-bold pri-color pin-text'>
                   Artist: { props.artistName }
-                  { props.saver !== props.userId
+                  {/* { props.saver !== props.userId
                     ? null
-                    : <i className='absolute-right sec-color fas fa-heart fa-lg ms-2'></i> }
+                    : <i className='sec-color fas fa-heart fa-lg ms-2'></i> } */}
                 </Card.Text>
+                { props.saver !== props.userId
+                  ? null
+                  : <i className='sec-color fas fa-heart fa-lg ms-2'></i> }
+              </Container>
             </Container>
           </Container>
           <Container className='d-grid'>

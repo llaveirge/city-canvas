@@ -18,6 +18,10 @@ body {
   font-family: "Rock Salt", cursive;
 }
 
+.postcard-title {
+  /* font-size: 1.5rem; */
+}
+
 .feature-font {
   font-size: 1.125rem;
 }

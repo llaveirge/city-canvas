@@ -14,7 +14,7 @@ body {
 .login-cont {
   /* max-height: 400px; updated with sign-in form flex refactoring */
   min-height: 400px;
-  min-width: 100vw;
+  min-width: 100%;
 }
 
 .login-form {
