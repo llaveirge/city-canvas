@@ -1,20 +1,23 @@
 body {
-  min-width: 320px;
-  margin: 0, auto;
+  /* min-width: 320px; */
+  min-width: 280px;
+  margin: 0 auto;
 }
 
 .registration-cont {
   max-width: 800px;
-  min-width: 300px;
+
+  /* min-width: 300px;
+  min-width: 280px; If increasing global min-width to 280px, keep. */
 }
 
-.sign-in-cont {
+.login-cont {
   /* max-height: 400px; updated with sign-in form flex refactoring */
   min-height: 400px;
   min-width: 100vw;
 }
 
-.sign-in-form {
+.login-form {
   max-width: 370px;
 }
 
@@ -32,8 +35,9 @@ body {
   flex-direction: column;
 }
 
-.sign-up-link {
+.reg-form-links {
   align-self: center;
+  text-align: center;
 }
 
 .profile-pic {
@@ -110,8 +114,9 @@ body {
     flex-direction: row;
   }
 
-  .sign-up-link {
+  .reg-form-links {
     align-self: unset;
+    text-align: unset;
   }
 }
 

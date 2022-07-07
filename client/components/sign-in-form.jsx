@@ -60,14 +60,14 @@ export default class SignInForm extends React.Component {
   render() {
     const { handleSubmit, handleChange, state, errorMessage } = this;
     return (
-      <Container className='sign-in-cont bg-white px-4 d-flex flex-row flex-wrap align-self-center'>
+      <Container className='login-cont bg-white px-4 d-flex flex-row flex-wrap align-self-center'>
         <Row className='login-heading-row'>
           <h1 className='login-heading head-text pri-color text-center mt-5 mb-4 pt-4 pb-1'>
             City Canvas
           </h1>
         </Row>
         <Row className='login-form-row justify-content-center'>
-          <Form className='sign-in-form px-5 px-md-2' onSubmit={ handleSubmit }>
+          <Form className='login-form px-5 px-md-2' onSubmit={ handleSubmit }>
             <Form.Control
               className='mb-4'
               autoFocus
@@ -94,12 +94,12 @@ export default class SignInForm extends React.Component {
               { errorMessage(state.error) }
 
               <div
-                className='login-form-actions pb-3 mt-3 mb-5 d-flex justify-content-between'
+                className='login-form-actions pb-1 mt-3 mb-5 d-flex justify-content-between'
               >
-                <Button className='mt-1' type='submit'>
+                <Button className='mt-1 mb-2' type='submit'>
                   Submit
                 </Button>
-                <a href='#registration?form=sign-up' className='sign-up-link mt-2 pri-color link'>
+                <a href='#registration?form=sign-up' className='reg-form-links mt-2 pri-color link'>
                   New here? Sign up
                 </a>
               </div>
