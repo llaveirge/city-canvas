@@ -10,7 +10,7 @@ export default function PostCard(props) {
           className='img-fluid pin-img-top'
           variant='top'
           src={ props.artPhotoUrl } />
-        <Card.Body className='pt-2'>
+        <Card.Body className='px-2 pt-2 px-sm-4'>
           <Container className='d-flex px-0'>
             <Container className='img-cont' >
               <Image

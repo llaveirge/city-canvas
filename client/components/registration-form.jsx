@@ -106,6 +106,7 @@ export default class RegistrationForm extends React.Component {
               required
               autoFocus
               id='first'
+              className='mb-1'
               type='text'
               name='first'
               placeholder='Enter First Name'
@@ -120,6 +121,7 @@ export default class RegistrationForm extends React.Component {
             <Form.Control
               required
               id='last'
+              className='mb-1'
               type='text'
               name='last'
               placeholder='Enter Last Name'
@@ -169,6 +171,7 @@ export default class RegistrationForm extends React.Component {
             </Form.Label>
             <Form.Control
               id='image'
+              className='mb-1'
               type='file'
               name='image'
               ref={ this.fileInputRef }

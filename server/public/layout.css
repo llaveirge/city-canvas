@@ -7,8 +7,7 @@ body {
 .registration-cont {
   max-width: 800px;
 
-  /* min-width: 300px;
-  min-width: 280px; If increasing global min-width to 280px, keep. */
+  /* min-width: 280px; If increasing global min-width to 280px, keep. */
 }
 
 .login-cont {
