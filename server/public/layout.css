@@ -5,7 +5,7 @@ body {
 }
 
 .registration-cont {
-  max-width: 800px;
+  max-width: 768px;
 
   /* min-width: 280px; If increasing global min-width to 280px, keep. */
 }

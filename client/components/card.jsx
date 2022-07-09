@@ -18,7 +18,7 @@ export default function PostCard(props) {
                 src={ props.profileUrl }>
               </Image>
             </Container>
-            <Container className='art-info d-flex flex-column'>
+            <Container className='art-info d-flex flex-column px-2 px-sm-3'>
               <Container className='title-report d-flex flex-row justify-content-between px-1'>
                 <Card.Title
                   as='h4'
@@ -38,8 +38,8 @@ export default function PostCard(props) {
                 </Card.Title>
                 { props.reported === true
                   ? <span className='warning text-nowrap'>
-                        <i className='fas fa-exclamation fa-sm'></i>
-                        <i className='ms-1 fas fa-eye-slash fa-sm'></i>
+                        <i className='fas fa-exclamation fa-md'></i>
+                        <i className='ms-1 fas fa-eye-slash fa-md'></i>
                       </span>
                   : null}
               </Container>
