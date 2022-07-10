@@ -156,6 +156,10 @@ body {
     border-top-right-radius: 0;
     border-bottom-left-radius: calc(0.25rem - 1px);
   }
+
+  .my-canvas-heading {
+    font-size: 1.25rem;
+  }
 }
 
 .form-label {
