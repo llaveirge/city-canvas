@@ -49,11 +49,11 @@ export default class SavedPins extends React.Component {
                   userId={ user.userId }
                 />
               ))
-              : <h5 className='pri-color text-center font-weight-bold'>
+              : <h6 className='saved-canvas-empty-heading pri-color text-center font-weight-bold'>
                   Nothing to see here...
                   <br/>Browse the <a className='sec-color no-decoration' href='#'>
                     City Canvas Home feed</a> and save your favorite pins!
-                </h5>
+                </h6>
             }
           </Col>
         </Row>

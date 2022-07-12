@@ -151,7 +151,7 @@ body {
 
 .info-img-cont {
   height: 140px;
-  width: 200px;
+  max-width: 200px;
   padding: 0;
 }
 

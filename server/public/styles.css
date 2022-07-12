@@ -157,7 +157,8 @@ body {
     border-bottom-left-radius: calc(0.25rem - 1px);
   }
 
-  .my-canvas-heading {
+  .my-canvas-empty-heading,
+  .saved-canvas-empty-heading {
     font-size: 1.25rem;
   }
 }

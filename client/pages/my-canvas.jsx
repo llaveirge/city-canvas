@@ -59,7 +59,7 @@ export default class MyCanvas extends React.Component {
                     userId={ user.userId }
                   />
                 ))
-                : <h6 className='my-canvas-heading pri-color text-center fw-bold'>
+                : <h6 className='my-canvas-empty-heading pri-color text-center fw-bold'>
                     Nothing to see here...
                     <br/>Get out and start pinning some street art!
                   </h6>}
