@@ -1,9 +1,4 @@
-body {
-  /* min-width: 320px; */
-  min-width: 280px;
-  margin: 0 auto;
-}
-
+/* Login and Registration Pages */
 .registration-cont {
   max-width: 768px;
 
@@ -39,6 +34,11 @@ body {
   text-align: center;
 }
 
+.reg-form-col {
+  max-width: 500px;
+}
+
+/* Feeds and Cards */
 .profile-pic {
   object-fit: cover;
   border-radius: 50%;
@@ -50,15 +50,6 @@ body {
   height: 60px;
   width: 60px;
   padding: 0;
-}
-
-.card {
-  margin-bottom: 1.5rem;
-}
-
-.modal-backdrop {
-  width: 100%;
-  height: 100%;
 }
 
 .feed-cont {
@@ -73,6 +64,12 @@ body {
   padding: 0 1rem;
 }
 
+.pin-img-top {
+  height: 85vh;
+  object-fit: cover;
+}
+
+/* Maps */
 .form-map-cont {
   height: 320px;
   width: 100%;
@@ -90,15 +87,52 @@ body {
   height: 95%;
 }
 
-.pin-img-top {
-  height: 85vh;
-  object-fit: cover;
-}
-
 .btm-brdr {
   height: 5%;
 }
 
+.form-container {
+  max-width: 550px;
+}
+
+.info-img-cont {
+  height: 140px;
+  max-width: 200px;
+  padding: 0;
+}
+
+.info-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Custom Utilities */
+.mar-top-4r {
+  margin-top: 4rem;
+}
+
+.mar-bottom-4r {
+  margin-bottom: 4rem;
+}
+
+.absolute-right {
+  position: absolute;
+  right: 25px;
+}
+
+.ab-bottom-right {
+  position: absolute;
+  bottom: 30px;
+  right: 25px;
+}
+
+.ab-bottom {
+  position: absolute;
+  bottom: 25px;
+}
+
+/* Smartphone/Responsive */
 @media (min-height: 380px) {
   .pin-img-top {
     max-height: 55vh;
@@ -135,56 +169,4 @@ body {
     width: 79px;
     padding: 0;
   }
-
-  .card {
-    margin-bottom: 2.8rem;
-  }
-}
-
-.form-container {
-  max-width: 550px;
-}
-
-.form-label {
-  padding-top: 1.25rem;
-}
-
-.info-img-cont {
-  height: 140px;
-  max-width: 200px;
-  padding: 0;
-}
-
-.info-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.reg-form-col {
-  max-width: 500px;
-}
-
-.mar-top-4r {
-  margin-top: 4rem;
-}
-
-.mar-bottom-4r {
-  margin-bottom: 4rem;
-}
-
-.absolute-right {
-  position: absolute;
-  right: 25px;
-}
-
-.ab-bottom-right {
-  position: absolute;
-  bottom: 30px;
-  right: 25px;
-}
-
-.ab-bottom {
-  position: absolute;
-  bottom: 25px;
 }

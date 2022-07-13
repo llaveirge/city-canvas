@@ -12,7 +12,7 @@ export default class AppNav extends React.Component {
     <Navbar variant='dark' className='pri-bk-color' expand='sm'>
 
       <Container>
-        <Navbar.Brand className='head-text menu' href='#'>Home</Navbar.Brand>
+        <Navbar.Brand className='head-text' href='#'>Home</Navbar.Brand>
           <Navbar.Toggle aria-controls="options-navbar-nav" />
           <Navbar.Collapse id="options-navbar-nav">
             <Nav className='me-auto'>

@@ -1,11 +1,4 @@
-body {
-  font-family: Montserrat, sans-serif;
-  color: #292929;
-  background-image: url("white_brick_fade.png");
-  background-attachment: fixed;
-  background-position: center;
-}
-
+/* Login and Registration Pages */
 .pg-registration {
   background-image: url("./reg-bkg.jpg");
   background-attachment: fixed;
@@ -14,6 +7,7 @@ body {
   min-height: 100vh;
 }
 
+/* Font Classes */
 .head-text {
   font-family: "Rock Salt", cursive;
 }
@@ -26,23 +20,52 @@ body {
   font-size: 1.125rem;
 }
 
-.btn {
-  background-color: #0eeaf8;
-  border-style: none;
-  font-size: 1.125rem;
-  font-weight: 500;
+.report {
+  font-size: 0.875rem;
 }
 
-.btn:hover {
-  background-color: #21cad6;
+.dir-link {
+  font-size: 1rem;
+  font-family: Montserrat, sans-serif;
 }
 
+/* Navbar */
 .nav-drop:hover {
   color: #0eeaf8;
   background-color: white;
   font-weight: bold;
 }
 
+/* Feeds and Cards */
+.profile-pic {
+  border: 1.5px solid #0eeaf8;
+}
+
+.full-pin-img {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Maps */
+.target {
+  position: absolute;
+  top: 3.6rem;
+  right: -0.6rem;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 40px;
+  z-index: 2;
+  border-radius: 3px;
+}
+
+.target:hover {
+  background-color: #21cad6;
+}
+
+/* Custom Utilities */
 .pri-bk-color {
   background-color: #692584;
 }
@@ -59,58 +82,45 @@ body {
   background-color: #0eeaf8;
 }
 
-.warning {
-  color: #f54f31;
-}
-
 .warning-bk {
   background-color: #f54f31;
 }
 
+.grey {
+  color: #b6b6b6;
+}
+
+.ab-bottom:hover {
+  color: #f54f31;
+}
+
+.no-decoration {
+  text-decoration: none;
+}
+
+.no-decoration:hover {
+  color: #21cad6;
+}
+
+/* Buttons and Links */
 .link:hover {
   color: #0eeaf8;
 }
 
-.menu {
-  font-size: 1.5rem;
+.del:hover,
+.del:focus {
+  background-color: #c7422b;
 }
 
-.card {
-  border: 1px solid #0eeaf8;
-  filter: drop-shadow(2px 5px 2px #b9b8b89c);
+.cancel {
+  background-color: #b6b6b6;
 }
 
-.profile-pic {
-  border: 1.5px solid #0eeaf8;
+.cancel:hover {
+  background-color: #797777;
 }
 
-.target {
-  position: absolute;
-  top: 3.6rem;
-  right: -0.6rem;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 40px;
-  z-index: 2;
-  border-radius: 3px;
-}
-
-.target:hover {
-  background-color: #21cad6;
-}
-
-.full-pin-img {
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.report {
-  font-size: 0.875rem;
-}
-
+/* Smartphone/Responsive */
 @media (min-width: 325px) {
   .report {
     font-size: 1rem;
@@ -161,51 +171,4 @@ body {
   .saved-canvas-empty-heading {
     font-size: 1.25rem;
   }
-}
-
-.form-label {
-  color: #292929;
-  font-weight: 700;
-}
-
-.form-control {
-  border: 2px solid #0eeaf8;
-}
-
-.form-control:focus {
-  border-color: #692584;
-}
-
-.dir-link {
-  font-size: 1rem;
-  font-family: Montserrat, sans-serif;
-}
-
-.ab-bottom:hover {
-  color: #f54f31;
-}
-
-.grey {
-  color: #b6b6b6;
-}
-
-.del:hover,
-.del:focus {
-  background-color: #c7422b;
-}
-
-.cancel {
-  background-color: #b6b6b6;
-}
-
-.cancel:hover {
-  background-color: #797777;
-}
-
-.no-decoration {
-  text-decoration: none;
-}
-
-.no-decoration:hover {
-  color: #21cad6;
 }
