@@ -132,6 +132,21 @@
   bottom: 25px;
 }
 
+/* Loader */
+.lds-ellipsis {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.lds-ellipsis div {
+  position: absolute;
+  top: 33px;
+  width: 13px;
+  height: 13px;
+}
+
 /* Smartphone/Responsive */
 @media (min-height: 380px) {
   .pin-img-top {
