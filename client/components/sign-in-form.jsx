@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Form, Row, Button } from 'react-bootstrap';
+import LoadingSpinner from './loading-spinner';
 
 export default class SignInForm extends React.Component {
 
@@ -7,12 +8,14 @@ export default class SignInForm extends React.Component {
     super(props);
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      isLoading: false
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.errorMessage = this.errorMessage.bind(this);
+    this.toggleLoadingSpinner = this.toggleLoadingSpinner.bind(this);
   }
 
   errorMessage(message) {
@@ -23,6 +26,11 @@ export default class SignInForm extends React.Component {
         </Form.Text>
       );
     }
+  }
+
+  toggleLoadingSpinner(status) {
+    const newStatus = !status;
+    this.setState({ isLoading: newStatus });
   }
 
   handleChange(event) {
@@ -39,11 +47,13 @@ export default class SignInForm extends React.Component {
       },
       body: JSON.stringify(this.state)
     };
+    this.toggleLoadingSpinner(this.state.isLoading);
     fetch('/api/auth/sign-in', req)
       .then(res => {
         res.json().then(response => {
           if (response.error) {
             this.setState({ error: response.error });
+            this.toggleLoadingSpinner(this.state.isLoading);
           } else if (response.user && response.token) {
             this.props.onSignIn(response);
             this.setState({
@@ -51,10 +61,14 @@ export default class SignInForm extends React.Component {
               username: '',
               password: ''
             });
+            this.toggleLoadingSpinner(this.state.isLoading);
           }
         });
       })
-      .catch(err => console.error('Fetch Failed!', err));
+      .catch(err => {
+        console.error('Fetch Failed!', err);
+        this.toggleLoadingSpinner(this.state.isLoading);
+      });
   }
 
   render() {
@@ -92,17 +106,17 @@ export default class SignInForm extends React.Component {
               aria-describedby='errorMessage'
               />
               { errorMessage(state.error) }
-
-              <div
-                className='login-form-actions pb-1 mt-3 mb-5 d-flex justify-content-between'
-              >
-                <Button className='mt-1 mb-2' type='submit'>
-                  Submit
-                </Button>
-                <a href='#registration?form=sign-up' className='reg-form-links mt-2 pri-color link'>
-                  New here? Sign up
-                </a>
-              </div>
+            { state.isLoading ? <LoadingSpinner className='py-0'/> : null}
+            <div
+              className='login-form-actions pb-1 mt-3 mb-5 d-flex justify-content-between'
+            >
+              <Button className='mt-1 mb-2' type='submit'>
+                Submit
+              </Button>
+              <a href='#registration?form=sign-up' className='reg-form-links mt-2 pri-color link'>
+                New here? Sign up
+              </a>
+            </div>
           </Form>
         </Row>
       </Container>
