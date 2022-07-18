@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Col, Button, Form } from 'react-bootstrap';
+import LoadingSpinner from './loading-spinner';
 
 export default class RegistrationForm extends React.Component {
   constructor(props) {
@@ -12,13 +13,20 @@ export default class RegistrationForm extends React.Component {
       password: '',
       passwordError: '',
       usernameError: '',
-      emailError: ''
+      emailError: '',
+      isLoading: false
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.fileInputRef = React.createRef();
     this.handleSubmit = this.handleSubmit.bind(this);
     this.passwordMessage = this.passwordMessage.bind(this);
+    this.toggleLoadingSpinner = this.toggleLoadingSpinner.bind(this);
+  }
+
+  toggleLoadingSpinner(status) {
+    const newStatus = !status;
+    this.setState({ isLoading: newStatus });
   }
 
   handleChange(event) {
@@ -58,16 +66,20 @@ export default class RegistrationForm extends React.Component {
       method: 'POST',
       body: formData
     };
+    this.toggleLoadingSpinner(this.state.isLoading);
     fetch('/api/auth/sign-up', req)
       .then(res => {
         if (!res.ok) {
           res.json().then(response => {
             if (response.error.includes('username')) {
               this.setState({ usernameError: response.error });
+              this.toggleLoadingSpinner(this.state.isLoading);
             } else if (response.error.includes('email')) {
               this.setState({ emailError: response.error });
+              this.toggleLoadingSpinner(this.state.isLoading);
             } else if (response.error.includes('password')) {
               this.setState({ passwordError: response.error });
+              this.toggleLoadingSpinner(this.state.isLoading);
             }
           });
         } else {
@@ -82,10 +94,14 @@ export default class RegistrationForm extends React.Component {
             emailError: ''
           });
           this.fileInputRef.current.value = null;
+          this.toggleLoadingSpinner(this.state.isLoading);
           window.location.hash = 'registration';
         }
       })
-      .catch(err => console.error('Fetch Has Failed!', err));
+      .catch(err => {
+        console.error('Fetch Has Failed!', err);
+        this.toggleLoadingSpinner(this.state.isLoading);
+      });
   }
 
   render() {
@@ -98,7 +114,7 @@ export default class RegistrationForm extends React.Component {
             <h1 className='head-text pri-color text-center mt-4'>
               Create an Account
             </h1>
-          <Form onSubmit={ handleSubmit }>
+          <Form className='position-relative pb-4' onSubmit={ handleSubmit }>
             <Form.Label className='mt-2' htmlFor='first'>
               First Name
             </Form.Label>
@@ -193,16 +209,19 @@ export default class RegistrationForm extends React.Component {
               aria-describedby='passwordHelpBlock passwordErrorMessage'
             />
             { passwordMessage(state.passwordError) }
-
             <div
-              className='login-form-actions pb-4 d-flex justify-content-between'>
-              <Button className='mt-4 mb-2' type='submit'>
+              className='login-form-actions pb-4 d-flex justify-content-between'
+            >
+              <Button className='mt-4 mb-2' type='submit' disabled={ state.isLoading }>
                 Submit
               </Button>
-              <a href='#registration' className='reg-form-links link my-2 pri-color'>
+              <a
+                href='#registration'
+                className='reg-form-links link my-2 pri-color'>
                 Already signed up? Sign in
               </a>
             </div>
+            { state.isLoading ? <LoadingSpinner className='pt-2'/> : null}
           </Form>
         </Col>
       </Container>

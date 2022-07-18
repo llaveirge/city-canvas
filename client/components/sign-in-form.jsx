@@ -81,7 +81,9 @@ export default class SignInForm extends React.Component {
           </h1>
         </Row>
         <Row className='login-form-row justify-content-center'>
-          <Form className='login-form px-5 px-md-2 position-relative' onSubmit={ handleSubmit }>
+          <Form
+            className='login-form px-5 px-md-2 position-relative'
+            onSubmit={ handleSubmit }>
             <Form.Control
               className='mb-4'
               autoFocus
@@ -104,19 +106,24 @@ export default class SignInForm extends React.Component {
               value={ state.password }
               onChange={ handleChange }
               aria-describedby='errorMessage'
-              />
+            />
               { errorMessage(state.error) }
-            { state.isLoading ? <LoadingSpinner className='py-0'/> : null}
             <div
               className='login-form-actions pb-1 mt-3 mb-5 d-flex justify-content-between'
             >
-              <Button className='mt-1 mb-2' type='submit' disabled={ state.isLoading }>
-                Submit
+              <Button
+                className='mt-1 mb-2'
+                type='submit'
+                disabled={ state.isLoading }>
+                  Submit
               </Button>
-              <a href='#registration?form=sign-up' className='reg-form-links mt-2 pri-color link' disabled={ state.isLoading }>
-                New here? Sign up
-              </a>
+                <a
+                  href='#registration?form=sign-up'
+                  className='reg-form-links mt-2 pri-color link'>
+                    New here? Sign up
+                </a>
             </div>
+            { state.isLoading ? <LoadingSpinner className='py-0'/> : null}
           </Form>
         </Row>
       </Container>
