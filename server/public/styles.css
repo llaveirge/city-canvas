@@ -121,6 +121,13 @@
 }
 
 /* Loader */
+.absolute {
+  position: absolute;
+  top: 13px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .lds-ellipsis div {
   border-radius: 50%;
   background: #0eeaf8;
