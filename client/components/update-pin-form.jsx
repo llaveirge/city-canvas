@@ -3,6 +3,7 @@ import { Container, Button, Form } from 'react-bootstrap';
 import UpdatePinMap from './update-pin-map';
 import ModalDelete from './modal-deleted';
 import ModalMarkedReported from './modal-marked-reported';
+import LoadingSpinner from './loading-spinner';
 
 export default class UpdatePinForm extends React.Component {
   constructor(props) {
@@ -15,7 +16,8 @@ export default class UpdatePinForm extends React.Component {
       postId: '',
       reported: '',
       showDelete: false,
-      showReported: ''
+      showReported: '',
+      isLoading: false
     };
 
     this.setMarker = this.setMarker.bind(this);
@@ -27,9 +29,11 @@ export default class UpdatePinForm extends React.Component {
     this.deletePin = this.deletePin.bind(this);
     this.handleShowReported = this.handleShowReported.bind(this);
     this.handleCloseReported = this.handleCloseReported.bind(this);
+    this.toggleLoadingSpinner = this.toggleLoadingSpinner.bind(this);
   }
 
   componentDidMount() {
+    this.setState({ isLoading: true });
     fetch(`/api/pins/${this.props.postId}`)
       .then(res => res.json())
       .then(pin => this.setState({
@@ -40,8 +44,14 @@ export default class UpdatePinForm extends React.Component {
         postId: pin.postId,
         reported: pin.reported,
         deleted: pin.deleted,
-        showReported: pin.reported
+        showReported: pin.reported,
+        isLoading: false
       }));
+  }
+
+  toggleLoadingSpinner(status) {
+    const newStatus = !status;
+    this.setState({ isLoading: newStatus });
   }
 
   // Show Delete modal:
@@ -73,6 +83,7 @@ export default class UpdatePinForm extends React.Component {
     const req = {
       method: 'PATCH'
     };
+    this.toggleLoadingSpinner(this.state.isLoading);
     fetch(`/api/delete-pin/${this.props.postId}`, req)
       .then(res => res.json())
       .then(response => {
@@ -83,9 +94,13 @@ export default class UpdatePinForm extends React.Component {
           marker: {}
         });
         this.fileInputRef.current.value = null;
+        this.toggleLoadingSpinner(this.state.isLoading);
         window.location.hash = 'my-canvas';
       })
-      .catch(err => console.error('Fetch Failed!', err));
+      .catch(err => {
+        console.error('Fetch Failed!', err);
+        this.toggleLoadingSpinner(this.state.isLoading);
+      });
   }
 
   handleChange(event) {
@@ -100,7 +115,7 @@ export default class UpdatePinForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { title, artist, info, marker } = this.state;
+    const { title, artist, info, marker, isLoading } = this.state;
 
     const formData = new FormData();
     formData.append('title', title);
@@ -116,6 +131,7 @@ export default class UpdatePinForm extends React.Component {
       method: 'PATCH',
       body: formData
     };
+    this.toggleLoadingSpinner(isLoading);
     fetch(`/api/pins/${this.props.postId}`, req)
       .then(res => res.json())
       .then(response => {
@@ -126,9 +142,13 @@ export default class UpdatePinForm extends React.Component {
           marker: {}
         });
         this.fileInputRef.current.value = null;
+        this.toggleLoadingSpinner(isLoading);
         window.location.hash = 'my-canvas';
       })
-      .catch(err => console.error('Fetch Failed!', err));
+      .catch(err => {
+        console.error('Fetch Failed!', err);
+        this.toggleLoadingSpinner(isLoading);
+      });
   }
 
   render() {
@@ -150,7 +170,7 @@ export default class UpdatePinForm extends React.Component {
           showDelete={ handleShowDelete }/>
 
         <Container className = 'form-container px-0'>
-          <Form onSubmit={ handleSubmit }>
+          <Form className='position-relative pb-3' onSubmit={ handleSubmit }>
             <Form.Label className='mt-2' htmlFor='title'>
               Street Art Title:
             </Form.Label>
@@ -209,16 +229,18 @@ export default class UpdatePinForm extends React.Component {
               setMarker={ this.setMarker }>
             </UpdatePinMap>
 
-            <Button className='mt-3 mb-5' type='submit'>
+            <Button className='mt-3 mb-5' type='submit' disabled={ state.isLoading }>
               Submit
             </Button>
 
             <Button
               className='mt-3 mb-5 warning-bk del float-end'
               type='button'
-              onClick={ handleShowDelete }>
+              onClick={ handleShowDelete }
+              disabled={ state.isLoading }>
                 Delete
             </Button>
+            { state.isLoading ? <div className='absolute'> <LoadingSpinner /> </div> : null}
           </Form>
         </Container>
 

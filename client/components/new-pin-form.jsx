@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Button, Form } from 'react-bootstrap';
+import LoadingSpinner from './loading-spinner';
 import NewPinMap from './new-pin-map';
 import AppContext from '../lib/app-context';
 
@@ -10,13 +11,20 @@ export default class NewPinForm extends React.Component {
       title: '',
       artist: '',
       info: '',
-      marker: {}
+      marker: {},
+      isLoading: false
     };
 
     this.setMarker = this.setMarker.bind(this);
     this.fileInputRef = React.createRef();
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.toggleLoadingSpinner = this.toggleLoadingSpinner.bind(this);
+  }
+
+  toggleLoadingSpinner(status) {
+    const newStatus = !status;
+    this.setState({ isLoading: newStatus });
   }
 
   handleChange(event) {
@@ -30,7 +38,7 @@ export default class NewPinForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { title, artist, info, marker } = this.state;
+    const { title, artist, info, marker, isLoading } = this.state;
 
     const formData = new FormData();
     formData.append('title', title);
@@ -45,6 +53,7 @@ export default class NewPinForm extends React.Component {
       method: 'POST',
       body: formData
     };
+    this.toggleLoadingSpinner(isLoading);
     fetch('/api/post-pin', req)
       .then(res => res.json())
       .then(response => {
@@ -56,9 +65,13 @@ export default class NewPinForm extends React.Component {
           error: ''
         });
         this.fileInputRef.current.value = null;
+        this.toggleLoadingSpinner(isLoading);
         window.location.hash = 'my-canvas';
       })
-      .catch(err => console.error('Fetch Failed!', err));
+      .catch(err => {
+        console.error('Fetch Failed!', err);
+        this.toggleLoadingSpinner(isLoading);
+      });
   }
 
   render() {
@@ -67,7 +80,7 @@ export default class NewPinForm extends React.Component {
     return (
       <Container className='form-container px-0'>
 
-        <Form onSubmit={ handleSubmit }>
+        <Form className='position-relative  pb-2' onSubmit={ handleSubmit }>
           <Form.Label className='mt-2' htmlFor='title'>
             Street Art Title:
           </Form.Label>
@@ -127,11 +140,11 @@ export default class NewPinForm extends React.Component {
             setMarker={ setMarker }>
           </NewPinMap>
 
-          <Button className='mt-3 mb-5' type='submit'>
+          <Button className='mt-3 mb-5' type='submit' disabled={ state.isLoading }>
             Submit
           </Button>
+        { state.isLoading ? <div className='absolute'> <LoadingSpinner /> </div> : null}
         </Form>
-
       </Container>
     );
   }

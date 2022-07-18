@@ -2,6 +2,7 @@ import React from 'react';
 import { Navbar } from 'react-bootstrap';
 import Redirect from '../components/redirect';
 import AppContext from '../lib/app-context';
+import LoadingSpinner from '../components/loading-spinner';
 import {
   GoogleMap,
   useLoadScript,
@@ -55,7 +56,7 @@ export default function PinMap(props) {
   }
 
   if (loadError) return 'Error loading map';
-  if (!isLoaded) return 'Loading map, one moment...';
+  if (!isLoaded) return <LoadingSpinner />;
 
   return (
     <>

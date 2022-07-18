@@ -52,7 +52,7 @@ export default class RegistrationForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { first, last, email, username, password } = this.state;
+    const { first, last, email, username, password, isLoading } = this.state;
 
     const formData = new FormData();
     formData.append('first', first);
@@ -66,20 +66,20 @@ export default class RegistrationForm extends React.Component {
       method: 'POST',
       body: formData
     };
-    this.toggleLoadingSpinner(this.state.isLoading);
+    this.toggleLoadingSpinner(isLoading);
     fetch('/api/auth/sign-up', req)
       .then(res => {
         if (!res.ok) {
           res.json().then(response => {
             if (response.error.includes('username')) {
               this.setState({ usernameError: response.error });
-              this.toggleLoadingSpinner(this.state.isLoading);
+              this.toggleLoadingSpinner(isLoading);
             } else if (response.error.includes('email')) {
               this.setState({ emailError: response.error });
-              this.toggleLoadingSpinner(this.state.isLoading);
+              this.toggleLoadingSpinner(isLoading);
             } else if (response.error.includes('password')) {
               this.setState({ passwordError: response.error });
-              this.toggleLoadingSpinner(this.state.isLoading);
+              this.toggleLoadingSpinner(isLoading);
             }
           });
         } else {
@@ -94,13 +94,13 @@ export default class RegistrationForm extends React.Component {
             emailError: ''
           });
           this.fileInputRef.current.value = null;
-          this.toggleLoadingSpinner(this.state.isLoading);
+          this.toggleLoadingSpinner(isLoading);
           window.location.hash = 'registration';
         }
       })
       .catch(err => {
         console.error('Fetch Has Failed!', err);
-        this.toggleLoadingSpinner(this.state.isLoading);
+        this.toggleLoadingSpinner(isLoading);
       });
   }
 

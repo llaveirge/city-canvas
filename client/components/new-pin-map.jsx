@@ -1,4 +1,5 @@
 import React from 'react';
+import LoadingSpinner from './loading-spinner';
 import {
   GoogleMap,
   useLoadScript,
@@ -52,29 +53,29 @@ export default function NewPinMap(props) {
   }
 
   if (loadError) return 'Error loading map';
-  if (!isLoaded) return 'Loading map, one moment...';
+  if (!isLoaded) return <LoadingSpinner />;
 
   return (
-  <div className='form-map-cont'>
-    <GoogleMap
-      mapContainerClassName='form-map'
-      zoom={ 8 }
-      center={ center }
-      onClick={ onMapClick }
-      onLoad={ onMapLoad }
-    >
+    <div className='form-map-cont'>
+      <GoogleMap
+        mapContainerClassName='form-map'
+        zoom={ 8 }
+        center={ center }
+        onClick={ onMapClick }
+        onLoad={ onMapLoad }
+      >
 
-      <GeoLocate panTo={ panTo } />
+        <GeoLocate panTo={ panTo } />
 
-      <Marker
-        position={{ lat: +props.marker.lat, lng: +props.marker.lng }}
-        icon={{
-          url: '/pt_pin_sm.png',
-          scaledSize: new window.google.maps.Size(35, 35)
-        }}
-      />
+        <Marker
+          position={{ lat: +props.marker.lat, lng: +props.marker.lng }}
+          icon={{
+            url: '/pt_pin_sm.png',
+            scaledSize: new window.google.maps.Size(35, 35)
+          }}
+        />
 
-    </GoogleMap>
-  </div>
+      </GoogleMap>
+    </div>
   );
 }

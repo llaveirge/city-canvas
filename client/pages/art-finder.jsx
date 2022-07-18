@@ -2,6 +2,7 @@ import React from 'react';
 import { Navbar } from 'react-bootstrap';
 import AppContext from '../lib/app-context';
 import Redirect from '../components/redirect';
+import LoadingSpinner from '../components/loading-spinner';
 import {
   GoogleMap,
   useLoadScript,
@@ -64,7 +65,7 @@ export default function ArtFinder(props) {
   }
 
   if (loadError) return 'Error loading map';
-  if (!isLoaded) return 'Loading map, one moment...';
+  if (!isLoaded) return <LoadingSpinner />;
 
   return (
     <>
