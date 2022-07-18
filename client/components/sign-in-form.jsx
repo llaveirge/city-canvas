@@ -123,7 +123,7 @@ export default class SignInForm extends React.Component {
                     New here? Sign up
                 </a>
             </div>
-            { state.isLoading ? <LoadingSpinner className='py-0'/> : null}
+            { state.isLoading ? <div className='absolute'> <LoadingSpinner/> </div> : null}
           </Form>
         </Row>
       </Container>

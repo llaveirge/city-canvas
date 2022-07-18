@@ -21,7 +21,7 @@ export default class SavedPins extends React.Component {
       fetch(`/api/saved-pins/${user.userId}`)
         .then(response => response.json())
         .then(pins => {
-          this.setState({ pins: pins, isLoading: false });
+          this.setState({ pins, isLoading: false });
         });
     }
   }
@@ -38,9 +38,7 @@ export default class SavedPins extends React.Component {
         <Row className='pt-2'>
           <Col>
             { isLoading
-              // ? <Container >
               ? <LoadingSpinner />
-              // </Container>
               : pins.length
                 ? pins.map(pin => (
                   <PostCard
