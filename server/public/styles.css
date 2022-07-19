@@ -243,7 +243,8 @@
   }
 
   .my-canvas-empty-heading,
-  .saved-canvas-empty-heading {
+  .saved-canvas-empty-heading,
+  .home-empty-heading {
     font-size: 1.25rem;
   }
 }

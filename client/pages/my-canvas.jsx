@@ -66,7 +66,11 @@ export default class MyCanvas extends React.Component {
                   ))
                   : <h6 className='my-canvas-empty-heading pri-color text-center fw-bold'>
                     Nothing to see here...
-                    <br/>Get out and start pinning some street art!
+                    <br />Get out and start pinning some street art!
+                    <br />
+                      <a className='sec-color no-decoration' href='#new-pin'>
+                      Create a City Canvas Pin here
+                      </a>
                   </h6>}
             </Col>
           </Row>
