@@ -57,7 +57,7 @@ export default function ArtFinder(props) {
       }}>
         <img
           className='target sec-bk-color pin-pg'
-          src='/target-audience.png'
+          src='/target-audience.webp'
           alt='Target my location!'
         />
       </button>
@@ -84,7 +84,7 @@ export default function ArtFinder(props) {
               key={marker.postId}
               position={{ lat: marker.lat, lng: marker.lng }}
               icon={{
-                url: '/pt_pin_sm.png',
+                url: '/pt_pin_sm.webp',
                 scaledSize: new window.google.maps.Size(45, 45),
                 anchor: new window.google.maps.Point(22, 30)
               }}

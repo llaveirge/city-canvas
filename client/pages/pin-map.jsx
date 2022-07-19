@@ -48,7 +48,7 @@ export default function PinMap(props) {
         }, () => null);
       }}>
         <img className='target sec-bk-color'
-          src='/target-audience.png'
+          src='/target-audience.webp'
           alt='Target my location!'
           />
       </button>
@@ -72,7 +72,7 @@ export default function PinMap(props) {
 
           <Marker position={{ lat: center.lat, lng: center.lng }}
             icon={{
-              url: '/pt_pin_sm.png',
+              url: '/pt_pin_sm.webp',
               scaledSize: new window.google.maps.Size(50, 50),
               anchor: new window.google.maps.Point(25, 40)
             }}
