@@ -72,14 +72,11 @@ export default class RegistrationForm extends React.Component {
         if (!res.ok) {
           res.json().then(response => {
             if (response.error.includes('username')) {
-              this.setState({ usernameError: response.error });
-              this.toggleLoadingSpinner(isLoading);
+              this.setState({ usernameError: response.error, isLoading: false });
             } else if (response.error.includes('email')) {
-              this.setState({ emailError: response.error });
-              this.toggleLoadingSpinner(isLoading);
+              this.setState({ emailError: response.error, isLoading: false });
             } else if (response.error.includes('password')) {
-              this.setState({ passwordError: response.error });
-              this.toggleLoadingSpinner(isLoading);
+              this.setState({ passwordError: response.error, isLoading: false });
             }
           });
         } else {
