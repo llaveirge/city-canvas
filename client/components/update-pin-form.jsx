@@ -32,26 +32,28 @@ export default class UpdatePinForm extends React.Component {
     this.toggleLoadingSpinner = this.toggleLoadingSpinner.bind(this);
   }
 
-  componentDidMount() {
-    this.setState({ isLoading: true });
-    fetch(`/api/pins/${this.props.postId}`)
-      .then(res => res.json())
-      .then(pin => this.setState({
-        title: pin.title,
-        artist: pin.artistName,
-        info: pin.comment,
-        marker: { lat: pin.lat, lng: pin.lng },
-        postId: pin.postId,
-        reported: pin.reported,
-        deleted: pin.deleted,
-        showReported: pin.reported,
-        isLoading: false
-      }));
-  }
-
   toggleLoadingSpinner(status) {
     const newStatus = !status;
     this.setState({ isLoading: newStatus });
+  }
+
+  componentDidMount() {
+    this.toggleLoadingSpinner(this.state.isLoading);
+    fetch(`/api/pins/${this.props.postId}`)
+      .then(res => res.json())
+      .then(pin => {
+        this.setState({
+          title: pin.title,
+          artist: pin.artistName,
+          info: pin.comment,
+          marker: { lat: pin.lat, lng: pin.lng },
+          postId: pin.postId,
+          reported: pin.reported,
+          deleted: pin.deleted,
+          showReported: pin.reported
+        });
+        this.toggleLoadingSpinner(this.state.isLoading);
+      });
   }
 
   // Show Delete modal:
@@ -139,10 +141,10 @@ export default class UpdatePinForm extends React.Component {
           title: '',
           artist: '',
           info: '',
-          marker: {}
+          marker: {},
+          isLoading: false
         });
         this.fileInputRef.current.value = null;
-        this.toggleLoadingSpinner(isLoading);
         window.location.hash = 'my-canvas';
       })
       .catch(err => {
@@ -164,91 +166,95 @@ export default class UpdatePinForm extends React.Component {
 
     return (
       <>
-        <ModalMarkedReported
-          show={ state.showReported }
-          onHide={ handleCloseReported }
-          showDelete={ handleShowDelete }/>
+        {state.isLoading && !state.showDelete
+          ? <LoadingSpinner />
+          : <>
+              <ModalMarkedReported
+                show={ state.showReported }
+                onHide={ handleCloseReported }
+                showDelete={ handleShowDelete }/>
 
-        <Container className = 'form-container px-0'>
-          <Form className='position-relative pb-3' onSubmit={ handleSubmit }>
-            <Form.Label className='mt-2' htmlFor='title'>
-              Street Art Title:
-            </Form.Label>
-            <Form.Control
-              required
-              autoFocus
-              id='title'
-              type='text'
-              name='title'
-              value={ state.title }
-              placeholder='Enter Title, or "Unknown"'
-              onChange={ handleChange }
+              <Container className = 'form-container px-0'>
+                <Form className='position-relative pb-3' onSubmit={ handleSubmit }>
+                  <Form.Label className='mt-2' htmlFor='title'>
+                    Street Art Title:
+                  </Form.Label>
+                  <Form.Control
+                    required
+                    autoFocus
+                    id='title'
+                    type='text'
+                    name='title'
+                    value={ state.title }
+                    placeholder='Enter Title, or "Unknown"'
+                    onChange={ handleChange }
+                  />
+
+                  <Form.Label htmlFor='artist'>
+                    Artist Name or Tag:
+                  </Form.Label>
+                  <Form.Control
+                    required
+                    id='artist'
+                    type='text'
+                    name='artist'
+                    value={ state.artist }
+                    placeholder='Enter Artist Name or Tag, or "Unknown"'
+                    onChange={ handleChange }
+                  />
+
+                  <Form.Label>Street Art Photo:</Form.Label>
+                  <Form.Control
+                    id='image'
+                    type='file'
+                    name='image'
+                    ref={ this.fileInputRef }
+                    accept='.png, .jpg, .jpeg, .gif'
+                  />
+
+                  <Form.Label htmlFor='info'>
+                    Description or Information:
+                  </Form.Label>
+                  <Form.Control
+                    as='textarea'
+                    rows={ 4 }
+                    required
+                    id='info'
+                    name='info'
+                    value={ state.info }
+                    placeholder='Add some information about this pin...'
+                    onChange={ handleChange }
+                  />
+
+                  <p className='form-label'>
+                    Click the map to drop a pin at the Street Art location:
+                  </p>
+                  <UpdatePinMap
+                    marker={ state.marker }
+                    setMarker={ this.setMarker }>
+                  </UpdatePinMap>
+
+                  <Button className='mt-3 mb-5' type='submit' disabled={ state.isLoading }>
+                    Submit
+                  </Button>
+
+                  <Button
+                    className='mt-3 mb-5 warning-bk del float-end'
+                    type='button'
+                    onClick={ handleShowDelete }
+                    disabled={ state.isLoading }>
+                      Delete
+                  </Button>
+                </Form>
+              </Container>
+
+              <ModalDelete
+                show={ state.showDelete }
+                onHide={ handleCloseDelete }
+                deletePin={ deletePin }
+                isLoading={ state.isLoading }
             />
-
-            <Form.Label htmlFor='artist'>
-              Artist Name or Tag:
-            </Form.Label>
-            <Form.Control
-              required
-              id='artist'
-              type='text'
-              name='artist'
-              value={ state.artist }
-              placeholder='Enter Artist Name or Tag, or "Unknown"'
-              onChange={ handleChange }
-            />
-
-            <Form.Label>Street Art Photo:</Form.Label>
-            <Form.Control
-              id='image'
-              type='file'
-              name='image'
-              ref={ this.fileInputRef }
-              accept='.png, .jpg, .jpeg, .gif'
-            />
-
-            <Form.Label htmlFor='info'>
-              Description or Information:
-            </Form.Label>
-            <Form.Control
-              as='textarea'
-              rows={ 4 }
-              required
-              id='info'
-              name='info'
-              value={ state.info }
-              placeholder='Add some information about this pin...'
-              onChange={ handleChange }
-            />
-
-            <p className='form-label'>
-              Click the map to drop a pin at the Street Art location:
-            </p>
-            <UpdatePinMap
-              marker={ state.marker }
-              setMarker={ this.setMarker }>
-            </UpdatePinMap>
-
-            <Button className='mt-3 mb-5' type='submit' disabled={ state.isLoading }>
-              Submit
-            </Button>
-
-            <Button
-              className='mt-3 mb-5 warning-bk del float-end'
-              type='button'
-              onClick={ handleShowDelete }
-              disabled={ state.isLoading }>
-                Delete
-            </Button>
-            { state.isLoading ? <div className='absolute'> <LoadingSpinner /> </div> : null}
-          </Form>
-        </Container>
-
-        <ModalDelete
-          show={ state.showDelete }
-          onHide={ handleCloseDelete }
-          deletePin={ deletePin }
-        />
+          </> }
       </>
     );
   }

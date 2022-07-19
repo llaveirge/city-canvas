@@ -1,4 +1,5 @@
 import React from 'react';
+import LoadingSpinner from './loading-spinner';
 import { Modal, Button } from 'react-bootstrap';
 
 export default function ModalReport(props) {
@@ -15,13 +16,14 @@ export default function ModalReport(props) {
         <Modal.Body>
           Are you sure you want to report this street art as removed from view?
         </Modal.Body>
-        <Modal.Footer>
-          <Button className='cancel' onClick={ props.onHide }>
+        <Modal.Footer className='position-relative pt-3 pb-4'>
+          <Button className='cancel' onClick={ props.onHide } disabled={ props.isLoading }>
             Cancel
           </Button>
-          <Button className='del warning-bk' onClick={ props.report }>
+          <Button className='del warning-bk' onClick={ props.report } disabled={ props.isLoading }>
             Report
           </Button>
+        { props.isLoading ? <div className='absolute-modal'><LoadingSpinner /></div> : null}
         </Modal.Footer>
       </Modal>
     </>

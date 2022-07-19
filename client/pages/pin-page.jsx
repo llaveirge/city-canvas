@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Col, Image, Card } from 'react-bootstrap';
 import ModalReport from '../components/modal-report';
+import LoadingSpinner from '../components/loading-spinner';
 import Redirect from '../components/redirect';
 import AppContext from '../lib/app-context';
 
@@ -9,22 +10,32 @@ export default class PinPage extends React.Component {
     super(props);
     this.state = {
       pin: {},
-      show: false
+      show: false,
+      isLoading: false
     };
 
     this.toggleSaved = this.toggleSaved.bind(this);
     this.reportPin = this.reportPin.bind(this);
     this.handleShow = this.handleShow.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.toggleLoadingSpinner = this.toggleLoadingSpinner.bind(this);
+  }
 
+  toggleLoadingSpinner(status) {
+    const newStatus = !status;
+    this.setState({ isLoading: newStatus });
   }
 
   componentDidMount() {
     const { user } = this.context;
     if (user) {
+      this.toggleLoadingSpinner(this.state.isLoading);
       fetch(`/api/pins/${this.props.postId}`)
         .then(res => res.json())
-        .then(pin => this.setState({ pin }));
+        .then(pin => {
+          this.setState({ pin });
+          this.toggleLoadingSpinner(this.state.isLoading);
+        });
     }
   }
 
@@ -77,12 +88,14 @@ export default class PinPage extends React.Component {
     const req = {
       method: 'PATCH'
     };
+    this.toggleLoadingSpinner(this.state.isLoading);
     fetch(`/api/report/${this.props.postId}`, req)
       .then(res => res.json())
       .then(reported => {
         const updatedPin = this.state.pin;
         updatedPin.reported = true;
         this.setState({ pin: updatedPin });
+        this.toggleLoadingSpinner(this.state.isLoading);
         this.handleClose();
       });
   }
@@ -98,7 +111,7 @@ export default class PinPage extends React.Component {
   }
 
   render() {
-    const { pin } = this.state;
+    const { pin, isLoading, show } = this.state;
     const { user } = this.context;
 
     if (!user) return <Redirect to='registration' />;
@@ -117,79 +130,84 @@ export default class PinPage extends React.Component {
 
     return (
       <>
-        <Container className='d-flex pt-sm-5 pt-3 align-items-center pin-cont'>
-          <Image
-            className='profile-pic sec-bk-color'
-            src={ pin.photoUrl }
-          ></Image>
-          <p className='feature-font-sm mb-0 ms-3'>{ pin.userName }</p>
-        </Container>
-        <Container className='mt-4 pin-cont'>
-          <Card className='flex-sm-row'>
-            <Col>
-              <Card.Img className='full-pin-img' src={ pin.artPhotoUrl } />
-            </Col>
-            <Col className='custom-basis'>
-              <Card.Body>
-                <Card.Title
-                  as='h4'
-                  className={
-                    `head-text pri-color py-2 ${pin.reported === true
-                      ? 'me-5 pe-1'
-                      : ''}`
-                  }
-                >
-                  { pin.reported === true
-                    ? <span className='align-top warning absolute-right'>
-                        <i className='fas fa-exclamation fa-sm'></i>
-                        <i className='ms-1 fas fa-eye-slash fa-sm'></i>
-                      </span>
-                    : null }
-                  { pin.title }
-                </Card.Title>
-                  <Card.Text className='fw-bold pri-color pb-sm-1'>
-                    Artist: { pin.artistName }
-                  </Card.Text>
-                  <Card.Link
-                    href={
-                      `#pin-map?pinId=${pin.postId}&lat=${pin.lat}&lng=${pin.lng}&img=${encodeURIComponent(pin.artPhotoUrl)}`
-                    }
-                    className='fw-bold sec-color feature-font no-decoration'
-                  >
-                    <i className='me-2 fas fa-map-marker-alt fa-lg'></i>
-                    On The Map
-                  </Card.Link>
-                  <Card.Text className='pt-4 pb-5'>
-                    { pin.comment }
-                  </Card.Text>
-                  { pin.reported === false
-                    ? <Card.Link
-                        role='button'
-                        className='ab-bottom grey report me-5'
-                        onClick={ this.handleShow }>
-                          Report as removed from view
-                      </Card.Link>
-                    : <Card.Text className='ab-bottom warning report mb-0 me-5 pe-1'>
-                        Reported as removed from view
+      { isLoading && !show
+        ? <div className='pt-5'><LoadingSpinner /></div>
+        : <>
+            <Container className='d-flex pt-sm-5 pt-3 align-items-center pin-cont'>
+              <Image
+                className='profile-pic sec-bk-color'
+                src={ pin.photoUrl }
+              ></Image>
+              <p className='feature-font-sm mb-0 ms-3'>{ pin.userName }</p>
+            </Container>
+
+            <Container className='mt-4 pin-cont'>
+              <Card className='flex-sm-row'>
+                <Col>
+                  <Card.Img className='full-pin-img' src={ pin.artPhotoUrl } />
+                </Col>
+                <Col className='custom-basis'>
+                  <Card.Body>
+                    <Card.Title
+                      as='h4'
+                      className={
+                        `head-text pri-color py-2 ${pin.reported === true
+                          ? 'me-5 pe-1'
+                          : ''}`
+                      }
+                    >
+                      { pin.reported === true
+                        ? <span className='align-top warning absolute-right'>
+                            <i className='fas fa-exclamation fa-sm'></i>
+                            <i className='ms-1 fas fa-eye-slash fa-sm'></i>
+                          </span>
+                        : null }
+                      { pin.title }
+                    </Card.Title>
+                      <Card.Text className='fw-bold pri-color pb-sm-1'>
+                        Artist: { pin.artistName }
                       </Card.Text>
-                  }
-                  <Card.Link href='' className="bg-white ab-bottom-right">
-                    <i className={ pin.saved === null
-                      ? 'grey not-saved fas fa-heart fa-lg'
-                      : 'sec-color fas fa-heart fa-lg' }
-                      onClick={ this.toggleSaved }></i>
-                  </Card.Link>
-              </Card.Body>
-            </Col>
-          </Card>
-        </Container>
+                      <Card.Link
+                        href={
+                          `#pin-map?pinId=${pin.postId}&lat=${pin.lat}&lng=${pin.lng}&img=${encodeURIComponent(pin.artPhotoUrl)}`
+                        }
+                        className='fw-bold sec-color feature-font no-decoration'
+                      >
+                        <i className='me-2 fas fa-map-marker-alt fa-lg'></i>
+                        On The Map
+                      </Card.Link>
+                      <Card.Text className='pt-4 pb-5'>
+                        { pin.comment }
+                      </Card.Text>
+                      { pin.reported === false
+                        ? <Card.Link
+                            role='button'
+                            className='ab-bottom grey report me-5'
+                            onClick={ this.handleShow }>
+                              Report as removed from view
+                          </Card.Link>
+                        : <Card.Text className='ab-bottom warning report mb-0 me-5 pe-1'>
+                            Reported as removed from view
+                          </Card.Text>
+                      }
+                      <Card.Link href='' className="bg-white ab-bottom-right">
+                        <i className={ pin.saved === null
+                          ? 'grey not-saved fas fa-heart fa-lg'
+                          : 'sec-color fas fa-heart fa-lg' }
+                          onClick={ this.toggleSaved }></i>
+                      </Card.Link>
+                  </Card.Body>
+                </Col>
+              </Card>
+            </Container>
 
-        <ModalReport
-          show={ this.state.show }
-          onHide={ this.handleClose }
-          report={ this.reportPin }
-        />
-
+            <ModalReport
+              show={ show }
+              onHide={ this.handleClose }
+              report={ this.reportPin }
+              isLoading={ isLoading }
+            />
+          </> }
       </>
     );
   }
