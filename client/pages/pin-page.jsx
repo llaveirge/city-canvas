@@ -11,7 +11,8 @@ export default class PinPage extends React.Component {
     this.state = {
       pin: {},
       show: false,
-      isLoading: false
+      isLoading: false,
+      networkError: false
     };
 
     this.toggleSaved = this.toggleSaved.bind(this);
@@ -34,6 +35,11 @@ export default class PinPage extends React.Component {
         .then(res => res.json())
         .then(pin => {
           this.setState({ pin });
+          this.toggleLoadingSpinner(this.state.isLoading);
+        })
+        .catch(err => {
+          console.error('Fetch Failed!', err);
+          this.setState({ networkError: true });
           this.toggleLoadingSpinner(this.state.isLoading);
         });
     }
@@ -111,7 +117,7 @@ export default class PinPage extends React.Component {
   }
 
   render() {
-    const { pin, isLoading, show } = this.state;
+    const { pin, isLoading, show, networkError } = this.state;
     const { user } = this.context;
 
     if (!user) return <Redirect to='registration' />;
@@ -130,9 +136,14 @@ export default class PinPage extends React.Component {
 
     return (
       <>
-      { isLoading && !show
-        ? <div className='pt-5'><LoadingSpinner /></div>
-        : <>
+      { networkError
+        ? <h6 className='pt-5 px-5 saved-canvas-empty-heading pri-color text-center fw-bold'>
+          Sorry, there was an error connecting to the network!
+          Please check your internet connection and try again.
+        </h6>
+        : isLoading && !show
+          ? <div className='pt-5'><LoadingSpinner /></div>
+          : <>
             <Container className='d-flex pt-sm-5 pt-3 align-items-center pin-cont'>
               <Image
                 className='profile-pic sec-bk-color'
