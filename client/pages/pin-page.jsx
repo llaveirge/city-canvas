@@ -67,7 +67,10 @@ export default class PinPage extends React.Component {
           updatedPin.saver = savedPost.userId;
           this.setState({ pin: updatedPin });
         })
-        .catch(err => console.error('Fetch Failed!', err));
+        .catch(err => {
+          console.error('Fetch Failed!', err);
+          this.setState({ networkError: true });
+        });
     } else if (pin.saved) {
       // Delete from saved:
       const req = {
@@ -85,7 +88,10 @@ export default class PinPage extends React.Component {
           updatedPin.saver = null;
           this.setState({ pin: updatedPin });
         })
-        .catch(err => console.error('Fetch Failed!', err));
+        .catch(err => {
+          console.error('Fetch Failed!', err);
+          this.setState({ networkError: true });
+        });
     }
   }
 
@@ -103,6 +109,11 @@ export default class PinPage extends React.Component {
         this.setState({ pin: updatedPin });
         this.toggleLoadingSpinner(this.state.isLoading);
         this.handleClose();
+      })
+      .catch(err => {
+        console.error('Fetch Failed!', err);
+        this.setState({ networkError: true });
+        this.toggleLoadingSpinner(this.state.isLoading);
       });
   }
 
