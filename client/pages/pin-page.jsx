@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Col, Image, Card } from 'react-bootstrap';
+import { Container, Col, Image, Row, Card } from 'react-bootstrap';
 import ModalReport from '../components/modal-report';
 import LoadingSpinner from '../components/loading-spinner';
 import InternalErrorPage from './internal-error';
@@ -142,12 +142,18 @@ export default class PinPage extends React.Component {
 
     if (pin.error) {
       return (
-        <Container className='text-center'>
-          <h2 className='mt-5 pri-color nf'>404</h2>
-            <p className='my-2'>{ pin.error }</p>
-            <a href='#' className='pri-color'>
-              Return to the City Canvas home feed
-            </a>
+        <Container>
+          <Row className='text-center'>
+            <h2 className='mt-5 display-3 pri-color fw-bold'>404</h2>
+          </Row>
+          <Row className='text-center'>
+            <p className='pt-4 px-4 fw-bold'>{ pin.error }
+            <br />
+              <a href='#' className='pri-color fw-bold'>
+                Return to the City Canvas home feed
+              </a>
+            </p>
+          </Row>
         </Container>
       );
     }
