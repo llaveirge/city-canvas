@@ -9,6 +9,15 @@ export default class NewPin extends React.Component {
     const { user } = this.context;
     if (!user) return <Redirect to='registration' />;
 
+    if (!navigator.onLine) {
+      return (
+        <h6 className='pt-5 px-5 saved-canvas-empty-heading pri-color text-center fw-bold'>
+          Sorry, there was an error connecting to the network!
+          Please check your internet connection and try again.
+        </h6>
+      );
+    }
+
     return (
       <>
         <Container>
