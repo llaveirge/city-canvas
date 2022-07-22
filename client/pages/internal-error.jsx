@@ -27,6 +27,6 @@ export default function InternalErrorPage(props) {
               </li>
             </ul>
       </Row>
-      </Container>
+    </Container>
   );
 }

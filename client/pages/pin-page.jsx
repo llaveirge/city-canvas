@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Col, Image, Card } from 'react-bootstrap';
 import ModalReport from '../components/modal-report';
 import LoadingSpinner from '../components/loading-spinner';
+import InternalErrorPage from './internal-error';
 import Redirect from '../components/redirect';
 import AppContext from '../lib/app-context';
 
@@ -60,12 +61,18 @@ export default class PinPage extends React.Component {
         body: JSON.stringify(user)
       };
       fetch(`/api/save-post/${this.props.postId}`, req)
-        .then(res => res.json())
-        .then(savedPost => {
-          const updatedPin = pin;
-          updatedPin.saved = savedPost.createdAt;
-          updatedPin.saver = savedPost.userId;
-          this.setState({ pin: updatedPin });
+        .then(res => {
+          if (res.ok) {
+            res.json()
+              .then(savedPost => {
+                const updatedPin = pin;
+                updatedPin.saved = savedPost.createdAt;
+                updatedPin.saver = savedPost.userId;
+                this.setState({ pin: updatedPin });
+              });
+          } else {
+            this.setState({ internalError: true });
+          }
         })
         .catch(err => {
           console.error('Fetch Failed!', err);
@@ -128,7 +135,7 @@ export default class PinPage extends React.Component {
   }
 
   render() {
-    const { pin, isLoading, show, networkError } = this.state;
+    const { pin, isLoading, show, networkError, internalError } = this.state;
     const { user } = this.context;
 
     if (!user) return <Redirect to='registration' />;
@@ -143,6 +150,10 @@ export default class PinPage extends React.Component {
             </a>
         </Container>
       );
+    }
+
+    if (internalError) {
+      return <InternalErrorPage />;
     }
 
     return (
