@@ -38,14 +38,17 @@ export default class Home extends React.Component {
 
     if (!user) return <Redirect to='registration' />;
 
+    if (networkError) {
+      return (
+        <h6 className='pt-5 px-5 saved-canvas-empty-heading pri-color text-center fw-bold'>
+          Sorry, there was an error connecting to the network!
+          Please check your internet connection and try again.
+        </h6>
+      );
+    }
+
     return (
-      <>
-        { networkError
-          ? <h6 className='pt-5 px-5 saved-canvas-empty-heading pri-color text-center fw-bold'>
-            Sorry, there was an error connecting to the network!
-            Please check your internet connection and try again.
-            </h6>
-          : <Container className='feed-cont'>
+         <Container className='feed-cont'>
               <Row className='pt-5'>
                 <Col>
                   { isLoading
@@ -78,8 +81,6 @@ export default class Home extends React.Component {
                 </Col>
               </Row>
             </Container>
-        }
-      </>
     );
   }
 }

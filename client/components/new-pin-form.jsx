@@ -12,7 +12,8 @@ export default class NewPinForm extends React.Component {
       artist: '',
       info: '',
       marker: {},
-      isLoading: false
+      isLoading: false,
+      networkError: false
     };
 
     this.setMarker = this.setMarker.bind(this);
@@ -70,12 +71,22 @@ export default class NewPinForm extends React.Component {
       })
       .catch(err => {
         console.error('Fetch Failed!', err);
+        this.setState({ networkError: true });
         this.toggleLoadingSpinner(isLoading);
       });
   }
 
   render() {
     const { handleChange, handleSubmit, state, setMarker } = this;
+
+    if (state.networkError) {
+      return (
+        <h6 className='pt-5 px-5 saved-canvas-empty-heading pri-color text-center fw-bold'>
+          Sorry, there was an error connecting to the network!
+          Please check your internet connection and try again.
+        </h6>
+      );
+    }
 
     return (
       <Container className='form-container px-0'>
