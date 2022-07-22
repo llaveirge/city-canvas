@@ -26,8 +26,7 @@ export default class Home extends React.Component {
         })
         .catch(err => {
           console.error('Fetch Failed!', err);
-          this.setState({ networkError: true });
-          this.toggleLoadingSpinner(this.state.isLoading);
+          this.setState({ networkError: true, isLoading: false });
         });
     }
   }
