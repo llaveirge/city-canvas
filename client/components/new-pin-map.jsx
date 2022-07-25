@@ -1,4 +1,5 @@
 import React from 'react';
+import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import LoadingSpinner from './loading-spinner';
 import {
   GoogleMap,
@@ -33,6 +34,11 @@ export default function NewPinMap(props) {
     mapRef.current.setZoom(17);
   }, []);
 
+  // Show tooltip for target button that triggers the GeoLocate function
+  const showTooltip = props => (
+    <Tooltip { ...props}>Target my location</Tooltip>
+  );
+
   // Use Geolocation to locate the user for targeting via a button:
   function GeoLocate({ panTo }) {
     return (
@@ -43,11 +49,13 @@ export default function NewPinMap(props) {
           });
         }, () => null);
       }}>
-        <img
-          className='target sec-bk-color'
-          src='/target-audience.webp'
-          alt='Target my location!'
-        />
+        <OverlayTrigger placement='bottom' overlay={showTooltip}>
+          <img
+            className='target sec-bk-color'
+            src='/target-audience.webp'
+            alt='Target my location!'
+          />
+        </OverlayTrigger>
       </button>
     );
   }
