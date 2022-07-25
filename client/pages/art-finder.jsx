@@ -23,6 +23,7 @@ export default function ArtFinder(props) {
 
   const [markers, setMarkers] = React.useState([]);
   const [selected, setSelected] = React.useState(null);
+  const [networkError, setNetworkError] = React.useState(false);
 
   // Prevent re-renders with useRef, specifically when placing markers:
   const mapRef = React.useRef();
@@ -42,6 +43,10 @@ export default function ArtFinder(props) {
       .then(response => response.json())
       .then(markers => {
         setMarkers(markers);
+      })
+      .catch(err => {
+        console.error('Fetch Failed!', err);
+        setNetworkError(true);
       });
   }, []);
 
@@ -66,6 +71,12 @@ export default function ArtFinder(props) {
 
   if (loadError) return 'Error loading map';
   if (!isLoaded) return <LoadingSpinner />;
+  if (networkError) {
+    return <h6 className='pt-5 px-5 saved-canvas-empty-heading pri-color text-center fw-bold'>
+          Sorry, there was an error connecting to the network!
+          Please check your internet connection and try again.
+        </h6>;
+  }
 
   return (
     <>
