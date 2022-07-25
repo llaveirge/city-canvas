@@ -190,7 +190,7 @@ app.post('/api/auth/sign-in', (req, res, next) => {
     .catch(err => next(err));
 });
 
-// Post new pin to to 'posts' table:
+// Post new pin to 'posts' table:
 app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
   const { title, artist, info, lat, lng, userId } = req.body;
 
@@ -207,7 +207,11 @@ app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
     throw new ClientError(400, 'lat and lng are required fields');
   }
   if (!userId) {
-    throw new ClientError(400, 'userId is required');
+    throw new ClientError(400, 'userId is required, please sign in or create an account');
+  }
+
+  if (!req.file) {
+    throw new ClientError(400, 'an image upload is required');
   }
 
   const url = `/images/${req.file.filename}`;
