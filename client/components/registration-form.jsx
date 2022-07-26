@@ -14,6 +14,7 @@ export default class RegistrationForm extends React.Component {
       passwordError: '',
       usernameError: '',
       emailError: '',
+      imageError: '',
       isLoading: false
     };
 
@@ -77,6 +78,8 @@ export default class RegistrationForm extends React.Component {
               this.setState({ emailError: response.error, isLoading: false });
             } else if (response.error.includes('password')) {
               this.setState({ passwordError: response.error, isLoading: false });
+            } else if (response.error.includes('image')) {
+              this.setState({ imageError: response.error, isLoading: false });
             }
           });
         } else {
@@ -88,7 +91,8 @@ export default class RegistrationForm extends React.Component {
             password: '',
             passwordError: '',
             usernameError: '',
-            emailError: ''
+            emailError: '',
+            imageError: ''
           });
           this.fileInputRef.current.value = null;
           this.toggleLoadingSpinner(isLoading);
@@ -183,13 +187,18 @@ export default class RegistrationForm extends React.Component {
               Profile Photo
             </Form.Label>
             <Form.Control
+              required
               id='image'
               className='mb-1'
               type='file'
               name='image'
               ref={ this.fileInputRef }
               accept='.png, .jpg, .jpeg, .gif'
+              aria-describedby='imageErrorMessage'
             />
+            <Form.Text id='imageErrorMessage' className='d-block warning'>
+              { state.imageError ? state.imageError : null }
+            </Form.Text>
 
             <Form.Label className='mt-2' htmlFor='password'>
               Create Your Password
