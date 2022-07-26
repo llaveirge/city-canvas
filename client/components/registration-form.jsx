@@ -1,6 +1,7 @@
 import React from 'react';
-import { Container, Col, Button, Form } from 'react-bootstrap';
+import { Container, Col, Button, Form, Row } from 'react-bootstrap';
 import LoadingSpinner from './loading-spinner';
+import InternalErrorPage from '../pages/internal-error';
 
 export default class RegistrationForm extends React.Component {
   constructor(props) {
@@ -80,6 +81,9 @@ export default class RegistrationForm extends React.Component {
               this.setState({ passwordError: response.error, isLoading: false });
             } else if (response.error.includes('image')) {
               this.setState({ imageError: response.error, isLoading: false });
+            } else {
+              this.setState({ internalError: true });
+              this.toggleLoadingSpinner(this.state.isLoading);
             }
           });
         } else {
@@ -107,6 +111,16 @@ export default class RegistrationForm extends React.Component {
 
   render() {
     const { handleChange, handleSubmit, passwordMessage, state } = this;
+
+    if (state.internalError) {
+      return (
+      <Container className='registration-cont bg-white d-flex justify-content-center pt-md-5'>
+        <Row className='login-heading-row'>
+          <InternalErrorPage />
+        </Row>
+        </Container>
+      );
+    }
 
     return (
         <Container
