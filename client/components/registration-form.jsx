@@ -16,7 +16,8 @@ export default class RegistrationForm extends React.Component {
       usernameError: '',
       emailError: '',
       imageError: '',
-      isLoading: false
+      isLoading: false,
+      networkError: false
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -105,12 +106,26 @@ export default class RegistrationForm extends React.Component {
       })
       .catch(err => {
         console.error('Fetch Has Failed!', err);
+        this.setState({ networkError: true });
         this.toggleLoadingSpinner(isLoading);
       });
   }
 
   render() {
     const { handleChange, handleSubmit, passwordMessage, state } = this;
+
+    if (state.networkError) {
+      return (
+      <Container className='registration-cont bg-white d-flex justify-content-center pt-md-5'>
+        <Row className='login-heading-row'>
+          <h6 className='pt-5 px-5 saved-canvas-empty-heading pri-color text-center fw-bold'>
+            Sorry, there was an error connecting to the network!
+            Please check your internet connection and try again.
+          </h6>
+        </Row>
+      </Container>
+      );
+    }
 
     if (state.internalError) {
       return (

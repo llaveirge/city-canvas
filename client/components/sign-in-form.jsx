@@ -84,13 +84,13 @@ export default class SignInForm extends React.Component {
 
     if (state.networkError) {
       return (
-         <Container className='login-cont bg-white px-4 d-flex flex-row flex-wrap align-self-center'>
-        <Row className='login-heading-row'>
-        <h6 className='pt-5 px-5 saved-canvas-empty-heading pri-color text-center fw-bold'>
-          Sorry, there was an error connecting to the network!
-          Please check your internet connection and try again.
-        </h6>
-        </Row>
+        <Container className='login-cont bg-white px-4 d-flex flex-row flex-wrap align-self-center'>
+          <Row className='login-heading-row'>
+            <h6 className='pt-5 px-5 saved-canvas-empty-heading pri-color text-center fw-bold'>
+              Sorry, there was an error connecting to the network!
+              Please check your internet connection and try again.
+            </h6>
+          </Row>
         </Container>
       );
     }
