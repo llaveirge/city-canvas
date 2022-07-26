@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Form, Row, Button } from 'react-bootstrap';
+import InternalErrorPage from '../pages/internal-error';
 import LoadingSpinner from './loading-spinner';
 
 export default class SignInForm extends React.Component {
@@ -52,8 +53,13 @@ export default class SignInForm extends React.Component {
       .then(res => {
         res.json().then(response => {
           if (response.error) {
-            this.setState({ error: response.error });
-            this.toggleLoadingSpinner(this.state.isLoading);
+            if (response.error.includes('login')) {
+              this.setState({ error: response.error });
+              this.toggleLoadingSpinner(this.state.isLoading);
+            } else {
+              this.setState({ internalError: true });
+              this.toggleLoadingSpinner(this.state.isLoading);
+            }
           } else if (response.user && response.token) {
             this.props.onSignIn(response);
             this.setState({
@@ -73,6 +79,17 @@ export default class SignInForm extends React.Component {
 
   render() {
     const { handleSubmit, handleChange, state, errorMessage } = this;
+
+    if (state.internalError) {
+      return (
+      <Container className='login-cont bg-white px-4 d-flex flex-row flex-wrap align-self-center'>
+        <Row className='login-heading-row'>
+          <InternalErrorPage />
+        </Row>
+        </Container>
+      );
+    }
+
     return (
       <Container className='login-cont bg-white px-4 d-flex flex-row flex-wrap align-self-center'>
         <Row className='login-heading-row'>
