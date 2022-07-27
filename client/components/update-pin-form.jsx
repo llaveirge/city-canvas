@@ -17,7 +17,8 @@ export default class UpdatePinForm extends React.Component {
       reported: '',
       showDelete: false,
       showReported: '',
-      isLoading: false
+      isLoading: false,
+      networkError: false
     };
 
     this.setMarker = this.setMarker.bind(this);
@@ -52,6 +53,11 @@ export default class UpdatePinForm extends React.Component {
           deleted: pin.deleted,
           showReported: pin.reported
         });
+        this.toggleLoadingSpinner(this.state.isLoading);
+      })
+      .catch(err => {
+        console.error('Fetch Failed!', err);
+        this.setState({ networkError: true });
         this.toggleLoadingSpinner(this.state.isLoading);
       });
   }
@@ -101,6 +107,7 @@ export default class UpdatePinForm extends React.Component {
       })
       .catch(err => {
         console.error('Fetch Failed!', err);
+        this.setState({ networkError: true });
         this.toggleLoadingSpinner(this.state.isLoading);
       });
   }
@@ -149,6 +156,7 @@ export default class UpdatePinForm extends React.Component {
       })
       .catch(err => {
         console.error('Fetch Failed!', err);
+        this.setState({ networkError: true });
         this.toggleLoadingSpinner(isLoading);
       });
   }
@@ -163,6 +171,15 @@ export default class UpdatePinForm extends React.Component {
       deletePin,
       state
     } = this;
+
+    if (state.networkError) {
+      return (
+        <h6 className='pt-5 px-5 saved-canvas-empty-heading pri-color text-center fw-bold'>
+          Sorry, there was an error connecting to the network!
+          Please check your internet connection and try again.
+        </h6>
+      );
+    }
 
     return (
       <>
