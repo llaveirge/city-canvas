@@ -10,7 +10,8 @@ export default class SavedPins extends React.Component {
     super(props);
     this.state = {
       pins: [],
-      isLoading: false
+      isLoading: false,
+      networkError: false
     };
   }
 
@@ -22,15 +23,28 @@ export default class SavedPins extends React.Component {
         .then(response => response.json())
         .then(pins => {
           this.setState({ pins, isLoading: false });
+        })
+        .catch(err => {
+          console.error('Fetch Failed!', err);
+          this.setState({ networkError: true, isLoading: false });
         });
     }
   }
 
   render() {
-    const { pins, isLoading } = this.state;
+    const { pins, isLoading, networkError } = this.state;
     const { user } = this.context;
 
     if (!user) return <Redirect to='registration' />;
+
+    if (networkError) {
+      return (
+        <h6 className='pt-5 px-5 saved-canvas-empty-heading pri-color text-center fw-bold'>
+          Sorry, there was an error connecting to the network!
+          Please check your internet connection and try again.
+        </h6>
+      );
+    }
 
     return (
       <Container className='feed-cont'>
@@ -59,7 +73,6 @@ export default class SavedPins extends React.Component {
                     <br/>Browse the <a className='sec-color no-decoration' href='#'>
                       City Canvas Home feed</a> and save your favorite pins!
                   </h6>
-
             }
           </Col>
         </Row>
