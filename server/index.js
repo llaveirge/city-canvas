@@ -209,7 +209,6 @@ app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
   if (!userId) {
     throw new ClientError(400, 'userId is required, please sign in or create an account');
   }
-
   if (!req.file) {
     throw new ClientError(400, 'an image upload is required');
   }
@@ -322,7 +321,7 @@ app.post('/api/auth/sign-up', uploadsMiddleware, (req, res, next) => {
 // Update a post pin in posts table
 app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
   const postId = Number(req.params.postId);
-  const { title, artist, info, lat, lng } = req.body;
+  const { title, artist, info, lat, lng, userId } = req.body;
 
   if (!postId || postId < 0) {
     throw new ClientError(400, 'postId must be a positive integer');
@@ -335,6 +334,9 @@ app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
   }
   if (!info) {
     throw new ClientError(400, 'info is a required field');
+  }
+  if (!userId) {
+    throw new ClientError(400, 'userId is required, please sign in or create an account');
   }
   if (!lat || !lng) {
     throw new ClientError(400, 'lat and lng are required fields');
@@ -356,13 +358,14 @@ app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
         "comment" = $4,
         "lat" = $5,
         "lng" = $6
-        ${url ? ',"artPhotoUrl" = $7' : ''}
+        ${url ? ',"artPhotoUrl" = $8' : ''}
       where "postId" = $1
+      and "userId" = $7
       and "deleted" is NULL
     returning *;
   `;
 
-  const params = [postId, title, artist, info, lat, lng];
+  const params = [postId, title, artist, info, lat, lng, userId];
   if (url !== null) params.push(url);
   db.query(sql, params)
     .then(response => {
@@ -370,7 +373,7 @@ app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
       if (!pin) {
         throw new ClientError(
           404,
-          `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`
+          `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId} associated with userId ${userId}. Please check you're logged in properly and that you're updating the correct pin.`
         );
       }
       res.json(pin);

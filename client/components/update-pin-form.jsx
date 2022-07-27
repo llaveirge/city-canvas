@@ -3,6 +3,7 @@ import { Container, Button, Form } from 'react-bootstrap';
 import UpdatePinMap from './update-pin-map';
 import ModalDelete from './modal-deleted';
 import ModalMarkedReported from './modal-marked-reported';
+import InternalErrorPage from '../pages/internal-error';
 import LoadingSpinner from './loading-spinner';
 
 export default class UpdatePinForm extends React.Component {
@@ -31,6 +32,7 @@ export default class UpdatePinForm extends React.Component {
     this.handleShowReported = this.handleShowReported.bind(this);
     this.handleCloseReported = this.handleCloseReported.bind(this);
     this.toggleLoadingSpinner = this.toggleLoadingSpinner.bind(this);
+    this.errorMessage = this.errorMessage.bind(this);
   }
 
   toggleLoadingSpinner(status) {
@@ -41,19 +43,24 @@ export default class UpdatePinForm extends React.Component {
   componentDidMount() {
     this.toggleLoadingSpinner(this.state.isLoading);
     fetch(`/api/pins/${this.props.postId}`)
-      .then(res => res.json())
-      .then(pin => {
-        this.setState({
-          title: pin.title,
-          artist: pin.artistName,
-          info: pin.comment,
-          marker: { lat: pin.lat, lng: pin.lng },
-          postId: pin.postId,
-          reported: pin.reported,
-          deleted: pin.deleted,
-          showReported: pin.reported
-        });
-        this.toggleLoadingSpinner(this.state.isLoading);
+      .then(res => {
+        if (res.ok) {
+          res.json().then(pin => {
+            this.setState({
+              title: pin.title,
+              artist: pin.artistName,
+              info: pin.comment,
+              marker: { lat: pin.lat, lng: pin.lng },
+              postId: pin.postId,
+              reported: pin.reported,
+              deleted: pin.deleted,
+              showReported: pin.reported
+            });
+            this.toggleLoadingSpinner(this.state.isLoading);
+          });
+        } else {
+          this.setState({ internalError: true });
+        }
       })
       .catch(err => {
         console.error('Fetch Failed!', err);
@@ -93,17 +100,22 @@ export default class UpdatePinForm extends React.Component {
     };
     this.toggleLoadingSpinner(this.state.isLoading);
     fetch(`/api/delete-pin/${this.props.postId}`, req)
-      .then(res => res.json())
-      .then(response => {
-        this.setState({
-          title: '',
-          artist: '',
-          info: '',
-          marker: {}
-        });
-        this.fileInputRef.current.value = null;
-        this.toggleLoadingSpinner(this.state.isLoading);
-        window.location.hash = 'my-canvas';
+      .then(res => {
+        if (!res.ok) {
+          res.json().then(response => {
+            this.setState({ internalError: true });
+          });
+        } else {
+          this.setState({
+            title: '',
+            artist: '',
+            info: '',
+            marker: {}
+          });
+          this.fileInputRef.current.value = null;
+          this.toggleLoadingSpinner(this.state.isLoading);
+          window.location.hash = 'my-canvas';
+        }
       })
       .catch(err => {
         console.error('Fetch Failed!', err);
@@ -122,6 +134,16 @@ export default class UpdatePinForm extends React.Component {
     this.setState({ marker });
   }
 
+  errorMessage(message) {
+    if (message) {
+      return (
+        <Form.Text id='errorMessage' className='d-block warning'>
+          { message }
+        </Form.Text>
+      );
+    }
+  }
+
   handleSubmit(event) {
     event.preventDefault();
     const { title, artist, info, marker, isLoading } = this.state;
@@ -132,6 +154,7 @@ export default class UpdatePinForm extends React.Component {
     formData.append('info', info);
     formData.append('lat', +marker.lat);
     formData.append('lng', +marker.lng);
+    formData.append('userId', this.props.user);
     if (this.fileInputRef.current.value !== '') {
       formData.append('image', this.fileInputRef.current.files[0]);
     }
@@ -142,17 +165,22 @@ export default class UpdatePinForm extends React.Component {
     };
     this.toggleLoadingSpinner(isLoading);
     fetch(`/api/pins/${this.props.postId}`, req)
-      .then(res => res.json())
-      .then(response => {
-        this.setState({
-          title: '',
-          artist: '',
-          info: '',
-          marker: {},
-          isLoading: false
-        });
-        this.fileInputRef.current.value = null;
-        window.location.hash = 'my-canvas';
+      .then(res => {
+        if (res.ok) {
+          res.json().then(response => {
+            this.setState({
+              title: '',
+              artist: '',
+              info: '',
+              marker: {},
+              isLoading: false
+            });
+            this.fileInputRef.current.value = null;
+            window.location.hash = 'my-canvas';
+          });
+        } else {
+          this.setState({ internalError: true });
+        }
       })
       .catch(err => {
         console.error('Fetch Failed!', err);
@@ -179,6 +207,10 @@ export default class UpdatePinForm extends React.Component {
           Please check your internet connection and try again.
         </h6>
       );
+    }
+
+    if (state.internalError) {
+      return <InternalErrorPage />;
     }
 
     return (
