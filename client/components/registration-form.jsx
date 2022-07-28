@@ -55,7 +55,12 @@ export default class RegistrationForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { first, last, email, username, password, isLoading } = this.state;
+    const { first, last, email, username, password, isLoading, usernameError, emailError, passwordError, imageError } = this.state;
+
+    // clear the form error message text, if any:
+    if (usernameError || emailError || passwordError || imageError) {
+      this.setState({ usernameError: '', emailError: '', passwordError: '', imageError: '' });
+    }
 
     const formData = new FormData();
     formData.append('first', first);
@@ -74,6 +79,7 @@ export default class RegistrationForm extends React.Component {
       .then(res => {
         if (!res.ok) {
           res.json().then(response => {
+            console.error(response.error);
             if (response.error.includes('username')) {
               this.setState({ usernameError: response.error, isLoading: false });
             } else if (response.error.includes('email')) {

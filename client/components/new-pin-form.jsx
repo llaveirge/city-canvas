@@ -100,7 +100,6 @@ export default class NewPinForm extends React.Component {
           this.setState({ networkError: true });
           this.toggleLoadingSpinner(isLoading);
         });
-
     }
   }
 

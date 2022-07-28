@@ -195,13 +195,13 @@ app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
   const { title, artist, info, lat, lng, userId } = req.body;
 
   if (!title) {
-    throw new ClientError(400, 'title is a required field');
+    throw new ClientError(400, 'street art title is a required field');
   }
   if (!artist) {
-    throw new ClientError(400, 'artist is a required field');
+    throw new ClientError(400, 'artist name or tag is a required field');
   }
   if (!info) {
-    throw new ClientError(400, 'info is a required field');
+    throw new ClientError(400, 'description or information is a required field');
   }
   if (!lat || !lng) {
     throw new ClientError(400, 'lat and lng are required fields');
@@ -327,13 +327,13 @@ app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
     throw new ClientError(400, 'postId must be a positive integer');
   }
   if (!title) {
-    throw new ClientError(400, 'title is a required field');
+    throw new ClientError(400, 'street art title is a required field');
   }
   if (!artist) {
-    throw new ClientError(400, 'artist is a required field');
+    throw new ClientError(400, 'artist name or tag is a required field');
   }
   if (!info) {
-    throw new ClientError(400, 'info is a required field');
+    throw new ClientError(400, 'description or information is a required field');
   }
   if (!userId) {
     throw new ClientError(400, 'userId is required, please sign in or create an account');
