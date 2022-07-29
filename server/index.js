@@ -239,13 +239,13 @@ app.post('/api/save-post/:postId', (req, res, next) => {
     throw new ClientError(400, 'postId must be a positive integer');
   }
   if (!userId || userId < 0 || isNaN(userId)) {
-    throw new ClientError(400, 'invalid userId');
+    throw new ClientError(400, 'invalid userId, please sign in or create an account');
   }
 
   const sql = `
     insert into "savedPosts" ("postId", "userId")
       select $1, $2
-    where exists (select 1 from "posts" where "postId" = $1 )
+    where exists (select 1 from "posts" where "postId" = $1 and "deleted" is NULL)
     returning *;
   `;
 
@@ -255,7 +255,7 @@ app.post('/api/save-post/:postId', (req, res, next) => {
       if (!response.rows[0]) {
         throw new ClientError(
           404,
-          `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`
+          `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}. It may have been deleted.`
         );
       }
       const [saved] = response.rows;
@@ -421,6 +421,7 @@ app.patch('/api/report/:postId', (req, res, next) => {
     update "posts"
       set "reported" = true
       where "postId" = $1
+      and "deleted" is NULL
     returning "reported";
   `;
 
@@ -431,7 +432,7 @@ app.patch('/api/report/:postId', (req, res, next) => {
       if (!reported) {
         throw new ClientError(
           404,
-            `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`
+            `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}. It may have been deleted.`
         );
       }
       res.json(reported);
@@ -446,6 +447,10 @@ app.delete('/api/delete-saved/:postId', (req, res, next) => {
   const postId = Number(req.params.postId);
   if (!postId || postId < 0 || isNaN(postId)) {
     throw new ClientError(400, 'postId must be a positive integer');
+  }
+
+  if (!userId || userId < 0 || isNaN(userId)) {
+    throw new ClientError(400, 'invalid userId, please sign in or create an account');
   }
 
   const sql = `

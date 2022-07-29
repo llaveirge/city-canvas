@@ -63,15 +63,21 @@ export default class PinPage extends React.Component {
       fetch(`/api/save-post/${this.props.postId}`, req)
         .then(res => {
           if (res.ok) {
-            res.json()
-              .then(savedPost => {
-                const updatedPin = pin;
-                updatedPin.saved = savedPost.createdAt;
-                updatedPin.saver = savedPost.userId;
-                this.setState({ pin: updatedPin });
-              });
+            res.json().then(savedPost => {
+              const updatedPin = pin;
+              updatedPin.saved = savedPost.createdAt;
+              updatedPin.saver = savedPost.userId;
+              this.setState({ pin: updatedPin });
+            });
           } else {
-            this.setState({ internalError: true });
+            res.json().then(response => {
+              console.error(response.error);
+              if (response.error.includes('postId') || response.error.includes('userId')) {
+                this.setState({ pin: response });
+              } else {
+                this.setState({ internalError: true });
+              }
+            });
           }
         })
         .catch(err => {
@@ -88,12 +94,24 @@ export default class PinPage extends React.Component {
         body: JSON.stringify(user)
       };
       fetch(`/api/delete-saved/${this.props.postId}`, req)
-        .then(response => response.text())
-        .then(deletedPin => {
-          const updatedPin = pin;
-          updatedPin.saved = null;
-          updatedPin.saver = null;
-          this.setState({ pin: updatedPin });
+        .then(res => {
+          if (res.ok) {
+            res.text().then(deletedPin => {
+              const updatedPin = pin;
+              updatedPin.saved = null;
+              updatedPin.saver = null;
+              this.setState({ pin: updatedPin });
+            });
+          } else {
+            res.json().then(response => {
+              console.error(response.error);
+              if (response.error.includes('postId') || response.error.includes('userId')) {
+                this.setState({ pin: response });
+              } else {
+                this.setState({ internalError: true });
+              }
+            });
+          }
         })
         .catch(err => {
           console.error('Fetch Failed!', err);
@@ -109,13 +127,27 @@ export default class PinPage extends React.Component {
     };
     this.toggleLoadingSpinner(this.state.isLoading);
     fetch(`/api/report/${this.props.postId}`, req)
-      .then(res => res.json())
-      .then(reported => {
-        const updatedPin = this.state.pin;
-        updatedPin.reported = true;
-        this.setState({ pin: updatedPin });
-        this.toggleLoadingSpinner(this.state.isLoading);
-        this.handleClose();
+      .then(res => {
+        if (res.ok) {
+          res.json().then(reported => {
+            const updatedPin = this.state.pin;
+            updatedPin.reported = true;
+            this.setState({ pin: updatedPin });
+            this.toggleLoadingSpinner(this.state.isLoading);
+            this.handleClose();
+          });
+        } else {
+          res.json().then(response => {
+            console.error(response.error);
+            if (response.error.includes('postId')) {
+              this.setState({ pin: response });
+              this.toggleLoadingSpinner(this.state.isLoading);
+            } else {
+              this.setState({ internalError: true });
+              this.toggleLoadingSpinner(this.state.isLoading);
+            }
+          });
+        }
       })
       .catch(err => {
         console.error('Fetch Failed!', err);
