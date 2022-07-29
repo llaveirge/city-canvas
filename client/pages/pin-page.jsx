@@ -181,7 +181,7 @@ export default class PinPage extends React.Component {
           <Row className='text-center'>
             <p className='pt-4 px-4 fw-bold'>{ pin.error }
             <br />
-              <a href='#' className='pri-color fw-bold'>
+              <a href='#' className='sec-color fw-bold no-decoration'>
                 Return to the City Canvas home feed
               </a>
             </p>

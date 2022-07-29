@@ -20,7 +20,7 @@ app.use(staticMiddleware);
 app.get('/api/my-canvas-pins/:userId', (req, res, next) => {
   const userId = Number(req.params.userId);
   if (!userId || userId < 0) {
-    throw new ClientError(400, 'postId must be a positive integer');
+    throw new ClientError(400, 'a valid userId is required, please sign in or create an account');
   }
 
   const sql = `
@@ -107,7 +107,7 @@ app.get('/api/pins/:postId', (req, res, next) => {
       if (!response.rows[0]) {
         throw new ClientError(
           404,
-          `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`
+          `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}. It may have been deleted.`
         );
       }
       res.json(response.rows[0]);
@@ -119,8 +119,9 @@ app.get('/api/pins/:postId', (req, res, next) => {
 for the specified userId (saver): */
 app.get('/api/saved-pins/:userId', (req, res, next) => {
   const userId = Number(req.params.userId);
+
   if (!userId || userId < 0) {
-    throw new ClientError(400, 'postId must be a positive integer');
+    throw new ClientError(400, 'a valid userId is required, please sign in or create an account');
   }
 
   const sql = `
@@ -206,8 +207,8 @@ app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
   if (!lat || !lng) {
     throw new ClientError(400, 'lat and lng are required fields');
   }
-  if (!userId) {
-    throw new ClientError(400, 'userId is required, please sign in or create an account');
+  if (!userId | userId < 0) {
+    throw new ClientError(400, 'a valid userId is required, please sign in or create an account');
   }
   if (!req.file) {
     throw new ClientError(400, 'an image upload is required');

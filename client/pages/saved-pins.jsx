@@ -3,6 +3,7 @@ import { Container, Col, Row } from 'react-bootstrap';
 import PostCard from '../components/card';
 import AppContext from '../lib/app-context';
 import Redirect from '../components/redirect';
+import InternalErrorPage from './internal-error';
 import LoadingSpinner from '../components/loading-spinner';
 
 export default class SavedPins extends React.Component {
@@ -20,9 +21,21 @@ export default class SavedPins extends React.Component {
     if (user) {
       this.setState({ isLoading: true });
       fetch(`/api/saved-pins/${user.userId}`)
-        .then(response => response.json())
-        .then(pins => {
-          this.setState({ pins, isLoading: false });
+        .then(res => {
+          if (res.ok) {
+            res.json().then(pins => {
+              this.setState({ pins, isLoading: false });
+            });
+          } else {
+            res.json().then(response => {
+              console.error(response.error);
+              if (response.error.includes('userId')) {
+                this.setState({ userError: true, isLoading: false });
+              } else {
+                this.setState({ internalError: true, isLoading: false });
+              }
+            });
+          }
         })
         .catch(err => {
           console.error('Fetch Failed!', err);
@@ -32,7 +45,7 @@ export default class SavedPins extends React.Component {
   }
 
   render() {
-    const { pins, isLoading, networkError } = this.state;
+    const { pins, isLoading, networkError, internalError, userError } = this.state;
     const { user } = this.context;
 
     if (!user) return <Redirect to='registration' />;
@@ -45,6 +58,18 @@ export default class SavedPins extends React.Component {
         </h6>
       );
     }
+
+    if (userError) {
+      return (
+         <h6 className='pt-5 px-5 saved-canvas-empty-heading pri-color text-center fw-bold'>
+          An account error has occured, please sign out and sign in again, or <a href='#registration' className='sec-color no-decoration'>create an account</a>.
+          <br />
+          Thank you.
+        </h6>
+      );
+    }
+
+    if (internalError) return <InternalErrorPage />;
 
     return (
       <Container className='feed-cont'>
