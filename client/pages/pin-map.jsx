@@ -11,6 +11,16 @@ import {
 } from '@react-google-maps/api';
 
 export default function PinMap(props) {
+  // Check for online status of the browser, if offline send error message:
+  if (!navigator.onLine) {
+    return (
+      <h6 className='pt-5 px-5 saved-canvas-empty-heading pri-color text-center fw-bold'>
+          Sorry, there was an error connecting to the network!
+          Please check your internet connection and try again.
+      </h6>
+    );
+  }
+
   // Check if there is a user logged in, if not, redirect to registration page:
   const validUser = React.useContext(AppContext);
   if (!validUser.user) return <Redirect to='registration' />;
