@@ -3,6 +3,7 @@ import { Navbar, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import AppContext from '../lib/app-context';
 import Redirect from '../components/redirect';
 import LoadingSpinner from '../components/loading-spinner';
+import InternalErrorPage from './internal-error';
 import {
   GoogleMap,
   useLoadScript,
@@ -24,6 +25,7 @@ export default function ArtFinder(props) {
   const [markers, setMarkers] = React.useState([]);
   const [selected, setSelected] = React.useState(null);
   const [networkError, setNetworkError] = React.useState(false);
+  const [internalError, setInternalError] = React.useState(false);
 
   // Prevent re-renders with useRef, specifically when placing markers:
   const mapRef = React.useRef();
@@ -40,9 +42,17 @@ export default function ArtFinder(props) {
   // Fetch all the pins and and set them as markers in state:
   React.useEffect(() => {
     fetch('/api/home-feed')
-      .then(response => response.json())
-      .then(markers => {
-        setMarkers(markers);
+      .then(res => {
+        if (res.ok) {
+          res.json().then(markers => {
+            setMarkers(markers);
+          });
+        } else {
+          res.json().then(response => {
+            console.error(response.error);
+            setInternalError(true);
+          });
+        }
       })
       .catch(err => {
         console.error('Fetch Failed!', err);
@@ -78,6 +88,7 @@ export default function ArtFinder(props) {
 
   if (loadError) return 'Error loading map';
   if (!isLoaded) return <LoadingSpinner />;
+  if (internalError) return <InternalErrorPage />;
   if (networkError) {
     return <h6 className='pt-5 px-5 saved-canvas-empty-heading pri-color text-center fw-bold'>
           Sorry, there was an error connecting to the network!
