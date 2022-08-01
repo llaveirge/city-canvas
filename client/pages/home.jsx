@@ -3,6 +3,7 @@ import { Container, Col, Row } from 'react-bootstrap';
 import PostCard from '../components/card';
 import AppContext from '../lib/app-context';
 import Redirect from '../components/redirect';
+import InternalErrorPage from './internal-error';
 import LoadingSpinner from '../components/loading-spinner';
 
 export default class Home extends React.Component {
@@ -20,9 +21,17 @@ export default class Home extends React.Component {
     if (user) {
       this.setState({ isLoading: true });
       fetch('/api/home-feed')
-        .then(response => response.json())
-        .then(pins => {
-          this.setState({ pins, isLoading: false });
+        .then(res => {
+          if (res.ok) {
+            res.json().then(pins => {
+              this.setState({ pins, isLoading: false });
+            });
+          } else {
+            res.json().then(response => {
+              console.error(response.error);
+              this.setState({ internalError: true, isLoading: false });
+            });
+          }
         })
         .catch(err => {
           console.error('Fetch Failed!', err);
@@ -32,7 +41,7 @@ export default class Home extends React.Component {
   }
 
   render() {
-    const { pins, isLoading, networkError } = this.state;
+    const { pins, isLoading, networkError, internalError } = this.state;
     const { user } = this.context;
 
     if (!user) return <Redirect to='registration' />;
@@ -44,6 +53,10 @@ export default class Home extends React.Component {
           Please check your internet connection and try again.
         </h6>
       );
+    }
+
+    if (internalError) {
+      return <InternalErrorPage />;
     }
 
     return (
