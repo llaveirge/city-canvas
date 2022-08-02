@@ -20,6 +20,10 @@
   font-size: 1.125rem;
 }
 
+.error-text {
+  line-height: 175%;
+}
+
 .report {
   font-size: 0.875rem;
 }

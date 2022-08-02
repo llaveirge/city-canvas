@@ -4,6 +4,8 @@ import PostCard from '../components/card';
 import AppContext from '../lib/app-context';
 import Redirect from '../components/redirect';
 import LoadingSpinner from '../components/loading-spinner';
+import InternalErrorPage from './internal-error';
+import NetworkErrorPage from './network-error';
 
 export default class MyCanvas extends React.Component {
   constructor(props) {
@@ -20,9 +22,21 @@ export default class MyCanvas extends React.Component {
     if (user) {
       this.setState({ isLoading: true });
       fetch(`/api/my-canvas-pins/${user.userId}`)
-        .then(response => response.json())
-        .then(pins => {
-          this.setState({ pins, isLoading: false });
+        .then(res => {
+          if (res.ok) {
+            res.json().then(pins => {
+              this.setState({ pins, isLoading: false });
+            });
+          } else {
+            res.json().then(response => {
+              console.error(response.error);
+              if (response.error.includes('userId')) {
+                this.setState({ userIdError: response.error, isLoading: false });
+              } else {
+                this.setState({ internalError: true, isLoading: false });
+              }
+            });
+          }
         })
         .catch(err => {
           console.error('Fetch Failed!', err);
@@ -32,17 +46,30 @@ export default class MyCanvas extends React.Component {
   }
 
   render() {
-    const { pins, isLoading, networkError } = this.state;
+    const { pins, isLoading, networkError, internalError, userIdError } = this.state;
     const { user } = this.context;
 
     if (!user) return <Redirect to='registration' />;
+    if (internalError) return <InternalErrorPage />;
+    if (networkError) return <NetworkErrorPage />;
 
-    if (networkError) {
+    if (userIdError) {
       return (
-        <h6 className='pt-5 px-5 saved-canvas-empty-heading pri-color text-center fw-bold'>
-          Sorry, there was an error connecting to the network!
-          Please check your internet connection and try again.
-        </h6>
+        <Container>
+          <Row className='text-center'>
+            <h2 className='mt-5 display-3 pri-color fw-bold'>User Account Error</h2>
+          </Row>
+          <Row className='text-center'>
+            <p className='pt-4 px-4 fw-bold error-text'>
+            A valid user account is required to view My City Canvas feed. Please sign-in or create an account.
+              <br />
+              <br />
+              <a href='#registration' className='sec-color fw-bold no-decoration'>
+                Return to the City Canvas Registration Page
+              </a>
+            </p>
+          </Row>
+        </Container>
       );
     }
 
