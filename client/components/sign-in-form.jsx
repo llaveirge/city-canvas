@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Form, Row, Button } from 'react-bootstrap';
 import InternalErrorPage from '../pages/internal-error';
+import NetworkErrorPage from '../pages/network-error';
 import LoadingSpinner from './loading-spinner';
 
 export default class SignInForm extends React.Component {
@@ -82,19 +83,7 @@ export default class SignInForm extends React.Component {
   render() {
     const { handleSubmit, handleChange, state, errorMessage } = this;
 
-    if (state.networkError) {
-      return (
-        <Container className='login-cont bg-white px-4 d-flex flex-row flex-wrap align-self-center'>
-          <Row className='login-heading-row'>
-            <h6 className='pt-5 px-5 saved-canvas-empty-heading pri-color text-center fw-bold'>
-              Sorry, there was an error connecting to the network!
-              Please check your internet connection and try again.
-            </h6>
-          </Row>
-        </Container>
-      );
-    }
-
+    if (state.networkError) return <NetworkErrorPage />;
     if (state.internalError) {
       return (
       <Container className='login-cont bg-white px-4 d-flex flex-row flex-wrap align-self-center'>

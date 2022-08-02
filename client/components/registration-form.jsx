@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Col, Button, Form, Row } from 'react-bootstrap';
 import LoadingSpinner from './loading-spinner';
 import InternalErrorPage from '../pages/internal-error';
+import NetworkErrorPage from '../pages/network-error';
 
 export default class RegistrationForm extends React.Component {
   constructor(props) {
@@ -120,19 +121,7 @@ export default class RegistrationForm extends React.Component {
   render() {
     const { handleChange, handleSubmit, passwordMessage, state } = this;
 
-    if (state.networkError) {
-      return (
-      <Container className='registration-cont bg-white d-flex justify-content-center pt-md-5'>
-        <Row className='login-heading-row'>
-          <h6 className='pt-5 px-5 saved-canvas-empty-heading pri-color text-center fw-bold'>
-            Sorry, there was an error connecting to the network!
-            Please check your internet connection and try again.
-          </h6>
-        </Row>
-      </Container>
-      );
-    }
-
+    if (state.networkError) return <NetworkErrorPage />;
     if (state.internalError) {
       return (
       <Container className='registration-cont bg-white d-flex justify-content-center pt-md-5'>

@@ -3,6 +3,7 @@ import { Navbar, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import AppContext from '../lib/app-context';
 import Redirect from '../components/redirect';
 import LoadingSpinner from '../components/loading-spinner';
+import NetworkErrorPage from './network-error';
 import InternalErrorPage from './internal-error';
 import {
   GoogleMap,
@@ -89,12 +90,7 @@ export default function ArtFinder(props) {
   if (loadError) return 'Error loading map';
   if (!isLoaded) return <LoadingSpinner />;
   if (internalError) return <InternalErrorPage />;
-  if (networkError) {
-    return <h6 className='pt-5 px-5 saved-canvas-empty-heading pri-color text-center fw-bold'>
-          Sorry, there was an error connecting to the network!
-          Please check your internet connection and try again.
-        </h6>;
-  }
+  if (networkError) return <NetworkErrorPage />;
 
   return (
     <>

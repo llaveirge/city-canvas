@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Button, Form } from 'react-bootstrap';
 import LoadingSpinner from './loading-spinner';
 import InternalErrorPage from '../pages/internal-error';
+import NetworkErrorPage from '../pages/network-error';
 import NewPinMap from './new-pin-map';
 import AppContext from '../lib/app-context';
 
@@ -79,7 +80,8 @@ export default class NewPinForm extends React.Component {
         .then(res => {
           if (!res.ok) {
             res.json().then(response => {
-              this.setState({ error: response.error, isLoading: false });
+              console.error(response.error);
+              this.setState({ internalError: true, isLoading: false });
             });
           } else {
             this.setState({
@@ -87,7 +89,7 @@ export default class NewPinForm extends React.Component {
               artist: '',
               info: '',
               marker: {},
-              error: '',
+              internalError: false,
               mapError: ''
             });
             this.fileInputRef.current.value = null;
@@ -106,18 +108,8 @@ export default class NewPinForm extends React.Component {
   render() {
     const { handleChange, handleSubmit, state, setMarker } = this;
 
-    if (state.networkError) {
-      return (
-        <h6 className='pt-5 px-5 saved-canvas-empty-heading pri-color text-center fw-bold'>
-          Sorry, there was an error connecting to the network!
-          Please check your internet connection and try again.
-        </h6>
-      );
-    }
-
-    if (state.error) {
-      return <InternalErrorPage />;
-    }
+    if (state.networkError) return <NetworkErrorPage />;
+    if (state.internalError) return <InternalErrorPage />;
 
     return (
       <Container className='form-container px-0'>

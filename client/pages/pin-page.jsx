@@ -3,6 +3,7 @@ import { Container, Col, Image, Row, Card } from 'react-bootstrap';
 import ModalReport from '../components/modal-report';
 import LoadingSpinner from '../components/loading-spinner';
 import InternalErrorPage from './internal-error';
+import NetworkErrorPage from './network-error';
 import Redirect from '../components/redirect';
 import AppContext from '../lib/app-context';
 
@@ -171,6 +172,8 @@ export default class PinPage extends React.Component {
     const { user } = this.context;
 
     if (!user) return <Redirect to='registration' />;
+    if (internalError) return <InternalErrorPage />;
+    if (networkError) return <NetworkErrorPage />;
 
     if (pin.error) {
       return (
@@ -179,7 +182,7 @@ export default class PinPage extends React.Component {
             <h2 className='mt-5 display-3 pri-color fw-bold'>404</h2>
           </Row>
           <Row className='text-center'>
-            <p className='pt-4 px-4 fw-bold'>{ pin.error }
+            <p className='pt-4 px-4 fw-bold error-text'>{ pin.error }
             <br />
               <a href='#' className='sec-color fw-bold no-decoration'>
                 Return to the City Canvas home feed
@@ -187,19 +190,6 @@ export default class PinPage extends React.Component {
             </p>
           </Row>
         </Container>
-      );
-    }
-
-    if (internalError) {
-      return <InternalErrorPage />;
-    }
-
-    if (networkError) {
-      return (
-        <h6 className='pt-5 px-5 saved-canvas-empty-heading pri-color text-center fw-bold'>
-          Sorry, there was an error connecting to the network!
-          Please check your internet connection and try again.
-        </h6>
       );
     }
 

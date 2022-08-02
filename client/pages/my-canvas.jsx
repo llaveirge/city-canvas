@@ -31,7 +31,7 @@ export default class MyCanvas extends React.Component {
             res.json().then(response => {
               console.error(response.error);
               if (response.error.includes('userId')) {
-                this.setState({ userIdError: response.error, isLoading: false });
+                this.setState({ userIdError: true, isLoading: false });
               } else {
                 this.setState({ internalError: true, isLoading: false });
               }
@@ -61,7 +61,7 @@ export default class MyCanvas extends React.Component {
           </Row>
           <Row className='text-center'>
             <p className='pt-4 px-4 fw-bold error-text'>
-            A valid user account is required to view My City Canvas feed. Please sign-in or create an account.
+              An account error has occurred. Please sign out and sign in again, or <a href='#registration' className='sec-color no-decoration'>create an account</a>.
               <br />
               <br />
               <a href='#registration' className='sec-color fw-bold no-decoration'>
@@ -105,9 +105,10 @@ export default class MyCanvas extends React.Component {
                     userId={ user.userId }
                   />
                   ))
-                  : <h6 className='my-canvas-empty-heading pri-color text-center fw-bold'>
+                  : <h6 className='my-canvas-empty-heading pri-color text-center fw-bold error-text'>
                     Nothing to see here...
                     <br />Get out and start pinning some street art!
+                    <br />
                     <br />
                       <a className='sec-color no-decoration' href='#new-pin'>
                       Create a City Canvas Pin here

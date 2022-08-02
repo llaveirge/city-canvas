@@ -4,6 +4,7 @@ import PostCard from '../components/card';
 import AppContext from '../lib/app-context';
 import Redirect from '../components/redirect';
 import InternalErrorPage from './internal-error';
+import NetworkErrorPage from './network-error';
 import LoadingSpinner from '../components/loading-spinner';
 
 export default class SavedPins extends React.Component {
@@ -30,7 +31,7 @@ export default class SavedPins extends React.Component {
             res.json().then(response => {
               console.error(response.error);
               if (response.error.includes('userId')) {
-                this.setState({ userError: true, isLoading: false });
+                this.setState({ userIdError: true, isLoading: false });
               } else {
                 this.setState({ internalError: true, isLoading: false });
               }
@@ -45,31 +46,32 @@ export default class SavedPins extends React.Component {
   }
 
   render() {
-    const { pins, isLoading, networkError, internalError, userError } = this.state;
+    const { pins, isLoading, networkError, internalError, userIdError } = this.state;
     const { user } = this.context;
 
     if (!user) return <Redirect to='registration' />;
-
-    if (networkError) {
-      return (
-        <h6 className='pt-5 px-5 saved-canvas-empty-heading pri-color text-center fw-bold'>
-          Sorry, there was an error connecting to the network!
-          Please check your internet connection and try again.
-        </h6>
-      );
-    }
-
-    if (userError) {
-      return (
-         <h6 className='pt-5 px-5 saved-canvas-empty-heading pri-color text-center fw-bold'>
-          An account error has occured, please sign out and sign in again, or <a href='#registration' className='sec-color no-decoration'>create an account</a>.
-          <br />
-          Thank you.
-        </h6>
-      );
-    }
-
+    if (networkError) return <NetworkErrorPage />;
     if (internalError) return <InternalErrorPage />;
+
+    if (userIdError) {
+      return (
+        <Container>
+        <Row className='text-center'>
+          <h2 className='mt-5 display-3 pri-color fw-bold'>User Account Error</h2>
+        </Row>
+        <Row className='text-center'>
+          <p className='pt-4 px-4 fw-bold error-text'>
+            An account error has occurred. Please sign out and sign in again, or <a href='#registration' className='sec-color no-decoration'>create an account</a>.
+            <br />
+            <br />
+            <a href='#registration' className='sec-color fw-bold no-decoration'>
+              Return to the City Canvas Registration Page
+            </a>
+          </p>
+        </Row>
+      </Container>
+      );
+    }
 
     return (
       <Container className='feed-cont'>
@@ -93,7 +95,7 @@ export default class SavedPins extends React.Component {
                     userId={ user.userId }
                   />
                 ))
-                : <h6 className='saved-canvas-empty-heading pri-color text-center fw-bold'>
+                : <h6 className='saved-canvas-empty-heading pri-color text-center fw-bold error-text'>
                     Nothing to see here...
                     <br/>Browse the <a className='sec-color no-decoration' href='#'>
                       City Canvas Home feed</a> and save your favorite pins!

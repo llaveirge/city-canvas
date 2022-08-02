@@ -4,6 +4,7 @@ import PostCard from '../components/card';
 import AppContext from '../lib/app-context';
 import Redirect from '../components/redirect';
 import InternalErrorPage from './internal-error';
+import NetworkErrorPage from './network-error';
 import LoadingSpinner from '../components/loading-spinner';
 
 export default class Home extends React.Component {
@@ -45,19 +46,8 @@ export default class Home extends React.Component {
     const { user } = this.context;
 
     if (!user) return <Redirect to='registration' />;
-
-    if (networkError) {
-      return (
-        <h6 className='pt-5 px-5 saved-canvas-empty-heading pri-color text-center fw-bold'>
-          Sorry, there was an error connecting to the network!
-          Please check your internet connection and try again.
-        </h6>
-      );
-    }
-
-    if (internalError) {
-      return <InternalErrorPage />;
-    }
+    if (networkError) return <NetworkErrorPage />;
+    if (internalError) return <InternalErrorPage />;
 
     return (
          <Container className='feed-cont'>
@@ -80,12 +70,12 @@ export default class Home extends React.Component {
                           userId={ user.userId }
                           />
                       ))
-                      : <h6 className='home-empty-heading pri-color text-center fw-bold'>
+                      : <h6 className='home-empty-heading pri-color text-center fw-bold error-text'>
                         Brighten our community by contributing to City Canvas.
                           <br />Get out and start pinning some street art!
                           <br />
                           <br />
-                            <a className='sec-color no-decoration' href='#new-pin'>
+                            <a className='sec-color fw-bold no-decoration' href='#new-pin'>
                             Create a City Canvas Pin here
                             </a>
                         </h6>

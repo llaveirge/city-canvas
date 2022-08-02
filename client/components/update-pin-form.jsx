@@ -5,6 +5,7 @@ import ModalDelete from './modal-deleted';
 import ModalMarkedReported from './modal-marked-reported';
 import InternalErrorPage from '../pages/internal-error';
 import NotFound from '../pages/not-found';
+import NetworkErrorPage from '../pages/network-error';
 import LoadingSpinner from './loading-spinner';
 
 export default class UpdatePinForm extends React.Component {
@@ -66,7 +67,7 @@ export default class UpdatePinForm extends React.Component {
             if (response.error.includes('looking')) {
               this.setState({ errorNotFound: 404, isLoading: false });
             } else {
-              this.setState({ internalError: true });
+              this.setState({ internalError: true, isLoading: false });
             }
           });
         }
@@ -235,22 +236,9 @@ export default class UpdatePinForm extends React.Component {
       state
     } = this;
 
-    if (state.networkError) {
-      return (
-        <h6 className='pt-5 px-5 saved-canvas-empty-heading pri-color text-center fw-bold'>
-          Sorry, there was an error connecting to the network!
-          Please check your internet connection and try again.
-        </h6>
-      );
-    }
-
-    if (state.internalError) {
-      return <InternalErrorPage />;
-    }
-
-    if (state.errorNotFound === 404) {
-      return <NotFound />;
-    }
+    if (state.networkError) return <NetworkErrorPage />;
+    if (state.internalError) return <InternalErrorPage />;
+    if (state.errorNotFound === 404) return <NotFound />;
 
     return (
       <>
