@@ -6,7 +6,6 @@ export default function PostCard(props) {
     <>
       <Card>
         <Card.Img
-          // style={{ maxHeight: '55vh', objectFit: 'cover' }}
           className='img-fluid pin-img-top'
           variant='top'
           src={ props.artPhotoUrl } />
@@ -28,12 +27,6 @@ export default function PostCard(props) {
                       : ''}`
                   }
                 >
-                  {/* { props.reported === true
-                    ? <Container className='warning'>
-                        <i className='fas fa-exclamation fa-sm'></i>
-                        <i className='ms-1 fas fa-eye-slash fa-sm'></i>
-                      </Container>
-                    : null} */}
                   { props.title }
                 </Card.Title>
                 { props.reported === true
@@ -44,11 +37,8 @@ export default function PostCard(props) {
                   : null}
               </Container>
               <Container className='artist-save d-flex flex-row justify-content-between px-1'>
-                <Card.Text className='fw-bold pri-color pin-text'>
+                <Card.Text className='fw-bold pri-color pin-text text-break'>
                   Artist: { props.artistName }
-                  {/* { props.saver !== props.userId
-                    ? null
-                    : <i className='sec-color fas fa-heart fa-lg ms-2'></i> } */}
                 </Card.Text>
                 { props.saver !== props.userId
                   ? null
