@@ -34,10 +34,24 @@ export default class PinPage extends React.Component {
     if (user) {
       this.toggleLoadingSpinner(this.state.isLoading);
       fetch(`/api/pins/${this.props.postId}`)
-        .then(res => res.json())
-        .then(pin => {
-          this.setState({ pin });
-          this.toggleLoadingSpinner(this.state.isLoading);
+        .then(res => {
+          if (res.ok) {
+            res.json().then(pin => {
+              this.setState({ pin });
+              this.toggleLoadingSpinner(this.state.isLoading);
+            });
+          } else {
+            res.json().then(response => {
+              console.error(response.error);
+              if (response.error.includes('postId')) {
+                this.setState({ postIdError: true });
+                this.toggleLoadingSpinner(this.state.isLoading);
+              } else {
+                this.setState({ internalError: true });
+                this.toggleLoadingSpinner(this.state.isLoading);
+              }
+            });
+          }
         })
         .catch(err => {
           console.error('Fetch Failed!', err);
@@ -73,8 +87,10 @@ export default class PinPage extends React.Component {
           } else {
             res.json().then(response => {
               console.error(response.error);
-              if (response.error.includes('postId') || response.error.includes('userId')) {
-                this.setState({ pin: response });
+              if (response.error.includes('postId')) {
+                this.setState({ postIdError: true });
+              } else if (response.error.includes('userId')) {
+                this.setState({ userIdError: true });
               } else {
                 this.setState({ internalError: true });
               }
@@ -106,8 +122,10 @@ export default class PinPage extends React.Component {
           } else {
             res.json().then(response => {
               console.error(response.error);
-              if (response.error.includes('postId') || response.error.includes('userId')) {
-                this.setState({ pin: response });
+              if (response.error.includes('postId')) {
+                this.setState({ postIdError: true });
+              } else if (response.error.includes('userId')) {
+                this.setState({ userIdError: true });
               } else {
                 this.setState({ internalError: true });
               }
@@ -141,7 +159,7 @@ export default class PinPage extends React.Component {
           res.json().then(response => {
             console.error(response.error);
             if (response.error.includes('postId')) {
-              this.setState({ pin: response });
+              this.setState({ postIdError: true });
               this.toggleLoadingSpinner(this.state.isLoading);
             } else {
               this.setState({ internalError: true });
@@ -168,24 +186,46 @@ export default class PinPage extends React.Component {
   }
 
   render() {
-    const { pin, isLoading, show, networkError, internalError } = this.state;
+    const { pin, isLoading, show, networkError, internalError, postIdError, userIdError } = this.state;
     const { user } = this.context;
 
     if (!user) return <Redirect to='registration' />;
     if (internalError) return <InternalErrorPage />;
     if (networkError) return <NetworkErrorPage />;
 
-    if (pin.error) {
+    if (postIdError) {
       return (
         <Container>
           <Row className='text-center'>
-            <h2 className='mt-5 display-3 pri-color fw-bold'>404</h2>
+            <h2 className='mt-5 display-3 pri-color fw-bold'>City Canvas Pin Error</h2>
           </Row>
           <Row className='text-center'>
-            <p className='pt-4 px-4 fw-bold error-text'>{ pin.error }
+            <p className='pt-4 px-4 fw-bold error-text no-results-heading'>
+              We can&apos;t seem to find the pin you&apos;re looking for. The pin may have been removed or potentially never existed in the first place!
+            <br />
             <br />
               <a href='#' className='sec-color fw-bold no-decoration'>
-                Return to the City Canvas home feed
+                Return to the City Canvas home page
+              </a>
+            </p>
+          </Row>
+        </Container>
+      );
+    }
+
+    if (userIdError) {
+      return (
+        <Container>
+          <Row className='text-center'>
+            <h2 className='mt-5 display-3 pri-color fw-bold'>User Account Error</h2>
+          </Row>
+          <Row className='text-center'>
+            <p className='pt-4 px-4 fw-bold error-text no-results-heading'>
+              An account error has occurred. Please sign out and sign in again, or <a href='#registration' className='sec-color no-decoration'>create an account</a>.
+            <br />
+            <br />
+              <a href='#registration' className='sec-color fw-bold no-decoration'>
+                Return to the City Canvas Registration Page
               </a>
             </p>
           </Row>
