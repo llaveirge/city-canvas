@@ -246,9 +246,7 @@
     border-bottom-left-radius: calc(0.25rem - 1px);
   }
 
-  .my-canvas-empty-heading,
-  .saved-canvas-empty-heading,
-  .home-empty-heading {
+  .no-results-heading {
     font-size: 1.25rem;
   }
 }

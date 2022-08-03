@@ -60,7 +60,7 @@ export default class MyCanvas extends React.Component {
             <h2 className='mt-5 display-3 pri-color fw-bold'>User Account Error</h2>
           </Row>
           <Row className='text-center'>
-            <p className='pt-4 px-4 fw-bold error-text'>
+            <p className='pt-4 px-4 fw-bold error-text no-results-heading'>
               An account error has occurred. Please sign out and sign in again, or <a href='#registration' className='sec-color no-decoration'>create an account</a>.
               <br />
               <br />
@@ -105,7 +105,7 @@ export default class MyCanvas extends React.Component {
                     userId={ user.userId }
                   />
                   ))
-                  : <h6 className='my-canvas-empty-heading pri-color text-center fw-bold error-text'>
+                  : <h6 className='no-results-heading pri-color text-center fw-bold error-text'>
                     Nothing to see here...
                     <br />Get out and start pinning some street art!
                     <br />

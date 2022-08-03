@@ -10,7 +10,7 @@ export default function InternalErrorPage(props) {
         </h2>
       </Row>
       <Row>
-        <p className='pt-5 px-4 fw-bold error-text'>
+        <p className='pt-5 px-4 fw-bold error-text no-results-heading'>
           Sorry, something&apos;s not right here. Please try the following:
         </p>
 

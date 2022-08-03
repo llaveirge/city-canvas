@@ -70,7 +70,7 @@ export default class Home extends React.Component {
                           userId={ user.userId }
                           />
                       ))
-                      : <h6 className='home-empty-heading pri-color text-center fw-bold error-text'>
+                      : <h6 className='no-results-heading pri-color text-center fw-bold error-text'>
                         Brighten our community by contributing to City Canvas.
                           <br />Get out and start pinning some street art!
                           <br />

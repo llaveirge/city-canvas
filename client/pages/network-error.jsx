@@ -11,7 +11,7 @@ export default function NetworkErrorPage(props) {
             </h2>
           </Row>
           <Row className='text-center'>
-            <p className='pt-4 px-4 fw-bold error-text'>
+            <p className='pt-4 px-4 fw-bold no-results-heading error-text'>
             Sorry, there was an error connecting to the network!
             Please check your internet connection and try again.
             </p>
