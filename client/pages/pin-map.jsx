@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar } from 'react-bootstrap';
+import { Navbar, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import Redirect from '../components/redirect';
 import AppContext from '../lib/app-context';
 import LoadingSpinner from '../components/loading-spinner';
@@ -47,6 +47,11 @@ export default function PinMap(props) {
   // Get coordinates from props:
   const center = { lat: props.lat, lng: props.lng };
 
+  // Show tooltip for target button that triggers the GeoLocate function
+  const showTooltip = props => (
+    <Tooltip { ...props}>Target my location</Tooltip>
+  );
+
   // Use Geolocation to Locate the user for targeting via a button:
   function GeoLocate({ panTo }) {
     return (
@@ -57,10 +62,12 @@ export default function PinMap(props) {
           });
         }, () => null);
       }}>
-        <img className='target sec-bk-color'
-          src='/target-audience.webp'
-          alt='Target my location!'
-          />
+         <OverlayTrigger placement='bottom' overlay={showTooltip}>
+          <img className='target sec-bk-color'
+            src='/target-audience.webp'
+            alt='Target my location!'
+            />
+        </OverlayTrigger>
       </button>
     );
   }

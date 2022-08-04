@@ -295,10 +295,10 @@ export default class PinPage extends React.Component {
                               Reported as removed from view
                             </Card.Text>
                         }
-                        <Card.Link href='' className="bg-white ab-bottom-right">
+                        <Card.Link className="bg-white ab-bottom-right">
                           <i className={ pin.saved === null
                             ? 'grey not-saved fas fa-heart fa-lg'
-                            : 'sec-color fas fa-heart fa-lg' }
+                            : 'sec-color saved fas fa-heart fa-lg' }
                             onClick={ this.toggleSaved }></i>
                         </Card.Link>
                     </Card.Body>

@@ -444,8 +444,8 @@ app.patch('/api/report/:postId', (req, res, next) => {
 // Delete a saved pin from the saved table:
 app.delete('/api/delete-saved/:postId', (req, res, next) => {
   const { userId } = req.body;
-
   const postId = Number(req.params.postId);
+
   if (!postId || postId < 0 || isNaN(postId)) {
     throw new ClientError(400, 'postId must be a positive integer');
   }
