@@ -6,6 +6,7 @@ import InternalErrorPage from './internal-error';
 import NetworkErrorPage from './network-error';
 import Redirect from '../components/redirect';
 import AppContext from '../lib/app-context';
+import SavingSpinner from '../components/saving-spinner';
 
 export default class PinPage extends React.Component {
   constructor(props) {
@@ -14,7 +15,8 @@ export default class PinPage extends React.Component {
       pin: {},
       show: false,
       isLoading: false,
-      networkError: false
+      networkError: false,
+      isSaving: false
     };
 
     this.toggleSaved = this.toggleSaved.bind(this);
@@ -27,6 +29,11 @@ export default class PinPage extends React.Component {
   toggleLoadingSpinner(status) {
     const newStatus = !status;
     this.setState({ isLoading: newStatus });
+  }
+
+  toggleSaving(status) {
+    const newStatus = !status;
+    this.setState({ isSaving: newStatus });
   }
 
   componentDidMount() {
@@ -64,7 +71,7 @@ export default class PinPage extends React.Component {
   toggleSaved() {
     event.preventDefault();
     const { user } = this.context;
-    const { pin } = this.state;
+    const { pin, isSaving } = this.state;
 
     // Save pin:
     if (pin.saved === null) {
@@ -75,6 +82,7 @@ export default class PinPage extends React.Component {
         },
         body: JSON.stringify(user)
       };
+      this.toggleSaving(isSaving);
       fetch(`/api/save-post/${this.props.postId}`, req)
         .then(res => {
           if (res.ok) {
@@ -83,16 +91,20 @@ export default class PinPage extends React.Component {
               updatedPin.saved = savedPost.createdAt;
               updatedPin.saver = savedPost.userId;
               this.setState({ pin: updatedPin });
+              this.toggleSaving(this.state.isSaving);
             });
           } else {
             res.json().then(response => {
               console.error(response.error);
               if (response.error.includes('postId')) {
                 this.setState({ postIdError: true });
+                this.toggleSaving(this.state.isSaving);
               } else if (response.error.includes('userId')) {
                 this.setState({ userIdError: true });
+                this.toggleSaving(isSaving);
               } else {
                 this.setState({ internalError: true });
+                this.toggleSaving(this.state.isSaving);
               }
             });
           }
@@ -100,6 +112,7 @@ export default class PinPage extends React.Component {
         .catch(err => {
           console.error('Fetch Failed!', err);
           this.setState({ networkError: true });
+          this.toggleSaving(this.state.isSaving);
         });
     } else if (pin.saved) {
       // Delete from saved:
@@ -110,6 +123,7 @@ export default class PinPage extends React.Component {
         },
         body: JSON.stringify(user)
       };
+      this.toggleSaving(isSaving);
       fetch(`/api/delete-saved/${this.props.postId}`, req)
         .then(res => {
           if (res.ok) {
@@ -118,16 +132,20 @@ export default class PinPage extends React.Component {
               updatedPin.saved = null;
               updatedPin.saver = null;
               this.setState({ pin: updatedPin });
+              this.toggleSaving(this.state.isSaving);
             });
           } else {
             res.json().then(response => {
               console.error(response.error);
               if (response.error.includes('postId')) {
                 this.setState({ postIdError: true });
+                this.toggleSaving(this.state.isSaving);
               } else if (response.error.includes('userId')) {
                 this.setState({ userIdError: true });
+                this.toggleSaving(this.state.isSaving);
               } else {
                 this.setState({ internalError: true });
+                this.toggleSaving(this.state.isSaving);
               }
             });
           }
@@ -135,6 +153,7 @@ export default class PinPage extends React.Component {
         .catch(err => {
           console.error('Fetch Failed!', err);
           this.setState({ networkError: true });
+          this.toggleLoadingSpinner(this.is.isSaving);
         });
     }
   }
@@ -186,7 +205,7 @@ export default class PinPage extends React.Component {
   }
 
   render() {
-    const { pin, isLoading, show, networkError, internalError, postIdError, userIdError } = this.state;
+    const { pin, isLoading, show, networkError, internalError, postIdError, userIdError, isSaving } = this.state;
     const { user } = this.context;
 
     if (!user) return <Redirect to='registration' />;
@@ -259,12 +278,12 @@ export default class PinPage extends React.Component {
                 <Card.Title
                   as='h4'
                   className={
-                    `head-text pri-color py-2 ${pin.reported === true
+                    `head-text pri-color py-2 ${pin.reported
                       ? 'me-5 pe-1'
                       : ''}`
                   }
                 >
-                  { pin.reported === true
+                  { pin.reported
                     ? <span className='align-top warning absolute-right'>
                         <i className='fas fa-exclamation fa-sm'></i>
                         <i className='ms-1 fas fa-eye-slash fa-sm'></i>
@@ -287,7 +306,7 @@ export default class PinPage extends React.Component {
                   <Card.Text className='pt-4 pb-5'>
                     { pin.comment }
                   </Card.Text>
-                  { pin.reported === false
+                  { !pin.reported
                     ? <Card.Link
                         role='button'
                         className='ab-bottom grey report me-5'
@@ -298,12 +317,17 @@ export default class PinPage extends React.Component {
                         Reported as removed from view
                       </Card.Text>
                   }
-                  <Card.Link className="bg-white ab-bottom-right">
-                    <i className={ pin.saved === null
-                      ? 'grey not-saved fas fa-heart fa-lg'
-                      : 'sec-color saved fas fa-heart fa-lg' }
-                      onClick={ this.toggleSaved }></i>
-                  </Card.Link>
+                  { !isSaving
+                    ? <Card.Link className='bg-white ab-bottom-right'>
+                        <i className={ pin.saved === null
+                          ? 'grey not-saved fas fa-heart fa-lg'
+                          : 'sec-color saved fas fa-heart fa-lg' }
+                          onClick={ this.toggleSaved }></i>
+                      </Card.Link>
+                    : <Card.Link className='ab-bottom-right'>
+                        <SavingSpinner />
+                      </Card.Link>
+                    }
               </Card.Body>
             </Col>
           </Card>
