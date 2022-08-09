@@ -251,7 +251,7 @@ export default class RegistrationForm extends React.Component {
                 Already signed up? Sign in
               </a>
             </div>
-            { state.isLoading ? <div className='absolute'> <LoadingSpinner /> </div> : null}
+            { state.isLoading ? <div className='spin-absolute'> <LoadingSpinner /> </div> : null}
           </Form>
         </Col>
       </Container>

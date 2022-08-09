@@ -23,7 +23,7 @@ export default function ModalReport(props) {
           <Button className='del warning-bk' onClick={ props.report } disabled={ props.isLoading }>
             Report
           </Button>
-        { props.isLoading ? <div className='absolute-modal'><LoadingSpinner /></div> : null}
+        { props.isLoading ? <div className='spin-absolute-modal'><LoadingSpinner /></div> : null}
         </Modal.Footer>
       </Modal>
     </>

@@ -25,7 +25,7 @@ export default function ModalDelete(props) {
           <Button className='del warning-bk' onClick={ props.deletePin } disabled={ props.isLoading }>
               Delete
           </Button>
-        { props.isLoading ? <div className='absolute-modal'><LoadingSpinner /></div> : null}
+        { props.isLoading ? <div className='spin-absolute-modal'><LoadingSpinner /></div> : null}
         </Modal.Footer>
       </Modal>
     </>

@@ -144,7 +144,7 @@ export default class SignInForm extends React.Component {
                     New here? Sign up
                 </a>
             </div>
-            { state.isLoading ? <div className='absolute'> <LoadingSpinner/> </div> : null}
+            { state.isLoading ? <div className='spin-absolute'> <LoadingSpinner/> </div> : null}
           </Form>
         </Row>
       </Container>

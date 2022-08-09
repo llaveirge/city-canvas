@@ -133,24 +133,6 @@
   }
 }
 
-.absolute {
-  position: absolute;
-  bottom: -5px;
-  margin-left: auto;
-  margin-right: auto;
-  left: 0;
-  right: 0;
-}
-
-.absolute-modal {
-  position: absolute;
-  bottom: -30px;
-  margin-left: auto;
-  margin-right: auto;
-  left: 0;
-  right: 0;
-}
-
 /* Saving Spinner */
 
 .lds-heart {
@@ -218,7 +200,26 @@
   }
 }
 
-/* Loading  Spinners */
+/* Loading  Spinner */
+
+.spin-absolute {
+  position: absolute;
+  bottom: -5px;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+}
+
+.spin-absolute-modal {
+  position: absolute;
+  bottom: -30px;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+}
+
 .lds-ellipsis div {
   border-radius: 50%;
   background: #0eeaf8;

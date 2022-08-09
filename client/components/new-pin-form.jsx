@@ -180,7 +180,7 @@ export default class NewPinForm extends React.Component {
           <Button className='mt-3 mb-5' type='submit' disabled={ state.isLoading }>
             Submit
           </Button>
-        { state.isLoading ? <div className='absolute'> <LoadingSpinner /> </div> : null}
+        { state.isLoading ? <div className='spin-absolute'> <LoadingSpinner /> </div> : null}
         </Form>
       </Container>
     );
