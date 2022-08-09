@@ -239,113 +239,110 @@ export default class UpdatePinForm extends React.Component {
     if (state.networkError) return <NetworkErrorPage />;
     if (state.internalError) return <InternalErrorPage />;
     if (state.errorNotFound === 404) return <NotFound />;
+    if (state.isLoading && !state.showDelete) return <LoadingSpinner />;
 
     return (
       <>
-        {state.isLoading && !state.showDelete
-          ? <LoadingSpinner />
-          : <>
-              <ModalMarkedReported
-                show={ state.showReported }
-                onHide={ handleCloseReported }
-                showDelete={ handleShowDelete }/>
+        <ModalMarkedReported
+          show={ state.showReported }
+          onHide={ handleCloseReported }
+          showDelete={ handleShowDelete }/>
 
-              <Container className = 'form-container px-0'>
-                <Form className='position-relative pb-3' onSubmit={ handleSubmit }>
-                  <Form.Label className='mt-2' htmlFor='title'>
-                    Street Art Title:
-                  </Form.Label>
-                  <Form.Control
-                    required
-                    autoFocus
-                    id='title'
-                    type='text'
-                    name='title'
-                    value={ state.title }
-                    placeholder='Enter Title, or "Unknown"'
-                    onChange={ handleChange }
-                    aria-describedby='titleErrorMessage'
-                  />
-                  <Form.Text id='titleErrorMessage' className='d-block warning'>
-                  { state.titleError ? state.titleError : null }
-                  </Form.Text>
-
-                  <Form.Label htmlFor='artist'>
-                    Artist Name or Tag:
-                  </Form.Label>
-                  <Form.Control
-                    required
-                    id='artist'
-                    type='text'
-                    name='artist'
-                    value={ state.artist }
-                    placeholder='Enter Artist Name or Tag, or "Unknown"'
-                    onChange={ handleChange }
-                    aria-describedby='artistErrorMessage'
-                  />
-                  <Form.Text id='artistErrorMessage' className='d-block warning'>
-                  { state.artistError ? state.artistError : null }
-                  </Form.Text>
-
-                  <Form.Label>Street Art Photo:</Form.Label>
-                  <Form.Control
-                    id='image'
-                    type='file'
-                    name='image'
-                    ref={ this.fileInputRef }
-                    accept='.png, .jpg, .jpeg, .gif'
-                  />
-
-                  <Form.Label htmlFor='info'>
-                    Description or Information:
-                  </Form.Label>
-                  <Form.Control
-                    as='textarea'
-                    rows={ 4 }
-                    required
-                    id='info'
-                    name='info'
-                    value={ state.info }
-                    placeholder='Add some information about this pin...'
-                    onChange={ handleChange }
-                    aria-describedby='infoErrorMessage'
-                  />
-                  <Form.Text id='infoErrorMessage' className='d-block warning'>
-                  { state.infoError ? state.infoError : null }
-                  </Form.Text>
-
-                  <p className='form-label'>
-                    Click the map to drop a pin at the Street Art location:
-                  </p>
-                  <UpdatePinMap
-                    marker={ state.marker }
-                    setMarker={ this.setMarker }>
-                  </UpdatePinMap>
-
-                  {/* client-side map error messaging: */}
-                  { state.mapError ? this.errorMessage(state.mapError) : null}
-
-                  <Button className='mt-3 mb-5' type='submit' disabled={ state.isLoading }>
-                    Submit
-                  </Button>
-
-                  <Button
-                    className='mt-3 mb-5 warning-bk del float-end'
-                    type='button'
-                    onClick={ handleShowDelete }
-                    disabled={ state.isLoading }>
-                      Delete
-                  </Button>
-                </Form>
-              </Container>
-
-              <ModalDelete
-                show={ state.showDelete }
-                onHide={ handleCloseDelete }
-                deletePin={ deletePin }
-                isLoading={ state.isLoading }
+        <Container className = 'form-container px-0'>
+          <Form className='position-relative pb-3' onSubmit={ handleSubmit }>
+            <Form.Label className='mt-2' htmlFor='title'>
+              Street Art Title:
+            </Form.Label>
+            <Form.Control
+              required
+              autoFocus
+              id='title'
+              type='text'
+              name='title'
+              value={ state.title }
+              placeholder='Enter Title, or "Unknown"'
+              onChange={ handleChange }
+              aria-describedby='titleErrorMessage'
             />
-          </> }
+            <Form.Text id='titleErrorMessage' className='d-block warning'>
+            { state.titleError ? state.titleError : null }
+            </Form.Text>
+
+            <Form.Label htmlFor='artist'>
+              Artist Name or Tag:
+            </Form.Label>
+            <Form.Control
+              required
+              id='artist'
+              type='text'
+              name='artist'
+              value={ state.artist }
+              placeholder='Enter Artist Name or Tag, or "Unknown"'
+              onChange={ handleChange }
+              aria-describedby='artistErrorMessage'
+            />
+            <Form.Text id='artistErrorMessage' className='d-block warning'>
+            { state.artistError ? state.artistError : null }
+            </Form.Text>
+
+            <Form.Label>Street Art Photo:</Form.Label>
+            <Form.Control
+              id='image'
+              type='file'
+              name='image'
+              ref={ this.fileInputRef }
+              accept='.png, .jpg, .jpeg, .gif'
+            />
+
+            <Form.Label htmlFor='info'>
+              Description or Information:
+            </Form.Label>
+            <Form.Control
+              as='textarea'
+              rows={ 4 }
+              required
+              id='info'
+              name='info'
+              value={ state.info }
+              placeholder='Add some information about this pin...'
+              onChange={ handleChange }
+              aria-describedby='infoErrorMessage'
+            />
+            <Form.Text id='infoErrorMessage' className='d-block warning'>
+            { state.infoError ? state.infoError : null }
+            </Form.Text>
+
+            <p className='form-label'>
+              Click the map to drop a pin at the Street Art location:
+            </p>
+            <UpdatePinMap
+              marker={ state.marker }
+              setMarker={ this.setMarker }>
+            </UpdatePinMap>
+
+            {/* client-side map error messaging: */}
+            { state.mapError ? this.errorMessage(state.mapError) : null}
+
+            <Button className='mt-3 mb-5' type='submit' disabled={ state.isLoading }>
+              Submit
+            </Button>
+
+            <Button
+              className='mt-3 mb-5 warning-bk del float-end'
+              type='button'
+              onClick={ handleShowDelete }
+              disabled={ state.isLoading }>
+                Delete
+            </Button>
+          </Form>
+        </Container>
+
+        <ModalDelete
+          show={ state.showDelete }
+          onHide={ handleCloseDelete }
+          deletePin={ deletePin }
+          isLoading={ state.isLoading }
+        />
       </>
     );
   }
