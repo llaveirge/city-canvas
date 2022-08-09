@@ -127,7 +127,7 @@ app.get('/api/saved-pins/:userId', (req, res, next) => {
   const sql = `
     select
       "p"."postId",
-      "sp"."createdAt" as "savedTime",
+      "sp"."createdAt" as "saved",
       "sp"."userId" as "saver",
       "p"."title",
       "p"."artistName",
