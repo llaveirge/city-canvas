@@ -12,7 +12,7 @@ import {
   InfoWindow
 } from '@react-google-maps/api';
 
-const center = { lat: 39.223014, lng: -105.001887 };
+const center = { lat: 39.8283, lng: -98.5795 };
 
 export default function ArtFinder(props) {
   // Check if there is a user logged in, if not, redirect to registration page:
@@ -97,7 +97,7 @@ export default function ArtFinder(props) {
       <div className='full-map-cont'>
         <GoogleMap
           mapContainerClassName='pin-map'
-          zoom = { 8 }
+          zoom = { 5 }
           center={ center }
           onLoad= { onMapLoad }
           >
