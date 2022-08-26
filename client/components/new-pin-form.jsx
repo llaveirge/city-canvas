@@ -26,10 +26,10 @@ export default class NewPinForm extends React.Component {
     this.toggleLoadingSpinner = this.toggleLoadingSpinner.bind(this);
   }
 
-  errorMessage(message) {
+  errorMessage(message, idName) {
     if (message) {
       return (
-        <Form.Text id='errorMessage' className='d-block warning'>
+        <Form.Text id={ idName } className='d-block warning'>
           { message }
         </Form.Text>
       );
@@ -65,7 +65,7 @@ export default class NewPinForm extends React.Component {
     } else if (!artist) {
       this.setState({ artistError: 'Artist Name or Tag is a required field', isLoading: false });
     } else if (!this.fileInputRef.current.files[0]) {
-      this.setState({ imageError: ' A Street Art Photo upload is required', isLoading: false });
+      this.setState({ imageError: 'A Street Art Photo upload is required', isLoading: false });
     } else if (!info) {
       this.setState({ infoError: 'Description or information about City Canvas pin is required', isLoading: false });
     } else if (!('lat' in marker) || !('lng' in marker)) {
@@ -132,7 +132,7 @@ export default class NewPinForm extends React.Component {
             Street Art Title:
           </Form.Label>
           <Form.Control
-            required
+            // required
             autoFocus
             id='title'
             type='text'
@@ -142,15 +142,13 @@ export default class NewPinForm extends React.Component {
             onChange={ handleChange }
             aria-describedby='titleErrorMessage'
           />
-          <Form.Text id='titleErrorMessage' className='d-block warning'>
-          { state.titleError ? this.errorMessage(state.titleError) : null }
-          </Form.Text>
+          { state.titleError ? this.errorMessage(state.titleError, 'titleErrorMessage') : null }
 
           <Form.Label htmlFor='artist'>
             Artist Name or Tag:
           </Form.Label>
           <Form.Control
-            required
+            // required
             id='artist'
             type='text'
             name='artist'
@@ -159,13 +157,11 @@ export default class NewPinForm extends React.Component {
             onChange={ handleChange }
             aria-describedby='artistErrorMessage'
           />
-          <Form.Text id='artistErrorMessage' className='d-block warning'>
-          { state.artistError ? this.errorMessage(state.artistError) : null }
-          </Form.Text>
+          { state.artistError ? this.errorMessage(state.artistError, 'artistErrorMessage') : null }
 
           <Form.Label>Street Art Photo:</Form.Label>
           <Form.Control
-            required
+            // required
             id='image'
             type='file'
             name='image'
@@ -173,9 +169,7 @@ export default class NewPinForm extends React.Component {
             accept='.png, .jpg, .jpeg, .gif'
             aria-describedby='imageErrorMessage'
           />
-          <Form.Text id='imageErrorMessage' className='d-block warning'>
-          { state.imageError ? this.errorMessage(state.imageError) : null }
-          </Form.Text>
+          { state.imageError ? this.errorMessage(state.imageError, 'imageErrorMessage') : null }
 
           <Form.Label htmlFor='info'>
             Description or Information:
@@ -183,7 +177,7 @@ export default class NewPinForm extends React.Component {
           <Form.Control
             as='textarea'
             rows={ 4 }
-            required
+            // required
             id='info'
             name='info'
             value={ state.info }
@@ -191,9 +185,7 @@ export default class NewPinForm extends React.Component {
             onChange={ handleChange }
            aria-describedby='infoErrorMessage'
           />
-          <Form.Text id='infoErrorMessage' className='d-block warning'>
-          { state.infoError ? this.errorMessage(state.infoError) : null }
-          </Form.Text>
+          { state.infoError ? this.errorMessage(state.infoError, 'infoErrorMessage') : null }
 
           <p className='form-label'>
             Click the map to drop a pin at the Street Art location:
@@ -202,9 +194,7 @@ export default class NewPinForm extends React.Component {
             marker={ state.marker }
             setMarker={ setMarker }>
           </NewPinMap>
-
-          {/* client-side map error messaging required due to custom field: */}
-          { state.mapError ? this.errorMessage(state.mapError) : null }
+          { state.mapError ? this.errorMessage(state.mapError, 'mapErrorMessage') : null }
 
           <Button className='mt-3 mb-5' type='submit' disabled={ state.isLoading }>
             Submit
