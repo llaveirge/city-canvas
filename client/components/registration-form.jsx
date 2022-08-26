@@ -13,10 +13,6 @@ export default class RegistrationForm extends React.Component {
       email: '',
       username: '',
       password: '',
-      passwordError: '',
-      usernameError: '',
-      emailError: '',
-      imageError: '',
       isLoading: false,
       networkError: false
     };
@@ -55,10 +51,10 @@ export default class RegistrationForm extends React.Component {
     }
   }
 
-  errorMessage(message) {
+  errorMessage(message, idName) {
     if (message) {
       return (
-        <Form.Text id='errorMessage' className='d-block warning'>
+        <Form.Text id={ idName } className='d-block warning'>
           { message }
         </Form.Text>
       );
@@ -82,7 +78,7 @@ export default class RegistrationForm extends React.Component {
     } else if (!email) {
       this.setState({ emailError: 'Email is a required field', isLoading: false });
     } else if (!username) {
-      this.setState({ usernameError: 'username is a required field', isLoading: false });
+      this.setState({ usernameError: 'Username is a required field', isLoading: false });
     } else if (!this.fileInputRef.current.files[0]) {
       this.setState({ imageError: 'A Profile Photo upload is required', isLoading: false });
     } else if (!password) {
@@ -179,9 +175,7 @@ export default class RegistrationForm extends React.Component {
               onChange={ handleChange }
               aria-describedby='firstErrorMessage'
             />
-            <Form.Text id='firstErrorMessage' className='d-block warning'>
-            { state.firstError ? this.errorMessage(state.firstError) : null }
-            </Form.Text>
+            { state.firstError ? this.errorMessage(state.firstError, 'firstErrorMessage') : null }
 
             <Form.Label className='mt-2' htmlFor='last'>
               Last Name
@@ -198,9 +192,7 @@ export default class RegistrationForm extends React.Component {
               onChange={ handleChange }
               aria-describedby='lastErrorMessage'
             />
-            <Form.Text id='lastErrorMessage' className='d-block warning'>
-            { state.lastError ? this.errorMessage(state.lastError) : null }
-            </Form.Text>
+            { state.lastError ? this.errorMessage(state.lastError, 'lastErrorMessage') : null }
 
              <Form.Label className='mt-2' htmlFor='email'>
                 Email
@@ -216,9 +208,7 @@ export default class RegistrationForm extends React.Component {
               onChange={ handleChange }
               aria-describedby='emailErrorMessage'
             />
-             <Form.Text id='emailErrorMessage' className='d-block warning'>
-            { state.emailError ? this.errorMessage(state.emailError) : null }
-            </Form.Text>
+            { state.emailError ? this.errorMessage(state.emailError, 'emailErrorMessage') : null }
 
             <Form.Label className='mt-2' htmlFor='username'>
               Username
@@ -234,9 +224,7 @@ export default class RegistrationForm extends React.Component {
               onChange={ handleChange }
               aria-describedby='usernameErrorMessage'
             />
-            <Form.Text id='usernameErrorMessage' className='d-block warning'>
-              { state.usernameError ? this.errorMessage(state.usernameError) : null }
-            </Form.Text>
+            { state.usernameError ? this.errorMessage(state.usernameError, 'usernameErrorMessage') : null }
 
             <Form.Label className='mt-2' htmlFor='image'>
               Profile Photo
@@ -251,9 +239,7 @@ export default class RegistrationForm extends React.Component {
               accept='.png, .jpg, .jpeg, .gif'
               aria-describedby='imageErrorMessage'
             />
-            <Form.Text id='imageErrorMessage' className='d-block warning'>
-              { state.imageError ? this.errorMessage(state.imageError) : null }
-            </Form.Text>
+            { state.imageError ? this.errorMessage(state.imageError, 'imageErrorMessage') : null }
 
             <Form.Label className='mt-2' htmlFor='password'>
               Create Your Password
