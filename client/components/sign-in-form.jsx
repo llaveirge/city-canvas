@@ -21,10 +21,10 @@ export default class SignInForm extends React.Component {
     this.toggleLoadingSpinner = this.toggleLoadingSpinner.bind(this);
   }
 
-  errorMessage(message) {
+  errorMessage(message, idName) {
     if (message) {
       return (
-        <Form.Text id='errorMessage' className='d-block warning'>
+        <Form.Text id={ idName } className='d-block warning'>
           { message }
         </Form.Text>
       );
@@ -122,7 +122,7 @@ export default class SignInForm extends React.Component {
             onSubmit={ handleSubmit }>
             <Form.Control
               autoFocus
-              required
+              // required
               id='username'
               type='text'
               name='username'
@@ -132,12 +132,10 @@ export default class SignInForm extends React.Component {
               onChange={ handleChange }
               aria-describedby='usernameErrorMessage'
             />
-            <Form.Text id='usernameErrorMessage' className='d-block warning'>
-              { state.usernameError ? state.usernameError : null }
-            </Form.Text>
+            { state.usernameError ? errorMessage(state.usernameError, 'usernameErrorMessage') : null }
 
             <Form.Control
-              required
+              // required
               className='mt-4'
               id='password'
               type='password'
@@ -148,10 +146,8 @@ export default class SignInForm extends React.Component {
               onChange={ handleChange }
               aria-describedby='errorMessage passwordErrorMessage'
             />
-            <Form.Text id='passwordErrorMessage' className='d-block warning'>
-              { state.passwordError ? state.passwordError : null }
-            </Form.Text>
-              { errorMessage(state.error) }
+            { state.passwordError ? errorMessage(state.passwordError, 'passwordErrorMessage') : null }
+            { errorMessage(state.error, 'errorMessage') }
 
             <div
               className='login-form-actions pb-1 mt-3 mb-5 d-flex justify-content-between'
