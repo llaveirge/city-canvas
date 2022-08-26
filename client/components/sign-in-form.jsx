@@ -43,41 +43,56 @@ export default class SignInForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const req = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(this.state)
-    };
-    this.toggleLoadingSpinner(this.state.isLoading);
-    fetch('/api/auth/sign-in', req)
-      .then(res => {
-        res.json().then(response => {
-          if (response.error) {
-            if (response.error.includes('login')) {
-              this.setState({ error: response.error });
-              this.toggleLoadingSpinner(this.state.isLoading);
-            } else {
-              this.setState({ internalError: true });
+    const { username, password, usernameError, passwordError } = this.state;
+
+    // clear the form error message text, if any:
+    if (usernameError || passwordError) {
+      this.setState({ usernameError: '', passwordError: '' });
+    }
+
+    // check for empty fields and display error message to user where applicable:
+    if (!username) {
+      this.setState({ usernameError: 'Username is a required field', isLoading: false });
+    } else if (!password) {
+      this.setState({ passwordError: 'Password is a required field', isLoading: false });
+    } else {
+
+      const req = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.state)
+      };
+      this.toggleLoadingSpinner(this.state.isLoading);
+      fetch('/api/auth/sign-in', req)
+        .then(res => {
+          res.json().then(response => {
+            if (response.error) {
+              if (response.error.includes('login')) {
+                this.setState({ error: response.error });
+                this.toggleLoadingSpinner(this.state.isLoading);
+              } else {
+                this.setState({ internalError: true });
+                this.toggleLoadingSpinner(this.state.isLoading);
+              }
+            } else if (response.user && response.token) {
+              this.props.onSignIn(response);
+              this.setState({
+                error: null,
+                username: '',
+                password: ''
+              });
               this.toggleLoadingSpinner(this.state.isLoading);
             }
-          } else if (response.user && response.token) {
-            this.props.onSignIn(response);
-            this.setState({
-              error: null,
-              username: '',
-              password: ''
-            });
-            this.toggleLoadingSpinner(this.state.isLoading);
-          }
+          });
+        })
+        .catch(err => {
+          console.error('Fetch Failed!', err);
+          this.setState({ networkError: true });
+          this.toggleLoadingSpinner(this.state.isLoading);
         });
-      })
-      .catch(err => {
-        console.error('Fetch Failed!', err);
-        this.setState({ networkError: true });
-        this.toggleLoadingSpinner(this.state.isLoading);
-      });
+    }
   }
 
   render() {
@@ -106,7 +121,6 @@ export default class SignInForm extends React.Component {
             className='login-form px-5 px-md-2 position-relative'
             onSubmit={ handleSubmit }>
             <Form.Control
-              className='mb-4'
               autoFocus
               required
               id='username'
@@ -116,9 +130,15 @@ export default class SignInForm extends React.Component {
               autoComplete='username'
               value={ state.username }
               onChange={ handleChange }
+              aria-describedby='usernameErrorMessage'
             />
+            <Form.Text id='usernameErrorMessage' className='d-block warning'>
+              { state.usernameError ? state.usernameError : null }
+            </Form.Text>
+
             <Form.Control
               required
+              className='mt-4'
               id='password'
               type='password'
               name='password'
@@ -126,9 +146,13 @@ export default class SignInForm extends React.Component {
               autoComplete='current-password'
               value={ state.password }
               onChange={ handleChange }
-              aria-describedby='errorMessage'
+              aria-describedby='errorMessage passwordErrorMessage'
             />
+            <Form.Text id='passwordErrorMessage' className='d-block warning'>
+              { state.passwordError ? state.passwordError : null }
+            </Form.Text>
               { errorMessage(state.error) }
+
             <div
               className='login-form-actions pb-1 mt-3 mb-5 d-flex justify-content-between'
             >
