@@ -144,10 +144,10 @@ export default class UpdatePinForm extends React.Component {
     this.setState({ marker });
   }
 
-  errorMessage(message) {
+  errorMessage(message, idName) {
     if (message) {
       return (
-        <Form.Text id='errorMessage' className='d-block warning'>
+        <Form.Text id={ idName } className='d-block warning'>
           { message }
         </Form.Text>
       );
@@ -262,9 +262,7 @@ export default class UpdatePinForm extends React.Component {
               onChange={ handleChange }
               aria-describedby='titleErrorMessage'
             />
-            <Form.Text id='titleErrorMessage' className='d-block warning'>
-            { state.titleError ? this.errorMessage(state.titleError) : null }
-            </Form.Text>
+            { state.titleError ? this.errorMessage(state.titleError, 'titleErrorMessage') : null }
 
             <Form.Label htmlFor='artist'>
               Artist Name or Tag:
@@ -279,9 +277,7 @@ export default class UpdatePinForm extends React.Component {
               onChange={ handleChange }
               aria-describedby='artistErrorMessage'
             />
-            <Form.Text id='artistErrorMessage' className='d-block warning'>
-            { state.artistError ? this.errorMessage(state.artistError) : null }
-            </Form.Text>
+            { state.artistError ? this.errorMessage(state.artistError, 'artistErrorMessage') : null }
 
             <Form.Label>Street Art Photo:</Form.Label>
             <Form.Control
@@ -306,9 +302,7 @@ export default class UpdatePinForm extends React.Component {
               onChange={ handleChange }
               aria-describedby='infoErrorMessage'
             />
-            <Form.Text id='infoErrorMessage' className='d-block warning'>
-            { state.infoError ? this.errorMessage(state.infoError) : null }
-            </Form.Text>
+            { state.infoError ? this.errorMessage(state.infoError, 'infoErrorMessage') : null }
 
             <p className='form-label'>
               Click the map to drop a pin at the Street Art location:
@@ -317,9 +311,7 @@ export default class UpdatePinForm extends React.Component {
               marker={ state.marker }
               setMarker={ this.setMarker }>
             </UpdatePinMap>
-
-            {/* client-side map error messaging: */}
-            { state.mapError ? this.errorMessage(state.mapError) : null}
+            { state.mapError ? this.errorMessage(state.mapError, 'mapErrorMessage') : null}
 
             <Button className='mt-3 mb-5' type='submit' disabled={ state.isLoading }>
               Submit
