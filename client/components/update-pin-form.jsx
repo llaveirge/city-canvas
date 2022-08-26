@@ -156,20 +156,26 @@ export default class UpdatePinForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { title, artist, info, marker, isLoading, titleError, artistError, infoError } = this.state;
+    const { title, artist, info, marker, isLoading, titleError, artistError, infoError, mapError } = this.state;
 
-    // clear the form error message text, if any:
-    if (titleError || artistError || infoError) {
-      this.setState({ titleError: '', artistError: '', infoError: '' });
+    // clear any error messages from a previously failed form submission:
+    if (titleError || artistError || infoError || mapError) {
+      this.setState({ titleError: '', artistError: '', infoError: '', mapError: '' });
     }
 
-    if (!('lat' in marker) || !('lng' in marker)) {
+    // check for empty fields and display error message to user where applicable:
+    if (!title) {
+      this.setState({ titleError: 'Street Art Title is a required field', isLoading: false });
+    } else if (!artist) {
+      this.setState({ artistError: 'Artist Name or Tag is a required field', isLoading: false });
+    } else if (!info) {
+      this.setState({ infoError: 'Description or information about City Canvas pin is required', isLoading: false });
+    } else if (!('lat' in marker) || !('lng' in marker)) {
       this.setState({
         mapError: 'Please pin a location on the map and try again.',
         isLoading: false
       });
     } else {
-      this.setState({ mapError: '' });
 
       const formData = new FormData();
       formData.append('title', title);
@@ -192,15 +198,7 @@ export default class UpdatePinForm extends React.Component {
           if (!res.ok) {
             res.json().then(response => {
               console.error(response.error);
-              if (response.error.includes('title')) {
-                this.setState({ titleError: response.error, isLoading: false });
-              } else if (response.error.includes('artist')) {
-                this.setState({ artistError: response.error, isLoading: false });
-              } else if (response.error.includes('information')) {
-                this.setState({ infoError: response.error, isLoading: false });
-              } else {
-                this.setState({ internalError: true, isLoading: false });
-              }
+              this.setState({ internalError: true, isLoading: false });
             });
           } else {
             this.setState({
@@ -265,7 +263,7 @@ export default class UpdatePinForm extends React.Component {
               aria-describedby='titleErrorMessage'
             />
             <Form.Text id='titleErrorMessage' className='d-block warning'>
-            { state.titleError ? state.titleError : null }
+            { state.titleError ? this.errorMessage(state.titleError) : null }
             </Form.Text>
 
             <Form.Label htmlFor='artist'>
@@ -282,7 +280,7 @@ export default class UpdatePinForm extends React.Component {
               aria-describedby='artistErrorMessage'
             />
             <Form.Text id='artistErrorMessage' className='d-block warning'>
-            { state.artistError ? state.artistError : null }
+            { state.artistError ? this.errorMessage(state.artistError) : null }
             </Form.Text>
 
             <Form.Label>Street Art Photo:</Form.Label>
@@ -309,7 +307,7 @@ export default class UpdatePinForm extends React.Component {
               aria-describedby='infoErrorMessage'
             />
             <Form.Text id='infoErrorMessage' className='d-block warning'>
-            { state.infoError ? state.infoError : null }
+            { state.infoError ? this.errorMessage(state.infoError) : null }
             </Form.Text>
 
             <p className='form-label'>
