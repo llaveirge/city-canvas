@@ -72,8 +72,10 @@ export default function PinMap(props) {
     );
   }
 
-  if (loadError) return 'Error loading map';
-  if (!isLoaded) return <LoadingSpinner />;
+  if (loadError) return <h2>Error loading map</h2>;
+  if (!isLoaded || isNaN(center.lat) || isNaN(center.lng)) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <>

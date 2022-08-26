@@ -25,6 +25,7 @@ export default class RegistrationForm extends React.Component {
     this.fileInputRef = React.createRef();
     this.handleSubmit = this.handleSubmit.bind(this);
     this.passwordMessage = this.passwordMessage.bind(this);
+    this.errorMessage = this.errorMessage.bind(this);
     this.toggleLoadingSpinner = this.toggleLoadingSpinner.bind(this);
   }
 
@@ -54,68 +55,90 @@ export default class RegistrationForm extends React.Component {
     }
   }
 
+  errorMessage(message) {
+    if (message) {
+      return (
+        <Form.Text id='errorMessage' className='d-block warning'>
+          { message }
+        </Form.Text>
+      );
+    }
+  }
+
   handleSubmit(event) {
     event.preventDefault();
-    const { first, last, email, username, password, isLoading, usernameError, emailError, passwordError, imageError } = this.state;
+    const { first, last, email, username, password, isLoading, usernameError, emailError, passwordError, imageError, firstError, lastError } = this.state;
 
     // clear the form error message text, if any:
-    if (usernameError || emailError || passwordError || imageError) {
-      this.setState({ usernameError: '', emailError: '', passwordError: '', imageError: '' });
+    if (usernameError || emailError || passwordError || imageError || firstError || lastError) {
+      this.setState({ usernameError: '', emailError: '', passwordError: '', imageError: '', firstError: '', lastError: '' });
     }
 
-    const formData = new FormData();
-    formData.append('first', first);
-    formData.append('last', last);
-    formData.append('email', email);
-    formData.append('username', username);
-    formData.append('password', password);
-    formData.append('image', this.fileInputRef.current.files[0]);
+    // check for empty fields and display error message to user where applicable:
+    if (!first) {
+      this.setState({ firstError: 'First Name is a required field', isLoading: false });
+    } else if (!last) {
+      this.setState({ lastError: 'Last Name is a required field', isLoading: false });
+    } else if (!email) {
+      this.setState({ emailError: 'Email is a required field', isLoading: false });
+    } else if (!username) {
+      this.setState({ usernameError: 'username is a required field', isLoading: false });
+    } else if (!this.fileInputRef.current.files[0]) {
+      this.setState({ imageError: 'A Profile Photo upload is required', isLoading: false });
+    } else if (!password) {
+      this.setState({ passwordError: 'A password is required', isLoading: false });
+    } else {
 
-    const req = {
-      method: 'POST',
-      body: formData
-    };
-    this.toggleLoadingSpinner(isLoading);
-    fetch('/api/auth/sign-up', req)
-      .then(res => {
-        if (!res.ok) {
-          res.json().then(response => {
-            console.error(response.error);
-            if (response.error.includes('username')) {
-              this.setState({ usernameError: response.error, isLoading: false });
-            } else if (response.error.includes('email')) {
-              this.setState({ emailError: response.error, isLoading: false });
-            } else if (response.error.includes('password')) {
-              this.setState({ passwordError: response.error, isLoading: false });
-            } else if (response.error.includes('image')) {
-              this.setState({ imageError: response.error, isLoading: false });
-            } else {
-              this.setState({ internalError: true });
-              this.toggleLoadingSpinner(this.state.isLoading);
-            }
-          });
-        } else {
-          this.setState({
-            first: '',
-            last: '',
-            email: '',
-            username: '',
-            password: '',
-            passwordError: '',
-            usernameError: '',
-            emailError: '',
-            imageError: ''
-          });
-          this.fileInputRef.current.value = null;
+      const formData = new FormData();
+      formData.append('first', first);
+      formData.append('last', last);
+      formData.append('email', email);
+      formData.append('username', username);
+      formData.append('password', password);
+      formData.append('image', this.fileInputRef.current.files[0]);
+
+      const req = {
+        method: 'POST',
+        body: formData
+      };
+      this.toggleLoadingSpinner(isLoading);
+      fetch('/api/auth/sign-up', req)
+        .then(res => {
+          if (!res.ok) {
+            res.json().then(response => {
+              console.error(response.error);
+              if (response.error.includes('email')) {
+                this.setState({ emailError: response.error, isLoading: false });
+              } else if (response.error.includes('password')) {
+                this.setState({ passwordError: response.error, isLoading: false });
+              } else {
+                this.setState({ internalError: true });
+                this.toggleLoadingSpinner(this.state.isLoading);
+              }
+            });
+          } else {
+            this.setState({
+              first: '',
+              last: '',
+              email: '',
+              username: '',
+              password: '',
+              passwordError: '',
+              usernameError: '',
+              emailError: '',
+              imageError: ''
+            });
+            this.fileInputRef.current.value = null;
+            this.toggleLoadingSpinner(isLoading);
+            window.location.hash = 'registration';
+          }
+        })
+        .catch(err => {
+          console.error('Fetch Has Failed!', err);
+          this.setState({ networkError: true });
           this.toggleLoadingSpinner(isLoading);
-          window.location.hash = 'registration';
-        }
-      })
-      .catch(err => {
-        console.error('Fetch Has Failed!', err);
-        this.setState({ networkError: true });
-        this.toggleLoadingSpinner(isLoading);
-      });
+        });
+    }
   }
 
   render() {
@@ -154,7 +177,11 @@ export default class RegistrationForm extends React.Component {
               autoComplete='given-name'
               value={ state.first }
               onChange={ handleChange }
+              aria-describedby='firstErrorMessage'
             />
+            <Form.Text id='firstErrorMessage' className='d-block warning'>
+            { state.firstError ? this.errorMessage(state.firstError) : null }
+            </Form.Text>
 
             <Form.Label className='mt-2' htmlFor='last'>
               Last Name
@@ -169,7 +196,11 @@ export default class RegistrationForm extends React.Component {
               autoComplete='family-name'
               value={ state.last }
               onChange={ handleChange }
+              aria-describedby='lastErrorMessage'
             />
+            <Form.Text id='lastErrorMessage' className='d-block warning'>
+            { state.lastError ? this.errorMessage(state.lastError) : null }
+            </Form.Text>
 
              <Form.Label className='mt-2' htmlFor='email'>
                 Email
@@ -186,7 +217,7 @@ export default class RegistrationForm extends React.Component {
               aria-describedby='emailErrorMessage'
             />
              <Form.Text id='emailErrorMessage' className='d-block warning'>
-            { state.emailError ? state.emailError : null }
+            { state.emailError ? this.errorMessage(state.emailError) : null }
             </Form.Text>
 
             <Form.Label className='mt-2' htmlFor='username'>
@@ -204,7 +235,7 @@ export default class RegistrationForm extends React.Component {
               aria-describedby='usernameErrorMessage'
             />
             <Form.Text id='usernameErrorMessage' className='d-block warning'>
-              { state.usernameError ? state.usernameError : null }
+              { state.usernameError ? this.errorMessage(state.usernameError) : null }
             </Form.Text>
 
             <Form.Label className='mt-2' htmlFor='image'>
@@ -221,7 +252,7 @@ export default class RegistrationForm extends React.Component {
               aria-describedby='imageErrorMessage'
             />
             <Form.Text id='imageErrorMessage' className='d-block warning'>
-              { state.imageError ? state.imageError : null }
+              { state.imageError ? this.errorMessage(state.imageError) : null }
             </Form.Text>
 
             <Form.Label className='mt-2' htmlFor='password'>

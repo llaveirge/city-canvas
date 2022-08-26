@@ -7,7 +7,7 @@ import {
   Marker
 } from '@react-google-maps/api';
 
-const center = { lat: 38.836419, lng: -104.8276377 };
+const center = { lat: 39.8283, lng: -98.5795 };
 
 export default function UpdatePinMap(props) {
   const { isLoaded, loadError } = useLoadScript({
@@ -70,7 +70,7 @@ export default function UpdatePinMap(props) {
     <div className='form-map-cont'>
       <GoogleMap
         mapContainerClassName='form-map'
-        zoom={ 8 }
+        zoom={ 4 }
         center={ center }
         onClick={ onMapClick }
         onLoad={ onMapLoad }

@@ -87,7 +87,7 @@ export default function ArtFinder(props) {
     );
   }
 
-  if (loadError) return 'Error loading map';
+  if (loadError) return <h2>Error loading map</h2>;
   if (!isLoaded) return <LoadingSpinner />;
   if (internalError) return <InternalErrorPage />;
   if (networkError) return <NetworkErrorPage />;

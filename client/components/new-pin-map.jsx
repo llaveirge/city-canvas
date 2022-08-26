@@ -60,7 +60,7 @@ export default function NewPinMap(props) {
     );
   }
 
-  if (loadError) return 'Error loading map';
+  if (loadError) return <h2>Error loading map</h2>;
   if (!isLoaded) return <LoadingSpinner />;
 
   return (
