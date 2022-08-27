@@ -144,6 +144,7 @@ export default class UpdatePinForm extends React.Component {
     this.setState({ marker });
   }
 
+  // Display form field error to user when field doesn't meet requirements
   errorMessage(message, idName) {
     if (message) {
       return (

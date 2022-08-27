@@ -35,6 +35,7 @@ export default class RegistrationForm extends React.Component {
     this.setState({ [name]: value });
   }
 
+  // Display password form field help block text or error when password requirements are not met
   passwordMessage(passwordStatus) {
     if (passwordStatus) {
       return (
@@ -51,6 +52,7 @@ export default class RegistrationForm extends React.Component {
     }
   }
 
+  // Display form field error to user when field doesn't meet requirements
   errorMessage(message, idName) {
     if (message) {
       return (

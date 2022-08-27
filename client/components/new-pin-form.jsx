@@ -26,6 +26,7 @@ export default class NewPinForm extends React.Component {
     this.toggleLoadingSpinner = this.toggleLoadingSpinner.bind(this);
   }
 
+  // Display form field error to user when field doesn't meet requirements
   errorMessage(message, idName) {
     if (message) {
       return (
