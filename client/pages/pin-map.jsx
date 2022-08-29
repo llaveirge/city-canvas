@@ -3,6 +3,7 @@ import { Navbar, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import Redirect from '../components/redirect';
 import AppContext from '../lib/app-context';
 import LoadingSpinner from '../components/loading-spinner';
+import NetworkErrorPage from './network-error';
 import {
   GoogleMap,
   useLoadScript,
@@ -12,14 +13,7 @@ import {
 
 export default function PinMap(props) {
   // Check for online status of the browser, if offline send error message:
-  if (!navigator.onLine) {
-    return (
-      <h6 className='pt-5 px-5 saved-canvas-empty-heading pri-color text-center fw-bold'>
-          Sorry, there was an error connecting to the network!
-          Please check your internet connection and try again.
-      </h6>
-    );
-  }
+  if (!navigator.onLine) return <NetworkErrorPage />;
 
   // Check if there is a user logged in, if not, redirect to registration page:
   const validUser = React.useContext(AppContext);
@@ -28,6 +22,9 @@ export default function PinMap(props) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
   });
+
+  // Get coordinates from props:
+  const center = { lat: props.lat, lng: props.lng };
 
   // Set infoWindow state to marker location or null, to toggle info window:
   const [infoWindow, setInfoWindow] = React.useState(null);
@@ -43,9 +40,6 @@ export default function PinMap(props) {
     mapRef.current.panTo({ lat, lng });
     mapRef.current.setZoom(17);
   }, []);
-
-  // Get coordinates from props:
-  const center = { lat: props.lat, lng: props.lng };
 
   // Show tooltip for target button that triggers the GeoLocate function
   const showTooltip = props => (
@@ -89,7 +83,8 @@ export default function PinMap(props) {
 
           <GeoLocate panTo={ panTo } />
 
-          <Marker position={{ lat: center.lat, lng: center.lng }}
+          <Marker
+            position={{ lat: center.lat, lng: center.lng }}
             icon={{
               url: '/pt_pin_sm.webp',
               scaledSize: new window.google.maps.Size(50, 50),
