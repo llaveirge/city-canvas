@@ -12,7 +12,8 @@ export default class SignInForm extends React.Component {
       username: '',
       password: '',
       isLoading: false,
-      networkError: false
+      networkError: false,
+      formErrors: {}
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -44,18 +45,30 @@ export default class SignInForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { username, password, usernameError, passwordError } = this.state;
+    const { username, password, formErrors } = this.state;
 
     // clear the form error message text, if any:
-    if (usernameError || passwordError) {
-      this.setState({ usernameError: '', passwordError: '' });
+    if (formErrors) {
+      this.setState({ formErrors: {} });
     }
 
     // check for empty fields and display error message to user where applicable:
     if (!username) {
-      this.setState({ usernameError: 'Username is a required field', isLoading: false });
+      this.setState(oldState => ({
+        formErrors: {
+          ...oldState.formErrors,
+          usernameError: 'Username is a required field'
+        },
+        isLoading: false
+      }));
     } else if (!password) {
-      this.setState({ passwordError: 'Password is a required field', isLoading: false });
+      this.setState(oldState => ({
+        formErrors: {
+          ...oldState.formErrors,
+          passwordError: 'Password is a required field'
+        },
+        isLoading: false
+      }));
     } else {
 
       const req = {
@@ -123,7 +136,7 @@ export default class SignInForm extends React.Component {
             onSubmit={ handleSubmit }>
             <Form.Control
               autoFocus
-              required
+              // required
               id='username'
               type='text'
               name='username'
@@ -133,10 +146,10 @@ export default class SignInForm extends React.Component {
               onChange={ handleChange }
               aria-describedby='usernameErrorMessage'
             />
-            { state.usernameError ? errorMessage(state.usernameError, 'usernameErrorMessage') : null }
+            { state.formErrors.usernameError ? errorMessage(state.formErrors.usernameError, 'usernameErrorMessage') : null }
 
             <Form.Control
-              required
+              // required
               className='mt-4'
               id='password'
               type='password'
@@ -147,7 +160,7 @@ export default class SignInForm extends React.Component {
               onChange={ handleChange }
               aria-describedby='errorMessage passwordErrorMessage'
             />
-            { state.passwordError ? errorMessage(state.passwordError, 'passwordErrorMessage') : null }
+            { state.formErrors.passwordError ? errorMessage(state.formErrors.passwordError, 'passwordErrorMessage') : null }
             { errorMessage(state.error, 'errorMessage') }
 
             <div
