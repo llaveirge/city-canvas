@@ -136,7 +136,7 @@ export default class SignInForm extends React.Component {
             onSubmit={ handleSubmit }>
             <Form.Control
               autoFocus
-              // required
+              required
               id='username'
               type='text'
               name='username'
@@ -149,7 +149,7 @@ export default class SignInForm extends React.Component {
             { state.formErrors.usernameError ? errorMessage(state.formErrors.usernameError, 'usernameErrorMessage') : null }
 
             <Form.Control
-              // required
+              required
               className='mt-4'
               id='password'
               type='password'

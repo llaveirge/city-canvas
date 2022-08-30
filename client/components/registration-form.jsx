@@ -14,7 +14,8 @@ export default class RegistrationForm extends React.Component {
       username: '',
       password: '',
       isLoading: false,
-      networkError: false
+      networkError: false,
+      formErrors: {}
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -40,7 +41,7 @@ export default class RegistrationForm extends React.Component {
     if (passwordStatus) {
       return (
         <Form.Text id='passwordErrorMessage' className='d-block warning'>
-          { this.state.passwordError }
+          { this.state.formErrors.passwordError }
         </Form.Text>
       );
     } else {
@@ -65,28 +66,76 @@ export default class RegistrationForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { first, last, email, username, password, isLoading, usernameError, emailError, passwordError, imageError, firstError, lastError } = this.state;
+    // const { first, last, email, username, password, isLoading, usernameError, emailError, passwordError, imageError, firstError, lastError } = this.state;
+    const { first, last, email, username, password, isLoading, formErrors } = this.state;
 
     // clear the form error message text, if any:
-    if (usernameError || emailError || passwordError || imageError || firstError || lastError) {
-      this.setState({ usernameError: '', emailError: '', passwordError: '', imageError: '', firstError: '', lastError: '' });
+    // if (usernameError || emailError || passwordError || imageError || firstError || lastError) {
+    if (formErrors) {
+      this.setState({ formErrors: {} });
     }
 
     // check for empty fields and display error message to user where applicable:
-    if (!first) {
-      this.setState({ firstError: 'First Name is a required field', isLoading: false });
-    } else if (!last) {
-      this.setState({ lastError: 'Last Name is a required field', isLoading: false });
-    } else if (!email) {
-      this.setState({ emailError: 'Email is a required field', isLoading: false });
-    } else if (!username) {
-      this.setState({ usernameError: 'Username is a required field', isLoading: false });
-    } else if (!this.fileInputRef.current.files[0]) {
-      this.setState({ imageError: 'A Profile Photo upload is required', isLoading: false });
-    } else if (!password) {
-      this.setState({ passwordError: 'A password is required', isLoading: false });
-    } else {
 
+    if (!first) {
+      this.setState(oldState => ({
+        formErrors: {
+          ...oldState.formErrors,
+          firstError: 'First Name is a required field'
+        },
+        isLoading: false
+      }));
+    }
+    if (!last) {
+      this.setState(oldState => ({
+        formErrors: {
+          ...oldState.formErrors,
+          lastError: 'Last Name is a required field'
+        },
+        isLoading: false
+      }));
+    }
+    if (!email) {
+      // this.setState({ emailError: 'Email is a required field', isLoading: false });
+      this.setState(oldState => ({
+        formErrors: {
+          ...oldState.formErrors,
+          emailError: 'Email is a required field'
+        },
+        isLoading: false
+      }));
+    }
+    if (!username) {
+      this.setState(oldState => ({
+        formErrors: {
+          ...oldState.formErrors,
+          usernameError: 'Username is a required field'
+        },
+        isLoading: false
+      }));
+    }
+    if (!this.fileInputRef.current.files[0]) {
+      // this.setState({ imageError: 'A Profile Photo upload is required', isLoading: false });
+      this.setState(oldState => ({
+        formErrors: {
+          ...oldState.formErrors,
+          imageError: 'A Profile Photo upload is required'
+        },
+        isLoading: false
+      }));
+    }
+    if (!password) {
+      // this.setState({ passwordError: 'A password is required', isLoading: false });
+      this.setState(oldState => ({
+        formErrors: {
+          ...oldState.formErrors,
+          passwordError: 'A password is required'
+        },
+        isLoading: false
+      }));
+    }
+
+    if (Object.keys(formErrors).length === 0) {
       const formData = new FormData();
       formData.append('first', first);
       formData.append('last', last);
@@ -106,9 +155,23 @@ export default class RegistrationForm extends React.Component {
             res.json().then(response => {
               console.error(response.error);
               if (response.error.includes('email')) {
-                this.setState({ emailError: response.error, isLoading: false });
+              // this.setState({ emailError: response.error, isLoading: false });
+                this.setState(oldState => ({
+                  formErrors: {
+                    ...oldState.formErrors,
+                    emailError: response.error
+                  },
+                  isLoading: false
+                }));
               } else if (response.error.includes('password')) {
-                this.setState({ passwordError: response.error, isLoading: false });
+              // this.setState({ passwordError: response.error, isLoading: false });
+                this.setState(oldState => ({
+                  formErrors: {
+                    ...oldState.formErrors,
+                    passwordError: response.error
+                  },
+                  isLoading: false
+                }));
               } else {
                 this.setState({ internalError: true });
                 this.toggleLoadingSpinner(this.state.isLoading);
@@ -121,10 +184,7 @@ export default class RegistrationForm extends React.Component {
               email: '',
               username: '',
               password: '',
-              passwordError: '',
-              usernameError: '',
-              emailError: '',
-              imageError: ''
+              formErrors: {}
             });
             this.fileInputRef.current.value = null;
             this.toggleLoadingSpinner(isLoading);
@@ -141,6 +201,7 @@ export default class RegistrationForm extends React.Component {
 
   render() {
     const { handleChange, handleSubmit, passwordMessage, state } = this;
+    const { formErrors } = state;
 
     if (state.networkError) return <NetworkErrorPage />;
     if (state.internalError) {
@@ -165,7 +226,7 @@ export default class RegistrationForm extends React.Component {
               First Name
             </Form.Label>
             <Form.Control
-              required
+              // required
               autoFocus
               id='first'
               className='mb-1'
@@ -177,13 +238,13 @@ export default class RegistrationForm extends React.Component {
               onChange={ handleChange }
               aria-describedby='firstErrorMessage'
             />
-            { state.firstError ? this.errorMessage(state.firstError, 'firstErrorMessage') : null }
+            { formErrors.firstError ? this.errorMessage(formErrors.firstError, 'firstErrorMessage') : null }
 
             <Form.Label className='mt-2' htmlFor='last'>
               Last Name
             </Form.Label>
             <Form.Control
-              required
+              // required
               id='last'
               className='mb-1'
               type='text'
@@ -194,13 +255,13 @@ export default class RegistrationForm extends React.Component {
               onChange={ handleChange }
               aria-describedby='lastErrorMessage'
             />
-            { state.lastError ? this.errorMessage(state.lastError, 'lastErrorMessage') : null }
+            { formErrors.lastError ? this.errorMessage(formErrors.lastError, 'lastErrorMessage') : null }
 
              <Form.Label className='mt-2' htmlFor='email'>
                 Email
             </Form.Label>
             <Form.Control
-              required
+              // required
               id='email'
               type='email'
               name='email'
@@ -210,13 +271,13 @@ export default class RegistrationForm extends React.Component {
               onChange={ handleChange }
               aria-describedby='emailErrorMessage'
             />
-            { state.emailError ? this.errorMessage(state.emailError, 'emailErrorMessage') : null }
+            { formErrors.emailError ? this.errorMessage(formErrors.emailError, 'emailErrorMessage') : null }
 
             <Form.Label className='mt-2' htmlFor='username'>
               Username
             </Form.Label>
             <Form.Control
-              required
+              // required
               id='username'
               type='text'
               name='username'
@@ -226,13 +287,13 @@ export default class RegistrationForm extends React.Component {
               onChange={ handleChange }
               aria-describedby='usernameErrorMessage'
             />
-            { state.usernameError ? this.errorMessage(state.usernameError, 'usernameErrorMessage') : null }
+            { formErrors.usernameError ? this.errorMessage(formErrors.usernameError, 'usernameErrorMessage') : null }
 
             <Form.Label className='mt-2' htmlFor='image'>
               Profile Photo
             </Form.Label>
             <Form.Control
-              required
+              // required
               id='image'
               className='mb-1'
               type='file'
@@ -241,13 +302,13 @@ export default class RegistrationForm extends React.Component {
               accept='.png, .jpg, .jpeg, .gif'
               aria-describedby='imageErrorMessage'
             />
-            { state.imageError ? this.errorMessage(state.imageError, 'imageErrorMessage') : null }
+            { formErrors.imageError ? this.errorMessage(formErrors.imageError, 'imageErrorMessage') : null }
 
             <Form.Label className='mt-2' htmlFor='password'>
               Create Your Password
             </Form.Label>
             <Form.Control
-              required
+              // required
               id='password'
               type='password'
               name='password'
@@ -257,7 +318,7 @@ export default class RegistrationForm extends React.Component {
               onChange={ handleChange }
               aria-describedby='passwordHelpBlock passwordErrorMessage'
             />
-            { passwordMessage(state.passwordError) }
+            { passwordMessage(state.formErrors.passwordError) }
             <div
               className='login-form-actions pb-4 d-flex justify-content-between'
             >
