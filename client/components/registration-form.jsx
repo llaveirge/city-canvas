@@ -66,17 +66,14 @@ export default class RegistrationForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    // const { first, last, email, username, password, isLoading, usernameError, emailError, passwordError, imageError, firstError, lastError } = this.state;
     const { first, last, email, username, password, isLoading, formErrors } = this.state;
 
     // clear the form error message text, if any:
-    // if (usernameError || emailError || passwordError || imageError || firstError || lastError) {
     if (formErrors) {
       this.setState({ formErrors: {} });
     }
 
     // check for empty fields and display error message to user where applicable:
-
     if (!first) {
       this.setState(oldState => ({
         formErrors: {
@@ -85,8 +82,7 @@ export default class RegistrationForm extends React.Component {
         },
         isLoading: false
       }));
-    }
-    if (!last) {
+    } else if (!last) {
       this.setState(oldState => ({
         formErrors: {
           ...oldState.formErrors,
@@ -94,9 +90,7 @@ export default class RegistrationForm extends React.Component {
         },
         isLoading: false
       }));
-    }
-    if (!email) {
-      // this.setState({ emailError: 'Email is a required field', isLoading: false });
+    } else if (!email) {
       this.setState(oldState => ({
         formErrors: {
           ...oldState.formErrors,
@@ -104,8 +98,7 @@ export default class RegistrationForm extends React.Component {
         },
         isLoading: false
       }));
-    }
-    if (!username) {
+    } else if (!username) {
       this.setState(oldState => ({
         formErrors: {
           ...oldState.formErrors,
@@ -113,9 +106,7 @@ export default class RegistrationForm extends React.Component {
         },
         isLoading: false
       }));
-    }
-    if (!this.fileInputRef.current.files[0]) {
-      // this.setState({ imageError: 'A Profile Photo upload is required', isLoading: false });
+    } else if (!this.fileInputRef.current.files[0]) {
       this.setState(oldState => ({
         formErrors: {
           ...oldState.formErrors,
@@ -123,9 +114,7 @@ export default class RegistrationForm extends React.Component {
         },
         isLoading: false
       }));
-    }
-    if (!password) {
-      // this.setState({ passwordError: 'A password is required', isLoading: false });
+    } else if (!password) {
       this.setState(oldState => ({
         formErrors: {
           ...oldState.formErrors,
@@ -133,9 +122,7 @@ export default class RegistrationForm extends React.Component {
         },
         isLoading: false
       }));
-    }
-
-    if (Object.keys(formErrors).length === 0) {
+    } else {
       const formData = new FormData();
       formData.append('first', first);
       formData.append('last', last);
@@ -155,7 +142,6 @@ export default class RegistrationForm extends React.Component {
             res.json().then(response => {
               console.error(response.error);
               if (response.error.includes('email')) {
-              // this.setState({ emailError: response.error, isLoading: false });
                 this.setState(oldState => ({
                   formErrors: {
                     ...oldState.formErrors,
@@ -164,7 +150,6 @@ export default class RegistrationForm extends React.Component {
                   isLoading: false
                 }));
               } else if (response.error.includes('password')) {
-              // this.setState({ passwordError: response.error, isLoading: false });
                 this.setState(oldState => ({
                   formErrors: {
                     ...oldState.formErrors,
@@ -226,7 +211,7 @@ export default class RegistrationForm extends React.Component {
               First Name
             </Form.Label>
             <Form.Control
-              // required
+              required
               autoFocus
               id='first'
               className='mb-1'
@@ -244,7 +229,7 @@ export default class RegistrationForm extends React.Component {
               Last Name
             </Form.Label>
             <Form.Control
-              // required
+              required
               id='last'
               className='mb-1'
               type='text'
@@ -261,7 +246,7 @@ export default class RegistrationForm extends React.Component {
                 Email
             </Form.Label>
             <Form.Control
-              // required
+              required
               id='email'
               type='email'
               name='email'
@@ -277,7 +262,7 @@ export default class RegistrationForm extends React.Component {
               Username
             </Form.Label>
             <Form.Control
-              // required
+              required
               id='username'
               type='text'
               name='username'
@@ -293,7 +278,7 @@ export default class RegistrationForm extends React.Component {
               Profile Photo
             </Form.Label>
             <Form.Control
-              // required
+              required
               id='image'
               className='mb-1'
               type='file'
@@ -308,7 +293,7 @@ export default class RegistrationForm extends React.Component {
               Create Your Password
             </Form.Label>
             <Form.Control
-              // required
+              required
               id='password'
               type='password'
               name='password'
