@@ -67,6 +67,7 @@ export default class RegistrationForm extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     const { first, last, email, username, password, isLoading, formErrors } = this.state;
+    let errorsPresent = false;
 
     // clear the form error message text, if any:
     if (formErrors) {
@@ -82,7 +83,9 @@ export default class RegistrationForm extends React.Component {
         },
         isLoading: false
       }));
-    } else if (!last) {
+      errorsPresent = true;
+    }
+    if (!last) {
       this.setState(oldState => ({
         formErrors: {
           ...oldState.formErrors,
@@ -90,7 +93,9 @@ export default class RegistrationForm extends React.Component {
         },
         isLoading: false
       }));
-    } else if (!email) {
+      errorsPresent = true;
+    }
+    if (!email) {
       this.setState(oldState => ({
         formErrors: {
           ...oldState.formErrors,
@@ -98,7 +103,9 @@ export default class RegistrationForm extends React.Component {
         },
         isLoading: false
       }));
-    } else if (!username) {
+      errorsPresent = true;
+    }
+    if (!username) {
       this.setState(oldState => ({
         formErrors: {
           ...oldState.formErrors,
@@ -106,7 +113,9 @@ export default class RegistrationForm extends React.Component {
         },
         isLoading: false
       }));
-    } else if (!this.fileInputRef.current.files[0]) {
+      errorsPresent = true;
+    }
+    if (!this.fileInputRef.current.files[0]) {
       this.setState(oldState => ({
         formErrors: {
           ...oldState.formErrors,
@@ -114,7 +123,9 @@ export default class RegistrationForm extends React.Component {
         },
         isLoading: false
       }));
-    } else if (!password) {
+      errorsPresent = true;
+    }
+    if (!password) {
       this.setState(oldState => ({
         formErrors: {
           ...oldState.formErrors,
@@ -122,7 +133,11 @@ export default class RegistrationForm extends React.Component {
         },
         isLoading: false
       }));
-    } else {
+      errorsPresent = true;
+    }
+
+    // if there are no form errors present, submit form data:
+    if (!errorsPresent) {
       const formData = new FormData();
       formData.append('first', first);
       formData.append('last', last);
@@ -149,6 +164,7 @@ export default class RegistrationForm extends React.Component {
                   },
                   isLoading: false
                 }));
+                errorsPresent = true;
               } else if (response.error.includes('password')) {
                 this.setState(oldState => ({
                   formErrors: {
@@ -157,12 +173,14 @@ export default class RegistrationForm extends React.Component {
                   },
                   isLoading: false
                 }));
+                errorsPresent = true;
               } else {
                 this.setState({ internalError: true });
                 this.toggleLoadingSpinner(this.state.isLoading);
               }
             });
           } else {
+            errorsPresent = false;
             this.setState({
               first: '',
               last: '',
