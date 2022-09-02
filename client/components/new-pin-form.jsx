@@ -15,7 +15,8 @@ export default class NewPinForm extends React.Component {
       info: '',
       marker: {},
       isLoading: false,
-      networkError: false
+      networkError: false,
+      formErrors: {}
     };
 
     this.setMarker = this.setMarker.bind(this);
@@ -53,29 +54,68 @@ export default class NewPinForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { title, artist, info, marker, isLoading, titleError, artistError, infoError, mapError, imageError } = this.state;
+    const { title, artist, info, marker, isLoading, formErrors } = this.state;
+    let errorsPresent = false;
 
     // clear any error messages from a previously failed form submission:
-    if (titleError || artistError || infoError || mapError || imageError) {
-      this.setState({ titleError: '', artistError: '', infoError: '', imageError: '', mapError: '' });
+    if (formErrors) {
+      this.setState({ formErrors: {} });
     }
 
     // check for empty fields and display error message to user where applicable:
     if (!title) {
-      this.setState({ titleError: 'Street Art Title is a required field', isLoading: false });
-    } else if (!artist) {
-      this.setState({ artistError: 'Artist Name or Tag is a required field', isLoading: false });
-    } else if (!this.fileInputRef.current.files[0]) {
-      this.setState({ imageError: 'A Street Art Photo upload is required', isLoading: false });
-    } else if (!info) {
-      this.setState({ infoError: 'Description or information about City Canvas pin is required', isLoading: false });
-    } else if (!('lat' in marker) || !('lng' in marker)) {
-      this.setState({
-        mapError: 'Please pin a location on the map and try again.',
+      this.setState(oldState => ({
+        formErrors: {
+          ...oldState.formErrors,
+          titleError: 'Street Art Title is a required field'
+        },
         isLoading: false
-      });
-    } else {
+      }));
+      errorsPresent = true;
+    }
+    if (!artist) {
+      this.setState(oldState => ({
+        formErrors: {
+          ...oldState.formErrors,
+          artistError: 'Artist Name or Tag is a required field'
+        },
+        isLoading: false
+      }));
+      errorsPresent = true;
+    }
+    if (!this.fileInputRef.current.files[0]) {
+      this.setState(oldState => ({
+        formErrors: {
+          ...oldState.formErrors,
+          imageError: 'A Street Art Photo upload is required'
+        },
+        isLoading: false
+      }));
+      errorsPresent = true;
+    }
+    if (!info) {
+      this.setState(oldState => ({
+        formErrors: {
+          ...oldState.formErrors,
+          infoError: 'Description or information about City Canvas pin is required'
+        },
+        isLoading: false
+      }));
+      errorsPresent = true;
+    }
+    if (!('lat' in marker) || !('lng' in marker)) {
+      this.setState(oldState => ({
+        formErrors: {
+          ...oldState.formErrors,
+          mapError: 'Please pin a location on the map and try again.'
+        },
+        isLoading: false
+      }));
+      errorsPresent = true;
+    }
 
+    // if there are no form errors present, submit form data:
+    if (!errorsPresent) {
       const formData = new FormData();
       formData.append('title', title);
       formData.append('artist', artist);
@@ -104,7 +144,7 @@ export default class NewPinForm extends React.Component {
               info: '',
               marker: {},
               internalError: false,
-              mapError: ''
+              formErrors: {}
             });
             this.fileInputRef.current.value = null;
             this.toggleLoadingSpinner(isLoading);
@@ -121,6 +161,7 @@ export default class NewPinForm extends React.Component {
 
   render() {
     const { handleChange, handleSubmit, state, setMarker } = this;
+    const { formErrors } = state;
 
     if (state.networkError) return <NetworkErrorPage />;
     if (state.internalError) return <InternalErrorPage />;
@@ -143,7 +184,7 @@ export default class NewPinForm extends React.Component {
             onChange={ handleChange }
             aria-describedby='titleErrorMessage'
           />
-          { state.titleError ? this.errorMessage(state.titleError, 'titleErrorMessage') : null }
+          { formErrors.titleError ? this.errorMessage(formErrors.titleError, 'titleErrorMessage') : null }
 
           <Form.Label htmlFor='artist'>
             Artist Name or Tag:
@@ -158,7 +199,7 @@ export default class NewPinForm extends React.Component {
             onChange={ handleChange }
             aria-describedby='artistErrorMessage'
           />
-          { state.artistError ? this.errorMessage(state.artistError, 'artistErrorMessage') : null }
+          { formErrors.artistError ? this.errorMessage(formErrors.artistError, 'artistErrorMessage') : null }
 
           <Form.Label>Street Art Photo:</Form.Label>
           <Form.Control
@@ -170,7 +211,7 @@ export default class NewPinForm extends React.Component {
             accept='.png, .jpg, .jpeg, .gif'
             aria-describedby='imageErrorMessage'
           />
-          { state.imageError ? this.errorMessage(state.imageError, 'imageErrorMessage') : null }
+          { formErrors.imageError ? this.errorMessage(formErrors.imageError, 'imageErrorMessage') : null }
 
           <Form.Label htmlFor='info'>
             Description or Information:
@@ -186,7 +227,7 @@ export default class NewPinForm extends React.Component {
             onChange={ handleChange }
            aria-describedby='infoErrorMessage'
           />
-          { state.infoError ? this.errorMessage(state.infoError, 'infoErrorMessage') : null }
+          { formErrors.infoError ? this.errorMessage(formErrors.infoError, 'infoErrorMessage') : null }
 
           <p className='form-label'>
             Click the map to drop a pin at the Street Art location:
@@ -195,7 +236,7 @@ export default class NewPinForm extends React.Component {
             marker={ state.marker }
             setMarker={ setMarker }>
           </NewPinMap>
-          { state.mapError ? this.errorMessage(state.mapError, 'mapErrorMessage') : null }
+          { formErrors.mapError ? this.errorMessage(formErrors.mapError, 'mapErrorMessage') : null }
 
           <Button className='mt-3 mb-5' type='submit' disabled={ state.isLoading }>
             Submit
