@@ -46,10 +46,11 @@ export default class SignInForm extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     const { username, password, formErrors } = this.state;
+    let errorsPresent = false;
 
     // clear the form error message text, if any:
     if (formErrors) {
-      this.setState({ formErrors: {} });
+      this.setState({ formErrors: {}, error: null });
     }
 
     // check for empty fields and display error message to user where applicable:
@@ -61,7 +62,9 @@ export default class SignInForm extends React.Component {
         },
         isLoading: false
       }));
-    } else if (!password) {
+      errorsPresent = true;
+    }
+    if (!password) {
       this.setState(oldState => ({
         formErrors: {
           ...oldState.formErrors,
@@ -69,8 +72,10 @@ export default class SignInForm extends React.Component {
         },
         isLoading: false
       }));
-    } else {
+      errorsPresent = true;
+    }
 
+    if (!errorsPresent) {
       const req = {
         method: 'POST',
         headers: {
@@ -86,6 +91,7 @@ export default class SignInForm extends React.Component {
               if (response.error.includes('login')) {
                 this.setState({ error: response.error });
                 this.toggleLoadingSpinner(this.state.isLoading);
+                errorsPresent = true;
               } else {
                 this.setState({ internalError: true });
                 this.toggleLoadingSpinner(this.state.isLoading);
@@ -112,7 +118,16 @@ export default class SignInForm extends React.Component {
   render() {
     const { handleSubmit, handleChange, state, errorMessage } = this;
 
-    if (state.networkError) return <NetworkErrorPage />;
+    if (state.networkError) {
+      return (
+         <Container className='login-cont bg-white px-4 d-flex flex-row flex-wrap align-self-center'>
+        <Row className='login-heading-row'>
+          <NetworkErrorPage />
+        </Row>
+        </Container>
+      );
+    }
+
     if (state.internalError) {
       return (
       <Container className='login-cont bg-white px-4 d-flex flex-row flex-wrap align-self-center'>
