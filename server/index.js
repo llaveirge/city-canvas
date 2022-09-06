@@ -204,8 +204,8 @@ app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
   if (!info) {
     throw new ClientError(400, 'description or information is a required field');
   }
-  if (!lat || !lng) {
-    throw new ClientError(400, 'lat and lng are required fields');
+  if (!lat || !lng || isNaN(lat) || isNaN(lng)) {
+    throw new ClientError(400, 'lat and lng are required fields and must be Number type values');
   }
   if (!userId | userId < 0) {
     throw new ClientError(400, 'a valid userId is required, please sign in or create an account');
@@ -339,8 +339,8 @@ app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
   if (!userId) {
     throw new ClientError(400, 'userId is required, please sign in or create an account');
   }
-  if (!lat || !lng) {
-    throw new ClientError(400, 'lat and lng are required fields');
+  if (!lat || !lng || isNaN(lat) || isNaN(lng)) {
+    throw new ClientError(400, 'lat and lng are required fields and must be Number type values');
   }
 
   // Check to see if the image was updated, if not, set 'url' to null:
