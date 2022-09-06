@@ -3,20 +3,14 @@ import NewPinForm from '../components/new-pin-form';
 import { Container } from 'react-bootstrap';
 import Redirect from '../components/redirect';
 import AppContext from '../lib/app-context';
+import NetworkErrorPage from '../pages/network-error';
 
 export default class NewPin extends React.Component {
   render() {
     const { user } = this.context;
     if (!user) return <Redirect to='registration' />;
 
-    if (!navigator.onLine) {
-      return (
-        <h6 className='pt-5 px-5 saved-canvas-empty-heading pri-color text-center fw-bold'>
-          Sorry, there was an error connecting to the network!
-          Please check your internet connection and try again.
-        </h6>
-      );
-    }
+    if (!navigator.onLine) return <NetworkErrorPage />;
 
     return (
       <>
