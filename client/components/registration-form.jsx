@@ -174,6 +174,15 @@ export default class RegistrationForm extends React.Component {
                   isLoading: false
                 }));
                 errorsPresent = true;
+              } else if (response.error.includes('username')) {
+                this.setState(oldState => ({
+                  formErrors: {
+                    ...oldState.formErrors,
+                    usernameError: response.error
+                  },
+                  isLoading: false
+                }));
+                errorsPresent = true;
               } else {
                 this.setState({ internalError: true });
                 this.toggleLoadingSpinner(this.state.isLoading);
