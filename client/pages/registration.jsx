@@ -15,7 +15,7 @@ export default class Registration extends React.Component {
     return (
       <>
         <div
-          style={{ backgroundImage: 'url(' + './reg-bkg.webp' + ')' }}
+          // style={{ backgroundImage: 'url(' + './reg-bkg.webp' + ')' }}
           className='pg-registration d-flex py-5 py-md-0'>
             { form === 'sign-up'
               ? <RegistrationForm />
