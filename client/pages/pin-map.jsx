@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Navbar } from 'react-bootstrap';
 import Redirect from '../components/redirect';
 import AppContext from '../lib/app-context';
 import LoadingSpinner from '../components/loading-spinner';
@@ -8,7 +8,9 @@ import {
   GoogleMap,
   useLoadScript,
   Marker,
-  InfoWindow
+  InfoWindow,
+  OverlayTrigger,
+  Tooltip
 } from '@react-google-maps/api';
 
 export default function PinMap(props) {
@@ -70,6 +72,15 @@ export default function PinMap(props) {
   if (!isLoaded || isNaN(center.lat) || isNaN(center.lng)) {
     return <LoadingSpinner />;
   }
+
+  // navigator.permissions.query({ name: 'geolocation' })
+  //   .then(function (permissionStatus) {
+  //     console.log('geolocation permission state is ', permissionStatus.state);
+
+  //     permissionStatus.onchange = function () {
+  //       console.log('geolocation permission state has changed to ', this.state);
+  //     };
+  //   });
 
   return (
     <>

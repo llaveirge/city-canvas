@@ -79,29 +79,38 @@ app.get('/api/home-feed', (req, res, next) => {
     .catch(err => next(err));
 });
 
-/* Get a specific pin from 'posts' table and associated user data from 'users'
-and 'savedPosts' tables for 'PinPage': */
-app.get('/api/pins/:postId', (req, res, next) => {
+/* Get a specific pin from 'posts' table, associated author user data from
+'users' table, and current authorized user data from 'savedPosts' table for
+'PinPage': */
+app.get('/api/pins/:postId/:userId', (req, res, next) => {
   const postId = Number(req.params.postId);
+  const userId = Number(req.params.userId);
+
   if (!postId || postId < 0) {
     throw new ClientError(400, 'postId must be a positive integer');
   }
 
+  if (!userId || userId < 0) {
+    throw new ClientError(400, 'a valid userId is required, please sign in or create an account');
+  }
+
   const sql = `
-    select
+    SELECT
       "p".*,
       "u"."userName",
       "u"."photoUrl",
-      "sp"."createdAt" as "saved",
-      "sp"."userId" as "saver"
-    from "posts" as "p"
-    join "users" as "u" using ("userId")
-    left join "savedPosts" as "sp" using ("postId")
-    where "p"."postId" = $1
-     and "p"."deleted" is NULL;
-   `;
+      ( SELECT
+          "savedPosts"."createdAt"
+          FROM "savedPosts"
+          WHERE "savedPosts"."userId" = $2
+            AND "savedPosts"."postId" = $1 ) AS "savedByCurrentUser"
+      FROM "posts" AS "p"
+      JOIN "users" as "u" using ("userId")
+      WHERE "p"."postId" = $1
+        AND "p"."deleted" is NULL;
+    `;
 
-  const params = [postId];
+  const params = [postId, userId];
   db.query(sql, params)
     .then(response => {
       if (!response.rows[0]) {

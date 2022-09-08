@@ -24,6 +24,7 @@ export default class PinPage extends React.Component {
     this.handleShow = this.handleShow.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.toggleLoadingSpinner = this.toggleLoadingSpinner.bind(this);
+    this.toggleSaving = this.toggleSaving.bind(this);
   }
 
   toggleLoadingSpinner(status) {
@@ -40,7 +41,7 @@ export default class PinPage extends React.Component {
     const { user } = this.context;
     if (user) {
       this.toggleLoadingSpinner(this.state.isLoading);
-      fetch(`/api/pins/${this.props.postId}`)
+      fetch(`/api/pins/${this.props.postId}/${user.userId}`)
         .then(res => {
           if (res.ok) {
             res.json().then(pin => {
@@ -74,7 +75,7 @@ export default class PinPage extends React.Component {
     const { pin, isSaving } = this.state;
 
     // Save pin:
-    if (pin.saved === null) {
+    if (pin.savedByCurrentUser === null) {
       const req = {
         method: 'POST',
         headers: {
@@ -88,8 +89,7 @@ export default class PinPage extends React.Component {
           if (res.ok) {
             res.json().then(savedPost => {
               const updatedPin = pin;
-              updatedPin.saved = savedPost.createdAt;
-              updatedPin.saver = savedPost.userId;
+              updatedPin.savedByCurrentUser = savedPost.createdAt;
               this.setState({ pin: updatedPin });
               this.toggleSaving(this.state.isSaving);
             });
@@ -101,7 +101,7 @@ export default class PinPage extends React.Component {
                 this.toggleSaving(this.state.isSaving);
               } else if (response.error.includes('userId')) {
                 this.setState({ userIdError: true });
-                this.toggleSaving(isSaving);
+                this.toggleSaving(this.state.isSaving);
               } else {
                 this.setState({ internalError: true });
                 this.toggleSaving(this.state.isSaving);
@@ -114,7 +114,7 @@ export default class PinPage extends React.Component {
           this.setState({ networkError: true });
           this.toggleSaving(this.state.isSaving);
         });
-    } else if (pin.saved) {
+    } else if (pin.savedByCurrentUser) {
       // Delete from saved:
       const req = {
         method: 'DELETE',
@@ -129,8 +129,7 @@ export default class PinPage extends React.Component {
           if (res.ok) {
             res.text().then(deletedPin => {
               const updatedPin = pin;
-              updatedPin.saved = null;
-              updatedPin.saver = null;
+              updatedPin.savedByCurrentUser = null;
               this.setState({ pin: updatedPin });
               this.toggleSaving(this.state.isSaving);
             });
@@ -153,7 +152,7 @@ export default class PinPage extends React.Component {
         .catch(err => {
           console.error('Fetch Failed!', err);
           this.setState({ networkError: true });
-          this.toggleLoadingSpinner(this.is.isSaving);
+          this.toggleLoadingSpinner(this.state.isSaving);
         });
     }
   }
@@ -319,7 +318,7 @@ export default class PinPage extends React.Component {
                   }
                   { !isSaving
                     ? <Card.Link className='bg-white ab-bottom-right'>
-                        <i className={ pin.saved === null
+                        <i className={ pin.savedByCurrentUser === null
                           ? 'grey not-saved fas fa-heart fa-lg'
                           : 'sec-color saved fas fa-heart fa-lg' }
                           onClick={ this.toggleSaved }></i>
