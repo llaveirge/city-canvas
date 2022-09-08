@@ -42,7 +42,7 @@ export default function ArtFinder(props) {
 
   // Fetch all the pins and and set them as markers in state:
   React.useEffect(() => {
-    fetch('/api/home-feed')
+    fetch('/api/art-finder')
       .then(res => {
         if (res.ok) {
           res.json().then(markers => {

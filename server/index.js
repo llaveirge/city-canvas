@@ -55,26 +55,6 @@ app.get('/api/home-feed/:userId', (req, res, next) => {
   if (!userId || userId < 0) {
     throw new ClientError(400, 'a valid userId is required, please sign in or create an account');
   }
-  // const sql = `
-  //   select
-  //     "p"."postId",
-  //     "p"."title",
-  //     "p"."artistName",
-  //     "p"."artPhotoUrl",
-  //     "p"."reported",
-  //     "p"."userId",
-  //     "p"."lat",
-  //     "p"."lng",
-  //     "u"."userName",
-  //     "u"."photoUrl",
-  //     "sp"."createdAt" as "saved",
-  //     "sp"."userId" as "saver"
-  //   from "posts" as "p"
-  //   join "users" as "u" using ("userId")
-  //   left join "savedPosts" as "sp" using ("postId")
-  //   where "p"."deleted" is NULL
-  //   order by "p"."createdAt" DESC, "p"."postId" DESC;
-  //  `;
 
   const sql = `
     SELECT
@@ -100,6 +80,34 @@ app.get('/api/home-feed/:userId', (req, res, next) => {
 
   const params = [userId];
   db.query(sql, params)
+    .then(response => {
+      res.json(response.rows);
+    })
+    .catch(err => next(err));
+});
+
+/* Get all pins from 'posts' table and associate author user data to generate
+and display markers on the 'ArtFinder' page */
+app.get('/api/art-finder', (req, res, next) => {
+  const sql = `
+    select
+      "p"."postId",
+      "p"."title",
+      "p"."artistName",
+      "p"."artPhotoUrl",
+      "p"."reported",
+      "p"."userId",
+      "p"."lat",
+      "p"."lng",
+      "u"."userName",
+      "u"."photoUrl"
+    from "posts" as "p"
+    join "users" as "u" using ("userId")
+    where "p"."deleted" is NULL
+    order by "p"."createdAt" DESC, "p"."postId" DESC;
+   `;
+
+  db.query(sql)
     .then(response => {
       res.json(response.rows);
     })
