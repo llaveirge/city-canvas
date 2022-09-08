@@ -21,7 +21,7 @@ export default class Home extends React.Component {
     const { user } = this.context;
     if (user) {
       this.setState({ isLoading: true });
-      fetch('/api/home-feed')
+      fetch(`/api/home-feed/${user.userId}`)
         .then(res => {
           if (res.ok) {
             res.json().then(pins => {
@@ -66,8 +66,7 @@ export default class Home extends React.Component {
                           button='View More'
                           href={ `#pins?postId=${pin.postId}` }
                           reported={ pin.reported }
-                          saver={ pin.saver }
-                          userId={ user.userId }
+                          savedByCurrentUser={ pin.savedByCurrentUser }
                           />
                       ))
                       : <h6 className='no-results-heading pri-color text-center fw-bold error-text'>

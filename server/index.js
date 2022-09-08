@@ -50,29 +50,56 @@ app.get('/api/my-canvas-pins/:userId', (req, res, next) => {
 
 /* Get all pins from 'posts' table and associated user data from 'users' and
 'savedPosts' tables for home feed: */
-app.get('/api/home-feed', (req, res, next) => {
-  const sql = `
-    select
-      "p"."postId",
-      "p"."title",
-      "p"."artistName",
-      "p"."artPhotoUrl",
-      "p"."reported",
-      "p"."userId",
-      "p"."lat",
-      "p"."lng",
-      "u"."userName",
-      "u"."photoUrl",
-      "sp"."createdAt" as "saved",
-      "sp"."userId" as "saver"
-    from "posts" as "p"
-    join "users" as "u" using ("userId")
-    left join "savedPosts" as "sp" using ("postId")
-    where "p"."deleted" is NULL
-    order by "p"."createdAt" DESC, "p"."postId" DESC;
-   `;
+app.get('/api/home-feed/:userId', (req, res, next) => {
+  const userId = Number(req.params.userId);
+  if (!userId || userId < 0) {
+    throw new ClientError(400, 'a valid userId is required, please sign in or create an account');
+  }
+  // const sql = `
+  //   select
+  //     "p"."postId",
+  //     "p"."title",
+  //     "p"."artistName",
+  //     "p"."artPhotoUrl",
+  //     "p"."reported",
+  //     "p"."userId",
+  //     "p"."lat",
+  //     "p"."lng",
+  //     "u"."userName",
+  //     "u"."photoUrl",
+  //     "sp"."createdAt" as "saved",
+  //     "sp"."userId" as "saver"
+  //   from "posts" as "p"
+  //   join "users" as "u" using ("userId")
+  //   left join "savedPosts" as "sp" using ("postId")
+  //   where "p"."deleted" is NULL
+  //   order by "p"."createdAt" DESC, "p"."postId" DESC;
+  //  `;
 
-  db.query(sql)
+  const sql = `
+    SELECT
+        "p"."postId",
+        "p"."title",
+        "p"."artistName",
+        "p"."artPhotoUrl",
+        "p"."reported",
+        "p"."userId",
+        "p"."lat",
+        "p"."lng",
+        "u"."userName",
+        "u"."photoUrl",
+        ( SELECT
+            "savedPosts"."createdAt"
+            FROM "savedPosts"
+            WHERE "savedPosts"."userId" = $1 AND "p"."postId" = "savedPosts"."postId") AS "savedByCurrentUser"
+        FROM "posts" AS "p"
+        JOIN "users" as "u" using ("userId")
+        WHERE "p"."deleted" is NULL
+        ORDER BY "p"."createdAt" DESC, "p"."postId" DESC;
+    `;
+
+  const params = [userId];
+  db.query(sql, params)
     .then(response => {
       res.json(response.rows);
     })
