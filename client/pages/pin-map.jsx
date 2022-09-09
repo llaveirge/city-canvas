@@ -23,13 +23,20 @@ export default function PinMap(props) {
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
   });
 
-  // Get coordinates from props:
-  const center = { lat: props.lat, lng: props.lng };
+  // Get coordinates from props, use useMemo hook to prevent rerendering on click:
+  const center = React.useMemo(() => ({ lat: props.lat, lng: props.lng }), []);
 
   // Set infoWindow state to marker location or null, to toggle info window:
   const [infoWindow, setInfoWindow] = React.useState(null);
 
-  // Prevent re-renders with useRef, specifically when placing markers:
+  // Set map options to add style and limit points of interest on map:
+  const options = React.useMemo(() => ({
+    mapId: '8c7ace9f28d909f0',
+    clickableIcons: false
+  }), []
+  );
+
+  // Prevent map re-renders with useRef, specifically when placing markers:
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback(map => {
     mapRef.current = map;
@@ -88,6 +95,7 @@ export default function PinMap(props) {
           zoom={ 17 }
           center={ center }
           onLoad={ onMapLoad }
+          options={ options }
         >
 
           <GeoLocate panTo={ panTo } />

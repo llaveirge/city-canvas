@@ -7,6 +7,7 @@ import InternalErrorPage from '../pages/internal-error';
 import NotFound from '../pages/not-found';
 import NetworkErrorPage from '../pages/network-error';
 import LoadingSpinner from './loading-spinner';
+import AppContext from '../lib/app-context';
 
 export default class UpdatePinForm extends React.Component {
   constructor(props) {
@@ -46,7 +47,8 @@ export default class UpdatePinForm extends React.Component {
 
   componentDidMount() {
     this.toggleLoadingSpinner(this.state.isLoading);
-    fetch(`/api/pins/${this.props.postId}`)
+    const { user } = this.context;
+    fetch(`/api/pins/${this.props.postId}/${user.userId}`)
       .then(res => {
         if (res.ok) {
           res.json().then(pin => {
@@ -369,3 +371,5 @@ export default class UpdatePinForm extends React.Component {
     );
   }
 }
+
+UpdatePinForm.contextType = AppContext;
