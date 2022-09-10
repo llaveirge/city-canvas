@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { Navbar, Tooltip, OverlayTrigger, Container, Row } from 'react-bootstrap';
 import AppContext from '../lib/app-context';
 import Redirect from '../components/redirect';
 import LoadingSpinner from '../components/loading-spinner';
@@ -11,8 +11,6 @@ import {
   Marker,
   InfoWindow
 } from '@react-google-maps/api';
-
-const center = { lat: 39.8283, lng: -98.5795 };
 
 export default function ArtFinder(props) {
   // Check if there is a user logged in, if not, redirect to registration page:
@@ -28,11 +26,22 @@ export default function ArtFinder(props) {
   const [networkError, setNetworkError] = React.useState(false);
   const [internalError, setInternalError] = React.useState(false);
 
+  // Get coordinates from props, use useMemo hook to prevent rerendering on click:
+  const center = React.useMemo(() => ({ lat: 39.8283, lng: -98.5795 }), []);
+
   // Prevent re-renders with useRef, specifically when placing markers:
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback(map => {
     mapRef.current = map;
   }, []);
+
+  // Set map options to add style and limit points of interest on map (fullscreen not supported on iOS):
+  const options = React.useMemo(() => ({
+    mapId: '8c7ace9f28d909f0',
+    clickableIcons: false,
+    fullscreenControl: true
+  }), []
+  );
 
   // Pan to a location:
   const panTo = React.useCallback(({ lat, lng }) => {
@@ -87,7 +96,41 @@ export default function ArtFinder(props) {
     );
   }
 
-  if (loadError) return <h2>Error loading map</h2>;
+  if (loadError) {
+    return (
+      <Container>
+        <Row className='text-center'>
+          <h2 className='mt-5 pri-color display-3 fw-bold'>
+            Error Loading Map
+          </h2>
+        </Row>
+        <Row>
+          <p className='pt-5 px-4 fw-bold error-text no-results-heading'>
+            Sorry, something&apos;s not right here. Please try the following:
+          </p>
+
+          <ul className='pt-2 px-4'>
+            <li>
+              Check your internet connection and try again.
+            </li>
+            <li>
+              Refresh the page, this might help.
+            </li>
+            <li>
+              Try signing out and signing back in again.
+            </li>
+            <li>
+              If this problem persists, please contact us at <a
+                href="mailto:citycanvashelpers@gmail.com">
+                    CityCanvasHelpers@gmail.com
+                </a>
+            </li>
+          </ul>;
+        </Row>
+      </Container>
+    );
+  }
+
   if (!isLoaded) return <LoadingSpinner />;
   if (internalError) return <InternalErrorPage />;
   if (networkError) return <NetworkErrorPage />;
@@ -98,8 +141,9 @@ export default function ArtFinder(props) {
         <GoogleMap
           mapContainerClassName='pin-map'
           zoom = { 5 }
-          center={ center }
-          onLoad= { onMapLoad }
+          center ={ center }
+          onLoad = { onMapLoad }
+          options = { options}
           >
 
           <GeoLocate panTo={ panTo } />
