@@ -29,10 +29,11 @@ export default function PinMap(props) {
   // Set infoWindow state to marker location or null, to toggle info window:
   const [infoWindow, setInfoWindow] = React.useState(null);
 
-  // Set map options to add style and limit points of interest on map:
+  // Set map options to add style and limit points of interest on map (fullscreen not supported on iOS):
   const options = React.useMemo(() => ({
     mapId: '8c7ace9f28d909f0',
-    clickableIcons: false
+    clickableIcons: false,
+    fullscreenControl: true
   }), []
   );
 
@@ -77,15 +78,6 @@ export default function PinMap(props) {
   if (!isLoaded || isNaN(center.lat) || isNaN(center.lng)) {
     return <LoadingSpinner />;
   }
-
-  // navigator.permissions.query({ name: 'geolocation' })
-  //   .then(function (permissionStatus) {
-  //     console.log('geolocation permission state is ', permissionStatus.state);
-
-  //     permissionStatus.onchange = function () {
-  //       console.log('geolocation permission state has changed to ', this.state);
-  //     };
-  //   });
 
   return (
     <>

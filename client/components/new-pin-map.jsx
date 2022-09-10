@@ -7,12 +7,13 @@ import {
   Marker
 } from '@react-google-maps/api';
 
-const center = { lat: 39.8283, lng: -98.5795 };
-
 export default function NewPinMap(props) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
   });
+
+  // Get coordinates from props, use useMemo hook to prevent rerendering on click:
+  const center = React.useMemo(() => ({ lat: 39.8283, lng: -98.5795 }), []);
 
   // Set a custom marker via click:
   const onMapClick = React.useCallback(event => {
@@ -21,6 +22,14 @@ export default function NewPinMap(props) {
       lng: event.latLng.lng()
     });
   }, []);
+
+  // Set map options to add style and limit points of interest on map (fullscreen not supported on iOS):
+  const options = React.useMemo(() => ({
+    mapId: '8c7ace9f28d909f0',
+    clickableIcons: false,
+    fullscreenControl: true
+  }), []
+  );
 
   // Prevent re-renders with useRef, specifically when placing markers;
   const mapRef = React.useRef();
@@ -71,6 +80,7 @@ export default function NewPinMap(props) {
         center={ center }
         onClick={ onMapClick }
         onLoad={ onMapLoad }
+        options= { options }
       >
 
         <GeoLocate panTo={ panTo } />
