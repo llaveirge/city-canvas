@@ -35,7 +35,8 @@ app.get('/api/my-canvas-pins/:userId', (req, res, next) => {
       "sp"."userId" AS "saver"
     FROM "posts" AS "p"
     LEFT JOIN "savedPosts" AS "sp" using ("postId")
-    WHERE "p"."userId" = $1
+    WHERE
+      "p"."userId" = $1
       AND "p"."deleted" is NULL
     ORDER BY "p"."createdAt" DESC, "postId" DESC;
   `;
@@ -58,25 +59,29 @@ app.get('/api/home-feed/:userId', (req, res, next) => {
 
   const sql = `
     SELECT
-        "p"."postId",
-        "p"."title",
-        "p"."artistName",
-        "p"."artPhotoUrl",
-        "p"."reported",
-        "p"."userId",
-        "p"."lat",
-        "p"."lng",
-        "u"."userName",
-        "u"."photoUrl",
-        ( SELECT
-            "savedPosts"."createdAt"
-            FROM "savedPosts"
-            WHERE "savedPosts"."userId" = $1 AND "p"."postId" = "savedPosts"."postId") AS "savedByCurrentUser"
-        FROM "posts" AS "p"
-        JOIN "users" as "u" USING ("userId")
-        WHERE "p"."deleted" is NULL
-        ORDER BY "p"."createdAt" DESC, "p"."postId" DESC;
-    `;
+      "p"."postId",
+      "p"."title",
+      "p"."artistName",
+      "p"."artPhotoUrl",
+      "p"."reported",
+      "p"."userId",
+      "p"."lat",
+      "p"."lng",
+      "u"."userName",
+      "u"."photoUrl",
+      (
+        SELECT
+          "savedPosts"."createdAt"
+        FROM "savedPosts"
+        WHERE
+          "savedPosts"."userId" = $1
+          AND "p"."postId" = "savedPosts"."postId"
+      ) AS "savedByCurrentUser"
+    FROM "posts" AS "p"
+    JOIN "users" AS "u" USING ("userId")
+    WHERE "p"."deleted" is NULL
+    ORDER BY "p"."createdAt" DESC, "p"."postId" DESC;
+  `;
 
   const params = [userId];
   db.query(sql, params)
@@ -134,16 +139,20 @@ app.get('/api/pins/:postId/:userId', (req, res, next) => {
       "p".*,
       "u"."userName",
       "u"."photoUrl",
-      ( SELECT
+      (
+        SELECT
           "savedPosts"."createdAt"
-          FROM "savedPosts"
-          WHERE "savedPosts"."userId" = $2
-            AND "savedPosts"."postId" = $1 ) AS "savedByCurrentUser"
-      FROM "posts" AS "p"
-      JOIN "users" as "u" using ("userId")
-      WHERE "p"."postId" = $1
-        AND "p"."deleted" is NULL;
-    `;
+        FROM "savedPosts"
+        WHERE
+          "savedPosts"."userId" = $2
+          AND "savedPosts"."postId" = $1
+      ) AS "savedByCurrentUser"
+    FROM "posts" AS "p"
+    JOIN "users" AS "u" USING ("userId")
+    WHERE
+      "p"."postId" = $1
+      AND "p"."deleted" is NULL;
+  `;
 
   const params = [postId, userId];
   db.query(sql, params)
@@ -182,12 +191,13 @@ app.get('/api/saved-pins/:userId', (req, res, next) => {
       "p"."lng",
       "u"."userName",
       "u"."photoUrl"
-      FROM "posts" AS "p"
-      JOIN "users" AS "u" USING ("userId")
-      JOIN "savedPosts" AS "sp" USING ("postId")
-      WHERE "p"."deleted" is NULL
-        AND "sp"."userId" = $1
-      ORDER BY "sp"."createdAt" DESC, "sp"."postId" DESC;
+    FROM "posts" AS "p"
+    JOIN "users" AS "u" USING ("userId")
+    JOIN "savedPosts" AS "sp" USING ("postId")
+    WHERE
+      "p"."deleted" is NULL
+      AND "sp"."userId" = $1
+    ORDER BY "sp"."createdAt" DESC, "sp"."postId" DESC;
   `;
 
   const params = [userId];
@@ -207,7 +217,8 @@ app.post('/api/auth/sign-in', (req, res, next) => {
   }
 
   const sql = `
-    SELECT "userId",
+    SELECT
+      "userId",
       "hashedPassword",
       "photoUrl"
     FROM "users"
@@ -261,8 +272,17 @@ app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
   const url = `/images/${req.file.filename}`;
 
   const sql = `
-    INSERT INTO "posts" ("title", "artistName", "artPhotoUrl", "comment", "lat", "lng", "userId")
-      VALUES ($1, $2, $3, $4, $5, $6, $7)
+    INSERT INTO "posts"
+      (
+        "title",
+        "artistName",
+        "artPhotoUrl",
+        "comment",
+        "lat",
+        "lng",
+        "userId"
+      )
+    VALUES ($1, $2, $3, $4, $5, $6, $7)
     RETURNING *;
   `;
 
@@ -288,9 +308,14 @@ app.post('/api/save-post/:postId', (req, res, next) => {
   }
 
   const sql = `
-    INSERT INTO "savedPosts" ("postId", "userId")
-      SELECT $1, $2
-    WHERE EXISTS (SELECT 1 FROM "posts" WHERE "postId" = $1
+    INSERT INTO "savedPosts"
+      (
+        "postId",
+        "userId"
+      )
+    SELECT $1, $2
+    WHERE EXISTS
+      (SELECT 1 FROM "posts" WHERE "postId" = $1
       AND "deleted" is NULL)
     RETURNING *;
   `;
@@ -342,8 +367,16 @@ app.post('/api/auth/sign-up', uploadsMiddleware, (req, res, next) => {
     .hash(password)
     .then(hashedPassword => {
       const sql = `
-          INSERT INTO "users" ("firstName", "lastName", "email", "userName", "photoUrl", "hashedPassword")
-            VALUES ($1, $2, $3, $4, $5, $6)
+          INSERT INTO "users"
+            (
+              "firstName",
+              "lastName",
+              "email",
+              "userName",
+              "photoUrl",
+              "hashedPassword"
+            )
+          VALUES ($1, $2, $3, $4, $5, $6)
           RETURNING "userId", "userName", "createdAt";
         `;
       const params = [first, last, email, username, url, hashedPassword];
@@ -398,16 +431,18 @@ app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
 
   const sql = `
     UPDATE "posts"
-      SET "title" = $2,
-        "reported" = false,
-        "artistName" = $3,
-        "comment" = $4,
-        "lat" = $5,
-        "lng" = $6
-        ${url ? ',"artPhotoUrl" = $8' : ''}
-      WHERE "postId" = $1
-        AND "userId" = $7
-        AND "deleted" is NULL
+    SET
+      "title" = $2,
+      "reported" = false,
+      "artistName" = $3,
+      "comment" = $4,
+      "lat" = $5,
+      "lng" = $6
+      ${url ? ',"artPhotoUrl" = $8' : ''}
+    WHERE
+      "postId" = $1
+      AND "userId" = $7
+      AND "deleted" is NULL
     RETURNING *;
   `;
 
@@ -436,8 +471,8 @@ app.patch('/api/delete-pin/:postId', (req, res, next) => {
 
   const sql = `
     UPDATE "posts"
-      SET "deleted" = now()
-      WHERE "postId" = $1
+    SET "deleted" = now()
+    WHERE "postId" = $1
     RETURNING "deleted";
   `;
 
@@ -465,9 +500,10 @@ app.patch('/api/report/:postId', (req, res, next) => {
 
   const sql = `
     UPDATE "posts"
-      SET "reported" = true
-      WHERE "postId" = $1
-        AND "deleted" is NULL
+    SET "reported" = true
+    WHERE
+      "postId" = $1
+       AND "deleted" is NULL
     RETURNING "reported";
   `;
 
@@ -501,7 +537,8 @@ app.delete('/api/delete-saved/:postId', (req, res, next) => {
 
   const sql = `
   DELETE FROM "savedPosts"
-    WHERE "postId" = $1
+    WHERE
+      "postId" = $1
       AND "userId" = $2
   RETURNING *;
   `;
