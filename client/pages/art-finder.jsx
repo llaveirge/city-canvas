@@ -125,13 +125,16 @@ export default function ArtFinder(props) {
                     CityCanvasHelpers@gmail.com
                 </a>
             </li>
-          </ul>;
+          </ul>
         </Row>
       </Container>
     );
   }
 
-  if (!isLoaded) return <LoadingSpinner />;
+  if (!isLoaded || isNaN(center.lat) || isNaN(center.lng)) {
+    return <LoadingSpinner />;
+  }
+
   if (internalError) return <InternalErrorPage />;
   if (networkError) return <NetworkErrorPage />;
 

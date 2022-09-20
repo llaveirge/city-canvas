@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Navbar, OverlayTrigger, Tooltip, Container, Row } from 'react-bootstrap';
 import Redirect from '../components/redirect';
 import AppContext from '../lib/app-context';
 import LoadingSpinner from '../components/loading-spinner';
@@ -74,7 +74,41 @@ export default function PinMap(props) {
     );
   }
 
-  if (loadError) return <h2>Error loading map</h2>;
+  if (loadError) {
+    return (
+      <Container>
+        <Row className='text-center'>
+          <h2 className='mt-5 pri-color display-3 fw-bold'>
+            Error Loading Map
+          </h2>
+        </Row>
+        <Row>
+          <p className='pt-5 px-4 fw-bold error-text no-results-heading'>
+            Sorry, something&apos;s not right here. Please try the following:
+          </p>
+
+          <ul className='pt-2 px-4'>
+            <li>
+              Check your internet connection and try again.
+            </li>
+            <li>
+              Refresh the page, this might help.
+            </li>
+            <li>
+              Try signing out and signing back in again.
+            </li>
+            <li>
+              If this problem persists, please contact us at <a
+                href="mailto:citycanvashelpers@gmail.com">
+                    CityCanvasHelpers@gmail.com
+                </a>
+            </li>
+          </ul>
+        </Row>
+      </Container>
+    );
+  }
+
   if (!isLoaded || isNaN(center.lat) || isNaN(center.lng)) {
     return <LoadingSpinner />;
   }
