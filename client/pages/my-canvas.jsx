@@ -101,8 +101,7 @@ export default class MyCanvas extends React.Component {
                     button='Update'
                     href={ `#update-pin?postId=${pin.postId}` }
                     reported={ pin.reported }
-                    saver={ pin.saver }
-                    userId={ user.userId }
+                    savedByCurrentUser={ pin.savedByCurrentUser }
                   />
                   ))
                   : <h6 className='no-results-heading pri-color text-center fw-bold error-text'>

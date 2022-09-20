@@ -31,10 +31,16 @@ app.get('/api/my-canvas-pins/:userId', (req, res, next) => {
       "p"."artPhotoUrl",
       "p"."reported",
       "p"."userId",
-      "sp"."createdAt" AS "saved",
-      "sp"."userId" AS "saver"
+      (
+        SELECT
+          "savedPosts"."createdAt"
+        FROM "savedPosts"
+        WHERE
+          "savedPosts"."userId" = $1
+          AND "p"."postId" = "savedPosts"."postId"
+      ) AS "savedByCurrentUser"
     FROM "posts" AS "p"
-    LEFT JOIN "savedPosts" AS "sp" using ("postId")
+    JOIN "users" AS "u" USING ("userId")
     WHERE
       "p"."userId" = $1
       AND "p"."deleted" is NULL
@@ -316,7 +322,7 @@ app.post('/api/save-post/:postId', (req, res, next) => {
     SELECT $1, $2
     WHERE EXISTS
       (SELECT 1 FROM "posts" WHERE "postId" = $1
-      AND "deleted" is NULL)
+        AND "deleted" is NULL)
     RETURNING *;
   `;
 
