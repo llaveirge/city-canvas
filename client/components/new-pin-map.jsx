@@ -12,7 +12,7 @@ export default function NewPinMap(props) {
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
   });
 
-  // Get coordinates from props, use useMemo hook to prevent rerendering on click:
+  // Establish starting coordinates, use useMemo hook to prevent rerendering on click:
   const center = React.useMemo(() => ({ lat: 39.8283, lng: -98.5795 }), []);
 
   // Set a custom marker via click:
@@ -80,7 +80,7 @@ export default function NewPinMap(props) {
         center={ center }
         onClick={ onMapClick }
         onLoad={ onMapLoad }
-        options= { options }
+        options={ options }
       >
 
         <GeoLocate panTo={ panTo } />

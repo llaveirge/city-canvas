@@ -1,5 +1,6 @@
 import React from 'react';
 import LoadingSpinner from './loading-spinner';
+import NetworkErrorPage from '../pages/network-error';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import {
   GoogleMap,
@@ -7,12 +8,16 @@ import {
   Marker
 } from '@react-google-maps/api';
 
-const center = { lat: 39.8283, lng: -98.5795 };
-
 export default function UpdatePinMap(props) {
+  // Check for online status of the browser, if offline send error message:
+  if (!navigator.onLine) return <NetworkErrorPage />;
+
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
   });
+
+  // Establish starting coordinates, use useMemo hook to prevent rerendering on click:
+  const center = React.useMemo(() => ({ lat: +props.marker.lat, lng: +props.marker.lng }), []);
 
   // Set a custom marker via click:
   const onMapClick = React.useCallback(event => {
@@ -21,6 +26,14 @@ export default function UpdatePinMap(props) {
       lng: event.latLng.lng()
     });
   }, []);
+
+  // Set map options to add style and limit points of interest on map (fullscreen not supported on iOS):
+  const options = React.useMemo(() => ({
+    mapId: '8c7ace9f28d909f0',
+    clickableIcons: false,
+    fullscreenControl: true
+  }), []
+  );
 
   // Prevent re-renders with useRef, specifically when placing markers;
   const mapRef = React.useRef();
@@ -70,10 +83,11 @@ export default function UpdatePinMap(props) {
     <div className='form-map-cont'>
       <GoogleMap
         mapContainerClassName='form-map'
-        zoom={ 4 }
+        zoom={ 14 }
         center={ center }
         onClick={ onMapClick }
         onLoad={ onMapLoad }
+        options={ options }
       >
 
         <GeoLocate panTo={ panTo } />
