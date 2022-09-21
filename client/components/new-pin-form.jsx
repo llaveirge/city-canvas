@@ -5,6 +5,7 @@ import InternalErrorPage from '../pages/internal-error';
 import NetworkErrorPage from '../pages/network-error';
 import NewPinMap from './new-pin-map';
 import AppContext from '../lib/app-context';
+import { checkAlphanumeric } from '../lib';
 
 export default class NewPinForm extends React.Component {
   constructor(props) {
@@ -63,7 +64,7 @@ export default class NewPinForm extends React.Component {
     }
 
     // check for empty fields and display error message to user where applicable:
-    if (!title) {
+    if (!title || !checkAlphanumeric(title)) {
       this.setState(oldState => ({
         formErrors: {
           ...oldState.formErrors,
@@ -73,7 +74,7 @@ export default class NewPinForm extends React.Component {
       }));
       errorsPresent = true;
     }
-    if (!artist) {
+    if (!artist || !checkAlphanumeric(artist)) {
       this.setState(oldState => ({
         formErrors: {
           ...oldState.formErrors,
@@ -93,7 +94,7 @@ export default class NewPinForm extends React.Component {
       }));
       errorsPresent = true;
     }
-    if (!info) {
+    if (!info || !checkAlphanumeric(info)) {
       this.setState(oldState => ({
         formErrors: {
           ...oldState.formErrors,
