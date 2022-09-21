@@ -11,8 +11,7 @@ import ArtFinder from './pages/art-finder';
 import SavedPins from './pages/saved-pins';
 import Registration from './pages/registration';
 import AppContext from './lib/app-context';
-import decodeToken from './lib/decode-token';
-import { parseRoute } from './lib';
+import { parseRoute, decodeToken } from './lib';
 
 export default class App extends React.Component {
   constructor(props) {
