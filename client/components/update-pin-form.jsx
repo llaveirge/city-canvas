@@ -8,6 +8,7 @@ import NotFound from '../pages/not-found';
 import NetworkErrorPage from '../pages/network-error';
 import LoadingSpinner from './loading-spinner';
 import AppContext from '../lib/app-context';
+import { checkAlphanumeric } from '../lib';
 
 export default class UpdatePinForm extends React.Component {
   constructor(props) {
@@ -169,7 +170,7 @@ export default class UpdatePinForm extends React.Component {
     }
 
     // check for empty fields and display error message to user where applicable:
-    if (!title) {
+    if (!title || !checkAlphanumeric(title)) {
       this.setState(oldState => ({
         formErrors: {
           ...oldState.formErrors,
@@ -179,7 +180,7 @@ export default class UpdatePinForm extends React.Component {
       }));
       errorsPresent = true;
     }
-    if (!artist) {
+    if (!artist || !checkAlphanumeric(artist)) {
       this.setState(oldState => ({
         formErrors: {
           ...oldState.formErrors,
@@ -189,7 +190,7 @@ export default class UpdatePinForm extends React.Component {
       }));
       errorsPresent = true;
     }
-    if (!info) {
+    if (!info || !checkAlphanumeric(info)) {
       this.setState(oldState => ({
         formErrors: {
           ...oldState.formErrors,
