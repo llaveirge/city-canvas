@@ -4,8 +4,7 @@ import LoadingSpinner from './loading-spinner';
 import InternalErrorPage from '../pages/internal-error';
 import NetworkErrorPage from '../pages/network-error';
 import NewPinMap from './new-pin-map';
-import AppContext from '../lib/app-context';
-import { checkAlphanumeric } from '../lib';
+import { checkAlphanumeric, AppContext } from '../lib';
 
 export default class NewPinForm extends React.Component {
   constructor(props) {

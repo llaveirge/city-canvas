@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Col, Row } from 'react-bootstrap';
 import PostCard from '../components/card';
-import AppContext from '../lib/app-context';
+import { AppContext } from '../lib';
 import Redirect from '../components/redirect';
 import InternalErrorPage from './internal-error';
 import NetworkErrorPage from './network-error';

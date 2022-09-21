@@ -3,7 +3,7 @@ import UpdatePinForm from '../components/update-pin-form';
 import NetworkErrorPage from './network-error';
 import { Container } from 'react-bootstrap';
 import Redirect from '../components/redirect';
-import AppContext from '../lib/app-context';
+import { AppContext } from '../lib';
 
 export default class UpdatePin extends React.Component {
   render() {

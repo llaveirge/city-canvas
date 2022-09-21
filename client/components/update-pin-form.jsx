@@ -7,8 +7,7 @@ import InternalErrorPage from '../pages/internal-error';
 import NotFound from '../pages/not-found';
 import NetworkErrorPage from '../pages/network-error';
 import LoadingSpinner from './loading-spinner';
-import AppContext from '../lib/app-context';
-import { checkAlphanumeric } from '../lib';
+import { checkAlphanumeric, AppContext } from '../lib';
 
 export default class UpdatePinForm extends React.Component {
   constructor(props) {

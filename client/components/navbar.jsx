@@ -1,5 +1,5 @@
 import React from 'react';
-import AppContext from '../lib/app-context';
+import { AppContext } from '../lib';
 import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
 
 export default class AppNav extends React.Component {

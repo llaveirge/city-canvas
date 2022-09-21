@@ -2,7 +2,7 @@ import React from 'react';
 import NewPinForm from '../components/new-pin-form';
 import { Container } from 'react-bootstrap';
 import Redirect from '../components/redirect';
-import AppContext from '../lib/app-context';
+import { AppContext } from '../lib';
 import NetworkErrorPage from '../pages/network-error';
 
 export default class NewPin extends React.Component {

@@ -5,7 +5,7 @@ import LoadingSpinner from '../components/loading-spinner';
 import InternalErrorPage from './internal-error';
 import NetworkErrorPage from './network-error';
 import Redirect from '../components/redirect';
-import AppContext from '../lib/app-context';
+import { AppContext } from '../lib';
 import SavingSpinner from '../components/saving-spinner';
 
 export default class PinPage extends React.Component {

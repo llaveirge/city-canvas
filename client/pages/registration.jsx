@@ -1,7 +1,7 @@
 import React from 'react';
 import RegistrationForm from '../components/registration-form';
 import SignInForm from '../components/sign-in-form';
-import AppContext from '../lib/app-context';
+import { AppContext } from '../lib';
 import Redirect from '../components/redirect';
 
 export default class Registration extends React.Component {

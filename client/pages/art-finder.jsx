@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navbar, Tooltip, OverlayTrigger, Container, Row } from 'react-bootstrap';
-import AppContext from '../lib/app-context';
+import { AppContext } from '../lib';
 import Redirect from '../components/redirect';
 import LoadingSpinner from '../components/loading-spinner';
 import NetworkErrorPage from './network-error';
