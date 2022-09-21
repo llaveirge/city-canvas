@@ -3,6 +3,7 @@ import { Container, Col, Button, Form, Row } from 'react-bootstrap';
 import LoadingSpinner from './loading-spinner';
 import InternalErrorPage from '../pages/internal-error';
 import NetworkErrorPage from '../pages/network-error';
+import { checkAlphanumeric } from '../lib';
 
 export default class RegistrationForm extends React.Component {
   constructor(props) {
@@ -75,7 +76,7 @@ export default class RegistrationForm extends React.Component {
     }
 
     // check for empty fields and display error message to user where applicable:
-    if (!first) {
+    if (!first || !checkAlphanumeric(first)) {
       this.setState(oldState => ({
         formErrors: {
           ...oldState.formErrors,
@@ -85,7 +86,7 @@ export default class RegistrationForm extends React.Component {
       }));
       errorsPresent = true;
     }
-    if (!last) {
+    if (!last || !checkAlphanumeric(last)) {
       this.setState(oldState => ({
         formErrors: {
           ...oldState.formErrors,
@@ -105,7 +106,7 @@ export default class RegistrationForm extends React.Component {
       }));
       errorsPresent = true;
     }
-    if (!username) {
+    if (!username || !checkAlphanumeric(username)) {
       this.setState(oldState => ({
         formErrors: {
           ...oldState.formErrors,
@@ -125,11 +126,11 @@ export default class RegistrationForm extends React.Component {
       }));
       errorsPresent = true;
     }
-    if (!password) {
+    if (!password || !checkAlphanumeric(password) || password.includes(' ')) {
       this.setState(oldState => ({
         formErrors: {
           ...oldState.formErrors,
-          passwordError: 'A password is required'
+          passwordError: 'A valid password is required'
         },
         isLoading: false
       }));
