@@ -5,6 +5,8 @@ const ClientError = require('./client-error');
 const errorMiddleware = require('./error-middleware');
 const staticMiddleware = require('./static-middleware');
 const uploadsMiddleware = require('./uploads-middleware');
+const sharp = require('sharp');
+const path = require('path');
 const argon2 = require('argon2');
 const jwt = require('jsonwebtoken');
 const app = express();
@@ -274,6 +276,25 @@ app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
   if (!req.file) {
     throw new ClientError(400, 'an image upload is required');
   }
+
+  // console.log(req.file.destination); // directory images
+  // console.log(req.file.path); // full path to image
+  // console.log(req.file.filename); // file name, used in url below.
+  // console.log('ORIG', req.file); // input file
+
+  const { filename: image } = req.file;
+  sharp(req.file.path)
+    .resize({ width: 1000, withoutEnlargement: true })
+    .jpeg({ force: false, mozjpeg: true })
+    .png({ force: false, quality: 70 })
+    .webp({ force: false, quality: 70 })
+    .toFile(
+      path.resolve(req.file.destination, 'resized', image)
+    )
+  // eslint-disable-next-line no-console
+    .then(info => console.log(info))
+  // eslint-disable-next-line no-console
+    .catch(err => console.log(err));
 
   const url = `/images/${req.file.filename}`;
 
