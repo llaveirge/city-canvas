@@ -255,7 +255,7 @@ app.post('/api/auth/sign-in', (req, res, next) => {
 });
 
 // Post new pin to 'posts' table:
-app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
+app.post('/api/post-pin', uploadsMiddleware, async (req, res, next) => {
   const { title, artist, info, lat, lng, userId } = req.body;
 
   if (!title) {
@@ -283,20 +283,21 @@ app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
   // console.log('ORIG', req.file); // input file
 
   const { filename: image } = req.file;
-  sharp(req.file.path)
-    .resize({ width: 1000, withoutEnlargement: true })
-    .jpeg({ force: false, mozjpeg: true })
-    .png({ force: false, quality: 70 })
-    .webp({ force: false, quality: 70 })
-    .toFile(
-      path.resolve(req.file.destination, 'resized', image)
-    )
-  // eslint-disable-next-line no-console
-    .then(info => console.log(info))
-  // eslint-disable-next-line no-console
-    .catch(err => console.log(err));
+  try {
+    await sharp(req.file.path)
+      .resize({ width: 1000, withoutEnlargement: true })
+      .jpeg({ force: false, mozjpeg: true })
+      .png({ force: false, quality: 70 })
+      .webp({ force: false, quality: 70 })
+      .toFile(
+        path.resolve(req.file.destination, 'resized', image)
+      );
 
-  const url = `/images/${req.file.filename}`;
+  } catch (err) {
+    console.error(err);
+  }
+
+  const url = `/images/resized/${req.file.filename}`;
 
   const sql = `
     INSERT INTO "posts"
