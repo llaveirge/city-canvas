@@ -277,11 +277,6 @@ app.post('/api/post-pin', uploadsMiddleware, async (req, res, next) => {
     throw new ClientError(400, 'an image upload is required');
   }
 
-  // console.log(req.file.destination); // directory images
-  // console.log(req.file.path); // full path to image
-  // console.log(req.file.filename); // file name, used in url below.
-  // console.log('ORIG', req.file); // input file
-
   const { filename: image } = req.file;
   try {
     await sharp(req.file.path)
@@ -292,9 +287,8 @@ app.post('/api/post-pin', uploadsMiddleware, async (req, res, next) => {
       .toFile(
         path.resolve(req.file.destination, 'resized', image)
       );
-
   } catch (err) {
-    console.error(err);
+    return next(err);
   }
 
   const url = `/images/resized/${req.file.filename}`;
