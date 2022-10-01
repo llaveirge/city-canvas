@@ -319,7 +319,7 @@ export default class UpdatePinForm extends React.Component {
               type='file'
               name='image'
               ref={ this.fileInputRef }
-              accept='.png, .jpg, .jpeg, .gif'
+              accept='.png, .jpg, .jpeg, .webp'
             />
 
             <Form.Label htmlFor='info'>
