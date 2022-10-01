@@ -317,7 +317,7 @@ export default class RegistrationForm extends React.Component {
               type='file'
               name='image'
               ref={ this.fileInputRef }
-              accept='.png, .jpg, .jpeg, .gif'
+              accept='.png, .jpg, .jpeg, .webp'
               aria-describedby='imageErrorMessage'
             />
             { formErrors.imageError ? this.errorMessage(formErrors.imageError, 'imageErrorMessage') : null }
