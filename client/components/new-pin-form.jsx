@@ -174,8 +174,8 @@ export default class NewPinForm extends React.Component {
             Street Art Title:
           </Form.Label>
           <Form.Control
-            required
             autoFocus
+            required
             id='title'
             type='text'
             name='title'

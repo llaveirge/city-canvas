@@ -255,7 +255,7 @@ app.post('/api/auth/sign-in', (req, res, next) => {
 });
 
 // Post new pin to 'posts' table:
-app.post('/api/post-pin', uploadsMiddleware, async (req, res, next) => {
+app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
   const { title, artist, info, lat, lng, userId } = req.body;
 
   if (!title) {
@@ -278,38 +278,36 @@ app.post('/api/post-pin', uploadsMiddleware, async (req, res, next) => {
   }
 
   const { filename: image } = req.file;
-  try {
-    await sharp(req.file.path)
-      .resize({ width: 1000, withoutEnlargement: true })
-      .jpeg({ force: false, mozjpeg: true })
-      .png({ force: false, quality: 70 })
-      .webp({ force: false, quality: 70 })
-      .toFile(
-        path.resolve(req.file.destination, 'resized', image)
-      );
-  } catch (err) {
-    return next(err);
-  }
 
-  const url = `/images/resized/${req.file.filename}`;
+  sharp(req.file.path)
+    .resize({ width: 1000, withoutEnlargement: true })
+    .jpeg({ force: false, mozjpeg: true })
+    .png({ force: false, quality: 70 })
+    .webp({ force: false, quality: 70 })
+    .toFile(
+      path.resolve(req.file.destination, 'resized', image)
+    )
+    .then(data => {
+      const url = `/images/resized/${req.file.filename}`;
 
-  const sql = `
-    INSERT INTO "posts"
-      (
-        "title",
-        "artistName",
-        "artPhotoUrl",
-        "comment",
-        "lat",
-        "lng",
-        "userId"
-      )
-    VALUES ($1, $2, $3, $4, $5, $6, $7)
-    RETURNING *;
-  `;
+      const sql = `
+      INSERT INTO "posts"
+        (
+          "title",
+          "artistName",
+          "artPhotoUrl",
+          "comment",
+          "lat",
+          "lng",
+          "userId"
+        )
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      RETURNING *;
+    `;
 
-  const params = [title, artist, url, info, lat, lng, userId];
-  db.query(sql, params)
+      const params = [title, artist, url, info, lat, lng, userId];
+      return db.query(sql, params);
+    })
     .then(response => {
       const [pin] = response.rows;
       res.status(201).json(pin);
@@ -383,12 +381,22 @@ app.post('/api/auth/sign-up', uploadsMiddleware, (req, res, next) => {
     throw new ClientError(400, 'An image upload is required');
   }
 
-  const url = `/images/${req.file.filename}`;
+  const { filename: image } = req.file;
+  sharp(req.file.path)
+    .resize({ width: 500, withoutEnlargement: true })
+    .jpeg({ force: false, mozjpeg: true })
+    .png({ force: false, quality: 60 })
+    .webp({ force: false, quality: 60 })
+    .toFile(
+      path.resolve(req.file.destination, 'resized', image)
+    )
+    .then(data => {
+      const url = `/images/resized/${req.file.filename}`;
 
-  argon2
-    .hash(password)
-    .then(hashedPassword => {
-      const sql = `
+      argon2
+        .hash(password)
+        .then(hashedPassword => {
+          const sql = `
           INSERT INTO "users"
             (
               "firstName",
@@ -401,21 +409,22 @@ app.post('/api/auth/sign-up', uploadsMiddleware, (req, res, next) => {
           VALUES ($1, $2, $3, $4, $5, $6)
           RETURNING "userId", "userName", "createdAt";
         `;
-      const params = [first, last, email, username, url, hashedPassword];
-      return db.query(sql, params);
-    })
-    .then(response => {
-      const [user] = response.rows;
-      res.status(201).json(user);
-    })
-    .catch(err => {
-      if (err.code === '23505' && err.detail.includes('email')) {
-        return next(new ClientError(400, 'Sorry, that email already exists'));
-      }
-      if (err.code === '23505' && err.detail.includes('userName')) {
-        return next(new ClientError(400, 'Sorry, that username already exists'));
-      }
-      next(err);
+          const params = [first, last, email, username, url, hashedPassword];
+          return db.query(sql, params);
+        })
+        .then(response => {
+          const [user] = response.rows;
+          res.status(201).json(user);
+        })
+        .catch(err => {
+          if (err.code === '23505' && err.detail.includes('email')) {
+            return next(new ClientError(400, 'Sorry, that email already exists'));
+          }
+          if (err.code === '23505' && err.detail.includes('userName')) {
+            return next(new ClientError(400, 'Sorry, that username already exists'));
+          }
+          next(err);
+        });
     });
 });
 

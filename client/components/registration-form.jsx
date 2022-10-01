@@ -126,11 +126,16 @@ export default class RegistrationForm extends React.Component {
       }));
       errorsPresent = true;
     }
-    if (!password || !checkAlphanumeric(password) || password.includes(' ')) {
+    if (!password ||
+      !checkAlphanumeric(password) ||
+      password.includes(' ') ||
+      password.length < 6 ||
+      /\d/.test(password) === false
+    ) {
       this.setState(oldState => ({
         formErrors: {
           ...oldState.formErrors,
-          passwordError: 'A valid password is required'
+          passwordError: 'Invalid password: Password must include at least six characters and one number'
         },
         isLoading: false
       }));
