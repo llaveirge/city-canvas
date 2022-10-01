@@ -455,42 +455,85 @@ app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
   // Check to see if the image was updated, if not, set 'url' to null:
   let url;
   if ('file' in req) {
-    url = `/images/${req.file.filename}`;
-  } else {
-    url = null;
+    url = `/images/resized/${req.file.filename}`;
   }
 
-  const sql = `
-    UPDATE "posts"
-    SET
-      "title" = $2,
-      "reported" = false,
-      "artistName" = $3,
-      "comment" = $4,
-      "lat" = $5,
-      "lng" = $6
-      ${url ? ',"artPhotoUrl" = $8' : ''}
-    WHERE
-      "postId" = $1
-      AND "userId" = $7
-      AND "deleted" is NULL
-    RETURNING *;
-  `;
+  if (url) {
+    const { filename: image } = req.file;
 
-  const params = [postId, title, artist, info, lat, lng, userId];
-  if (url !== null) params.push(url);
-  db.query(sql, params)
-    .then(response => {
-      const [pin] = response.rows;
-      if (!pin) {
-        throw new ClientError(
-          404,
+    sharp(req.file.path)
+      .resize({ width: 1000, withoutEnlargement: true })
+      .jpeg({ force: false, mozjpeg: true })
+      .png({ force: false, quality: 70 })
+      .webp({ force: false, quality: 70 })
+      .toFile(
+        path.resolve(req.file.destination, 'resized', image)
+      )
+      .then(data => {
+        const url = `/images/resized/${req.file.filename}`;
+
+        const sql = `
+          UPDATE "posts"
+          SET
+            "title" = $2,
+            "reported" = false,
+            "artistName" = $3,
+            "comment" = $4,
+            "lat" = $5,
+            "lng" = $6,
+            "artPhotoUrl" = $8
+          WHERE
+            "postId" = $1
+            AND "userId" = $7
+            AND "deleted" is NULL
+          RETURNING *;
+        `;
+
+        const params = [postId, title, artist, info, lat, lng, userId, url];
+        return db.query(sql, params);
+      })
+      .then(response => {
+        const [pin] = response.rows;
+        if (!pin) {
+          throw new ClientError(
+            404,
           `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId} associated with userId ${userId}. Please check you're logged in properly and that you're updating the correct pin.`
-        );
-      }
-      res.json(pin);
-    })
-    .catch(err => next(err));
+          );
+        }
+        res.json(pin);
+      })
+      .catch(err => next(err));
+  } else {
+    const sql = `
+            UPDATE "posts"
+            SET
+              "title" = $2,
+              "reported" = false,
+              "artistName" = $3,
+              "comment" = $4,
+              "lat" = $5,
+              "lng" = $6
+            WHERE
+              "postId" = $1
+              AND "userId" = $7
+              AND "deleted" is NULL
+            RETURNING *;
+          `;
+
+    const params = [postId, title, artist, info, lat, lng, userId];
+    db.query(sql, params)
+      .then(response => {
+        const [pin] = response.rows;
+        if (!pin) {
+          throw new ClientError(
+            404,
+            `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId} associated with userId ${userId}. Please check you're logged in properly and that you're updating the correct pin.`
+          );
+        }
+        res.json(pin);
+      })
+      .catch(err => next(err));
+  }
 });
 
 // Mark a pin as deleted:
