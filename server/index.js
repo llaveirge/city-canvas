@@ -277,6 +277,7 @@ app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
     throw new ClientError(400, 'an image upload is required');
   }
 
+  // Resize and compress image uploads using sharp:
   const { filename: image } = req.file;
 
   sharp(req.file.path)
@@ -381,7 +382,9 @@ app.post('/api/auth/sign-up', uploadsMiddleware, (req, res, next) => {
     throw new ClientError(400, 'An image upload is required');
   }
 
+  // Resize and compress image uploads using sharp:
   const { filename: image } = req.file;
+
   sharp(req.file.path)
     .resize({ width: 500, withoutEnlargement: true })
     .jpeg({ force: false, mozjpeg: true })
@@ -452,7 +455,8 @@ app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
     throw new ClientError(400, 'lat and lng are required fields and must be Number type values');
   }
 
-  // Check to see if the image was updated, if not, set 'url' to null:
+  /* Check to see if the image was updated, if so, assign path to url variable
+  and resize and compress image uploads using sharp: */
   let url;
   if ('file' in req) {
     url = `/images/resized/${req.file.filename}`;
