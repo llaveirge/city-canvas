@@ -179,7 +179,7 @@ export default class SignInForm extends React.Component {
             { errorMessage(state.error, 'errorMessage') }
 
             <div
-              className='login-form-actions pb-1 mt-3 mb-5 d-flex justify-content-between'
+              className='login-form-actions pb-1 mt-3 mb-3 d-flex justify-content-between'
             >
               <Button
                 className='mt-1 mb-2'
@@ -192,6 +192,14 @@ export default class SignInForm extends React.Component {
                   className='reg-form-links mt-2 pri-color link'>
                     New here? Sign up
                 </a>
+            </div>
+            <div className='text-center mb-4'>
+              <a
+                href='#registration?form=demo-sign-in'
+                className='reg-form-links pri-color link'>
+                  Want a Test Drive? Login as Guest
+              </a>
+
             </div>
             { state.isLoading ? <div className='spin-absolute'> <LoadingSpinner/> </div> : null}
           </Form>
