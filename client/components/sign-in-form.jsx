@@ -116,7 +116,8 @@ export default class SignInForm extends React.Component {
   }
 
   render() {
-    const { handleSubmit, handleChange, state, errorMessage } = this;
+    const { handleSubmit, handleChange, state, errorMessage, props } = this;
+
     if (state.networkError) {
       return (
          <Container className='login-cont bg-white px-4 d-flex flex-row flex-wrap align-self-center'>
@@ -189,14 +190,20 @@ export default class SignInForm extends React.Component {
                 <a
                   href='#registration?form=sign-up'
                   className='reg-form-links mt-2 pri-color link'>
-                    New here? Sign up
+                    { !props.type
+                      ? 'New here? Sign up'
+                      : 'Join in & sign up' }
                 </a>
             </div>
             <div className='text-center mb-4'>
               <a
-                href='#registration?form=sign-in&amp;type=demo'
+                href={ !props.type
+                  ? '#registration?form=sign-in&type=demo'
+                  : '#registration?form=sign-in' }
                 className='reg-form-links pri-color link'>
-                  Want a Test Drive? Login as Guest
+                  { !props.type
+                    ? 'Want a test drive? Login as a guest'
+                    : 'Already signed up? Return to Sign-In page'}
               </a>
 
             </div>
