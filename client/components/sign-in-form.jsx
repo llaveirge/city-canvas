@@ -117,7 +117,6 @@ export default class SignInForm extends React.Component {
 
   render() {
     const { handleSubmit, handleChange, state, errorMessage } = this;
-
     if (state.networkError) {
       return (
          <Container className='login-cont bg-white px-4 d-flex flex-row flex-wrap align-self-center'>
@@ -195,7 +194,7 @@ export default class SignInForm extends React.Component {
             </div>
             <div className='text-center mb-4'>
               <a
-                href='#registration?form=demo-sign-in'
+                href='#registration?form=sign-in&amp;type=demo'
                 className='reg-form-links pri-color link'>
                   Want a Test Drive? Login as Guest
               </a>
