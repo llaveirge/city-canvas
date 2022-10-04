@@ -282,6 +282,7 @@ app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
 
   sharp(req.file.path)
     .resize({ width: 1000, withoutEnlargement: true })
+    .rotate()
     .jpeg({ force: false, mozjpeg: true })
     .png({ force: false, quality: 70 })
     .webp({ force: false, quality: 70 })
@@ -387,6 +388,7 @@ app.post('/api/auth/sign-up', uploadsMiddleware, (req, res, next) => {
 
   sharp(req.file.path)
     .resize({ width: 500, withoutEnlargement: true })
+    .rotate()
     .jpeg({ force: false, mozjpeg: true })
     .png({ force: false, quality: 60 })
     .webp({ force: false, quality: 60 })
@@ -467,6 +469,7 @@ app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
 
     sharp(req.file.path)
       .resize({ width: 1000, withoutEnlargement: true })
+      .rotate()
       .jpeg({ force: false, mozjpeg: true })
       .png({ force: false, quality: 70 })
       .webp({ force: false, quality: 70 })
