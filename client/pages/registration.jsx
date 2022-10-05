@@ -7,7 +7,7 @@ import Redirect from '../components/redirect';
 export default class Registration extends React.Component {
 
   render() {
-    const { form, type } = this.props;
+    const { form } = this.props;
     const { handleSignIn, user } = this.context;
 
     if (user) return <Redirect to='' />;
@@ -18,7 +18,7 @@ export default class Registration extends React.Component {
           className='pg-registration d-flex py-5 py-md-0'>
             { form === 'sign-up'
               ? <RegistrationForm />
-              : <SignInForm onSignIn={ handleSignIn } type={ type } />
+              : <SignInForm onSignIn={ handleSignIn } />
             }
         </div>
       </>

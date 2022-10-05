@@ -344,7 +344,7 @@ export default class RegistrationForm extends React.Component {
                 Submit
               </Button>
               <a
-                href='#registration'
+                href='#registration?form=sign-in'
                 className='reg-form-links link my-2 pri-color'>
                 Already signed up? Sign in
               </a>

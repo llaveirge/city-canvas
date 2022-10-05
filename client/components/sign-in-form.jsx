@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Form, Row, Button } from 'react-bootstrap';
+import { Container, Form, Row, Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import InternalErrorPage from '../pages/internal-error';
 import NetworkErrorPage from '../pages/network-error';
 import LoadingSpinner from './loading-spinner';
@@ -20,6 +20,7 @@ export default class SignInForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.errorMessage = this.errorMessage.bind(this);
     this.toggleLoadingSpinner = this.toggleLoadingSpinner.bind(this);
+    this.guestLogin = this.guestLogin.bind(this);
   }
 
   // Display form field error to user when field doesn't meet requirements
@@ -38,6 +39,7 @@ export default class SignInForm extends React.Component {
     this.setState({ isLoading: newStatus });
   }
 
+  // Update state with form field changes:
   handleChange(event) {
     const { name, value } = event.target;
     this.setState({ [name]: value });
@@ -115,8 +117,54 @@ export default class SignInForm extends React.Component {
     }
   }
 
+  // Submit form with demo user login credentials:
+  guestLogin(event) {
+    event.preventDefault();
+
+    let errorsPresent = false;
+
+    if (!errorsPresent) {
+      const req = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username: 'DemoDane', password: 'Password2' })
+      };
+      this.toggleLoadingSpinner(this.state.isLoading);
+      fetch('/api/auth/sign-in', req)
+        .then(res => {
+          res.json().then(response => {
+            if (response.error) {
+              if (response.error.includes('login')) {
+                this.setState({ error: response.error });
+                this.toggleLoadingSpinner(this.state.isLoading);
+                errorsPresent = true;
+              } else {
+                this.setState({ internalError: true });
+                this.toggleLoadingSpinner(this.state.isLoading);
+              }
+            } else if (response.user && response.token) {
+              this.props.onSignIn(response);
+              this.setState({
+                error: null,
+                username: '',
+                password: ''
+              });
+              this.toggleLoadingSpinner(this.state.isLoading);
+            }
+          });
+        })
+        .catch(err => {
+          console.error('Fetch Failed!', err);
+          this.setState({ networkError: true });
+          this.toggleLoadingSpinner(this.state.isLoading);
+        });
+    }
+  }
+
   render() {
-    const { handleSubmit, handleChange, state, errorMessage, props } = this;
+    const { handleSubmit, handleChange, state, errorMessage } = this;
 
     if (state.networkError) {
       return (
@@ -190,24 +238,22 @@ export default class SignInForm extends React.Component {
                 <a
                   href='#registration?form=sign-up'
                   className='reg-form-links mt-2 pri-color link'>
-                    { !props.type
-                      ? 'New here? Sign up'
-                      : 'Join in & sign up' }
+                    New here? Sign up
                 </a>
             </div>
-            <div className='text-center mb-4'>
-              <a
-                href={ !props.type
-                  ? '#registration?form=sign-in&type=demo'
-                  : '#registration?form=sign-in' }
-                className='reg-form-links pri-color link'>
-                  { !props.type
-                    ? 'Want a test drive? Login as a guest'
-                    : 'Already signed up? Return to Sign-In page'}
-              </a>
-
-            </div>
-            { state.isLoading ? <div className='spin-absolute'> <LoadingSpinner/> </div> : null}
+            <div className='pb-1 mt-3 mb-4 d-grid gap-2'>
+              <OverlayTrigger placement='bottom' overlay={<Tooltip id='guest-login-tooltip'>Sign in as guest, DemoDane.</Tooltip>}>
+                <Button
+                  type='button'
+                  size='lg'
+                  className='mt-1 mb-2'
+                  onClick={ this.guestLogin }
+                  disabled={ state.isLoading }>
+                    Sign in as a Guest
+                </Button>
+              </OverlayTrigger>
+             </div>
+            { state.isLoading ? <div className='spin-absolute'> <LoadingSpinner /> </div> : null}
           </Form>
         </Row>
       </Container>

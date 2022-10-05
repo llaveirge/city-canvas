@@ -52,8 +52,7 @@ export default class App extends React.Component {
 
     if (route.path === 'registration') {
       const form = route.params.get('form');
-      const type = route.params.get('type');
-      return <Registration form = { form } type = { type }/>;
+      return <Registration form = { form } />;
     }
     if (route.path === '') {
       return <Home />;
