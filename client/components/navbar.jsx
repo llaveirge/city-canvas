@@ -7,6 +7,7 @@ export default class AppNav extends React.Component {
   render() {
 
     const { user, handleSignOut } = this.context;
+    const { username } = user;
 
     return (
     <Navbar variant='dark' className='pri-bk-color' expand='sm'>
@@ -15,7 +16,7 @@ export default class AppNav extends React.Component {
         <Navbar.Brand className='head-text' href='#'>Home</Navbar.Brand>
           <Navbar.Toggle aria-controls="options-navbar-nav" />
           <Navbar.Collapse id="options-navbar-nav">
-            <Nav className='me-auto'>
+            <Nav className='me-auto mb-4 mb-sm-auto'>
               <NavDropdown title='My Canvas'>
                 <NavDropdown.Item className='nav-drop' href='#my-canvas'>
                   My Canvas Pins
@@ -27,12 +28,13 @@ export default class AppNav extends React.Component {
               <Nav.Link href='#art-finder'>Art Finder</Nav.Link>
                 { user
                   ? <Nav.Link href='' onClick={ handleSignOut }>
-                      Sign Out
+                      Sign Out, {username}
                     </Nav.Link>
                   : null
                   }
             </Nav>
           </Navbar.Collapse>
+
       </Container>
 
     </Navbar>
