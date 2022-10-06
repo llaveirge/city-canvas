@@ -106,6 +106,13 @@
   background-color: #b6b6b6;
 }
 
+.link:focus {
+  color: #0eeaf8;
+  font-weight: bolder;
+  border: none;
+  outline: none;
+}
+
 @media (hover: hover) {
   .not-saved:hover {
     color: #0eeaf8;

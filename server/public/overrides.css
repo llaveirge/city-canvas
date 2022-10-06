@@ -8,7 +8,7 @@ body {
   background-position: center;
 }
 
-/* Buttons */
+/* Buttons and Navbar */
 .btn {
   background-color: #0eeaf8;
   border-style: none;
@@ -16,13 +16,31 @@ body {
   font-weight: 500;
 }
 
-.btn:hover {
+.btn:focus,
+.btn:active {
   background-color: #21cad6;
+  border: none;
+  box-shadow: 0 0 0 0.25rem rgb(33 202 214);
 }
 
-/* Navbar */
 .navbar-brand {
   font-size: 1.5rem;
+  border: none;
+  box-shadow: none;
+}
+
+.navbar-brand.head-text:focus {
+  font-weight: bolder;
+}
+
+@media (hover: hover) {
+  .btn:hover {
+    background-color: #21cad6;
+  }
+
+  .navbar-brand.head-text:hover {
+    font-weight: bolder;
+  }
 }
 
 /* Utilities and Cards */
@@ -54,6 +72,7 @@ body {
 
 .form-control:focus {
   border-color: #692584;
+  box-shadow: none;
 }
 
 /* Smartphone/Responsive */
