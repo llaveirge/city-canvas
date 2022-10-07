@@ -76,7 +76,7 @@ body {
 }
 
 /* Smartphone/Responsive */
-@media (min-width: 376px) {
+@media screen and (min-width: 376px) {
   .card {
     margin-bottom: 2.8rem;
   }

@@ -284,7 +284,7 @@
 }
 
 /* Smartphone/Responsive */
-@media (min-width: 325px) {
+@media screen and (min-width: 325px) {
   .report {
     font-size: 1rem;
   }
@@ -294,13 +294,13 @@
   }
 }
 
-@media (min-width: 365px) {
+@media screen and (min-width: 365px) {
   .login-heading {
     font-size: 2.5rem;
   }
 }
 
-@media (min-width: 376px) {
+@media screen and (min-width: 376px) {
   .target {
     position: absolute;
     top: 0.65rem;
@@ -318,7 +318,7 @@
   }
 }
 
-@media (min-width: 576px) {
+@media screen and (min-width: 576px) {
   .full-pin-img {
     border-top-right-radius: 0;
     border-bottom-left-radius: calc(0.25rem - 1px);

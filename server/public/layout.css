@@ -148,19 +148,19 @@
 }
 
 /* Smartphone/Responsive */
-@media (min-height: 380px) {
+@media screen and (min-height: 380px) {
   .pin-img-top {
     max-height: 55vh;
   }
 }
 
-@media (min-height: 940px) {
+@media screen and (min-height: 940px) {
   .full-map-cont {
     height: 95vh;
   }
 }
 
-@media (min-width: 365px) {
+@media screen and (min-width: 365px) {
   .login-form-actions {
     flex-wrap: nowrap;
     align-items: baseline;
@@ -173,7 +173,7 @@
   }
 }
 
-@media (min-width: 376px) {
+@media screen and (min-width: 376px) {
   .profile-pic {
     height: 79px;
     width: 79px;
