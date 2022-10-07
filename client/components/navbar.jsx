@@ -10,7 +10,7 @@ export default class AppNav extends React.Component {
     const { username } = user;
 
     return (
-    <Navbar variant='dark' className='pri-bk-color' expand='sm'>
+    <Navbar variant='dark' className='pri-bk-color' expand='md'>
 
       <Container>
         <Navbar.Brand className='head-text' href='#'>Home</Navbar.Brand>
