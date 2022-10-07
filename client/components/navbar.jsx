@@ -7,7 +7,6 @@ export default class AppNav extends React.Component {
   render() {
 
     const { user, handleSignOut } = this.context;
-    const { username } = user;
 
     return (
     <Navbar variant='dark' className='pri-bk-color' expand='md'>
@@ -28,7 +27,7 @@ export default class AppNav extends React.Component {
               <Nav.Link href='#art-finder'>Art Finder</Nav.Link>
                 { user
                   ? <Nav.Link href='' onClick={ handleSignOut }>
-                      Sign Out, {username}
+                      Sign Out, {user.username}
                     </Nav.Link>
                   : null
                   }
