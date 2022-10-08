@@ -10,10 +10,11 @@ export default class AppNav extends React.Component {
 
     return (
     <Navbar variant='dark' className='pri-bk-color' expand='md'>
-
       <Container>
         <Navbar.Brand className='head-text' href='#'>Home</Navbar.Brand>
+
           <Navbar.Toggle aria-controls="options-navbar-nav" />
+
           <Navbar.Collapse id="options-navbar-nav">
             <Nav className='me-auto mb-4 mb-sm-auto'>
               <NavDropdown title='My Canvas'>
@@ -35,7 +36,6 @@ export default class AppNav extends React.Component {
           </Navbar.Collapse>
 
       </Container>
-
     </Navbar>
     );
   }
