@@ -90,6 +90,11 @@
   color: #21cad6;
 }
 
+.sec-border {
+  border: 2px solid #0eeaf8;
+  border-radius: 0.25rem;
+}
+
 /* Buttons and Links */
 .target {
   position: absolute;

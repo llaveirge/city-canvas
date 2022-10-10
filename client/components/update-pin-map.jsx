@@ -115,7 +115,7 @@ export default function UpdatePinMap(props) {
   }
 
   return (
-    <div className='form-map-cont'>
+    <div className='form-map-cont sec-border'>
       <GoogleMap
         mapContainerClassName='form-map'
         zoom={ 14 }

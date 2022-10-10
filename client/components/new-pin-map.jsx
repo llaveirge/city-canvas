@@ -110,7 +110,7 @@ export default function NewPinMap(props) {
   }
 
   return (
-    <div className='form-map-cont'>
+    <div className='form-map-cont sec-border'>
       <GoogleMap
         mapContainerClassName='form-map'
         zoom={ 4 }
