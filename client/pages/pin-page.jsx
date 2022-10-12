@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Col, Image, Row, Card } from 'react-bootstrap';
+import { Container, Col, Image, Row, Card, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import ModalReport from '../components/modal-report';
 import LoadingSpinner from '../components/loading-spinner';
 import InternalErrorPage from './internal-error';
@@ -299,6 +299,7 @@ export default class PinPage extends React.Component {
                     }
                     className='fw-bold sec-color feature-font no-decoration'
                   >
+
                     <i className='me-2 fas fa-map-marker-alt fa-lg'></i>
                     On The Map
                   </Card.Link>
@@ -320,10 +321,21 @@ export default class PinPage extends React.Component {
                   }
                   { !isSaving
                     ? <Card.Link className='bg-white ab-bottom-right'>
-                        <i className={ pin.savedByCurrentUser === null
-                          ? 'grey not-saved fas fa-heart fa-lg'
-                          : 'sec-color saved fas fa-heart fa-lg' }
-                          onClick={ this.toggleSaved }></i>
+                        <OverlayTrigger
+                          placement='top'
+                          delay={{ show: 300 }}
+                          overlay={
+                            <Tooltip id='save-pin-tooltip'>
+                            { !pin.savedByCurrentUser
+                              ? 'Save pin'
+                              : 'Remove save'}
+                            </Tooltip>
+                          }>
+                          <i className={ pin.savedByCurrentUser === null
+                            ? 'grey not-saved fas fa-heart fa-lg'
+                            : 'sec-color saved fas fa-heart fa-lg' }
+                            onClick={ this.toggleSaved }></i>
+                        </OverlayTrigger>
                       </Card.Link>
                     : <Card.Link className='ab-bottom-right'>
                         <SavingSpinner />
