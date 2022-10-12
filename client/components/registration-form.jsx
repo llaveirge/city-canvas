@@ -48,7 +48,7 @@ export default class RegistrationForm extends React.Component {
     } else {
       return (
         <Form.Text id='passwordHelpBlock' className='d-block' muted>
-          Password must include at least six characters and one number.
+          Password must include at least six characters and one number
         </Form.Text>
       );
     }

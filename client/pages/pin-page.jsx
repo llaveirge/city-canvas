@@ -308,8 +308,10 @@ export default class PinPage extends React.Component {
                   { !pin.reported
                     ? <Card.Link
                         role='button'
-                        className='ab-bottom grey report me-5'
-                        onClick={ this.handleShow }>
+                        className={ !isSaving ? 'ab-bottom grey report me-5' : 'ab-bottom grey report me-s pe-none'}
+                        tabIndex={ !isSaving ? '0' : '-1'}
+                        aria-disabled={ isSaving }
+                        onClick={ !isSaving ? this.handleShow : null }>
                           Report as removed from view
                       </Card.Link>
                     : <Card.Text className='ab-bottom warning report mb-0 me-5 pe-1'>

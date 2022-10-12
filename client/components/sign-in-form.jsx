@@ -242,14 +242,14 @@ export default class SignInForm extends React.Component {
                 </a>
             </div>
             <div className='pb-1 mt-3 mb-4 d-grid gap-2'>
-              <OverlayTrigger placement='bottom' overlay={<Tooltip id='guest-login-tooltip'>Sign in as guest, DemoDane.</Tooltip>}>
+              <OverlayTrigger placement='bottom' overlay={<Tooltip id='guest-login-tooltip'>Sign in as guest, DemoDane</Tooltip>}>
                 <Button
                   type='button'
                   size='lg'
                   className='mt-1 mb-2'
                   onClick={ this.guestLogin }
                   disabled={ state.isLoading }>
-                    Sign in as a Guest
+                    Sign In as Guest
                 </Button>
               </OverlayTrigger>
              </div>

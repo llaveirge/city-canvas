@@ -15,8 +15,8 @@ export default function ModalMarkedReported(props) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          This pin has been reported as removed by another user.
-          Please update the pin with accurate information or delete.
+          This City Canvas pin has been reported as removed from view by another user.
+          Please update this pin with accurate information or delete it.
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={ props.onHide }>
