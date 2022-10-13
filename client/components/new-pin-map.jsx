@@ -1,18 +1,15 @@
 import React from 'react';
 import { Tooltip, OverlayTrigger, Container, Row } from 'react-bootstrap';
 import LoadingSpinner from './loading-spinner';
-import {
-  GoogleMap,
-  useLoadScript,
-  Marker
-} from '@react-google-maps/api';
+import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
 
 export default function NewPinMap(props) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
   });
 
-  // Establish starting coordinates, use useMemo hook to prevent rerendering on click:
+  /* Establish starting coordinates, use useMemo hook to prevent rerendering on
+  click: */
   const center = React.useMemo(() => ({ lat: 39.8283, lng: -98.5795 }), []);
 
   // Set a custom marker via click:
@@ -23,15 +20,15 @@ export default function NewPinMap(props) {
     });
   }, []);
 
-  // Set map options to add style and limit points of interest on map (fullscreen not supported on iOS):
+  /* Set map options to add custom style and limit points of interest on map
+  (fullscreen not supported on iOS): */
   const options = React.useMemo(() => ({
     mapId: '8c7ace9f28d909f0',
     clickableIcons: false,
     fullscreenControl: true
-  }), []
-  );
+  }), []);
 
-  // Prevent re-renders with useRef, specifically when placing markers;
+  // Prevent re-renders with useRef, specifically when placing markers:
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback(map => {
     mapRef.current = map;
@@ -43,22 +40,25 @@ export default function NewPinMap(props) {
     mapRef.current.setZoom(17);
   }, []);
 
-  // Show tooltip for target button that triggers the GeoLocate function
+  // Show tooltip for target button that triggers the GeoLocate function:
   const showTooltip = props => (
     <Tooltip { ...props}>Target my location</Tooltip>
   );
 
-  // Use Geolocation to locate the user for targeting via a button:
+  // Use Geolocation to locate the user for targeting via target button:
   function GeoLocate({ panTo }) {
     return (
-      <button type='button' onClick={() => {
-        navigator.geolocation.getCurrentPosition(position => {
-          panTo({
-            lat: position.coords.latitude, lng: position.coords.longitude
-          });
-        }, () => null);
-      }}>
-        <OverlayTrigger placement='bottom' overlay={showTooltip}>
+      <button
+        type='button'
+        onClick={() => {
+          navigator.geolocation.getCurrentPosition(position => {
+            panTo({
+              lat: position.coords.latitude, lng: position.coords.longitude
+            });
+          }, () => null);
+        }}
+      >
+        <OverlayTrigger placement='bottom' overlay={ showTooltip }>
           <img
             className='target sec-bk-color'
             src='/target-audience.webp'
@@ -69,17 +69,17 @@ export default function NewPinMap(props) {
     );
   }
 
-  // if (loadError) return <h2>Error loading map</h2>;
+  // If there is an error loading the Google Map, display error message:
   if (loadError) {
     return (
       <Container>
         <Row className='text-center'>
-          <h2 className='mt-5 pri-color display-3 fw-bold'>
+          <h2 className='pri-color display-3 fw-bold mt-5 '>
             Error Loading Map
           </h2>
         </Row>
         <Row>
-          <p className='pt-5 px-4 fw-bold error-text no-results-heading'>
+          <p className='error-text no-results-heading fw-bold pt-5 px-4'>
             Sorry, something&apos;s not right here. Please try the following:
           </p>
 
@@ -94,10 +94,10 @@ export default function NewPinMap(props) {
               Try signing out and signing back in again.
             </li>
             <li>
-              If this problem persists, please contact us at <a
-                href="mailto:citycanvashelpers@gmail.com">
-                    CityCanvasHelpers@gmail.com
-                </a>
+              If this problem persists, please contact us at
+              <a href="mailto:citycanvashelpers@gmail.com">
+                CityCanvasHelpers@gmail.com
+              </a>
             </li>
           </ul>
         </Row>

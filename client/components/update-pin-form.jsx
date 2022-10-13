@@ -339,7 +339,7 @@ export default class UpdatePinForm extends React.Component {
             { formErrors.infoError ? this.errorMessage(formErrors.infoError, 'infoErrorMessage') : null }
 
             <p className='form-label'>
-              Click the map to drop a pin at the Street Art location:
+              Click the map to drop a pin at the street art location:
             </p>
             <UpdatePinMap
               marker={ state.marker }

@@ -37,11 +37,12 @@ export default class RegistrationForm extends React.Component {
     this.setState({ [name]: value });
   }
 
-  // Display password form field help block text or error when password requirements are not met
+  /* Display password form field help block text or error when password
+  requirements are not met: */
   passwordMessage(passwordStatus) {
     if (passwordStatus) {
       return (
-        <Form.Text id='passwordErrorMessage' className='d-block warning'>
+        <Form.Text id='passwordErrorMessage' className='warning d-block'>
           { this.state.formErrors.passwordError }
         </Form.Text>
       );
@@ -54,11 +55,11 @@ export default class RegistrationForm extends React.Component {
     }
   }
 
-  // Display form field error to user when field doesn't meet requirements
+  // Display form field error to user when field doesn't meet requirements:
   errorMessage(message, idName) {
     if (message) {
       return (
-        <Form.Text id={ idName } className='d-block warning'>
+        <Form.Text id={ idName } className='warning d-block'>
           { message }
         </Form.Text>
       );
@@ -67,15 +68,23 @@ export default class RegistrationForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { first, last, email, username, password, isLoading, formErrors } = this.state;
+    const {
+      first,
+      last,
+      email,
+      username,
+      password,
+      isLoading,
+      formErrors
+    } = this.state;
     let errorsPresent = false;
 
-    // clear the form error message text, if any:
+    // Clear the form error message text, if any:
     if (formErrors) {
       this.setState({ formErrors: {} });
     }
 
-    // check for empty fields and display error message to user where applicable:
+    // Check for empty fields and display error message where applicable:
     if (!first || !checkAlphanumeric(first)) {
       this.setState(oldState => ({
         formErrors: {
@@ -142,7 +151,7 @@ export default class RegistrationForm extends React.Component {
       errorsPresent = true;
     }
 
-    // if there are no form errors present, submit form data:
+    // If there are no form errors present, submit form data:
     if (!errorsPresent) {
       const formData = new FormData();
       formData.append('first', first);
@@ -210,7 +219,7 @@ export default class RegistrationForm extends React.Component {
           }
         })
         .catch(err => {
-          console.error('Fetch Has Failed!', err);
+          console.error('Fetch Failed!', err);
           this.setState({ networkError: true });
           this.toggleLoadingSpinner(isLoading);
         });
@@ -218,45 +227,54 @@ export default class RegistrationForm extends React.Component {
   }
 
   render() {
-    const { handleChange, handleSubmit, passwordMessage, state } = this;
+    const { handleChange, handleSubmit, passwordMessage, errorMessage, state } = this;
     const { formErrors } = state;
 
     if (state.networkError) return <NetworkErrorPage />;
     if (state.internalError) {
       return (
-      <Container className='registration-cont bg-white d-flex justify-content-center pt-md-5'>
-        <Row className='login-heading-row'>
-          <InternalErrorPage />
-        </Row>
+        <Container
+          className='registration-cont bg-white d-flex justify-content-center
+            pt-md-5'
+          >
+          <Row className='login-heading-row'>
+            <InternalErrorPage />
+          </Row>
         </Container>
       );
     }
 
     return (
         <Container
-          className='registration-cont bg-white d-flex justify-content-center pt-md-5'>
+          className=
+          'registration-cont bg-white d-flex justify-content-center pt-md-5'
+        >
           <Col className='reg-form-col'>
             <h1 className='head-text pri-color text-center mt-4'>
               Create an Account
             </h1>
+
           <Form className='position-relative pb-4' onSubmit={ handleSubmit }>
             <Form.Label className='mt-2' htmlFor='first'>
               First Name
             </Form.Label>
             <Form.Control
-              required
+              // required
               autoFocus
               id='first'
               className='mb-1'
               type='text'
               name='first'
+              value={ state.first }
               placeholder='Enter First Name'
               autoComplete='given-name'
-              value={ state.first }
               onChange={ handleChange }
               aria-describedby='firstErrorMessage'
             />
-            { formErrors.firstError ? this.errorMessage(formErrors.firstError, 'firstErrorMessage') : null }
+            { formErrors.firstError
+              ? errorMessage(formErrors.firstError, 'firstErrorMessage')
+              : null
+            }
 
             <Form.Label className='mt-2' htmlFor='last'>
               Last Name
@@ -267,13 +285,16 @@ export default class RegistrationForm extends React.Component {
               className='mb-1'
               type='text'
               name='last'
+              value={ state.last }
               placeholder='Enter Last Name'
               autoComplete='family-name'
-              value={ state.last }
               onChange={ handleChange }
               aria-describedby='lastErrorMessage'
             />
-            { formErrors.lastError ? this.errorMessage(formErrors.lastError, 'lastErrorMessage') : null }
+            { formErrors.lastError
+              ? errorMessage(formErrors.lastError, 'lastErrorMessage')
+              : null
+            }
 
              <Form.Label className='mt-2' htmlFor='email'>
                 Email
@@ -283,13 +304,16 @@ export default class RegistrationForm extends React.Component {
               id='email'
               type='email'
               name='email'
+              value={ state.email }
               placeholder='Enter Email Address'
               autoComplete='email'
-              value={ state.email }
               onChange={ handleChange }
               aria-describedby='emailErrorMessage'
             />
-            { formErrors.emailError ? this.errorMessage(formErrors.emailError, 'emailErrorMessage') : null }
+            { formErrors.emailError
+              ? errorMessage(formErrors.emailError, 'emailErrorMessage')
+              : null
+            }
 
             <Form.Label className='mt-2' htmlFor='username'>
               Username
@@ -299,13 +323,15 @@ export default class RegistrationForm extends React.Component {
               id='username'
               type='text'
               name='username'
-              placeholder='Username'
-              autoComplete='username'
               value={ state.username }
+              placeholder='Enter Username'
+              autoComplete='username'
               onChange={ handleChange }
               aria-describedby='usernameErrorMessage'
             />
-            { formErrors.usernameError ? this.errorMessage(formErrors.usernameError, 'usernameErrorMessage') : null }
+            { formErrors.usernameError
+              ? errorMessage(formErrors.usernameError, 'usernameErrorMessage')
+              : null }
 
             <Form.Label className='mt-2' htmlFor='image'>
               Profile Photo
@@ -320,7 +346,10 @@ export default class RegistrationForm extends React.Component {
               accept='.png, .jpg, .jpeg, .webp'
               aria-describedby='imageErrorMessage'
             />
-            { formErrors.imageError ? this.errorMessage(formErrors.imageError, 'imageErrorMessage') : null }
+            { formErrors.imageError
+              ? errorMessage(formErrors.imageError, 'imageErrorMessage')
+              : null
+            }
 
             <Form.Label className='mt-2' htmlFor='password'>
               Create Your Password
@@ -330,26 +359,35 @@ export default class RegistrationForm extends React.Component {
               id='password'
               type='password'
               name='password'
+              value={ state.password }
               placeholder='Enter Password'
               autoComplete='new-password'
-              value={ state.password }
               onChange={ handleChange }
               aria-describedby='passwordHelpBlock passwordErrorMessage'
             />
             { passwordMessage(state.formErrors.passwordError) }
+
             <div
-              className='login-form-actions pb-4 d-flex justify-content-between'
+              className='login-form-actions d-flex justify-content-between pb-4'
             >
-              <Button className='mt-4 mb-2' type='submit' disabled={ state.isLoading }>
+              <Button
+              className='mt-4 mb-2'
+              type='submit'
+              disabled={ state.isLoading }
+              >
                 Submit
               </Button>
               <a
                 href='#registration?form=sign-in'
-                className='reg-form-links link my-2 pri-color'>
+                className='reg-form-links link pri-color my-2 '
+              >
                 Already signed up? Sign in
               </a>
             </div>
-            { state.isLoading ? <div className='spin-absolute'> <LoadingSpinner /> </div> : null}
+            { state.isLoading
+              ? <div className='spin-absolute'><LoadingSpinner /></div>
+              : null
+            }
           </Form>
         </Col>
       </Container>

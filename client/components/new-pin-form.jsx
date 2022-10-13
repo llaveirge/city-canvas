@@ -57,12 +57,12 @@ export default class NewPinForm extends React.Component {
     const { title, artist, info, marker, isLoading, formErrors } = this.state;
     let errorsPresent = false;
 
-    // clear any error messages from a previously failed form submission:
+    // Clear any error messages from a previously failed form submission:
     if (formErrors) {
       this.setState({ formErrors: {} });
     }
 
-    // check for empty fields and display error message to user where applicable:
+    // Check for empty fields and display error message where applicable:
     if (!title || !checkAlphanumeric(title)) {
       this.setState(oldState => ({
         formErrors: {
@@ -114,7 +114,7 @@ export default class NewPinForm extends React.Component {
       errorsPresent = true;
     }
 
-    // if there are no form errors present, submit form data:
+    // If there are no form errors present, submit form data:
     if (!errorsPresent) {
       const formData = new FormData();
       formData.append('title', title);
@@ -168,8 +168,8 @@ export default class NewPinForm extends React.Component {
 
     return (
       <Container className='form-container px-0'>
-
         <Form className='position-relative  pb-2' onSubmit={ handleSubmit }>
+
           <Form.Label className='mt-2' htmlFor='title'>
             Street Art Title:
           </Form.Label>
@@ -184,7 +184,10 @@ export default class NewPinForm extends React.Component {
             onChange={ handleChange }
             aria-describedby='titleErrorMessage'
           />
-          { formErrors.titleError ? this.errorMessage(formErrors.titleError, 'titleErrorMessage') : null }
+          { formErrors.titleError
+            ? this.errorMessage(formErrors.titleError, 'titleErrorMessage')
+            : null
+          }
 
           <Form.Label htmlFor='artist'>
             Artist Name or Tag:
@@ -199,7 +202,10 @@ export default class NewPinForm extends React.Component {
             onChange={ handleChange }
             aria-describedby='artistErrorMessage'
           />
-          { formErrors.artistError ? this.errorMessage(formErrors.artistError, 'artistErrorMessage') : null }
+          { formErrors.artistError
+            ? this.errorMessage(formErrors.artistError, 'artistErrorMessage')
+            : null
+          }
 
           <Form.Label>Street Art Photo:</Form.Label>
           <Form.Control
@@ -211,37 +217,52 @@ export default class NewPinForm extends React.Component {
             accept='.png, .jpg, .jpeg, .webp'
             aria-describedby='imageErrorMessage'
           />
-          { formErrors.imageError ? this.errorMessage(formErrors.imageError, 'imageErrorMessage') : null }
+          { formErrors.imageError
+            ? this.errorMessage(formErrors.imageError, 'imageErrorMessage')
+            : null
+          }
 
           <Form.Label htmlFor='info'>
             Description or Information:
           </Form.Label>
           <Form.Control
-            as='textarea'
-            rows={ 4 }
             required
             id='info'
+            as='textarea'
             name='info'
             value={ state.info }
+            rows={ 4 }
             placeholder='Add some information about this pin...'
             onChange={ handleChange }
-           aria-describedby='infoErrorMessage'
+            aria-describedby='infoErrorMessage'
           />
-          { formErrors.infoError ? this.errorMessage(formErrors.infoError, 'infoErrorMessage') : null }
+          { formErrors.infoError
+            ? this.errorMessage(formErrors.infoError, 'infoErrorMessage')
+            : null
+          }
 
           <p className='form-label'>
-            Click the map to drop a pin at the Street Art location:
+            Click the map to drop a pin at the street art location:
           </p>
-          <NewPinMap
-            marker={ state.marker }
-            setMarker={ setMarker }>
+          <NewPinMap marker={ state.marker } setMarker={ setMarker }>
           </NewPinMap>
-          { formErrors.mapError ? this.errorMessage(formErrors.mapError, 'mapErrorMessage') : null }
+          { formErrors.mapError
+            ? this.errorMessage(formErrors.mapError, 'mapErrorMessage')
+            : null
+          }
 
-          <Button className='mt-3 mb-5' type='submit' disabled={ state.isLoading }>
+          <Button
+            className='mt-3 mb-5'
+            type='submit'
+            disabled={ state.isLoading }
+          >
             Submit
           </Button>
-        { state.isLoading ? <div className='spin-absolute'> <LoadingSpinner /> </div> : null}
+        { state.isLoading
+          ? <div className='spin-absolute'><LoadingSpinner /></div>
+          : null
+        }
+
         </Form>
       </Container>
     );
