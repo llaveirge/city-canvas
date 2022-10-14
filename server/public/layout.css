@@ -1,12 +1,9 @@
 /* Login and Registration Pages */
-.registration-cont {
+.reg-cont {
   max-width: 768px;
-
-  /* min-width: 280px; If increasing global min-width to 280px, keep. */
 }
 
 .login-cont {
-  /* max-height: 400px; updated with sign-in form flex refactoring */
   min-height: 400px;
   min-width: 100%;
 }

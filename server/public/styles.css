@@ -12,15 +12,11 @@
   font-family: "Rock Salt", cursive;
 }
 
-.postcard-title {
-  /* font-size: 1.5rem; */
-}
-
 .feature-font {
   font-size: 1.125rem;
 }
 
-.error-text {
+.err-text {
   line-height: 175%;
 }
 
@@ -146,7 +142,6 @@
 }
 
 /* Saving Spinner */
-
 .lds-heart {
   display: inline-block;
   position: relative;
@@ -300,7 +295,7 @@
 }
 
 @media screen and (min-width: 365px) {
-  .login-heading {
+  .log-font {
     font-size: 2.5rem;
   }
 }
@@ -329,7 +324,7 @@
     border-bottom-left-radius: calc(0.25rem - 1px);
   }
 
-  .no-results-heading {
+  .msg-font {
     font-size: 1.25rem;
   }
 }

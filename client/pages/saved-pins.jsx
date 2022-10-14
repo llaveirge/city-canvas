@@ -60,7 +60,7 @@ export default class SavedPins extends React.Component {
           <h2 className='mt-5 display-3 pri-color fw-bold'>User Account Error</h2>
         </Row>
         <Row className='text-center'>
-          <p className='pt-4 px-4 fw-bold error-text no-results-heading'>
+          <p className='msg-font pt-4 px-4 fw-bold err-text'>
             An account error has occurred. Please sign out and sign in again, or <a href='#registration' className='sec-color no-decoration'>create an account</a>.
             <br />
             <br />
@@ -95,7 +95,7 @@ export default class SavedPins extends React.Component {
                     userId={ user.userId }
                   />
                 ))
-                : <h6 className='no-results-heading pri-color text-center fw-bold error-text'>
+                : <h6 className='msg-font pri-color text-center fw-bold err-text'>
                     Nothing to see here...
                     <br/>Browse the <a className='sec-color no-decoration' href='#'>
                       City Canvas Home feed</a> and save your favorite pins!

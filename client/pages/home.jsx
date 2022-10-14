@@ -19,6 +19,7 @@ export default class Home extends React.Component {
 
   componentDidMount() {
     const { user } = this.context;
+
     if (user) {
       this.setState({ isLoading: true });
       fetch(`/api/home-feed/${user.userId}`)
@@ -50,38 +51,44 @@ export default class Home extends React.Component {
     if (internalError) return <InternalErrorPage />;
 
     return (
-         <Container className='feed-cont'>
-              <Row className='pt-5'>
-                <Col>
-                  { isLoading
-                    ? <LoadingSpinner />
-                    : pins.length
-                      ? pins.map(pin => (
-                          <PostCard
-                          key={ pin.postId }
-                          title={ pin.title }
-                          artPhotoUrl={ pin.artPhotoUrl }
-                          profileUrl={ pin.photoUrl }
-                          artistName={ pin.artistName }
-                          button='View More'
-                          href={ `#pins?postId=${pin.postId}` }
-                          reported={ pin.reported }
-                          savedByCurrentUser={ pin.savedByCurrentUser }
-                          />
-                      ))
-                      : <h6 className='no-results-heading pri-color text-center fw-bold error-text'>
-                        Brighten our community by contributing to City Canvas.
-                          <br />Get out and start pinning some street art!
-                          <br />
-                          <br />
-                            <a className='sec-color fw-bold no-decoration' href='#new-pin'>
-                            Create a City Canvas Pin here
-                            </a>
-                        </h6>
-                  }
-                </Col>
-              </Row>
-            </Container>
+      <Container className='feed-cont'>
+        <Row className='pt-5'>
+          <Col>
+            { isLoading
+              ? <LoadingSpinner />
+              : pins.length
+                ? pins.map(pin => (
+                  <PostCard
+                    key={ pin.postId }
+                    title={ pin.title }
+                    artPhotoUrl={ pin.artPhotoUrl }
+                    profileUrl={ pin.photoUrl }
+                    artistName={ pin.artistName }
+                    button='View More'
+                    href={ `#pins?postId=${pin.postId}` }
+                    reported={ pin.reported }
+                    savedByCurrentUser={ pin.savedByCurrentUser }
+                  />
+                ))
+                : <h6
+                  className=
+                    'msg-font err-text pri-color text-center fw-bold'
+                  >
+                    Brighten our community by contributing to City Canvas.
+                    <br />Get out and start pinning some street art!
+                    <br />
+                    <br />
+                      <a
+                        className='sec-color fw-bold no-decoration'
+                        href='#new-pin'
+                      >
+                        Create a City Canvas Pin here
+                      </a>
+                  </h6>
+            }
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }

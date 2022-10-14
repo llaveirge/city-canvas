@@ -19,6 +19,7 @@ export default class MyCanvas extends React.Component {
 
   componentDidMount() {
     const { user } = this.context;
+
     if (user) {
       this.setState({ isLoading: true });
       fetch(`/api/my-canvas-pins/${user.userId}`)
@@ -46,7 +47,13 @@ export default class MyCanvas extends React.Component {
   }
 
   render() {
-    const { pins, isLoading, networkError, internalError, userIdError } = this.state;
+    const {
+      pins,
+      isLoading,
+      networkError,
+      internalError,
+      userIdError
+    } = this.state;
     const { user } = this.context;
 
     if (!user) return <Redirect to='registration' />;
@@ -57,14 +64,23 @@ export default class MyCanvas extends React.Component {
       return (
         <Container>
           <Row className='text-center'>
-            <h2 className='mt-5 display-3 pri-color fw-bold'>User Account Error</h2>
+            <h2 className='pri-color fw-bold display-3 mt-5'>
+              User Account Error
+            </h2>
           </Row>
           <Row className='text-center'>
-            <p className='pt-4 px-4 fw-bold error-text no-results-heading'>
-              An account error has occurred. Please sign out and sign in again, or <a href='#registration' className='sec-color no-decoration'>create an account</a>.
+            <p className='msg-font err-text fw-bold pt-4 px-4 '>
+              An account error has occurred. Please sign out and sign in again,
+              or&nbsp;
+              <a href='#registration' className='sec-color no-decoration'>
+                create an account
+              </a>.
               <br />
               <br />
-              <a href='#registration' className='sec-color fw-bold no-decoration'>
+              <a
+                href='#registration'
+                className='sec-color no-decoration fw-bold'
+              >
                 Return to the City Canvas Registration Page
               </a>
             </p>
@@ -77,13 +93,18 @@ export default class MyCanvas extends React.Component {
       <>
         <Container fluid className='pri-bk-color my-4 py-3'>
           <Row>
-            <Col xs={{ span: 10, offset: 1 }} md={{ span: 8, offset: 2 }} className='d-grid'>
+            <Col
+              xs={{ span: 10, offset: 1 }}
+              md={{ span: 8, offset: 2 }}
+              className='d-grid'
+            >
               <Button href='#new-pin' size ='lg' disabled={ isLoading }>
                 Create a City Canvas Pin
               </Button>
             </Col>
           </Row>
         </Container>
+
         <Container className='feed-cont'>
           <h3 className='head-text pri-color py-2'>My City Canvas</h3>
           <Row className='pt-2'>
@@ -92,27 +113,29 @@ export default class MyCanvas extends React.Component {
                 ? <LoadingSpinner/>
                 : pins.length
                   ? pins.map(pin => (
-                  <PostCard
-                    key={ pin.postId }
-                    title={ pin.title }
-                    artPhotoUrl={ pin.artPhotoUrl }
-                    profileUrl={ user.photoUrl }
-                    artistName={ pin.artistName }
-                    button='Update'
-                    href={ `#update-pin?postId=${pin.postId}` }
-                    reported={ pin.reported }
-                    savedByCurrentUser={ pin.savedByCurrentUser }
-                  />
+                    <PostCard
+                      key={ pin.postId }
+                      title={ pin.title }
+                      artPhotoUrl={ pin.artPhotoUrl }
+                      profileUrl={ user.photoUrl }
+                      artistName={ pin.artistName }
+                      button='Update'
+                      href={ `#update-pin?postId=${pin.postId}` }
+                      reported={ pin.reported }
+                      savedByCurrentUser={ pin.savedByCurrentUser }
+                    />
                   ))
-                  : <h6 className='no-results-heading pri-color text-center fw-bold error-text'>
-                    Nothing to see here...
-                    <br />Get out and start pinning some street art!
-                    <br />
-                    <br />
+                  : <h6
+                    className='msg-font err-text pri-color text-center fw-bold'
+                    >
+                      Nothing to see here...<br />
+                      Get out and start pinning some street art!
+                      <br />
+                      <br />
                       <a className='sec-color no-decoration' href='#new-pin'>
-                      Create a City Canvas Pin here
+                        Create a City Canvas Pin here
                       </a>
-                  </h6>}
+                    </h6>}
             </Col>
           </Row>
         </Container>

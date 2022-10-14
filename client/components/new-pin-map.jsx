@@ -1,9 +1,13 @@
 import React from 'react';
 import { Tooltip, OverlayTrigger, Container, Row } from 'react-bootstrap';
 import LoadingSpinner from './loading-spinner';
+import NetworkErrorPage from '../pages/network-error';
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
 
 export default function NewPinMap(props) {
+  // Check for online status of the browser, if offline, send error message:
+  if (!navigator.onLine) return <NetworkErrorPage />;
+
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
   });
@@ -79,7 +83,7 @@ export default function NewPinMap(props) {
           </h2>
         </Row>
         <Row>
-          <p className='error-text no-results-heading fw-bold pt-5 px-4'>
+          <p className='err-text msg-font fw-bold pt-5 px-4'>
             Sorry, something&apos;s not right here. Please try the following:
           </p>
 
@@ -94,7 +98,7 @@ export default function NewPinMap(props) {
               Try signing out and signing back in again.
             </li>
             <li>
-              If this problem persists, please contact us at
+              If this problem persists, please contact us at&nbsp;
               <a href="mailto:citycanvashelpers@gmail.com">
                 CityCanvasHelpers@gmail.com
               </a>
@@ -129,7 +133,6 @@ export default function NewPinMap(props) {
             scaledSize: new window.google.maps.Size(35, 35)
           }}
         />
-
       </GoogleMap>
     </div>
   );

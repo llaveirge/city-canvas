@@ -27,7 +27,7 @@ export default class NewPinForm extends React.Component {
     this.toggleLoadingSpinner = this.toggleLoadingSpinner.bind(this);
   }
 
-  // Display form field error to user when field doesn't meet requirements
+  // Display form field error to user when field doesn't meet requirements:
   errorMessage(message, idName) {
     if (message) {
       return (
@@ -160,7 +160,7 @@ export default class NewPinForm extends React.Component {
   }
 
   render() {
-    const { handleChange, handleSubmit, state, setMarker } = this;
+    const { handleChange, handleSubmit, setMarker, errorMessage, state } = this;
     const { formErrors } = state;
 
     if (state.networkError) return <NetworkErrorPage />;
@@ -185,7 +185,7 @@ export default class NewPinForm extends React.Component {
             aria-describedby='titleErrorMessage'
           />
           { formErrors.titleError
-            ? this.errorMessage(formErrors.titleError, 'titleErrorMessage')
+            ? errorMessage(formErrors.titleError, 'titleErrorMessage')
             : null
           }
 
@@ -203,7 +203,7 @@ export default class NewPinForm extends React.Component {
             aria-describedby='artistErrorMessage'
           />
           { formErrors.artistError
-            ? this.errorMessage(formErrors.artistError, 'artistErrorMessage')
+            ? errorMessage(formErrors.artistError, 'artistErrorMessage')
             : null
           }
 
@@ -218,7 +218,7 @@ export default class NewPinForm extends React.Component {
             aria-describedby='imageErrorMessage'
           />
           { formErrors.imageError
-            ? this.errorMessage(formErrors.imageError, 'imageErrorMessage')
+            ? errorMessage(formErrors.imageError, 'imageErrorMessage')
             : null
           }
 
@@ -237,7 +237,7 @@ export default class NewPinForm extends React.Component {
             aria-describedby='infoErrorMessage'
           />
           { formErrors.infoError
-            ? this.errorMessage(formErrors.infoError, 'infoErrorMessage')
+            ? errorMessage(formErrors.infoError, 'infoErrorMessage')
             : null
           }
 
@@ -247,7 +247,7 @@ export default class NewPinForm extends React.Component {
           <NewPinMap marker={ state.marker } setMarker={ setMarker }>
           </NewPinMap>
           { formErrors.mapError
-            ? this.errorMessage(formErrors.mapError, 'mapErrorMessage')
+            ? errorMessage(formErrors.mapError, 'mapErrorMessage')
             : null
           }
 

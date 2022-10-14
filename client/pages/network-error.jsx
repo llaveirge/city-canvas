@@ -6,13 +6,13 @@ export default function NetworkErrorPage(props) {
         <Container>
 
           <Row className='text-center'>
-            <h2 className='mt-5 display-3 pri-color fw-bold'>
+            <h2 className='pri-color display-3 fw-bold mt-5'>
               Network Connection Error
             </h2>
           </Row>
           <Row className='text-center'>
-            <p className='pt-4 px-4 fw-bold no-results-heading error-text'>
-            Sorry, there was an error connecting to the network!
+            <p className='msg-font err-text fw-bold pt-4 px-4'>
+            Sorry, there was an error connecting to the network.<br />
             Please check your internet connection and try again.
             </p>
           </Row>

@@ -227,16 +227,21 @@ export default class RegistrationForm extends React.Component {
   }
 
   render() {
-    const { handleChange, handleSubmit, passwordMessage, errorMessage, state } = this;
+    const {
+      handleChange,
+      handleSubmit,
+      passwordMessage,
+      errorMessage,
+      state
+    } = this;
     const { formErrors } = state;
 
     if (state.networkError) return <NetworkErrorPage />;
     if (state.internalError) {
       return (
         <Container
-          className='registration-cont bg-white d-flex justify-content-center
-            pt-md-5'
-          >
+          className='reg-cont bg-white d-flex justify-content-center pt-md-5'
+        >
           <Row className='login-heading-row'>
             <InternalErrorPage />
           </Row>
@@ -246,8 +251,7 @@ export default class RegistrationForm extends React.Component {
 
     return (
         <Container
-          className=
-          'registration-cont bg-white d-flex justify-content-center pt-md-5'
+          className='reg-cont bg-white d-flex justify-content-center pt-md-5'
         >
           <Col className='reg-form-col'>
             <h1 className='head-text pri-color text-center mt-4'>
@@ -259,8 +263,8 @@ export default class RegistrationForm extends React.Component {
               First Name
             </Form.Label>
             <Form.Control
-              // required
               autoFocus
+              required
               id='first'
               className='mb-1'
               type='text'
@@ -331,7 +335,8 @@ export default class RegistrationForm extends React.Component {
             />
             { formErrors.usernameError
               ? errorMessage(formErrors.usernameError, 'usernameErrorMessage')
-              : null }
+              : null
+            }
 
             <Form.Label className='mt-2' htmlFor='image'>
               Profile Photo
@@ -389,6 +394,7 @@ export default class RegistrationForm extends React.Component {
               : null
             }
           </Form>
+
         </Col>
       </Container>
     );

@@ -13,6 +13,9 @@ import {
 } from '@react-google-maps/api';
 
 export default function ArtFinder(props) {
+  // Check for online status of the browser, if offline, send error message:
+  if (!navigator.onLine) return <NetworkErrorPage />;
+
   // Check if there is a user logged in, if not, redirect to registration page:
   const validUser = React.useContext(AppContext);
   if (!validUser.user) return <Redirect to='registration' />;
@@ -26,7 +29,8 @@ export default function ArtFinder(props) {
   const [networkError, setNetworkError] = React.useState(false);
   const [internalError, setInternalError] = React.useState(false);
 
-  // Get coordinates from props, use useMemo hook to prevent rerendering on click:
+  /* Get coordinates from props, use useMemo hook to prevent rerendering on
+  click: */
   const center = React.useMemo(() => ({ lat: 39.8283, lng: -98.5795 }), []);
 
   // Prevent re-renders with useRef, specifically when placing markers:
@@ -35,13 +39,13 @@ export default function ArtFinder(props) {
     mapRef.current = map;
   }, []);
 
-  // Set map options to add style and limit points of interest on map (fullscreen not supported on iOS):
+  /* Set map options to add custom style and limit points of interest on map
+  (fullscreen not supported on iOS): */
   const options = React.useMemo(() => ({
     mapId: '8c7ace9f28d909f0',
     clickableIcons: false,
     fullscreenControl: true
-  }), []
-  );
+  }), []);
 
   // Pan to a location:
   const panTo = React.useCallback(({ lat, lng }) => {
@@ -49,7 +53,7 @@ export default function ArtFinder(props) {
     mapRef.current.setZoom(14);
   }, []);
 
-  // Fetch all the pins and and set them as markers in state:
+  // Fetch all the pins and set them as markers in state:
   React.useEffect(() => {
     fetch('/api/art-finder')
       .then(res => {
@@ -70,22 +74,25 @@ export default function ArtFinder(props) {
       });
   }, []);
 
-  // Show tooltip for target button that triggers the GeoLocate function
+  // Show tooltip for target button that triggers the GeoLocate function:
   const showTooltip = props => (
     <Tooltip { ...props}>Target my location</Tooltip>
   );
 
-  // Use Geolocation to Locate the user for targeting via a button:
+  // Use Geolocation to locate the user for targeting via target button:
   function GeoLocate({ panTo }) {
     return (
-      <button type='button' onClick={() => {
-        navigator.geolocation.getCurrentPosition(position => {
-          panTo({
-            lat: position.coords.latitude, lng: position.coords.longitude
-          });
-        }, () => null);
-      }}>
-         <OverlayTrigger placement='bottom' overlay={showTooltip}>
+      <button
+        type='button'
+        onClick={() => {
+          navigator.geolocation.getCurrentPosition(position => {
+            panTo({
+              lat: position.coords.latitude, lng: position.coords.longitude
+            });
+          }, () => null);
+        }}
+      >
+        <OverlayTrigger placement='bottom' overlay={ showTooltip }>
           <img
             className='target sec-bk-color'
             src='/target-audience.webp'
@@ -96,16 +103,17 @@ export default function ArtFinder(props) {
     );
   }
 
+  // If there is an error loading the Google Map, display error message:
   if (loadError) {
     return (
       <Container>
         <Row className='text-center'>
-          <h2 className='mt-5 pri-color display-3 fw-bold'>
+          <h2 className='pri-color display-3 fw-bold mt-5'>
             Error Loading Map
           </h2>
         </Row>
         <Row>
-          <p className='pt-5 px-4 fw-bold error-text no-results-heading'>
+          <p className='err-text msg-font fw-bold pt-5 px-4'>
             Sorry, something&apos;s not right here. Please try the following:
           </p>
 
@@ -120,10 +128,10 @@ export default function ArtFinder(props) {
               Try signing out and signing back in again.
             </li>
             <li>
-              If this problem persists, please contact us at <a
-                href="mailto:citycanvashelpers@gmail.com">
-                    CityCanvasHelpers@gmail.com
-                </a>
+              If this problem persists, please contact us at&nbsp;
+              <a href="mailto:citycanvashelpers@gmail.com">
+                CityCanvasHelpers@gmail.com
+              </a>
             </li>
           </ul>
         </Row>
@@ -147,13 +155,13 @@ export default function ArtFinder(props) {
           center ={ center }
           onLoad = { onMapLoad }
           options = { options}
-          >
+        >
 
           <GeoLocate panTo={ panTo } />
 
           { markers.map(marker => (
             <Marker
-              key={marker.postId}
+              key={ marker.postId }
               position={{ lat: marker.lat, lng: marker.lng }}
               icon={{
                 url: '/pt_pin_sm.webp',
@@ -164,33 +172,38 @@ export default function ArtFinder(props) {
                 setSelected(marker);
               }}
             />
-          )) }
+          ))}
 
             { selected
               ? (
-              <InfoWindow
-              position={{ lat: selected.lat, lng: selected.lng }}
-              onCloseClick={() => { setSelected(null); }}>
-                <div>
-                  <div className='info-img-cont'>
-                    <a href={ `#pins?postId=${selected.postId}` }>
-                      <img
-                      className='info-img'
-                      src={ selected.artPhotoUrl }
-                      ></img>
-                    </a>
-                  </div>
-                    <p className='text-center dir-link pt-1'>
-                      <a href={
-                        `https://www.google.com/maps/search/?api=1&query=${selected.lat}%2C${selected.lng}`
-                        }>
-                        Get Directions
-                      </a>
-                    </p>
-                </div>
-              </InfoWindow>
+                  <InfoWindow
+                    position={{ lat: selected.lat, lng: selected.lng }}
+                    onCloseClick={() => { setSelected(null); }}
+                  >
+                    <div>
+                      <div className='info-img-cont'>
+                        <a href={ `#pins?postId=${selected.postId}` }>
+                          <img
+                            className='info-img'
+                            src={ selected.artPhotoUrl }
+                          ></img>
+                        </a>
+                      </div>
+                        <p className='text-center dir-link pt-1'>
+                          <a
+                            href={
+                              `https://www.google.com/maps/search/?api=1&query=${
+                                selected.lat}%2C${selected.lng}`
+                            }
+                          >
+                            Get Directions
+                          </a>
+                        </p>
+                    </div>
+                  </InfoWindow>
                 )
-              : null }
+              : null
+            }
         </GoogleMap>
       </div>
 

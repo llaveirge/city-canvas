@@ -1,5 +1,12 @@
 import React from 'react';
-import { Container, Form, Row, Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import {
+  Container,
+  Form,
+  Row,
+  Button,
+  Tooltip,
+  OverlayTrigger
+} from 'react-bootstrap';
 import InternalErrorPage from '../pages/internal-error';
 import NetworkErrorPage from '../pages/network-error';
 import LoadingSpinner from './loading-spinner';
@@ -23,7 +30,7 @@ export default class SignInForm extends React.Component {
     this.guestLogin = this.guestLogin.bind(this);
   }
 
-  // Display form field error to user when field doesn't meet requirements
+  // Display form field error to user when field doesn't meet requirements:
   errorMessage(message, idName) {
     if (message) {
       return (
@@ -50,12 +57,12 @@ export default class SignInForm extends React.Component {
     const { username, password, formErrors } = this.state;
     let errorsPresent = false;
 
-    // clear the form error message text, if any:
+    // Clear any error messages from a previously failed form submission:
     if (formErrors) {
       this.setState({ formErrors: {}, error: null });
     }
 
-    // check for empty fields and display error message to user where applicable:
+    // Check for empty fields and display error message where applicable:
     if (!username) {
       this.setState(oldState => ({
         formErrors: {
@@ -77,6 +84,7 @@ export default class SignInForm extends React.Component {
       errorsPresent = true;
     }
 
+    // If there are no form errors present, submit form data:
     if (!errorsPresent) {
       const req = {
         method: 'POST',
@@ -120,7 +128,6 @@ export default class SignInForm extends React.Component {
   // Submit form with demo user login credentials:
   guestLogin(event) {
     event.preventDefault();
-
     let errorsPresent = false;
 
     if (!errorsPresent) {
@@ -165,69 +172,87 @@ export default class SignInForm extends React.Component {
 
   render() {
     const { handleSubmit, handleChange, state, errorMessage } = this;
+    const { formErrors } = state;
 
     if (state.networkError) {
       return (
-         <Container className='login-cont bg-white px-4 d-flex flex-row flex-wrap align-self-center'>
-        <Row className='login-heading-row'>
-          <NetworkErrorPage />
-        </Row>
+        <Container
+          className='login-cont bg-white d-flex align-self-center px-4'
+        >
+          <Row className='login-heading-row'>
+            <NetworkErrorPage />
+          </Row>
         </Container>
       );
     }
 
     if (state.internalError) {
       return (
-      <Container className='login-cont bg-white px-4 d-flex flex-row flex-wrap align-self-center'>
-        <Row className='login-heading-row'>
-          <InternalErrorPage />
-        </Row>
+        <Container
+          className='login-cont bg-white d-flex align-self-center px-4'
+        >
+          <Row className='login-heading-row'>
+            <InternalErrorPage />
+          </Row>
         </Container>
       );
     }
 
     return (
-      <Container className='login-cont bg-white px-4 d-flex flex-row flex-wrap align-self-center'>
+      <Container
+        className='login-cont bg-white d-flex flex-wrap align-self-center px-4'
+      >
         <Row className='login-heading-row'>
-          <h1 className='login-heading head-text pri-color text-center mt-5 mb-4 pt-4 pb-1'>
+          <h1
+            className='log-font head-text pri-color text-center my-4 pt-4 pb-1'
+          >
             City Canvas
           </h1>
         </Row>
         <Row className='login-form-row justify-content-center'>
+
           <Form
-            className='login-form px-5 px-md-2 position-relative'
-            onSubmit={ handleSubmit }>
+            className='login-form position-relative px-5 px-md-2'
+            onSubmit={ handleSubmit }
+          >
             <Form.Control
               autoFocus
               required
               id='username'
               type='text'
               name='username'
+              value={ state.username }
               placeholder='Username'
               autoComplete='username'
-              value={ state.username }
               onChange={ handleChange }
               aria-describedby='usernameErrorMessage'
             />
-            { state.formErrors.usernameError ? errorMessage(state.formErrors.usernameError, 'usernameErrorMessage') : null }
+            { formErrors.usernameError
+              ? errorMessage(formErrors.usernameError, 'usernameErrorMessage')
+              : null
+            }
 
             <Form.Control
               required
-              className='mt-4'
               id='password'
+              className='mt-4'
               type='password'
               name='password'
+              value={ state.password }
               placeholder='Password'
               autoComplete='current-password'
-              value={ state.password }
               onChange={ handleChange }
               aria-describedby='errorMessage passwordErrorMessage'
             />
-            { state.formErrors.passwordError ? errorMessage(state.formErrors.passwordError, 'passwordErrorMessage') : null }
+            { formErrors.passwordError
+              ? errorMessage(formErrors.passwordError, 'passwordErrorMessage')
+              : null
+            }
             { errorMessage(state.error, 'errorMessage') }
 
             <div
-              className='login-form-actions pb-1 mt-3 mb-3 d-flex justify-content-between'
+              className='login-form-actions d-flex justify-content-between pb-1
+                my-3'
             >
               <Button
                 className='mt-1 mb-2'
@@ -237,24 +262,35 @@ export default class SignInForm extends React.Component {
               </Button>
                 <a
                   href='#registration?form=sign-up'
-                  className='reg-form-links mt-2 pri-color link'>
+                  className='reg-form-links pri-color link mt-2'>
                     New here? Sign up
                 </a>
             </div>
-            <div className='pb-1 mt-3 mb-4 d-grid gap-2'>
-              <OverlayTrigger placement='bottom' overlay={<Tooltip id='guest-login-tooltip'>Sign in as guest, DemoDane</Tooltip>}>
-                <Button
-                  type='button'
-                  size='lg'
-                  className='mt-1 mb-2'
-                  onClick={ this.guestLogin }
-                  disabled={ state.isLoading }>
-                    Sign In as Guest
-                </Button>
+
+            <div className='d-grid gap-2 pb-1 mt-3 mb-4'>
+              <OverlayTrigger
+                placement='bottom'
+                overlay={
+                  <Tooltip id='guest-login-tooltip'>
+                    Sign in as guest, DemoDane
+                  </Tooltip>
+                }>
+                  <Button
+                    type='button'
+                    size='lg'
+                    className='mt-1 mb-2'
+                    onClick={ this.guestLogin }
+                    disabled={ state.isLoading }>
+                      Sign In as Guest
+                  </Button>
               </OverlayTrigger>
              </div>
-            { state.isLoading ? <div className='spin-absolute'> <LoadingSpinner /> </div> : null}
+            { state.isLoading
+              ? <div className='spin-absolute'><LoadingSpinner /></div>
+              : null
+            }
           </Form>
+
         </Row>
       </Container>
     );

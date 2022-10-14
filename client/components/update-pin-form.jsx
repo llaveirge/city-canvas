@@ -48,6 +48,7 @@ export default class UpdatePinForm extends React.Component {
   componentDidMount() {
     this.toggleLoadingSpinner(this.state.isLoading);
     const { user } = this.context;
+
     fetch(`/api/pins/${this.props.postId}/${user.userId}`)
       .then(res => {
         if (res.ok) {
@@ -147,11 +148,11 @@ export default class UpdatePinForm extends React.Component {
     this.setState({ marker });
   }
 
-  // Display form field error to user when field doesn't meet requirements
+  // Display form field error to user when field doesn't meet requirements:
   errorMessage(message, idName) {
     if (message) {
       return (
-        <Form.Text id={ idName } className='d-block warning'>
+        <Form.Text id={ idName } className='warning d-block'>
           { message }
         </Form.Text>
       );
@@ -163,12 +164,12 @@ export default class UpdatePinForm extends React.Component {
     const { title, artist, info, marker, isLoading, formErrors } = this.state;
     let errorsPresent = false;
 
-    // clear any error messages from a previously failed form submission:
+    // Clear any error messages from a previously failed form submission:
     if (formErrors) {
       this.setState({ formErrors: {} });
     }
 
-    // check for empty fields and display error message to user where applicable:
+    // Check for empty fields and display error message where applicable:
     if (!title || !checkAlphanumeric(title)) {
       this.setState(oldState => ({
         formErrors: {
@@ -210,7 +211,7 @@ export default class UpdatePinForm extends React.Component {
       errorsPresent = true;
     }
 
-    // if there are no form errors present, submit form data:
+    // If there are no form errors present, submit form data:
     if (!errorsPresent) {
       const formData = new FormData();
       formData.append('title', title);
@@ -264,6 +265,7 @@ export default class UpdatePinForm extends React.Component {
       handleShowDelete,
       handleCloseDelete,
       deletePin,
+      errorMessage,
       state
     } = this;
     const { formErrors } = state;
@@ -278,16 +280,18 @@ export default class UpdatePinForm extends React.Component {
         <ModalMarkedReported
           show={ state.showReported }
           onHide={ handleCloseReported }
-          showDelete={ handleShowDelete }/>
+          showDelete={ handleShowDelete }
+        />
 
         <Container className = 'form-container px-0'>
+
           <Form className='position-relative pb-3' onSubmit={ handleSubmit }>
             <Form.Label className='mt-2' htmlFor='title'>
               Street Art Title:
             </Form.Label>
             <Form.Control
-              required
               autoFocus
+              required
               id='title'
               type='text'
               name='title'
@@ -296,7 +300,10 @@ export default class UpdatePinForm extends React.Component {
               onChange={ handleChange }
               aria-describedby='titleErrorMessage'
             />
-            { formErrors.titleError ? this.errorMessage(formErrors.titleError, 'titleErrorMessage') : null }
+            { formErrors.titleError
+              ? errorMessage(formErrors.titleError, 'titleErrorMessage')
+              : null
+            }
 
             <Form.Label htmlFor='artist'>
               Artist Name or Tag:
@@ -311,7 +318,10 @@ export default class UpdatePinForm extends React.Component {
               onChange={ handleChange }
               aria-describedby='artistErrorMessage'
             />
-            { formErrors.artistError ? this.errorMessage(formErrors.artistError, 'artistErrorMessage') : null }
+            { formErrors.artistError
+              ? errorMessage(formErrors.artistError, 'artistErrorMessage')
+              : null
+            }
 
             <Form.Label>Street Art Photo:</Form.Label>
             <Form.Control
@@ -326,39 +336,49 @@ export default class UpdatePinForm extends React.Component {
               Description or Information:
             </Form.Label>
             <Form.Control
-              as='textarea'
-              rows={ 4 }
               required
               id='info'
+              as='textarea'
               name='info'
               value={ state.info }
+              rows={ 4 }
               placeholder='Add some information about this pin...'
               onChange={ handleChange }
               aria-describedby='infoErrorMessage'
             />
-            { formErrors.infoError ? this.errorMessage(formErrors.infoError, 'infoErrorMessage') : null }
+            { formErrors.infoError
+              ? errorMessage(formErrors.infoError, 'infoErrorMessage')
+              : null
+            }
 
             <p className='form-label'>
               Click the map to drop a pin at the street art location:
             </p>
-            <UpdatePinMap
-              marker={ state.marker }
-              setMarker={ this.setMarker }>
+            <UpdatePinMap marker={ state.marker } setMarker={ this.setMarker }>
             </UpdatePinMap>
-            { formErrors.mapError ? this.errorMessage(formErrors.mapError, 'mapErrorMessage') : null}
+            { formErrors.mapError
+              ? errorMessage(formErrors.mapError, 'mapErrorMessage')
+              : null
+            }
 
-            <Button className='mt-3 mb-5' type='submit' disabled={ state.isLoading }>
+            <Button
+            className='mt-3 mb-5'
+            type='submit'
+            disabled={ state.isLoading }
+            >
               Submit
             </Button>
 
             <Button
-              className='mt-3 mb-5 warning-bk del float-end'
+              className='del warning-bk float-end mt-3 mb-5'
               type='button'
               onClick={ handleShowDelete }
-              disabled={ state.isLoading }>
-                Delete
+              disabled={ state.isLoading }
+            >
+              Delete
             </Button>
           </Form>
+
         </Container>
 
         <ModalDelete

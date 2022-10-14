@@ -5,12 +5,12 @@ export default function InternalErrorPage(props) {
   return (
     <Container>
       <Row className='text-center'>
-        <h2 className='mt-5 pri-color display-3 fw-bold'>
+        <h2 className='pri-color display-3 fw-bold mt-5'>
           Oops, we have paint on our face...
         </h2>
       </Row>
       <Row>
-        <p className='pt-5 px-4 fw-bold error-text no-results-heading'>
+        <p className='err-text msg-font fw-bold pt-5 px-4 '>
           Sorry, something&apos;s not right here. Please try the following:
         </p>
 
@@ -22,10 +22,10 @@ export default function InternalErrorPage(props) {
             Try signing out and signing back in again.
           </li>
           <li>
-            If this problem persists, please contact us at <a
-              href="mailto:citycanvashelpers@gmail.com">
-                  CityCanvasHelpers@gmail.com
-              </a>
+            If this problem persists, please contact us at&nbsp;
+            <a href="mailto:citycanvashelpers@gmail.com">
+              CityCanvasHelpers@gmail.com
+            </a>
           </li>
         </ul>
       </Row>

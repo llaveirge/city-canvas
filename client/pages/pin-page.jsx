@@ -1,5 +1,13 @@
 import React from 'react';
-import { Container, Col, Image, Row, Card, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import {
+  Container,
+  Col,
+  Image,
+  Row,
+  Card,
+  Tooltip,
+  OverlayTrigger
+} from 'react-bootstrap';
 import ModalReport from '../components/modal-report';
 import LoadingSpinner from '../components/loading-spinner';
 import InternalErrorPage from './internal-error';
@@ -39,6 +47,7 @@ export default class PinPage extends React.Component {
 
   componentDidMount() {
     const { user } = this.context;
+
     if (user) {
       this.toggleLoadingSpinner(this.state.isLoading);
       fetch(`/api/pins/${this.props.postId}/${user.userId}`)
@@ -204,7 +213,16 @@ export default class PinPage extends React.Component {
   }
 
   render() {
-    const { pin, isLoading, show, networkError, internalError, postIdError, userIdError, isSaving } = this.state;
+    const {
+      pin,
+      isLoading,
+      show,
+      networkError,
+      internalError,
+      postIdError,
+      userIdError,
+      isSaving
+    } = this.state;
     const { user } = this.context;
 
     if (!user) return <Redirect to='registration' />;
@@ -215,11 +233,14 @@ export default class PinPage extends React.Component {
       return (
         <Container>
           <Row className='text-center'>
-            <h2 className='mt-5 display-3 pri-color fw-bold'>City Canvas Pin Error</h2>
+            <h2 className='pri-color display-3 fw-bold mt-5'>
+              City Canvas Pin Error
+            </h2>
           </Row>
           <Row className='text-center'>
-            <p className='pt-4 px-4 fw-bold error-text no-results-heading'>
-              We can&apos;t seem to find the pin you&apos;re looking for. The pin may have been removed or potentially never existed in the first place!
+            <p className='msg-font err-text fw-bold pt-4 px-4'>
+              We can&apos;t seem to find the pin you&apos;re looking for. The
+              pin may have been removed or not yet created!
             <br />
             <br />
               <a href='#' className='sec-color fw-bold no-decoration'>
@@ -235,14 +256,23 @@ export default class PinPage extends React.Component {
       return (
         <Container>
           <Row className='text-center'>
-            <h2 className='mt-5 display-3 pri-color fw-bold'>User Account Error</h2>
+            <h2 className='pri-color display-3 fw-bold mt-5'>
+              User Account Error
+            </h2>
           </Row>
           <Row className='text-center'>
-            <p className='pt-4 px-4 fw-bold error-text no-results-heading'>
-              An account error has occurred. Please sign out and sign in again, or <a href='#registration' className='sec-color no-decoration'>create an account</a>.
+            <p className='msg-font err-text fw-bold pt-4 px-4'>
+              An account error has occurred. Please sign out and sign in again,
+              or&nbsp;
+              <a href='#registration' className='sec-color no-decoration'>
+                create an account
+              </a>.
             <br />
             <br />
-              <a href='#registration' className='sec-color fw-bold no-decoration'>
+              <a
+                href='#registration'
+                className='sec-color fw-bold no-decoration'
+              >
                 Return to the City Canvas Registration Page
               </a>
             </p>
@@ -252,14 +282,12 @@ export default class PinPage extends React.Component {
     }
 
     if (isLoading && !show) {
-      return (
-      <div className='pt-5'><LoadingSpinner /></div>
-      );
+      return <div className='pt-5'><LoadingSpinner /></div>;
     }
 
     return (
       <>
-        <Container className='d-flex pt-sm-5 pt-3 align-items-center pin-cont'>
+        <Container className='pin-cont d-flex align-items-center pt-sm-5 pt-3'>
           <Image
             className='profile-pic sec-bk-color'
             src={ pin.photoUrl }
@@ -267,11 +295,12 @@ export default class PinPage extends React.Component {
           <p className='feature-font-sm mb-0 ms-3'>{ pin.userName }</p>
         </Container>
 
-        <Container className='mt-4 pin-cont'>
+        <Container className=' pin-cont mt-4'>
           <Card className='flex-sm-row'>
             <Col>
               <Card.Img className='full-pin-img' src={ pin.artPhotoUrl } />
             </Col>
+
             <Col className='custom-basis'>
               <Card.Body>
                 <Card.Title
@@ -283,42 +312,50 @@ export default class PinPage extends React.Component {
                   }
                 >
                   { pin.reported
-                    ? <span className='align-top warning absolute-right'>
+                    ? <span className='warning absolute-right align-top'>
                         <i className='fas fa-exclamation fa-sm'></i>
-                        <i className='ms-1 fas fa-eye-slash fa-sm'></i>
+                        <i className='fas fa-eye-slash fa-sm ms-1'></i>
                       </span>
-                    : null }
+                    : null
+                  }
                   { pin.title }
                 </Card.Title>
-                  <Card.Text className='fw-bold pri-color pb-sm-1'>
+                  <Card.Text className='pri-color fw-bold pb-sm-1'>
                     Artist: { pin.artistName }
                   </Card.Text>
                   <Card.Link
                     href={
-                      `#pin-map?pinId=${pin.postId}&lat=${pin.lat}&lng=${pin.lng}&img=${encodeURIComponent(pin.artPhotoUrl)}`
+                      `#pin-map?pinId=${pin.postId}&lat=${pin.lat}&lng=${
+                        pin.lng}&img=${encodeURIComponent(pin.artPhotoUrl)}`
                     }
-                    className='fw-bold sec-color feature-font no-decoration'
+                    className='sec-color feature-font no-decoration fw-bold'
                   >
-
-                    <i className='me-2 fas fa-map-marker-alt fa-lg'></i>
+                    <i className='fas fa-map-marker-alt fa-lg me-2'></i>
                     On The Map
                   </Card.Link>
                   <Card.Text className='pt-4 pb-5'>
                     { pin.comment }
                   </Card.Text>
+
                   { !pin.reported
                     ? <Card.Link
                         role='button'
-                        className={ !isSaving ? 'ab-bottom grey report me-5' : 'ab-bottom grey report me-s pe-none'}
+                        className={
+                          !isSaving
+                            ? 'ab-bottom grey report me-5'
+                            : 'ab-bottom grey report pe-none me-5'}
                         tabIndex={ !isSaving ? '0' : '-1'}
                         aria-disabled={ isSaving }
                         onClick={ !isSaving ? this.handleShow : null }>
                           Report as removed from view
                       </Card.Link>
-                    : <Card.Text className='ab-bottom warning report mb-0 me-5 pe-1'>
+                    : <Card.Text
+                      className='ab-bottom report warning mb-0 me-5 pe-1'
+                      >
                         Reported as removed from view
                       </Card.Text>
                   }
+
                   { !isSaving
                     ? <Card.Link className='bg-white ab-bottom-right'>
                         <OverlayTrigger
