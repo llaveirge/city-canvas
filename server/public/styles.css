@@ -29,13 +29,6 @@
   font-family: Montserrat, sans-serif;
 }
 
-/* Navbar */
-.nav-drop:hover {
-  color: #0eeaf8;
-  background-color: white;
-  font-weight: bold;
-}
-
 /* Feeds and Cards */
 .profile-pic {
   border: 1.5px solid #0eeaf8;
@@ -74,16 +67,8 @@
   color: #b6b6b6;
 }
 
-.ab-bottom:hover {
-  color: #f54f31;
-}
-
 .no-decoration {
   text-decoration: none;
-}
-
-.no-decoration:hover {
-  color: #21cad6;
 }
 
 .sec-border {
@@ -107,6 +92,30 @@
   background-color: #b6b6b6;
 }
 
+.ab-bottom:hover {
+  color: #f54f31;
+}
+
+.del:hover {
+  background-color: #c7422b;
+}
+
+.del:focus {
+  background-color: #c7422b;
+  box-shadow: 0 0 0 0.25rem rgb(199 66 43);
+}
+
+.del:disabled {
+  background-color: #c7422b;
+  box-shadow: none;
+}
+
+.cancel:disabled {
+  background-color: #c9c7c7;
+  box-shadow: none;
+  color: white;
+}
+
 .link:focus {
   color: #0eeaf8;
   font-weight: bolder;
@@ -119,6 +128,10 @@
     color: #0eeaf8;
   }
 
+  .no-decoration:hover {
+    color: #21cad6;
+  }
+
   .saved:hover {
     color: #21cad6;
   }
@@ -127,8 +140,7 @@
     background-color: #797777;
   }
 
-  .del:hover,
-  .del:focus {
+  .del:hover {
     background-color: #c7422b;
   }
 
@@ -138,6 +150,13 @@
 
   .target:hover {
     background-color: #21cad6;
+  }
+
+  /* Navbar */
+  .nav-drop:hover {
+    color: #0eeaf8;
+    background-color: white;
+    font-weight: bold;
   }
 }
 
@@ -208,7 +227,6 @@
 }
 
 /* Loading  Spinner */
-
 .spin-absolute {
   position: absolute;
   bottom: -5px;

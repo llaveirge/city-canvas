@@ -19,22 +19,17 @@ export default class RegistrationForm extends React.Component {
       formErrors: {}
     };
 
-    this.handleChange = this.handleChange.bind(this);
-    this.fileInputRef = React.createRef();
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.toggleLoadingSpinner = this.toggleLoadingSpinner.bind(this);
     this.passwordMessage = this.passwordMessage.bind(this);
     this.errorMessage = this.errorMessage.bind(this);
-    this.toggleLoadingSpinner = this.toggleLoadingSpinner.bind(this);
+    this.fileInputRef = React.createRef();
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   toggleLoadingSpinner(status) {
     const newStatus = !status;
     this.setState({ isLoading: newStatus });
-  }
-
-  handleChange(event) {
-    const { name, value } = event.target;
-    this.setState({ [name]: value });
   }
 
   /* Display password form field help block text or error when password
@@ -64,6 +59,12 @@ export default class RegistrationForm extends React.Component {
         </Form.Text>
       );
     }
+  }
+
+  // Update state with form field changes:
+  handleChange(event) {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
   }
 
   handleSubmit(event) {

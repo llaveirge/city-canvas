@@ -33,12 +33,6 @@ export default function ArtFinder(props) {
   click: */
   const center = React.useMemo(() => ({ lat: 39.8283, lng: -98.5795 }), []);
 
-  // Prevent re-renders with useRef, specifically when placing markers:
-  const mapRef = React.useRef();
-  const onMapLoad = React.useCallback(map => {
-    mapRef.current = map;
-  }, []);
-
   /* Set map options to add custom style and limit points of interest on map
   (fullscreen not supported on iOS): */
   const options = React.useMemo(() => ({
@@ -46,6 +40,12 @@ export default function ArtFinder(props) {
     clickableIcons: false,
     fullscreenControl: true
   }), []);
+
+  // Prevent re-renders with useRef, specifically when placing markers:
+  const mapRef = React.useRef();
+  const onMapLoad = React.useCallback(map => {
+    mapRef.current = map;
+  }, []);
 
   // Pan to a location:
   const panTo = React.useCallback(({ lat, lng }) => {

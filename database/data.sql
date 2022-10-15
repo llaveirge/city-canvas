@@ -6,7 +6,7 @@ set client_min_messages to warning;
 insert into "users" (	"firstName",
 	"lastName",
 	"email",
-	"userName",
+	"username",
 	"photoUrl",
 	"hashedPassword")
 values ('Frank', 'Baggol', 'fbaggol@placeholdermail.com', 'TheRealSlimFrankie', '/images/resized/image-1665606376104.jpg', 'dj43asldjhasjhawlejqwejnqmwnebmnabsdasuskyaudas1287361892763dajkshdlkj'),

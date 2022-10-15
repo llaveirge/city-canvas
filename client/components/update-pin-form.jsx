@@ -27,17 +27,17 @@ export default class UpdatePinForm extends React.Component {
       formErrors: {}
     };
 
-    this.setMarker = this.setMarker.bind(this);
-    this.fileInputRef = React.createRef();
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.toggleLoadingSpinner = this.toggleLoadingSpinner.bind(this);
+    this.handleShowReported = this.handleShowReported.bind(this);
+    this.handleCloseReported = this.handleCloseReported.bind(this);
     this.handleCloseDelete = this.handleCloseDelete.bind(this);
     this.handleShowDelete = this.handleShowDelete.bind(this);
     this.deletePin = this.deletePin.bind(this);
-    this.handleShowReported = this.handleShowReported.bind(this);
-    this.handleCloseReported = this.handleCloseReported.bind(this);
-    this.toggleLoadingSpinner = this.toggleLoadingSpinner.bind(this);
     this.errorMessage = this.errorMessage.bind(this);
+    this.fileInputRef = React.createRef();
+    this.handleChange = this.handleChange.bind(this);
+    this.setMarker = this.setMarker.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   toggleLoadingSpinner(status) {
@@ -83,6 +83,16 @@ export default class UpdatePinForm extends React.Component {
       });
   }
 
+  // Show Reported modal:
+  handleShowReported() {
+    this.setState({ showReported: true });
+  }
+
+  // Close Reported modal
+  handleCloseReported() {
+    this.setState({ showReported: false });
+  }
+
   // Show Delete modal:
   handleShowDelete() {
     if (this.state.showReported) {
@@ -95,16 +105,6 @@ export default class UpdatePinForm extends React.Component {
   // Close Delete modal:
   handleCloseDelete() {
     this.setState({ showDelete: false });
-  }
-
-  // Show Reported modal:
-  handleShowReported() {
-    this.setState({ showReported: true });
-  }
-
-  // Close Reported modal
-  handleCloseReported() {
-    this.setState({ showReported: false });
   }
 
   deletePin() {
@@ -138,16 +138,6 @@ export default class UpdatePinForm extends React.Component {
       });
   }
 
-  handleChange(event) {
-    const { name, value } = event.target;
-    this.setState({ [name]: value });
-  }
-
-  // Set marker coordinates for map:
-  setMarker(marker) {
-    this.setState({ marker });
-  }
-
   // Display form field error to user when field doesn't meet requirements:
   errorMessage(message, idName) {
     if (message) {
@@ -157,6 +147,17 @@ export default class UpdatePinForm extends React.Component {
         </Form.Text>
       );
     }
+  }
+
+  // Update state with form field changes:
+  handleChange(event) {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  }
+
+  // Set marker coordinates for map:
+  setMarker(marker) {
+    this.setState({ marker });
   }
 
   handleSubmit(event) {

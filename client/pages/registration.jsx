@@ -14,13 +14,11 @@ export default class Registration extends React.Component {
 
     return (
       <>
-        <div
-          className='pg-registration d-flex py-5 py-md-0'
-        >
-            { form === 'sign-up'
-              ? <RegistrationForm />
-              : <SignInForm onSignIn={ handleSignIn } />
-            }
+        <div className='pg-registration d-flex py-5 py-md-0'>
+          { form === 'sign-up'
+            ? <RegistrationForm />
+            : <SignInForm onSignIn={ handleSignIn } />
+          }
         </div>
       </>
     );

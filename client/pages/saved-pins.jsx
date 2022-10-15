@@ -19,6 +19,7 @@ export default class SavedPins extends React.Component {
 
   componentDidMount() {
     const { user } = this.context;
+
     if (user) {
       this.setState({ isLoading: true });
       fetch(`/api/saved-pins/${user.userId}`)
@@ -46,7 +47,13 @@ export default class SavedPins extends React.Component {
   }
 
   render() {
-    const { pins, isLoading, networkError, internalError, userIdError } = this.state;
+    const {
+      pins,
+      isLoading,
+      networkError,
+      internalError,
+      userIdError
+    } = this.state;
     const { user } = this.context;
 
     if (!user) return <Redirect to='registration' />;
@@ -56,26 +63,37 @@ export default class SavedPins extends React.Component {
     if (userIdError) {
       return (
         <Container>
-        <Row className='text-center'>
-          <h2 className='mt-5 display-3 pri-color fw-bold'>User Account Error</h2>
-        </Row>
-        <Row className='text-center'>
-          <p className='msg-font pt-4 px-4 fw-bold err-text'>
-            An account error has occurred. Please sign out and sign in again, or <a href='#registration' className='sec-color no-decoration'>create an account</a>.
-            <br />
-            <br />
-            <a href='#registration' className='sec-color fw-bold no-decoration'>
-              Return to the City Canvas Registration Page
-            </a>
-          </p>
-        </Row>
-      </Container>
+          <Row className='text-center'>
+            <h2 className='pri-color display-3 fw-bold mt-5'>
+              User Account Error
+            </h2>
+          </Row>
+          <Row className='text-center'>
+            <p className='msg-font err-text fw-bold pt-4 px-4'>
+              An account error has occurred. Please sign out and sign in again,
+              or&nbsp;
+              <a href='#registration' className='sec-color no-decoration'>
+                create an account
+              </a>.
+              <br />
+              <br />
+              <a
+                href='#registration'
+                className='sec-color fw-bold no-decoration'
+              >
+                Return to the City Canvas Registration Page
+              </a>
+            </p>
+          </Row>
+        </Container>
       );
     }
 
     return (
       <Container className='feed-cont'>
-          <h3 className='head-text pri-color mt-3 py-3'>My Saved City Canvas</h3>
+          <h3 className='head-text pri-color mt-3 py-3'>
+            My Saved City Canvas
+          </h3>
         <Row className='pt-2'>
           <Col>
             { isLoading
@@ -95,10 +113,15 @@ export default class SavedPins extends React.Component {
                     userId={ user.userId }
                   />
                 ))
-                : <h6 className='msg-font pri-color text-center fw-bold err-text'>
-                    Nothing to see here...
-                    <br/>Browse the <a className='sec-color no-decoration' href='#'>
-                      City Canvas Home feed</a> and save your favorite pins!
+                : <h6
+                  className='msg-font err-text pri-color text-center fw-bold'
+                  >
+                    Nothing to see here...<br/>
+                    Browse the&nbsp;
+                    <a className='sec-color no-decoration' href='#'>
+                      City Canvas Home feed
+                    </a>
+                    &nbsp;and save your favorite pins!
                   </h6>
             }
           </Col>

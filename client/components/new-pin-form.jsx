@@ -19,12 +19,17 @@ export default class NewPinForm extends React.Component {
       formErrors: {}
     };
 
-    this.setMarker = this.setMarker.bind(this);
+    this.toggleLoadingSpinner = this.toggleLoadingSpinner.bind(this);
     this.errorMessage = this.errorMessage.bind(this);
     this.fileInputRef = React.createRef();
     this.handleChange = this.handleChange.bind(this);
+    this.setMarker = this.setMarker.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.toggleLoadingSpinner = this.toggleLoadingSpinner.bind(this);
+  }
+
+  toggleLoadingSpinner(status) {
+    const newStatus = !status;
+    this.setState({ isLoading: newStatus });
   }
 
   // Display form field error to user when field doesn't meet requirements:
@@ -38,11 +43,7 @@ export default class NewPinForm extends React.Component {
     }
   }
 
-  toggleLoadingSpinner(status) {
-    const newStatus = !status;
-    this.setState({ isLoading: newStatus });
-  }
-
+  // Update state with form field changes:
   handleChange(event) {
     const { name, value } = event.target;
     this.setState({ [name]: value });

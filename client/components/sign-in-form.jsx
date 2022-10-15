@@ -23,11 +23,16 @@ export default class SignInForm extends React.Component {
       formErrors: {}
     };
 
+    this.toggleLoadingSpinner = this.toggleLoadingSpinner.bind(this);
+    this.errorMessage = this.errorMessage.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.errorMessage = this.errorMessage.bind(this);
-    this.toggleLoadingSpinner = this.toggleLoadingSpinner.bind(this);
     this.guestLogin = this.guestLogin.bind(this);
+  }
+
+  toggleLoadingSpinner(status) {
+    const newStatus = !status;
+    this.setState({ isLoading: newStatus });
   }
 
   // Display form field error to user when field doesn't meet requirements:
@@ -39,11 +44,6 @@ export default class SignInForm extends React.Component {
         </Form.Text>
       );
     }
-  }
-
-  toggleLoadingSpinner(status) {
-    const newStatus = !status;
-    this.setState({ isLoading: newStatus });
   }
 
   // Update state with form field changes:
@@ -212,7 +212,7 @@ export default class SignInForm extends React.Component {
         <Row className='login-form-row justify-content-center'>
 
           <Form
-            className='login-form position-relative px-5 px-md-2'
+            className='login-form position-relative pb-4 px-5 px-md-2'
             onSubmit={ handleSubmit }
           >
             <Form.Control
@@ -269,7 +269,7 @@ export default class SignInForm extends React.Component {
 
             <div className='d-grid gap-2 pb-1 mt-3 mb-4'>
               <OverlayTrigger
-                placement='bottom'
+                placement='top'
                 overlay={
                   <Tooltip id='guest-login-tooltip'>
                     Sign in as guest, DemoDane

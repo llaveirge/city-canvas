@@ -15,10 +15,10 @@ export default class UpdatePin extends React.Component {
     return (
       <>
         <Container>
-          <h3 className='head-text pri-color py-2 mt-4 text-center'>
+          <h3 className='head-text pri-color text-center py-2 mt-4'>
             Update City Canvas Pin
           </h3>
-          <UpdatePinForm postId={ +this.props.postId } user={ user.userId }/>
+          <UpdatePinForm postId={ +this.props.postId } user={ user.userId } />
         </Container>
       </>
     );

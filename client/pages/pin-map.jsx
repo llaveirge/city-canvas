@@ -164,7 +164,8 @@ export default function PinMap(props) {
                     </div>
                     <p className=' dir-link text-center pt-1'>
                       <a href={
-                        `https://www.google.com/maps/search/?api=1&query=${center.lat}%2C${center.lng}`
+                        `https://www.google.com/maps/search/?api=1&query=${
+                          center.lat}%2C${center.lng}`
                         }
                       >
                         Get Directions

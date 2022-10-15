@@ -27,22 +27,12 @@ export default class PinPage extends React.Component {
       isSaving: false
     };
 
-    this.toggleSaved = this.toggleSaved.bind(this);
-    this.reportPin = this.reportPin.bind(this);
-    this.handleShow = this.handleShow.bind(this);
-    this.handleClose = this.handleClose.bind(this);
     this.toggleLoadingSpinner = this.toggleLoadingSpinner.bind(this);
     this.toggleSaving = this.toggleSaving.bind(this);
-  }
-
-  toggleLoadingSpinner(status) {
-    const newStatus = !status;
-    this.setState({ isLoading: newStatus });
-  }
-
-  toggleSaving(status) {
-    const newStatus = !status;
-    this.setState({ isSaving: newStatus });
+    this.toggleSaved = this.toggleSaved.bind(this);
+    this.handleShow = this.handleShow.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.reportPin = this.reportPin.bind(this);
   }
 
   componentDidMount() {
@@ -76,6 +66,16 @@ export default class PinPage extends React.Component {
           this.toggleLoadingSpinner(this.state.isLoading);
         });
     }
+  }
+
+  toggleLoadingSpinner(status) {
+    const newStatus = !status;
+    this.setState({ isLoading: newStatus });
+  }
+
+  toggleSaving(status) {
+    const newStatus = !status;
+    this.setState({ isSaving: newStatus });
   }
 
   toggleSaved() {
@@ -166,6 +166,16 @@ export default class PinPage extends React.Component {
     }
   }
 
+  // Show modal:
+  handleShow() {
+    this.setState({ show: true });
+  }
+
+  // Close modal:
+  handleClose() {
+    this.setState({ show: false });
+  }
+
   reportPin() {
     event.preventDefault();
     const req = {
@@ -200,16 +210,6 @@ export default class PinPage extends React.Component {
         this.setState({ networkError: true });
         this.toggleLoadingSpinner(this.state.isLoading);
       });
-  }
-
-  // Show modal:
-  handleShow() {
-    this.setState({ show: true });
-  }
-
-  // Close modal:
-  handleClose() {
-    this.setState({ show: false });
   }
 
   render() {

@@ -17,12 +17,16 @@ app.use(jsonMiddleware);
 
 app.use(staticMiddleware);
 
+// GET Requests
 /* Get My Canvas pins from 'posts' table with associated pin data from
 'savedPosts' table: */
 app.get('/api/my-canvas-pins/:userId', (req, res, next) => {
   const userId = Number(req.params.userId);
   if (!userId || userId < 0) {
-    throw new ClientError(400, 'a valid userId is required, please sign in or create an account');
+    throw new ClientError(
+      400,
+      'a valid userId is required, please sign in or create an account'
+    );
   }
 
   const sql = `
@@ -48,8 +52,8 @@ app.get('/api/my-canvas-pins/:userId', (req, res, next) => {
       AND "p"."deleted" is NULL
     ORDER BY "p"."createdAt" DESC, "postId" DESC;
   `;
-
   const params = [userId];
+
   db.query(sql, params)
     .then(response => {
       res.json(response.rows);
@@ -58,11 +62,14 @@ app.get('/api/my-canvas-pins/:userId', (req, res, next) => {
 });
 
 /* Get all pins from 'posts' table and associated user data from 'users' and
-'savedPosts' tables for home feed: */
+'savedPosts' tables for Home feed: */
 app.get('/api/home-feed/:userId', (req, res, next) => {
   const userId = Number(req.params.userId);
   if (!userId || userId < 0) {
-    throw new ClientError(400, 'a valid userId is required, please sign in or create an account');
+    throw new ClientError(
+      400,
+      'a valid userId is required, please sign in or create an account'
+    );
   }
 
   const sql = `
@@ -75,7 +82,7 @@ app.get('/api/home-feed/:userId', (req, res, next) => {
       "p"."userId",
       "p"."lat",
       "p"."lng",
-      "u"."userName",
+      "u"."username",
       "u"."photoUrl",
       (
         SELECT
@@ -90,8 +97,8 @@ app.get('/api/home-feed/:userId', (req, res, next) => {
     WHERE "p"."deleted" is NULL
     ORDER BY "p"."createdAt" DESC, "p"."postId" DESC;
   `;
-
   const params = [userId];
+
   db.query(sql, params)
     .then(response => {
       res.json(response.rows);
@@ -99,8 +106,8 @@ app.get('/api/home-feed/:userId', (req, res, next) => {
     .catch(err => next(err));
 });
 
-/* Get all pins from 'posts' table and associate author user data to generate
-and display markers on the 'ArtFinder' page */
+/* Get all pins from 'posts' table and associated author user data to generate
+and display markers on the 'ArtFinder' page: */
 app.get('/api/art-finder', (req, res, next) => {
   const sql = `
     SELECT
@@ -112,7 +119,7 @@ app.get('/api/art-finder', (req, res, next) => {
       "p"."userId",
       "p"."lat",
       "p"."lng",
-      "u"."userName",
+      "u"."username",
       "u"."photoUrl"
     FROM "posts" AS "p"
     JOIN "users" AS "u" USING ("userId")
@@ -139,13 +146,16 @@ app.get('/api/pins/:postId/:userId', (req, res, next) => {
   }
 
   if (!userId || userId < 0) {
-    throw new ClientError(400, 'a valid userId is required, please sign in or create an account');
+    throw new ClientError(
+      400,
+      'a valid userId is required, please sign in or create an account'
+    );
   }
 
   const sql = `
     SELECT
       "p".*,
-      "u"."userName",
+      "u"."username",
       "u"."photoUrl",
       (
         SELECT
@@ -161,14 +171,15 @@ app.get('/api/pins/:postId/:userId', (req, res, next) => {
       "p"."postId" = $1
       AND "p"."deleted" is NULL;
   `;
-
   const params = [postId, userId];
+
   db.query(sql, params)
     .then(response => {
       if (!response.rows[0]) {
         throw new ClientError(
           404,
-          `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}. It may have been deleted.`
+          `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${
+            postId}. It may have been deleted or not yet created.`
         );
       }
       res.json(response.rows[0]);
@@ -182,7 +193,10 @@ app.get('/api/saved-pins/:userId', (req, res, next) => {
   const userId = Number(req.params.userId);
 
   if (!userId || userId < 0) {
-    throw new ClientError(400, 'a valid userId is required, please sign in or create an account');
+    throw new ClientError(
+      400,
+      'a valid userId is required, please sign in or create and account'
+    );
   }
 
   const sql = `
@@ -197,7 +211,7 @@ app.get('/api/saved-pins/:userId', (req, res, next) => {
       "p"."userId" AS "poster",
       "p"."lat",
       "p"."lng",
-      "u"."userName",
+      "u"."username",
       "u"."photoUrl"
     FROM "posts" AS "p"
     JOIN "users" AS "u" USING ("userId")
@@ -207,8 +221,8 @@ app.get('/api/saved-pins/:userId', (req, res, next) => {
       AND "sp"."userId" = $1
     ORDER BY "sp"."createdAt" DESC, "sp"."postId" DESC;
   `;
-
   const params = [userId];
+
   db.query(sql, params)
     .then(response => {
       res.json(response.rows);
@@ -216,6 +230,7 @@ app.get('/api/saved-pins/:userId', (req, res, next) => {
     .catch(err => next(err));
 });
 
+// POST Requests
 // Authenticate user at sign-in:
 app.post('/api/auth/sign-in', (req, res, next) => {
   const { username, password } = req.body;
@@ -230,9 +245,10 @@ app.post('/api/auth/sign-in', (req, res, next) => {
       "hashedPassword",
       "photoUrl"
     FROM "users"
-    WHERE "userName" = $1;
+    WHERE "username" = $1;
   `;
   const params = [username];
+
   db.query(sql, params)
     .then(response => {
       const [user] = response.rows;
@@ -265,13 +281,22 @@ app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
     throw new ClientError(400, 'artist name or tag is a required field');
   }
   if (!info) {
-    throw new ClientError(400, 'description or information is a required field');
+    throw new ClientError(
+      400,
+      'description or information is a required field'
+    );
   }
   if (!lat || !lng || isNaN(lat) || isNaN(lng)) {
-    throw new ClientError(400, 'lat and lng are required fields and must be Number type values');
+    throw new ClientError(
+      400,
+      'lat and lng are required fields and must be numerical values'
+    );
   }
   if (!userId | userId < 0) {
-    throw new ClientError(400, 'a valid userId is required, please sign in or create an account');
+    throw new ClientError(
+      400,
+      'a valid userId is required, please sign in or create an account'
+    );
   }
   if (!req.file) {
     throw new ClientError(400, 'an image upload is required');
@@ -306,8 +331,8 @@ app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
       VALUES ($1, $2, $3, $4, $5, $6, $7)
       RETURNING *;
     `;
-
       const params = [title, artist, url, info, lat, lng, userId];
+
       return db.query(sql, params);
     })
     .then(response => {
@@ -317,7 +342,7 @@ app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
     .catch(err => next(err));
 });
 
-// Add pin to saved posts:
+// Add pin to the 'savedPosts' table:
 app.post('/api/save-post/:postId', (req, res, next) => {
   const postId = Number(req.params.postId);
   const { userId } = req.body;
@@ -326,7 +351,10 @@ app.post('/api/save-post/:postId', (req, res, next) => {
     throw new ClientError(400, 'postId must be a positive integer');
   }
   if (!userId || userId < 0 || isNaN(userId)) {
-    throw new ClientError(400, 'invalid userId, please sign in or create an account');
+    throw new ClientError(
+      400,
+      'invalid userId, please sign in or create an account'
+    );
   }
 
   const sql = `
@@ -341,14 +369,15 @@ app.post('/api/save-post/:postId', (req, res, next) => {
         AND "deleted" is NULL)
     RETURNING *;
   `;
-
   const params = [postId, userId];
+
   db.query(sql, params)
     .then(response => {
       if (!response.rows[0]) {
         throw new ClientError(
           404,
-          `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}. It may have been deleted.`
+          `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${
+            postId}. It may have been deleted or not yet created.`
         );
       }
       const [saved] = response.rows;
@@ -377,7 +406,10 @@ app.post('/api/auth/sign-up', uploadsMiddleware, (req, res, next) => {
     throw new ClientError(400, 'username is a required field');
   }
   if (password.length < 6 || /\d/.test(password) === false) {
-    throw new ClientError(400, 'Invalid password: Password must include at least six characters and one number');
+    throw new ClientError(
+      400,
+      'Invalid password: It must include at least six characters and one number'
+    );
   }
   if (!req.file) {
     throw new ClientError(400, 'An image upload is required');
@@ -407,14 +439,15 @@ app.post('/api/auth/sign-up', uploadsMiddleware, (req, res, next) => {
               "firstName",
               "lastName",
               "email",
-              "userName",
+              "username",
               "photoUrl",
               "hashedPassword"
             )
           VALUES ($1, $2, $3, $4, $5, $6)
-          RETURNING "userId", "userName", "createdAt";
+          RETURNING "userId", "username", "createdAt";
         `;
           const params = [first, last, email, username, url, hashedPassword];
+
           return db.query(sql, params);
         })
         .then(response => {
@@ -423,17 +456,22 @@ app.post('/api/auth/sign-up', uploadsMiddleware, (req, res, next) => {
         })
         .catch(err => {
           if (err.code === '23505' && err.detail.includes('email')) {
-            return next(new ClientError(400, 'Sorry, that email already exists'));
+            return next(new ClientError(
+              400, 'Sorry, that email already exists'
+            ));
           }
-          if (err.code === '23505' && err.detail.includes('userName')) {
-            return next(new ClientError(400, 'Sorry, that username already exists'));
+          if (err.code === '23505' && err.detail.includes('username')) {
+            return next(new ClientError(
+              400, 'Sorry, that username already exists'
+            ));
           }
           next(err);
         });
     });
 });
 
-// Update a post pin in posts table
+// PATCH Requests
+// Update a post pin in 'posts' table:
 app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
   const postId = Number(req.params.postId);
   const { title, artist, info, lat, lng, userId } = req.body;
@@ -448,17 +486,25 @@ app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
     throw new ClientError(400, 'artist name or tag is a required field');
   }
   if (!info) {
-    throw new ClientError(400, 'description or information is a required field');
+    throw new ClientError(
+      400,
+      'description or information is a required field'
+    );
   }
   if (!userId) {
-    throw new ClientError(400, 'userId is required, please sign in or create an account');
+    throw new ClientError(
+      400, 'userId is required, please sign in or create an account'
+    );
   }
   if (!lat || !lng || isNaN(lat) || isNaN(lng)) {
-    throw new ClientError(400, 'lat and lng are required fields and must be Number type values');
+    throw new ClientError(
+      400,
+      'lat and lng are required fields and must be numerical values'
+    );
   }
 
-  /* Check to see if the image was updated, if so, assign path to url variable
-  and resize and compress image uploads using sharp: */
+  /* Check to see if the image was updated in the form, if so, assign path to
+  url variable, and resize and compress image uploads using sharp: */
   let url;
   if ('file' in req) {
     url = `/images/resized/${req.file.filename}`;
@@ -495,8 +541,8 @@ app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
             AND "deleted" is NULL
           RETURNING *;
         `;
-
         const params = [postId, title, artist, info, lat, lng, userId, url];
+
         return db.query(sql, params);
       })
       .then(response => {
@@ -504,7 +550,9 @@ app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
         if (!pin) {
           throw new ClientError(
             404,
-          `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId} associated with userId ${userId}. Please check you're logged in properly and that you're updating the correct pin.`
+          `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${
+            postId} associated with userId ${
+            userId}. Please check that you're logged in properly and that you're updating the correct pin.`
           );
         }
         res.json(pin);
@@ -526,15 +574,17 @@ app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
               AND "deleted" is NULL
             RETURNING *;
           `;
-
     const params = [postId, title, artist, info, lat, lng, userId];
+
     db.query(sql, params)
       .then(response => {
         const [pin] = response.rows;
         if (!pin) {
           throw new ClientError(
             404,
-            `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId} associated with userId ${userId}. Please check you're logged in properly and that you're updating the correct pin.`
+            `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${
+              postId} associated with userId ${
+              userId}. Please check that you're logged in properly and that you're updating the correct pin.`
           );
         }
         res.json(pin);
@@ -543,7 +593,7 @@ app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
   }
 });
 
-// Mark a pin as deleted:
+// Mark a pin as deleted in the 'posts' table:
 app.patch('/api/delete-pin/:postId', (req, res, next) => {
   const postId = Number(req.params.postId);
   if (!postId || postId < 0) {
@@ -556,15 +606,16 @@ app.patch('/api/delete-pin/:postId', (req, res, next) => {
     WHERE "postId" = $1
     RETURNING "deleted";
   `;
-
   const params = [postId];
+
   db.query(sql, params)
     .then(response => {
       const [deleted] = response.rows;
       if (!deleted) {
         throw new ClientError(
           404,
-          `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}.`
+          `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${
+            postId}. It may have already been deleted`
         );
       }
       res.json(deleted);
@@ -572,7 +623,7 @@ app.patch('/api/delete-pin/:postId', (req, res, next) => {
     .catch(err => next(err));
 });
 
-// Report a post as removed from view:
+// Report a post as removed from view in the 'posts' table:
 app.patch('/api/report/:postId', (req, res, next) => {
   const postId = Number(req.params.postId);
   if (!postId || postId < 0) {
@@ -587,15 +638,16 @@ app.patch('/api/report/:postId', (req, res, next) => {
        AND "deleted" is NULL
     RETURNING "reported";
   `;
-
   const params = [postId];
+
   db.query(sql, params)
     .then(response => {
       const [reported] = response.rows;
       if (!reported) {
         throw new ClientError(
           404,
-            `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${postId}. It may have been deleted.`
+            `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${
+              postId}. It may have been deleted or not yet created.`
         );
       }
       res.json(reported);
@@ -603,7 +655,8 @@ app.patch('/api/report/:postId', (req, res, next) => {
     .catch(err => next(err));
 });
 
-// Delete a saved pin from the saved table:
+// DELETE Requests
+// Delete a saved pin from the 'savedPosts' table:
 app.delete('/api/delete-saved/:postId', (req, res, next) => {
   const { userId } = req.body;
   const postId = Number(req.params.postId);
@@ -623,15 +676,16 @@ app.delete('/api/delete-saved/:postId', (req, res, next) => {
       AND "userId" = $2
   RETURNING *;
   `;
-
   const params = [postId, userId];
+
   db.query(sql, params)
     .then(response => {
       const [deleted] = response.rows;
       if (!deleted) {
         throw new ClientError(
           404,
-          `This isn't the pin you're looking for... no, really, you haven't saved a post with a postId of ${postId}.`
+          `This isn't the pin you're looking for... no, really, you haven't saved a post with a postId of ${
+            postId}. It may have been deleted or not yet created.`
         );
       }
       res.sendStatus(204);
