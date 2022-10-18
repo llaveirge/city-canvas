@@ -3,7 +3,7 @@ body {
   margin: 0 auto;
   font-family: Montserrat, sans-serif;
   color: #292929;
-  background-image: url("white_brick_fade_dk.webp");
+  background-image: url("../city-canvas-images/white_brick_fade_dk.webp");
   background-attachment: fixed;
   background-position: center;
 }

@@ -77,7 +77,7 @@ export default function PinMap(props) {
         <OverlayTrigger placement='bottom' overlay={ showTooltip }>
           <img
             className='target sec-bk-color'
-            src='/target-audience.webp'
+            src='/city-canvas-images/target-audience.webp'
             alt='Target my location!'
           />
         </OverlayTrigger>
@@ -141,7 +141,7 @@ export default function PinMap(props) {
           <Marker
             position={{ lat: center.lat, lng: center.lng }}
             icon={{
-              url: '/pt_pin_sm.webp',
+              url: '/city-canvas-images/pt_pin_sm.webp',
               scaledSize: new window.google.maps.Size(50, 50),
               anchor: new window.google.maps.Point(25, 40)
             }}
