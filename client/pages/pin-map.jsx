@@ -58,7 +58,9 @@ export default function PinMap(props) {
 
   // Show tooltip for target button that triggers the GeoLocate function:
   const showTooltip = props => (
-    <Tooltip { ...props}>Target my location</Tooltip>
+    <Tooltip id='pm-target-button-tooltip' { ...props}>
+      Target my location
+    </Tooltip>
   );
 
   // Use Geolocation to locate the user for targeting via a target button:
@@ -74,7 +76,11 @@ export default function PinMap(props) {
           }, () => null);
         }}
       >
-        <OverlayTrigger placement='bottom' overlay={ showTooltip }>
+        <OverlayTrigger
+          placement='bottom'
+          delay={{ show: 250, hide: 250 }}
+          overlay={ showTooltip }
+        >
           <img
             className='target sec-bk-color'
             src='/city-canvas-images/target-audience.webp'
@@ -162,7 +168,7 @@ export default function PinMap(props) {
                         <img className='info-img' src={ props.img }></img>
                       </a>
                     </div>
-                    <p className=' dir-link text-center pt-1'>
+                    <p className='dir-link text-center pt-1'>
                       <a href={
                         `https://www.google.com/maps/search/?api=1&query=${
                           center.lat}%2C${center.lng}`

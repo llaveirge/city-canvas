@@ -360,7 +360,7 @@ export default class PinPage extends React.Component {
                     ? <Card.Link className='bg-white ab-bottom-right'>
                         <OverlayTrigger
                           placement='top'
-                          delay={{ show: 300 }}
+                          delay={{ show: 450 }}
                           overlay={
                             <Tooltip id='save-pin-tooltip'>
                             { !pin.savedByCurrentUser

@@ -48,7 +48,9 @@ export default function UpdatePinMap(props) {
 
   // Show tooltip for target button that triggers the GeoLocate function:
   const showTooltip = props => (
-    <Tooltip { ...props}>Target my location</Tooltip>
+    <Tooltip id='upm-target-button-tooltip' { ...props}>
+      Target my location
+    </Tooltip>
   );
 
   // Use Geolocation to locate the user for targeting via target button:
@@ -64,7 +66,11 @@ export default function UpdatePinMap(props) {
           }, () => null);
         }}
       >
-        <OverlayTrigger placement='bottom' overlay={ showTooltip }>
+        <OverlayTrigger
+          placement='bottom'
+          delay={{ show: 250, hide: 250 }}
+          overlay={ showTooltip }
+        >
           <img
             className='target sec-bk-color'
             src='/city-canvas-images/target-audience.webp'
