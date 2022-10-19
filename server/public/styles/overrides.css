@@ -21,6 +21,8 @@ body {
 }
 
 .btn:focus,
+.btn-primary:focus,
+.btn-primary:active:focus,
 .btn:active {
   background-color: #21cad6;
   border: none;

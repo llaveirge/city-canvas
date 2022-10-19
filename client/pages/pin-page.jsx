@@ -292,7 +292,7 @@ export default class PinPage extends React.Component {
             className='profile-pic sec-bk-color'
             src={ pin.photoUrl }
           ></Image>
-          <p className='feature-font-sm mb-0 ms-3'>{ pin.userName }</p>
+          <p className='feature-font-sm mb-0 ms-3'>{ pin.username }</p>
         </Container>
 
         <Container className=' pin-cont mt-4'>

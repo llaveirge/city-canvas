@@ -88,10 +88,6 @@
   border-radius: 3px;
 }
 
-.cancel {
-  background-color: #b6b6b6;
-}
-
 .ab-bottom:hover {
   color: #f54f31;
 }
@@ -100,19 +96,35 @@
   background-color: #c7422b;
 }
 
-.del:focus {
-  background-color: #c7422b;
-  box-shadow: 0 0 0 0.25rem rgb(199 66 43);
-}
-
 .del:disabled {
   background-color: #c7422b;
   box-shadow: none;
 }
 
+.del:focus,
+.del:active:focus {
+  background-color: #c7422b;
+  box-shadow: 0 0 0 0.25rem rgb(199, 66, 43);
+}
+
+.cancel {
+  background-color: #b6b6b6;
+}
+
+.cancel:hover {
+  background-color: #797777;
+}
+
 .cancel:disabled {
   background-color: #c9c7c7;
   box-shadow: none;
+  color: white;
+}
+
+.cancel:focus,
+.cancel:active:focus {
+  background-color: #797777;
+  box-shadow: 0 0 0 0.25rem rgb(121, 119, 119);
   color: white;
 }
 
