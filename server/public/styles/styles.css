@@ -88,6 +88,10 @@
   border-radius: 3px;
 }
 
+.no-decoration:hover {
+  color: #21cad6;
+}
+
 .ab-bottom:hover {
   color: #f54f31;
 }
@@ -102,6 +106,7 @@
 }
 
 .del:focus,
+.del:active,
 .del:active:focus {
   background-color: #c7422b;
   box-shadow: 0 0 0 0.25rem rgb(199, 66, 43);
@@ -122,6 +127,7 @@
 }
 
 .cancel:focus,
+.cancel:active,
 .cancel:active:focus {
   background-color: #797777;
   box-shadow: 0 0 0 0.25rem rgb(121, 119, 119);
