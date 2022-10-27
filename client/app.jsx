@@ -10,9 +10,7 @@ import UpdatePin from './pages/update-pin';
 import ArtFinder from './pages/art-finder';
 import SavedPins from './pages/saved-pins';
 import Registration from './pages/registration';
-import AppContext from './lib/app-context';
-import decodeToken from './lib/decode-token';
-import { parseRoute } from './lib';
+import { parseRoute, decodeToken, AppContext } from './lib';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -26,7 +24,6 @@ export default class App extends React.Component {
     this.renderPage = this.renderPage.bind(this);
     this.handleSignIn = this.handleSignIn.bind(this);
     this.handleSignOut = this.handleSignOut.bind(this);
-
   }
 
   componentDidMount() {
@@ -54,7 +51,7 @@ export default class App extends React.Component {
 
     if (route.path === 'registration') {
       const form = route.params.get('form');
-      return <Registration form={ form }/>;
+      return <Registration form = { form } />;
     }
     if (route.path === '') {
       return <Home />;
@@ -74,7 +71,7 @@ export default class App extends React.Component {
       const lng = route.params.get('lng');
       const img = route.params.get('img');
       const pinId = route.params.get('pinId');
-      return <PinMap lat={ +lat } lng={ +lng } img={ img } pinId={ pinId }/>;
+      return <PinMap lat={ +lat } lng={ +lng } img={ img } pinId={ pinId } />;
     }
     if (route.path === 'update-pin') {
       const postId = route.params.get('postId');
@@ -93,9 +90,10 @@ export default class App extends React.Component {
   render() {
     if (this.state.isAuthorizing) return null;
 
-    const { route, user } = this.state;
-    const { handleSignIn, handleSignOut, renderPage } = this;
+    const { handleSignIn, handleSignOut, renderPage, state } = this;
+    const { route, user } = state;
     const contextValue = { route, user, handleSignIn, handleSignOut };
+
     return (
       <AppContext.Provider value={contextValue}>
         <>

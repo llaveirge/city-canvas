@@ -1,0 +1,184 @@
+/* Login and Registration Pages */
+.reg-cont {
+  max-width: 768px;
+}
+
+.login-cont {
+  min-height: 400px;
+  min-width: 100%;
+}
+
+.login-form {
+  max-width: 370px;
+}
+
+.login-heading-row {
+  flex-basis: 100%;
+  flex-grow: 1;
+}
+
+.login-form-row {
+  flex-basis: 100%;
+  flex-grow: 1;
+}
+
+.login-form-actions {
+  flex-direction: column;
+}
+
+.reg-form-links {
+  align-self: center;
+  text-align: center;
+}
+
+.reg-form-col {
+  max-width: 500px;
+}
+
+/* Feeds and Cards */
+.profile-pic {
+  object-fit: cover;
+  border-radius: 50%;
+  height: 60px;
+  width: 60px;
+}
+
+.img-cont {
+  height: 60px;
+  width: 60px;
+  padding: 0;
+}
+
+.feed-cont {
+  max-width: 1200px;
+}
+
+.pin-cont {
+  max-width: 1300px;
+}
+
+.art-info {
+  padding: 0 1rem;
+}
+
+.pin-img-top {
+  height: 85vh;
+  object-fit: cover;
+}
+
+/* Maps */
+.form-map-cont {
+  height: 320px;
+  width: 100%;
+}
+
+.form-map {
+  height: 100%;
+}
+
+.full-map-cont {
+  height: 93vh;
+}
+
+.pin-map {
+  height: 95%;
+}
+
+.btm-brdr {
+  height: 5%;
+}
+
+.form-container {
+  max-width: 550px;
+}
+
+.info-img-cont {
+  height: 140px;
+  max-width: 200px;
+  padding: 0;
+}
+
+.info-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Custom Utilities */
+.mar-top-4r {
+  margin-top: 4rem;
+}
+
+.mar-bottom-4r {
+  margin-bottom: 4rem;
+}
+
+.absolute-right {
+  position: absolute;
+  right: 25px;
+}
+
+.ab-bottom-right {
+  position: absolute;
+  bottom: 30px;
+  right: 25px;
+}
+
+.ab-bottom {
+  position: absolute;
+  bottom: 25px;
+}
+
+/* Loader */
+.lds-ellipsis {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.lds-ellipsis div {
+  position: absolute;
+  top: 33px;
+  width: 13px;
+  height: 13px;
+}
+
+/* Smartphone/Responsive */
+@media screen and (min-height: 380px) {
+  .pin-img-top {
+    max-height: 55vh;
+  }
+}
+
+@media screen and (min-height: 940px) {
+  .full-map-cont {
+    height: 95vh;
+  }
+}
+
+@media screen and (min-width: 365px) {
+  .login-form-actions {
+    flex-wrap: nowrap;
+    align-items: baseline;
+    flex-direction: row;
+  }
+
+  .reg-form-links {
+    align-self: unset;
+    text-align: unset;
+  }
+}
+
+@media screen and (min-width: 376px) {
+  .profile-pic {
+    height: 79px;
+    width: 79px;
+  }
+
+  .img-cont {
+    height: 79px;
+    width: 79px;
+    padding: 0;
+  }
+}
