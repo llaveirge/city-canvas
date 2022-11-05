@@ -304,40 +304,40 @@ app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
 
   // Resize and compress image uploads using sharp:
   // console.log('req.file: ', req.file);
-  // // const { filename: image } = req.file;
+  const { filename: image } = req.file;
   // // console.log('image: ', image);
   // console.log('filename: ', req.file.filename);
   // console.log('destination: ', req.file.destination);
   // console.log('location: ', req.file.location);
 
-  // sharp(req.file.path)
-  //   .resize({ width: 1000, withoutEnlargement: true })
-  //   .rotate()
-  //   .jpeg({ force: false, mozjpeg: true })
-  //   .png({ force: false, quality: 70 })
-  //   .webp({ force: false, quality: 70 })
-  //   .toFile(
-  //     path.resolve(req.file.destination, 'resized', image)
-  //   )
-  //   .then(data => {
-  // const url = `/images/resized/${req.file.filename}`;
+  sharp(req.file.path)
+    .resize({ width: 1000, withoutEnlargement: true })
+    .rotate()
+    .jpeg({ force: false, mozjpeg: true })
+    .png({ force: false, quality: 70 })
+    .webp({ force: false, quality: 70 })
+    .toFile(
+      path.resolve(req.file.destination, 'resized-' + image)
+    )
+    .then(data => {
+      const url = `/tmp/resized-${req.file.filename}`;
+      // console.log('url', url);
 
-  // sharp(req.file.location)
-  //   .resize({ width: 1000, withoutEnlargement: true })
-  //   .rotate()
-  //   .jpeg({ force: false, mozjpeg: true })
-  //   .png({ force: false, quality: 70 })
-  //   .webp({ force: false, quality: 70 })
-  //   .toFile(
-  //     path.resolve(req.file.location, 'resized', image)
-  //   )
-  //   .then(data => {
+      // const imageUrlLong = req.file.location;
+      // const imageUrl = imageUrlLong.replace(`${process.env.AWS_S3_BUCKET}.`, '');
+      // console.log('Updated location string: ', imageUrl);
 
-  const imageUrlLong = req.file.location;
-  const imageUrl = imageUrlLong.replace(`${process.env.AWS_S3_BUCKET}.`, '');
-  // console.log('Updated location string: ', imageUrl);
-
-  const sql = `
+      // sharp(imageUrl)
+      //   .resize({ width: 1000, withoutEnlargement: true })
+      //   .rotate()
+      //   .jpeg({ force: false, mozjpeg: true })
+      //   .png({ force: false, quality: 70 })
+      //   .webp({ force: false, quality: 70 })
+      //   .toFile(
+      //     path.resolve(req.file.location, 'resized', image)
+      //   )
+      //   .then(data => {
+      const sql = `
       INSERT INTO "posts"
         (
           "title",
@@ -351,11 +351,11 @@ app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
       VALUES ($1, $2, $3, $4, $5, $6, $7)
       RETURNING *;
     `;
-  const params = [title, artist, imageUrl, info, lat, lng, userId];
+      const params = [title, artist, url, info, lat, lng, userId];
 
-  // return db.query(sql, params);
-  db.query(sql, params)
-    // })
+      return db.query(sql, params);
+      // db.query(sql, params)
+    })
     .then(response => {
       const [pin] = response.rows;
       res.status(201).json(pin);
