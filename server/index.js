@@ -6,7 +6,9 @@ const errorMiddleware = require('./error-middleware');
 const staticMiddleware = require('./static-middleware');
 const uploadsMiddleware = require('./uploads-middleware');
 const sharp = require('sharp');
+const { S3, PutObjectCommand } = require('@aws-sdk/client-s3');
 const path = require('path');
+// const fs = require('fs');
 const argon2 = require('argon2');
 const jwt = require('jsonwebtoken');
 const app = express();
@@ -304,11 +306,10 @@ app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
 
   // Resize and compress image uploads using sharp:
   // console.log('req.file: ', req.file);
-  const { filename: image } = req.file;
-  // // console.log('image: ', image);
+  // const { filename: image } = req.file;
+  // console.log('image: ', image);
   // console.log('filename: ', req.file.filename);
   // console.log('destination: ', req.file.destination);
-  // console.log('location: ', req.file.location);
 
   sharp(req.file.path)
     .resize({ width: 1000, withoutEnlargement: true })
@@ -316,51 +317,52 @@ app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
     .jpeg({ force: false, mozjpeg: true })
     .png({ force: false, quality: 70 })
     .webp({ force: false, quality: 70 })
-    .toFile(
-      path.resolve(req.file.destination, 'resized-' + image)
-    )
-    .then(data => {
-      const url = `/tmp/resized-${req.file.filename}`;
-      // console.log('url', url);
+    .toBuffer()
+    .then(buffer => {
+      const s3 = new S3({
+        region: process.env.AWS_S3_REGION,
+        credentials: {
+          accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+        }
+      });
 
-      // const imageUrlLong = req.file.location;
-      // const imageUrl = imageUrlLong.replace(`${process.env.AWS_S3_BUCKET}.`, '');
-      // console.log('Updated location string: ', imageUrl);
+      const bucketParams = {
+        Bucket: process.env.AWS_S3_BUCKET,
+        Key: `resized-${req.file.filename}`,
+        Body: buffer,
+        ACL: 'public-read',
+        ContentType: 'image/png'
+      };
 
-      // sharp(imageUrl)
-      //   .resize({ width: 1000, withoutEnlargement: true })
-      //   .rotate()
-      //   .jpeg({ force: false, mozjpeg: true })
-      //   .png({ force: false, quality: 70 })
-      //   .webp({ force: false, quality: 70 })
-      //   .toFile(
-      //     path.resolve(req.file.location, 'resized', image)
-      //   )
-      //   .then(data => {
-      const sql = `
-      INSERT INTO "posts"
-        (
-          "title",
-          "artistName",
-          "artPhotoUrl",
-          "comment",
-          "lat",
-          "lng",
-          "userId"
-        )
-      VALUES ($1, $2, $3, $4, $5, $6, $7)
-      RETURNING *;
-    `;
-      const params = [title, artist, url, info, lat, lng, userId];
+      s3.send(new PutObjectCommand(bucketParams))
+        .then(data => {
+          const url = `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_S3_REGION}.amazonaws.com/resized-${req.file.filename}`;
 
-      return db.query(sql, params);
-      // db.query(sql, params)
-    })
-    .then(response => {
-      const [pin] = response.rows;
-      res.status(201).json(pin);
-    })
-    .catch(err => next(err));
+          const sql = `
+            INSERT INTO "posts"
+              (
+                "title",
+                "artistName",
+                "artPhotoUrl",
+                "comment",
+                "lat",
+                "lng",
+                "userId"
+              )
+            VALUES ($1, $2, $3, $4, $5, $6, $7)
+            RETURNING *;
+          `;
+          const params = [title, artist, url, info, lat, lng, userId];
+
+          return db.query(sql, params);
+        })
+        .then(response => {
+          const [pin] = response.rows;
+          res.status(201).json(pin);
+        })
+        .catch(err => next(err));
+    });
 });
 
 // Add pin to the 'savedPosts' table:
