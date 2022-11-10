@@ -439,7 +439,7 @@ app.post('/api/auth/sign-up', uploadsMiddleware, (req, res, next) => {
   }
 
   // Resize and compress image uploads using sharp:
-  const { filename: image } = req.file;
+  // const { filename: image } = req.file;
 
   sharp(req.file.path)
     .resize({ width: 500, withoutEnlargement: true })
@@ -447,48 +447,65 @@ app.post('/api/auth/sign-up', uploadsMiddleware, (req, res, next) => {
     .jpeg({ force: false, mozjpeg: true })
     .png({ force: false, quality: 60 })
     .webp({ force: false, quality: 60 })
-    .toFile(
-      path.resolve(req.file.destination, 'resized', image)
-    )
-    .then(data => {
-      const url = `/images/resized/${req.file.filename}`;
+    .toBuffer()
+    .then(buffer => {
+      const s3 = new S3({
+        region: process.env.AWS_S3_REGION,
+        credentials: {
+          accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+        }
+      });
 
-      argon2
-        .hash(password)
-        .then(hashedPassword => {
-          const sql = `
-          INSERT INTO "users"
-            (
-              "firstName",
-              "lastName",
-              "email",
-              "username",
-              "photoUrl",
-              "hashedPassword"
-            )
-          VALUES ($1, $2, $3, $4, $5, $6)
-          RETURNING "userId", "username", "createdAt";
-        `;
-          const params = [first, last, email, username, url, hashedPassword];
+      const bucketParams = {
+        Bucket: process.env.AWS_S3_BUCKET,
+        Key: `resized-${req.file.filename}`,
+        Body: buffer,
+        ACL: 'public-read',
+        ContentType: 'image/png'
+      };
 
-          return db.query(sql, params);
-        })
-        .then(response => {
-          const [user] = response.rows;
-          res.status(201).json(user);
-        })
-        .catch(err => {
-          if (err.code === '23505' && err.detail.includes('email')) {
-            return next(new ClientError(
-              400, 'Sorry, that email already exists'
-            ));
-          }
-          if (err.code === '23505' && err.detail.includes('username')) {
-            return next(new ClientError(
-              400, 'Sorry, that username already exists'
-            ));
-          }
-          next(err);
+      s3.send(new PutObjectCommand(bucketParams))
+        .then(data => {
+          const url = `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_S3_REGION}.amazonaws.com/resized-${req.file.filename}`;
+
+          argon2
+            .hash(password)
+            .then(hashedPassword => {
+              const sql = `
+              INSERT INTO "users"
+                (
+                  "firstName",
+                  "lastName",
+                  "email",
+                  "username",
+                  "photoUrl",
+                  "hashedPassword"
+                )
+              VALUES ($1, $2, $3, $4, $5, $6)
+              RETURNING "userId", "username", "createdAt";
+            `;
+              const params = [first, last, email, username, url, hashedPassword];
+
+              return db.query(sql, params);
+            })
+            .then(response => {
+              const [user] = response.rows;
+              res.status(201).json(user);
+            })
+            .catch(err => {
+              if (err.code === '23505' && err.detail.includes('email')) {
+                return next(new ClientError(
+                  400, 'Sorry, that email already exists'
+                ));
+              }
+              if (err.code === '23505' && err.detail.includes('username')) {
+                return next(new ClientError(
+                  400, 'Sorry, that username already exists'
+                ));
+              }
+              next(err);
+            });
         });
     });
 });
