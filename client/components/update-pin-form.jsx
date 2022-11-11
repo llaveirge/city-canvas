@@ -285,7 +285,6 @@ export default class UpdatePinForm extends React.Component {
         />
 
         <Container className = 'form-container px-0'>
-
           <Form className='position-relative pb-3' onSubmit={ handleSubmit }>
             <Form.Label className='mt-2' htmlFor='title'>
               Street Art Title:
@@ -379,7 +378,6 @@ export default class UpdatePinForm extends React.Component {
               Delete
             </Button>
           </Form>
-
         </Container>
 
         <ModalDelete

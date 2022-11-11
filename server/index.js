@@ -6,7 +6,7 @@ const errorMiddleware = require('./error-middleware');
 const staticMiddleware = require('./static-middleware');
 const uploadsMiddleware = require('./uploads-middleware');
 const sharp = require('sharp');
-const path = require('path');
+const { S3, PutObjectCommand } = require('@aws-sdk/client-s3');
 const argon2 = require('argon2');
 const jwt = require('jsonwebtoken');
 const app = express();
@@ -302,44 +302,62 @@ app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
     throw new ClientError(400, 'an image upload is required');
   }
 
-  // Resize and compress image uploads using sharp:
-  const { filename: image } = req.file;
-
+  /* Resize and compress image upload using sharp, then upload image to AWS S3
+  bucket: */
   sharp(req.file.path)
     .resize({ width: 1000, withoutEnlargement: true })
     .rotate()
     .jpeg({ force: false, mozjpeg: true })
     .png({ force: false, quality: 70 })
     .webp({ force: false, quality: 70 })
-    .toFile(
-      path.resolve(req.file.destination, 'resized', image)
-    )
-    .then(data => {
-      const url = `/images/resized/${req.file.filename}`;
+    .toBuffer()
+    .then(buffer => {
+      const s3 = new S3({
+        region: process.env.AWS_S3_REGION,
+        credentials: {
+          accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+        }
+      });
 
-      const sql = `
-      INSERT INTO "posts"
-        (
-          "title",
-          "artistName",
-          "artPhotoUrl",
-          "comment",
-          "lat",
-          "lng",
-          "userId"
-        )
-      VALUES ($1, $2, $3, $4, $5, $6, $7)
-      RETURNING *;
-    `;
-      const params = [title, artist, url, info, lat, lng, userId];
+      const bucketParams = {
+        Bucket: process.env.AWS_S3_BUCKET,
+        Key: `resized-${req.file.filename}`,
+        Body: buffer,
+        ACL: 'public-read',
+        ContentType: 'image/png'
+      };
 
-      return db.query(sql, params);
-    })
-    .then(response => {
-      const [pin] = response.rows;
-      res.status(201).json(pin);
-    })
-    .catch(err => next(err));
+      s3.send(new PutObjectCommand(bucketParams))
+        .then(data => {
+          const url = `https://${process.env.AWS_S3_BUCKET}.s3.${
+            process.env.AWS_S3_REGION}.amazonaws.com/resized-${
+            req.file.filename}`;
+
+          const sql = `
+            INSERT INTO "posts"
+              (
+                "title",
+                "artistName",
+                "artPhotoUrl",
+                "comment",
+                "lat",
+                "lng",
+                "userId"
+              )
+            VALUES ($1, $2, $3, $4, $5, $6, $7)
+            RETURNING *;
+          `;
+          const params = [title, artist, url, info, lat, lng, userId];
+
+          return db.query(sql, params);
+        })
+        .then(response => {
+          const [pin] = response.rows;
+          res.status(201).json(pin);
+        })
+        .catch(err => next(err));
+    });
 });
 
 // Add pin to the 'savedPosts' table:
@@ -353,7 +371,7 @@ app.post('/api/save-post/:postId', (req, res, next) => {
   if (!userId || userId < 0 || isNaN(userId)) {
     throw new ClientError(
       400,
-      'invalid userId, please sign in or create an account'
+      'Invalid userId, please sign in or create an account.'
     );
   }
 
@@ -415,57 +433,76 @@ app.post('/api/auth/sign-up', uploadsMiddleware, (req, res, next) => {
     throw new ClientError(400, 'An image upload is required');
   }
 
-  // Resize and compress image uploads using sharp:
-  const { filename: image } = req.file;
-
+  /* Resize and compress image upload using sharp, then upload image to AWS S3
+  bucket: */
   sharp(req.file.path)
     .resize({ width: 500, withoutEnlargement: true })
     .rotate()
     .jpeg({ force: false, mozjpeg: true })
     .png({ force: false, quality: 60 })
     .webp({ force: false, quality: 60 })
-    .toFile(
-      path.resolve(req.file.destination, 'resized', image)
-    )
-    .then(data => {
-      const url = `/images/resized/${req.file.filename}`;
+    .toBuffer()
+    .then(buffer => {
+      const s3 = new S3({
+        region: process.env.AWS_S3_REGION,
+        credentials: {
+          accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+        }
+      });
 
-      argon2
-        .hash(password)
-        .then(hashedPassword => {
-          const sql = `
-          INSERT INTO "users"
-            (
-              "firstName",
-              "lastName",
-              "email",
-              "username",
-              "photoUrl",
-              "hashedPassword"
-            )
-          VALUES ($1, $2, $3, $4, $5, $6)
-          RETURNING "userId", "username", "createdAt";
-        `;
-          const params = [first, last, email, username, url, hashedPassword];
+      const bucketParams = {
+        Bucket: process.env.AWS_S3_BUCKET,
+        Key: `resized-${req.file.filename}`,
+        Body: buffer,
+        ACL: 'public-read',
+        ContentType: 'image/png'
+      };
 
-          return db.query(sql, params);
-        })
-        .then(response => {
-          const [user] = response.rows;
-          res.status(201).json(user);
-        })
-        .catch(err => {
-          if (err.code === '23505' && err.detail.includes('email')) {
-            return next(new ClientError(
-              400, 'Sorry, that email already exists'
-            ));
-          }
-          if (err.code === '23505' && err.detail.includes('username')) {
-            return next(new ClientError(
-              400, 'Sorry, that username already exists'
-            ));
-          }
-          next(err);
+      s3.send(new PutObjectCommand(bucketParams))
+        .then(data => {
+          const url = `https://${process.env.AWS_S3_BUCKET}.s3.${
+            process.env.AWS_S3_REGION}.amazonaws.com/resized-${
+            req.file.filename}`;
+
+          argon2
+            .hash(password)
+            .then(hashedPassword => {
+              const sql = `
+              INSERT INTO "users"
+                (
+                  "firstName",
+                  "lastName",
+                  "email",
+                  "username",
+                  "photoUrl",
+                  "hashedPassword"
+                )
+              VALUES ($1, $2, $3, $4, $5, $6)
+              RETURNING "userId", "username", "createdAt";
+            `;
+              const params =
+              [first, last, email, username, url, hashedPassword];
+
+              return db.query(sql, params);
+            })
+            .then(response => {
+              const [user] = response.rows;
+              res.status(201).json(user);
+            })
+            .catch(err => {
+              if (err.code === '23505' && err.detail.includes('email')) {
+                return next(new ClientError(
+                  400, 'Sorry, that email already exists'
+                ));
+              }
+              if (err.code === '23505' && err.detail.includes('username')) {
+                return next(new ClientError(
+                  400, 'Sorry, that username already exists'
+                ));
+              }
+              next(err);
+            });
         });
     });
 });
@@ -503,61 +540,73 @@ app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
     );
   }
 
-  /* Check to see if the image was updated in the form, if so, assign path to
-  url variable, and resize and compress image uploads using sharp: */
-  let url;
+  /* Check to see if the image was updated in the form, if so, resize and
+  compress image uploads using sharp and add to AWS S3 bucket: */
   if ('file' in req) {
-    url = `/images/resized/${req.file.filename}`;
-  }
-
-  if (url) {
-    const { filename: image } = req.file;
-
     sharp(req.file.path)
       .resize({ width: 1000, withoutEnlargement: true })
       .rotate()
       .jpeg({ force: false, mozjpeg: true })
       .png({ force: false, quality: 70 })
       .webp({ force: false, quality: 70 })
-      .toFile(
-        path.resolve(req.file.destination, 'resized', image)
-      )
-      .then(data => {
-        const url = `/images/resized/${req.file.filename}`;
+      .toBuffer()
+      .then(buffer => {
+        const s3 = new S3({
+          region: process.env.AWS_S3_REGION,
+          credentials: {
+            accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+          }
+        });
 
-        const sql = `
-          UPDATE "posts"
-          SET
-            "title" = $2,
-            "reported" = false,
-            "artistName" = $3,
-            "comment" = $4,
-            "lat" = $5,
-            "lng" = $6,
-            "artPhotoUrl" = $8
-          WHERE
-            "postId" = $1
-            AND "userId" = $7
-            AND "deleted" is NULL
-          RETURNING *;
-        `;
-        const params = [postId, title, artist, info, lat, lng, userId, url];
+        const bucketParams = {
+          Bucket: process.env.AWS_S3_BUCKET,
+          Key: `resized-${req.file.filename}`,
+          Body: buffer,
+          ACL: 'public-read',
+          ContentType: 'image/png'
+        };
 
-        return db.query(sql, params);
-      })
-      .then(response => {
-        const [pin] = response.rows;
-        if (!pin) {
-          throw new ClientError(
-            404,
-          `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${
-            postId} associated with userId ${
-            userId}. Please check that you're logged in properly and that you're updating the correct pin.`
-          );
-        }
-        res.json(pin);
-      })
-      .catch(err => next(err));
+        s3.send(new PutObjectCommand(bucketParams))
+          .then(data => {
+            const url = `https://${process.env.AWS_S3_BUCKET}.s3.${
+              process.env.AWS_S3_REGION}.amazonaws.com/resized-${
+              req.file.filename}`;
+
+            const sql = `
+                UPDATE "posts"
+                SET
+                  "title" = $2,
+                  "reported" = false,
+                  "artistName" = $3,
+                  "comment" = $4,
+                  "lat" = $5,
+                  "lng" = $6,
+                  "artPhotoUrl" = $8
+                WHERE
+                  "postId" = $1
+                  AND "userId" = $7
+                  AND "deleted" is NULL
+                RETURNING *;
+              `;
+            const params = [postId, title, artist, info, lat, lng, userId, url];
+
+            return db.query(sql, params);
+          })
+          .then(response => {
+            const [pin] = response.rows;
+            if (!pin) {
+              throw new ClientError(
+                404,
+                `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${
+                  postId} associated with userId ${
+                  userId}. Please check that you're logged in properly and that you're updating the correct pin.`
+              );
+            }
+            res.json(pin);
+          })
+          .catch(err => next(err));
+      });
   } else {
     const sql = `
             UPDATE "posts"
@@ -666,7 +715,9 @@ app.delete('/api/delete-saved/:postId', (req, res, next) => {
   }
 
   if (!userId || userId < 0 || isNaN(userId)) {
-    throw new ClientError(400, 'invalid userId, please sign in or create an account');
+    throw new ClientError(
+      400,
+      'Invalid userId, please sign in or create an account.');
   }
 
   const sql = `

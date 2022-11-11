@@ -1,11 +1,12 @@
 const path = require('path');
 const multer = require('multer');
+const os = require('os');
 
-const imagesDirectory = path.join(__dirname, 'public/images');
+const tmpDirectory = os.tmpdir();
 
 const storage = multer.diskStorage({
   destination(req, file, callback) {
-    callback(null, imagesDirectory);
+    callback(null, tmpDirectory);
   },
   filename(req, file, callback) {
     const fileExtension = path.extname(file.originalname);
