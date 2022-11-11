@@ -30,7 +30,6 @@ module.exports = {
     ]
   },
   plugins: [
-    // new webpack.DefinePlugin({ 'process.env': JSON.stringify(process.env) }),
     new webpack.EnvironmentPlugin(['REACT_APP_GOOGLE_MAPS_API_KEY'])
   ],
   devtool: 'source-map',

@@ -1,6 +1,6 @@
 /* Login and Registration Pages */
 .pg-registration {
-  background-image: url("../city-canvas-images/reg-bkg.webp");
+  background-image: url("/city-canvas-images/reg-bkg.webp");
   background-attachment: fixed;
   background-size: cover;
   background-position: 50% 55%;
