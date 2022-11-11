@@ -3,7 +3,6 @@ const multer = require('multer');
 const os = require('os');
 
 const tmpDirectory = os.tmpdir();
-// console.log(tmpDirectory);
 
 const storage = multer.diskStorage({
   destination(req, file, callback) {

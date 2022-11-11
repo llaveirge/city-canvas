@@ -330,7 +330,9 @@ app.post('/api/post-pin', uploadsMiddleware, (req, res, next) => {
 
       s3.send(new PutObjectCommand(bucketParams))
         .then(data => {
-          const url = `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_S3_REGION}.amazonaws.com/resized-${req.file.filename}`;
+          const url = `https://${process.env.AWS_S3_BUCKET}.s3.${
+            process.env.AWS_S3_REGION}.amazonaws.com/resized-${
+            req.file.filename}`;
 
           const sql = `
             INSERT INTO "posts"
@@ -369,7 +371,7 @@ app.post('/api/save-post/:postId', (req, res, next) => {
   if (!userId || userId < 0 || isNaN(userId)) {
     throw new ClientError(
       400,
-      'invalid userId, please sign in or create an account'
+      'Invalid userId, please sign in or create an account.'
     );
   }
 
@@ -459,7 +461,9 @@ app.post('/api/auth/sign-up', uploadsMiddleware, (req, res, next) => {
 
       s3.send(new PutObjectCommand(bucketParams))
         .then(data => {
-          const url = `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_S3_REGION}.amazonaws.com/resized-${req.file.filename}`;
+          const url = `https://${process.env.AWS_S3_BUCKET}.s3.${
+            process.env.AWS_S3_REGION}.amazonaws.com/resized-${
+            req.file.filename}`;
 
           argon2
             .hash(password)
@@ -477,7 +481,8 @@ app.post('/api/auth/sign-up', uploadsMiddleware, (req, res, next) => {
               VALUES ($1, $2, $3, $4, $5, $6)
               RETURNING "userId", "username", "createdAt";
             `;
-              const params = [first, last, email, username, url, hashedPassword];
+              const params =
+              [first, last, email, username, url, hashedPassword];
 
               return db.query(sql, params);
             })
@@ -564,7 +569,9 @@ app.patch('/api/pins/:postId', uploadsMiddleware, (req, res, next) => {
 
         s3.send(new PutObjectCommand(bucketParams))
           .then(data => {
-            const url = `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_S3_REGION}.amazonaws.com/resized-${req.file.filename}`;
+            const url = `https://${process.env.AWS_S3_BUCKET}.s3.${
+              process.env.AWS_S3_REGION}.amazonaws.com/resized-${
+              req.file.filename}`;
 
             const sql = `
                 UPDATE "posts"
@@ -708,7 +715,9 @@ app.delete('/api/delete-saved/:postId', (req, res, next) => {
   }
 
   if (!userId || userId < 0 || isNaN(userId)) {
-    throw new ClientError(400, 'invalid userId, please sign in or create an account');
+    throw new ClientError(
+      400,
+      'Invalid userId, please sign in or create an account.');
   }
 
   const sql = `

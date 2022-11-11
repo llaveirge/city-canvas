@@ -18,7 +18,7 @@ export default class NewPin extends React.Component {
           <h3 className='head-text pri-color text-center py-2 mt-4'>
             New City Canvas Pin
           </h3>
-          <NewPinForm user={ user.userId }/>
+          <NewPinForm user={ user.userId } />
         </Container>
       </>
     );
