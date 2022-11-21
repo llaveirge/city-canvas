@@ -137,7 +137,7 @@ export default function UpdatePinMap(props) {
         <Marker
           position={{ lat: +props.marker.lat, lng: +props.marker.lng }}
           icon={{
-            url: '/city-canvas-images/pt_pin_sm.webp',
+            url: '/city-canvas-images/pt-pin-sm.webp',
             scaledSize: new window.google.maps.Size(35, 35)
           }}
         />

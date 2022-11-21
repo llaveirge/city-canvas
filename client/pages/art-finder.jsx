@@ -170,7 +170,7 @@ export default function ArtFinder(props) {
               key={ marker.postId }
               position={{ lat: marker.lat, lng: marker.lng }}
               icon={{
-                url: '/city-canvas-images/pt_pin_sm.webp',
+                url: '/city-canvas-images/pt-pin-sm.webp',
                 scaledSize: new window.google.maps.Size(45, 45),
                 anchor: new window.google.maps.Point(22, 30)
               }}
