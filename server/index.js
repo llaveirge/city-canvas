@@ -233,10 +233,15 @@ app.get('/api/saved-pins/:userId', (req, res, next) => {
 // POST Requests
 // Authenticate user at sign-in:
 app.post('/api/auth/sign-in', (req, res, next) => {
-  const { username, password } = req.body;
+  let { username, password } = req.body;
 
   if (!username || !password) {
     throw new ClientError(401, 'Invalid login');
+  }
+
+  if (username === 'guest username' && password === 'guest password') {
+    username = process.env.DEMO_LOGIN_USERNAME;
+    password = process.env.DEMO_LOGIN_PASSWORD;
   }
 
   const sql = `

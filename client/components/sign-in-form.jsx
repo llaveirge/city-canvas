@@ -136,7 +136,7 @@ export default class SignInForm extends React.Component {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username: 'DemoDane', password: 'Password2' })
+        body: JSON.stringify({ username: 'guest username', password: 'guest password' })
       };
       this.toggleLoadingSpinner(this.state.isLoading);
       fetch('/api/auth/sign-in', req)
