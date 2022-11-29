@@ -17,7 +17,7 @@
 }
 
 .err-text {
-  line-height: 175%;
+  line-height: 1.5;
 }
 
 .report {
@@ -136,7 +136,7 @@
 
 .link:focus {
   color: #0eeaf8;
-  font-weight: bolder;
+  font-weight: 700;
   border: none;
   outline: none;
 }
@@ -174,7 +174,7 @@
   .nav-drop:hover {
     color: #0eeaf8;
     background-color: white;
-    font-weight: bold;
+    font-weight: 700;
   }
 }
 
@@ -319,7 +319,7 @@
   }
 }
 
-/* Smartphone/Responsive */
+/* Tablet/Desktop/Responsive */
 @media screen and (min-width: 325px) {
   .report {
     font-size: 1rem;

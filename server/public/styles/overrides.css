@@ -48,7 +48,7 @@ body {
 }
 
 .navbar-brand.head-text:focus {
-  font-weight: bolder;
+  font-weight: 700;
 }
 
 @media (hover: hover) {
@@ -57,7 +57,7 @@ body {
   }
 
   .navbar-brand.head-text:hover {
-    font-weight: bolder;
+    font-weight: 700;
   }
 }
 
@@ -93,7 +93,7 @@ body {
   box-shadow: none;
 }
 
-/* Smartphone/Responsive */
+/* Tablet/Desktop/Responsive */
 @media screen and (min-width: 376px) {
   .card {
     margin-bottom: 2.8rem;

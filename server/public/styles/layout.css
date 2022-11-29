@@ -144,7 +144,7 @@
   height: 13px;
 }
 
-/* Smartphone/Responsive */
+/* Tablet/Desktop/Responsive */
 @media screen and (min-height: 380px) {
   .pin-img-top {
     max-height: 55vh;
