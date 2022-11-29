@@ -208,7 +208,9 @@ export default class NewPinForm extends React.Component {
             : null
           }
 
-          <Form.Label>Street Art Photo:</Form.Label>
+          <Form.Label htmlFor='image'>
+            Street Art Photo:
+          </Form.Label>
           <Form.Control
             required
             id='image'
