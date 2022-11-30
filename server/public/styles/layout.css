@@ -69,7 +69,8 @@
 /* Maps */
 .form-map-cont {
   height: 320px;
-  width: 100%;
+
+  /* width: 100%; */
 }
 
 .form-map {
@@ -88,14 +89,15 @@
   height: 5%;
 }
 
-.form-container {
+.form-cont {
   max-width: 550px;
 }
 
 .info-img-cont {
   height: 140px;
   max-width: 200px;
-  padding: 0;
+
+  /* padding: 0; */
 }
 
 .info-img {
@@ -105,13 +107,14 @@
 }
 
 /* Custom Utilities */
-.mar-top-4r {
+
+/* .mar-top-4r {
   margin-top: 4rem;
 }
 
 .mar-bottom-4r {
   margin-bottom: 4rem;
-}
+} */
 
 .absolute-right {
   position: absolute;

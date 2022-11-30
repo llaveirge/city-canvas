@@ -284,7 +284,7 @@ export default class UpdatePinForm extends React.Component {
           showDelete={ handleShowDelete }
         />
 
-        <Container className = 'form-container px-0'>
+        <Container className = 'form-cont px-0'>
           <Form className='position-relative pb-3' onSubmit={ handleSubmit }>
             <Form.Label className='mt-2' htmlFor='title'>
               Street Art Title:

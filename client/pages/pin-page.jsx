@@ -367,7 +367,8 @@ export default class PinPage extends React.Component {
                               ? 'Save pin'
                               : 'Remove save'}
                             </Tooltip>
-                          }>
+                          }
+                        >
                           <i className={ pin.savedByCurrentUser === null
                             ? 'grey not-saved fas fa-heart fa-lg'
                             : 'sec-color saved fas fa-heart fa-lg' }

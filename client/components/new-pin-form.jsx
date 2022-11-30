@@ -168,7 +168,7 @@ export default class NewPinForm extends React.Component {
     if (state.internalError) return <InternalErrorPage />;
 
     return (
-      <Container className='form-container px-0'>
+      <Container className='form-cont px-0'>
         <Form className='position-relative  pb-2' onSubmit={ handleSubmit }>
 
           <Form.Label className='mt-2' htmlFor='title'>
