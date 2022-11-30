@@ -164,6 +164,7 @@
 
   .link:hover {
     color: #0eeaf8;
+    font-weight: 400;
   }
 
   .target:hover {

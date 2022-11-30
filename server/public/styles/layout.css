@@ -27,7 +27,7 @@
 }
 
 .reg-form-links {
-  align-self: center;
+  /* align-self: center; */
   text-align: center;
 }
 
@@ -57,9 +57,9 @@
   max-width: 1300px;
 }
 
-.art-info {
+/* .art-info {
   padding: 0 1rem;
-}
+} */
 
 .pin-img-top {
   height: 85vh;
@@ -159,13 +159,13 @@
 
 @media screen and (min-width: 365px) {
   .login-form-actions {
-    flex-wrap: nowrap;
+    /* flex-wrap: nowrap; */
     align-items: baseline;
     flex-direction: row;
   }
 
   .reg-form-links {
-    align-self: unset;
+    /* align-self: unset; */
     text-align: unset;
   }
 }

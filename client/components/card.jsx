@@ -20,7 +20,7 @@ export default function PostCard(props) {
               >
               </Image>
             </Container>
-            <Container className='art-info d-flex flex-column px-2 px-sm-3'>
+            <Container className='d-flex flex-column px-2 px-sm-3'>
               <Container
                 className='title-report d-flex flex-row justify-content-between
                   align-items-baseline px-1'
