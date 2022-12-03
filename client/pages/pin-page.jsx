@@ -292,7 +292,7 @@ export default class PinPage extends React.Component {
             className='profile-pic sec-bk-color'
             src={ pin.photoUrl }
           ></Image>
-          <p className='feature-font-sm mb-0 ms-3'>{ pin.username }</p>
+          <p className='fs-5-5-sm mb-0 ms-3'>{ pin.username }</p>
         </Container>
 
         <Container className=' pin-cont mt-4'>
@@ -328,7 +328,7 @@ export default class PinPage extends React.Component {
                       `#pin-map?pinId=${pin.postId}&lat=${pin.lat}&lng=${
                         pin.lng}&img=${encodeURIComponent(pin.artPhotoUrl)}`
                     }
-                    className='sec-color feature-font no-decoration fw-bold'
+                    className='sec-color fs-5-5 no-decoration fw-bold'
                   >
                     <i className='fas fa-map-marker-alt fa-lg me-2'></i>
                     On The Map
@@ -342,15 +342,15 @@ export default class PinPage extends React.Component {
                         role='button'
                         className={
                           !isSaving
-                            ? 'ab-bottom grey report me-5'
-                            : 'ab-bottom grey report pe-none me-5'}
+                            ? 'ab-bottom grey report-text me-5'
+                            : 'ab-bottom grey report-text pe-none me-5'}
                         tabIndex={ !isSaving ? '0' : '-1'}
                         aria-disabled={ isSaving }
                         onClick={ !isSaving ? this.handleShow : null }>
                           Report as removed from view
                       </Card.Link>
                     : <Card.Text
-                      className='ab-bottom report warning mb-0 me-5 pe-1'
+                      className='ab-bottom report-text warning mb-0 me-5 pe-1'
                       >
                         Reported as removed from view
                       </Card.Text>
