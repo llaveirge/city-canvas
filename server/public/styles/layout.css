@@ -27,7 +27,6 @@
 }
 
 .reg-form-links {
-  /* align-self: center; */
   text-align: center;
 }
 
@@ -57,10 +56,6 @@
   max-width: 1300px;
 }
 
-/* .art-info {
-  padding: 0 1rem;
-} */
-
 .pin-img-top {
   height: 85vh;
   object-fit: cover;
@@ -69,8 +64,6 @@
 /* Maps */
 .form-map-cont {
   height: 320px;
-
-  /* width: 100%; */
 }
 
 .form-map {
@@ -96,8 +89,6 @@
 .info-img-cont {
   height: 140px;
   max-width: 200px;
-
-  /* padding: 0; */
 }
 
 .info-img {
@@ -107,14 +98,6 @@
 }
 
 /* Custom Utilities */
-
-/* .mar-top-4r {
-  margin-top: 4rem;
-}
-
-.mar-bottom-4r {
-  margin-bottom: 4rem;
-} */
 
 .absolute-right {
   position: absolute;
@@ -162,7 +145,6 @@
 
 @media screen and (min-width: 365px) {
   .login-form-actions {
-    /* flex-wrap: nowrap; */
     align-items: baseline;
     flex-direction: row;
   }
