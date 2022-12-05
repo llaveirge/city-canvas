@@ -204,7 +204,7 @@ export default class SignInForm extends React.Component {
       >
         <Row className='login-heading-row'>
           <h1
-            className='log-font head-text pri-color text-center my-4 pt-4 pb-1'
+            className='login-text head-text pri-color text-center my-4 pt-4 pb-1'
           >
             City Canvas
           </h1>

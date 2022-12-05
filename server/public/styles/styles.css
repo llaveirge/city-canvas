@@ -110,7 +110,6 @@
 }
 
 .del:focus-visible,
-.del:focus,
 .del:active,
 .del:active:focus {
   background-color: #c7422b;
@@ -122,9 +121,9 @@
   background-color: #b6b6b6;
 }
 
-.cancel:hover {
+/* .cancel:hover {
   background-color: #797777;
-}
+} */
 
 .cancel:disabled {
   background-color: #c9c7c7;
@@ -132,7 +131,7 @@
   color: white;
 }
 
-.cancel:focus,
+.cancel:focus-visible,
 .cancel:active,
 .cancel:active:focus {
   background-color: #797777;
@@ -140,7 +139,7 @@
   color: white;
 }
 
-.link:focus {
+.link:focus-visible {
   color: #0eeaf8;
   font-weight: 700;
   border: none;
@@ -328,7 +327,7 @@
 
 /* Tablet/Desktop/Responsive */
 @media screen and (min-width: 325px) {
-  .report-font {
+  .report-text {
     font-size: 1rem;
   }
 
@@ -338,7 +337,7 @@
 }
 
 @media screen and (min-width: 365px) {
-  .log-font {
+  .login-text {
     font-size: 2.5rem;
   }
 }
