@@ -43,7 +43,6 @@
 }
 
 /* Custom Utilities */
-
 .pri-bk-color {
   background-color: #692584;
 }
@@ -120,10 +119,6 @@
 .cancel {
   background-color: #b6b6b6;
 }
-
-/* .cancel:hover {
-  background-color: #797777;
-} */
 
 .cancel:disabled {
   background-color: #c9c7c7;

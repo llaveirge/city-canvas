@@ -98,7 +98,6 @@
 }
 
 /* Custom Utilities */
-
 .absolute-right {
   position: absolute;
   right: 25px;
@@ -150,7 +149,6 @@
   }
 
   .reg-form-links {
-    /* align-self: unset; */
     text-align: unset;
   }
 }
