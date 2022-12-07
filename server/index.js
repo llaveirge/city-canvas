@@ -751,7 +751,4 @@ app.delete('/api/delete-saved/:postId', (req, res, next) => {
 
 app.use(errorMiddleware);
 
-app.listen(process.env.PORT, () => {
-  // eslint-disable-next-line no-console
-  console.log(`express server listening on port ${process.env.PORT}`);
-});
+app.listen(process.env.POR);
