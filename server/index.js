@@ -751,4 +751,4 @@ app.delete('/api/delete-saved/:postId', (req, res, next) => {
 
 app.use(errorMiddleware);
 
-app.listen(process.env.POR);
+app.listen(process.env.PORT);

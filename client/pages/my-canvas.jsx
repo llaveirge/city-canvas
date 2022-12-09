@@ -69,7 +69,7 @@ export default class MyCanvas extends React.Component {
             </h2>
           </Row>
           <Row className='text-center'>
-            <p className='msg-font err-text fw-bold pt-4 px-4 '>
+            <p className='msg-font lh-base fw-bold pt-4 px-4 '>
               An account error has occurred. Please sign out and sign in again,
               or&nbsp;
               <a href='#registration' className='sec-color no-decoration'>
@@ -126,7 +126,7 @@ export default class MyCanvas extends React.Component {
                     />
                   ))
                   : <h6
-                    className='msg-font err-text pri-color text-center fw-bold'
+                    className='msg-font lh-base pri-color text-center fw-bold'
                     >
                       Nothing to see here...<br />
                       Get out and start pinning some street art!

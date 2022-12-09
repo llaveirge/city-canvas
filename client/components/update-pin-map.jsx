@@ -91,7 +91,7 @@ export default function UpdatePinMap(props) {
           </h2>
         </Row>
         <Row>
-          <p className='err-text msg-font fw-bold pt-5 px-4'>
+          <p className='msg-font lh-base fw-bold pt-5 px-4'>
             Sorry, something&apos;s not right here. Please try the following:
           </p>
 

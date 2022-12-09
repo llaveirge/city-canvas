@@ -12,11 +12,7 @@
   max-width: 370px;
 }
 
-.login-heading-row {
-  flex-basis: 100%;
-  flex-grow: 1;
-}
-
+.login-heading-row,
 .login-form-row {
   flex-basis: 100%;
   flex-grow: 1;

@@ -16,10 +16,6 @@
   font-size: 1.125rem;
 }
 
-.err-text {
-  line-height: 1.5;
-}
-
 .report-text {
   font-size: 0.875rem;
 }
@@ -86,6 +82,18 @@
   max-width: 40px;
   z-index: 2;
   border-radius: 3px;
+}
+
+.save-button {
+  border: none;
+}
+
+.save-button:focus-visible > .not-saved {
+  color: #0eeaf8;
+}
+
+.save-button:focus-visible > .saved {
+  color: #21cad6;
 }
 
 .no-decoration:hover,
@@ -328,12 +336,6 @@
 
   .postcard-title {
     font-size: 1.5rem;
-  }
-}
-
-@media screen and (min-width: 365px) {
-  .login-text {
-    font-size: 2.5rem;
   }
 }
 

@@ -72,7 +72,7 @@ export default class Home extends React.Component {
                 ))
                 : <h6
                   className=
-                    'msg-font err-text pri-color text-center fw-bold'
+                    'msg-font pri-color lh-base text-center fw-bold'
                   >
                     Brighten our community by contributing to City Canvas.
                     <br />Get out and start pinning some street art!
