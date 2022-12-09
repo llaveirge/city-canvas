@@ -63,6 +63,7 @@ export default class Home extends React.Component {
                     title={ pin.title }
                     artPhotoUrl={ pin.artPhotoUrl }
                     profileUrl={ pin.photoUrl }
+                    userName={ pin.userName }
                     artistName={ pin.artistName }
                     button='View More'
                     href={ `#pins?postId=${pin.postId}` }

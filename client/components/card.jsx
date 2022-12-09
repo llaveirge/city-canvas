@@ -8,6 +8,7 @@ export default function PostCard(props) {
         <Card.Img
           className='img-fluid pin-img-top'
           variant='top'
+          alt={`Image of '${props.title}' street art by ${props.artistName}.`}
           src={ props.artPhotoUrl }
         />
 
@@ -16,6 +17,7 @@ export default function PostCard(props) {
             <Container className='img-cont'>
               <Image
                 className='profile-pic sec-bk-color'
+                alt={`Profile image for user ${props.userName}.`}
                 src={ props.profileUrl }
               >
               </Image>
