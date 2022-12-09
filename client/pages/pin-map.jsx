@@ -18,10 +18,8 @@ import {
 } from '@react-google-maps/api';
 
 export default function PinMap(props) {
-  // Check for online status of the browser, if offline, send error message:
   if (!navigator.onLine) return <NetworkErrorPage />;
 
-  // Check if there is a user logged in, if not, redirect to registration page:
   const validUser = React.useContext(AppContext);
   if (!validUser.user) return <Redirect to='registration' />;
 
@@ -33,7 +31,6 @@ export default function PinMap(props) {
   click: */
   const center = React.useMemo(() => ({ lat: props.lat, lng: props.lng }), []);
 
-  // Toggle info window by Setting infoWindow state to marker location or null:
   const [infoWindow, setInfoWindow] = React.useState(null);
 
   /* Set map options to add custom style and limit points of interest on map
@@ -50,20 +47,17 @@ export default function PinMap(props) {
     mapRef.current = map;
   }, []);
 
-  // Pan to a location:
   const panTo = React.useCallback(({ lat, lng }) => {
     mapRef.current.panTo({ lat, lng });
     mapRef.current.setZoom(17);
   }, []);
 
-  // Show tooltip for target button that triggers the GeoLocate function:
   const showTooltip = props => (
     <Tooltip id='pm-target-button-tooltip' { ...props}>
       Target my location
     </Tooltip>
   );
 
-  // Use Geolocation to locate the user for targeting via a target button:
   function GeoLocate({ panTo }) {
     return (
       <button
@@ -91,7 +85,6 @@ export default function PinMap(props) {
     );
   }
 
-  // If there is an error loading the Google Map, display error message:
   if (loadError) {
     return (
       <Container>

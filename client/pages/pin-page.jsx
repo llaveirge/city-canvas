@@ -166,12 +166,11 @@ export default class PinPage extends React.Component {
     }
   }
 
-  // Show modal:
+  // Report modal:
   handleShow() {
     this.setState({ show: true });
   }
 
-  // Close modal:
   handleClose() {
     this.setState({ show: false });
   }

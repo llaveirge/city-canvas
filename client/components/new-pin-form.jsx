@@ -32,7 +32,6 @@ export default class NewPinForm extends React.Component {
     this.setState({ isLoading: newStatus });
   }
 
-  // Display form field error to user when field doesn't meet requirements:
   errorMessage(message, idName) {
     if (message) {
       return (
@@ -43,7 +42,6 @@ export default class NewPinForm extends React.Component {
     }
   }
 
-  // Update state with form field changes:
   handleChange(event) {
     const { name, value } = event.target;
     this.setState({ [name]: value });
@@ -58,12 +56,10 @@ export default class NewPinForm extends React.Component {
     const { title, artist, info, marker, isLoading, formErrors } = this.state;
     let errorsPresent = false;
 
-    // Clear any error messages from a previously failed form submission:
     if (formErrors) {
       this.setState({ formErrors: {} });
     }
 
-    // Check for empty fields and display error message where applicable:
     if (!title || !checkAlphanumeric(title)) {
       this.setState(oldState => ({
         formErrors: {
@@ -115,7 +111,6 @@ export default class NewPinForm extends React.Component {
       errorsPresent = true;
     }
 
-    // If there are no form errors present, submit form data:
     if (!errorsPresent) {
       const formData = new FormData();
       formData.append('title', title);

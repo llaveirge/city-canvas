@@ -5,20 +5,18 @@ import { Tooltip, OverlayTrigger, Container, Row } from 'react-bootstrap';
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
 
 export default function UpdatePinMap(props) {
-  // Check for online status of the browser, if offline, send error message:
   if (!navigator.onLine) return <NetworkErrorPage />;
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
   });
 
-  /* Establish starting coordinates, use useMemo hook to prevent rerendering on
+  /* Get coordinates from props, use useMemo hook to prevent rerendering on
   click: */
   const center = React.useMemo(() => ({
     lat: +props.marker.lat, lng: +props.marker.lng
   }), []);
 
-  // Set a custom marker via click:
   const onMapClick = React.useCallback(event => {
     props.setMarker({
       lat: event.latLng.lat(),
@@ -34,26 +32,22 @@ export default function UpdatePinMap(props) {
     fullscreenControl: true
   }), []);
 
-  // Prevent re-renders with useRef, specifically when placing markers:
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback(map => {
     mapRef.current = map;
   }, []);
 
-  // Pan to a location:
   const panTo = React.useCallback(({ lat, lng }) => {
     mapRef.current.panTo({ lat, lng });
     mapRef.current.setZoom(17);
   }, []);
 
-  // Show tooltip for target button that triggers the GeoLocate function:
   const showTooltip = props => (
     <Tooltip id='upm-target-button-tooltip' { ...props}>
       Target my location
     </Tooltip>
   );
 
-  // Use Geolocation to locate the user for targeting via target button:
   function GeoLocate({ panTo }) {
     return (
       <button
@@ -81,7 +75,6 @@ export default function UpdatePinMap(props) {
     );
   }
 
-  // If there is an error loading the Google Map, display error message:
   if (loadError) {
     return (
       <Container>

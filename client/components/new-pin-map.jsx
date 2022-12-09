@@ -5,7 +5,6 @@ import NetworkErrorPage from '../pages/network-error';
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
 
 export default function NewPinMap(props) {
-  // Check for online status of the browser, if offline, send error message:
   if (!navigator.onLine) return <NetworkErrorPage />;
 
   const { isLoaded, loadError } = useLoadScript({
@@ -16,7 +15,6 @@ export default function NewPinMap(props) {
   click: */
   const center = React.useMemo(() => ({ lat: 39.8283, lng: -98.5795 }), []);
 
-  // Set a custom marker via click:
   const onMapClick = React.useCallback(event => {
     props.setMarker({
       lat: event.latLng.lat(),
@@ -32,26 +30,22 @@ export default function NewPinMap(props) {
     fullscreenControl: true
   }), []);
 
-  // Prevent re-renders with useRef, specifically when placing markers:
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback(map => {
     mapRef.current = map;
   }, []);
 
-  // Pan to a location:
   const panTo = React.useCallback(({ lat, lng }) => {
     mapRef.current.panTo({ lat, lng });
     mapRef.current.setZoom(17);
   }, []);
 
-  // Show tooltip for target button that triggers the GeoLocate function:
   const showTooltip = props => (
     <Tooltip id='npm-target-button-tooltip' { ...props}>
       Target my location
     </Tooltip>
   );
 
-  // Use Geolocation to locate the user for targeting via target button:
   function GeoLocate({ panTo }) {
     return (
       <button
@@ -79,7 +73,6 @@ export default function NewPinMap(props) {
     );
   }
 
-  // If there is an error loading the Google Map, display error message:
   if (loadError) {
     return (
       <Container>

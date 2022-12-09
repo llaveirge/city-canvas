@@ -13,10 +13,8 @@ import {
 } from '@react-google-maps/api';
 
 export default function ArtFinder(props) {
-  // Check for online status of the browser, if offline, send error message:
   if (!navigator.onLine) return <NetworkErrorPage />;
 
-  // Check if there is a user logged in, if not, redirect to registration page:
   const validUser = React.useContext(AppContext);
   if (!validUser.user) return <Redirect to='registration' />;
 
@@ -29,7 +27,7 @@ export default function ArtFinder(props) {
   const [networkError, setNetworkError] = React.useState(false);
   const [internalError, setInternalError] = React.useState(false);
 
-  /* Get coordinates from props, use useMemo hook to prevent rerendering on
+  /* Establish starting coordinates, use useMemo hook to prevent rerendering on
   click: */
   const center = React.useMemo(() => ({ lat: 39.8283, lng: -98.5795 }), []);
 
@@ -41,13 +39,11 @@ export default function ArtFinder(props) {
     fullscreenControl: true
   }), []);
 
-  // Prevent re-renders with useRef, specifically when placing markers:
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback(map => {
     mapRef.current = map;
   }, []);
 
-  // Pan to a location:
   const panTo = React.useCallback(({ lat, lng }) => {
     mapRef.current.panTo({ lat, lng });
     mapRef.current.setZoom(14);
@@ -74,14 +70,12 @@ export default function ArtFinder(props) {
       });
   }, []);
 
-  // Show tooltip for target button that triggers the GeoLocate function:
   const showTooltip = props => (
     <Tooltip id='af-target-button-tooltip' { ...props}>
       Target my location
     </Tooltip>
   );
 
-  // Use Geolocation to locate the user for targeting via target button:
   function GeoLocate({ panTo }) {
     return (
       <button
@@ -109,7 +103,6 @@ export default function ArtFinder(props) {
     );
   }
 
-  // If there is an error loading the Google Map, display error message:
   if (loadError) {
     return (
       <Container>

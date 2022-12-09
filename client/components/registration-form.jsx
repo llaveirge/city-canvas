@@ -32,8 +32,6 @@ export default class RegistrationForm extends React.Component {
     this.setState({ isLoading: newStatus });
   }
 
-  /* Display password form field help block text or error when password
-  requirements are not met: */
   passwordMessage(passwordStatus) {
     if (passwordStatus) {
       return (
@@ -50,7 +48,6 @@ export default class RegistrationForm extends React.Component {
     }
   }
 
-  // Display form field error to user when field doesn't meet requirements:
   errorMessage(message, idName) {
     if (message) {
       return (
@@ -61,7 +58,6 @@ export default class RegistrationForm extends React.Component {
     }
   }
 
-  // Update state with form field changes:
   handleChange(event) {
     const { name, value } = event.target;
     this.setState({ [name]: value });
@@ -80,12 +76,10 @@ export default class RegistrationForm extends React.Component {
     } = this.state;
     let errorsPresent = false;
 
-    // Clear the form error message text, if any:
     if (formErrors) {
       this.setState({ formErrors: {} });
     }
 
-    // Check for empty fields and display error message where applicable:
     if (!first || !checkAlphanumeric(first)) {
       this.setState(oldState => ({
         formErrors: {
@@ -152,7 +146,6 @@ export default class RegistrationForm extends React.Component {
       errorsPresent = true;
     }
 
-    // If there are no form errors present, submit form data:
     if (!errorsPresent) {
       const formData = new FormData();
       formData.append('first', first);
