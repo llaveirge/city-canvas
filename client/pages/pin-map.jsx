@@ -138,12 +138,14 @@ export default function PinMap(props) {
           <GeoLocate panTo={ panTo } />
 
           <Marker
+            title={ `Pin for ${props.title}` }
             position={{ lat: center.lat, lng: center.lng }}
             icon={{
               url: '/city-canvas-images/pt-pin-sm.webp',
               scaledSize: new window.google.maps.Size(50, 50),
               anchor: new window.google.maps.Point(25, 40)
             }}
+            aria-label='View pin button'
             onClick={() => {
               setInfoWindow({ center });
             }}

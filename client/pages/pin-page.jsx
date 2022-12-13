@@ -289,15 +289,20 @@ export default class PinPage extends React.Component {
         <Container className='pin-cont d-flex align-items-center pt-sm-5 pt-3'>
           <Image
             className='profile-pic sec-bk-color'
+            alt={`Profile image for user ${pin.userName}.`}
             src={ pin.photoUrl }
           ></Image>
           <p className='fs-5-5-sm mb-0 ms-3'>{ pin.username }</p>
         </Container>
 
-        <Container className=' pin-cont mt-4'>
+        <Container className='pin-cont mt-4'>
           <Card className='flex-sm-row'>
             <Col>
-              <Card.Img className='full-pin-img' src={ pin.artPhotoUrl } />
+              <Card.Img
+                className='full-pin-img'
+                alt={`Image of '${pin.title}' street art by ${pin.artistName}.`}
+                src={ pin.artPhotoUrl }
+              />
             </Col>
 
             <Col className='custom-basis'>
@@ -325,7 +330,8 @@ export default class PinPage extends React.Component {
                   <Card.Link
                     href={
                       `#pin-map?pinId=${pin.postId}&lat=${pin.lat}&lng=${
-                        pin.lng}&img=${encodeURIComponent(pin.artPhotoUrl)}`
+                        pin.lng}&title=${pin.title}&img=${
+                        encodeURIComponent(pin.artPhotoUrl)}`
                     }
                     className='sec-color fs-5-5 no-decoration fw-bold'
                   >
@@ -360,6 +366,9 @@ export default class PinPage extends React.Component {
                         role='button'
                         as='button'
                         type='button'
+                        aria-label={!pin.savedByCurrentUser
+                          ? 'Save pin button'
+                          : 'Remove save button'}
                         className='save-button p-0 bg-white ab-bottom-right'>
                           <OverlayTrigger
                             placement='top'

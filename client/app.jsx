@@ -71,7 +71,13 @@ export default class App extends React.Component {
       const lng = route.params.get('lng');
       const img = route.params.get('img');
       const pinId = route.params.get('pinId');
-      return <PinMap lat={ +lat } lng={ +lng } img={ img } pinId={ pinId } />;
+      const title = route.params.get('title');
+
+      return (
+        <PinMap
+          lat={ +lat } lng={ +lng } img={ img } pinId={ pinId } title={ title }
+        />
+      );
     }
     if (route.path === 'update-pin') {
       const postId = route.params.get('postId');

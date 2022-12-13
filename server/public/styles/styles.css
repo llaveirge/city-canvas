@@ -56,11 +56,11 @@
 }
 
 .warning-bk {
-  background-color: #f54f31;
+  background: #db2a0a;
 }
 
 .grey {
-  color: #b6b6b6;
+  color: #767474;
 }
 
 .no-decoration {
@@ -104,32 +104,33 @@
 
 .ab-bottom:hover,
 .ab-bottom:focus-visible {
-  color: #f54f31;
+  color: #db2a0a;
 }
 
 .del:hover {
-  background-color: #c7422b;
+  background: #c0412a;
 }
 
 .del:disabled {
-  background-color: #c7422b;
+  background: #c0412a;
   box-shadow: none;
 }
 
 .del:focus-visible,
 .del:active,
+.del:focus,
 .del:active:focus {
-  background-color: #c7422b;
-  box-shadow: 0 0 0 0.25rem rgb(199, 66, 43);
+  background: #c0412a;
+  box-shadow: 0 0 0 0.25rem #c0412a;
   border: none;
 }
 
 .cancel {
-  background-color: #b6b6b6;
+  background: #b6b6b6;
 }
 
 .cancel:disabled {
-  background-color: #c9c7c7;
+  background: #c9c7c7;
   box-shadow: none;
   color: white;
 }
@@ -137,7 +138,7 @@
 .cancel:focus-visible,
 .cancel:active,
 .cancel:active:focus {
-  background-color: #797777;
+  background: #797777;
   box-shadow: 0 0 0 0.25rem rgb(121, 119, 119);
   color: white;
 }
@@ -163,11 +164,11 @@
   }
 
   .cancel:hover {
-    background-color: #797777;
+    background: #797777;
   }
 
   .del:hover {
-    background-color: #c7422b;
+    background: #c0412a;
   }
 
   .link:hover {
