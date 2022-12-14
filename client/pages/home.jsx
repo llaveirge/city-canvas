@@ -72,19 +72,18 @@ export default class Home extends React.Component {
                   />
                 ))
                 : <h6
-                  className=
-                    'msg-font pri-color lh-base text-center fw-bold'
+                    className='msg-font pri-color lh-base text-center fw-bold'
                   >
                     Brighten our community by contributing to City Canvas.
                     <br />Get out and start pinning some street art!
                     <br />
                     <br />
-                      <a
-                        className='sec-color fw-bold no-decoration'
-                        href='#new-pin'
-                      >
-                        Create a City Canvas Pin here
-                      </a>
+                    <a
+                    className='sec-color fw-bold no-decoration'
+                    href='#new-pin'
+                    >
+                      Create a City Canvas Pin here
+                    </a>
                   </h6>
             }
           </Col>

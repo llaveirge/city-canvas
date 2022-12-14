@@ -165,7 +165,6 @@ export default class UpdatePinForm extends React.Component {
       this.setState({ formErrors: {} });
     }
 
-    // Check for empty fields and display error message were applicable:
     if (!title || !checkAlphanumeric(title)) {
       this.setState(oldState => ({
         formErrors: {
@@ -367,7 +366,6 @@ export default class UpdatePinForm extends React.Component {
 
             <Button
               className='del warning-bk float-end mt-3 mb-5'
-              type='button'
               onClick={ handleShowDelete }
               disabled={ state.isLoading }
             >

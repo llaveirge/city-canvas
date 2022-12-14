@@ -1,5 +1,11 @@
 import React from 'react';
-import { Navbar, Tooltip, OverlayTrigger, Container, Row } from 'react-bootstrap';
+import {
+  Navbar,
+  Tooltip,
+  OverlayTrigger,
+  Container,
+  Row
+} from 'react-bootstrap';
 import { AppContext } from '../lib';
 import Redirect from '../components/redirect';
 import LoadingSpinner from '../components/loading-spinner';

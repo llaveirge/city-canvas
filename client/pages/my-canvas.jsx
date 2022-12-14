@@ -110,7 +110,7 @@ export default class MyCanvas extends React.Component {
           <Row className='pt-2'>
             <Col>
               { isLoading
-                ? <LoadingSpinner/>
+                ? <LoadingSpinner />
                 : pins.length
                   ? pins.map(pin => (
                     <PostCard

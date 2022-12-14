@@ -41,7 +41,6 @@ export default function PinMap(props) {
     fullscreenControl: true
   }), []);
 
-  // Prevent map re-renders with useRef, specifically when placing markers:
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback(map => {
     mapRef.current = map;

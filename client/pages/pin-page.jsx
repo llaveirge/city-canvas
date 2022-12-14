@@ -266,8 +266,8 @@ export default class PinPage extends React.Component {
               <a href='#registration' className='sec-color no-decoration'>
                 create an account
               </a>.
-            <br />
-            <br />
+              <br />
+              <br />
               <a
                 href='#registration'
                 className='sec-color fw-bold no-decoration'
@@ -345,6 +345,7 @@ export default class PinPage extends React.Component {
                   { !pin.reported
                     ? <Card.Link
                         role='button'
+                        type='button'
                         className={
                           !isSaving
                             ? 'ab-bottom grey report-text me-5'
@@ -369,23 +370,24 @@ export default class PinPage extends React.Component {
                         aria-label={!pin.savedByCurrentUser
                           ? 'Save pin button'
                           : 'Remove save button'}
-                        className='save-button p-0 bg-white ab-bottom-right'>
-                          <OverlayTrigger
-                            placement='top'
-                            delay={{ show: 450 }}
-                            overlay={
-                              <Tooltip id='save-pin-tooltip'>
-                              { !pin.savedByCurrentUser
-                                ? 'Save pin'
-                                : 'Remove save'}
-                              </Tooltip>
-                            }
-                          >
-                            <i className={ pin.savedByCurrentUser === null
-                              ? 'grey not-saved fas fa-heart fa-lg'
-                              : 'sec-color saved fas fa-heart fa-lg' }
-                              onClick={ this.toggleSaved }></i>
-                          </OverlayTrigger>
+                        className='save-button p-0 bg-white ab-bottom-right'
+                      >
+                        <OverlayTrigger
+                          placement='top'
+                          delay={{ show: 450 }}
+                          overlay={
+                            <Tooltip id='save-pin-tooltip'>
+                            { !pin.savedByCurrentUser
+                              ? 'Save pin'
+                              : 'Remove save'}
+                            </Tooltip>
+                          }
+                        >
+                          <i className={ pin.savedByCurrentUser === null
+                            ? 'grey not-saved fas fa-heart fa-lg'
+                            : 'sec-color saved fas fa-heart fa-lg' }
+                            onClick={ this.toggleSaved }></i>
+                        </OverlayTrigger>
                       </Card.Link>
                     : <Card.Link className='ab-bottom-right'>
                         <SavingSpinner />

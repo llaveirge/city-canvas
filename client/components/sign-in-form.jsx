@@ -131,7 +131,9 @@ export default class SignInForm extends React.Component {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username: 'guest username', password: 'guest password' })
+        body: JSON.stringify({
+          username: 'guest username', password: 'guest password'
+        })
       };
       this.toggleLoadingSpinner(this.state.isLoading);
       fetch('/api/auth/sign-in', req)
@@ -201,14 +203,12 @@ export default class SignInForm extends React.Component {
           <h1 className='head-text pri-color text-center mt-4 mb-3 pt-4 pb-1'>
             City Canvas
           </h1>
-          <h2
-            className='msg-font fs-5-5 pri-color text-center mb-4 pb-3'
-          >
+          <h2 className='msg-font fs-5-5 pri-color text-center mb-4 pb-3'>
             Share and discover street art in your city and beyond!
           </h2>
         </Row>
-        <Row className='login-form-row justify-content-center'>
 
+        <Row className='login-form-row justify-content-center'>
           <Form
             className='login-form position-relative pb-4 px-5 px-md-2'
             onSubmit={ handleSubmit }
@@ -255,13 +255,15 @@ export default class SignInForm extends React.Component {
               <Button
                 className='mt-1 mb-2'
                 type='submit'
-                disabled={ state.isLoading }>
-                  Submit
+                disabled={ state.isLoading }
+              >
+                Submit
               </Button>
                 <a
                   href='#registration?form=sign-up'
-                  className='reg-form-links pri-color link mt-2'>
-                    New here? Sign up
+                  className='reg-form-links pri-color link mt-2'
+                >
+                  New here? Sign up
                 </a>
             </div>
 
@@ -272,15 +274,16 @@ export default class SignInForm extends React.Component {
                   <Tooltip id='guest-login-tooltip'>
                     Sign in as guest, DemoDane
                   </Tooltip>
-                }>
-                  <Button
-                    type='button'
-                    size='lg'
-                    className='mt-1 mb-2'
-                    onClick={ this.guestLogin }
-                    disabled={ state.isLoading }>
-                      Sign In as Guest
-                  </Button>
+                }
+              >
+                <Button
+                  size='lg'
+                  className='mt-1 mb-2'
+                  onClick={ this.guestLogin }
+                  disabled={ state.isLoading }
+                >
+                  Sign In as Guest
+                </Button>
               </OverlayTrigger>
              </div>
             { state.isLoading
@@ -288,7 +291,6 @@ export default class SignInForm extends React.Component {
               : null
             }
           </Form>
-
         </Row>
       </Container>
     );
