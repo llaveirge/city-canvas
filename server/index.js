@@ -700,8 +700,8 @@ app.patch('/api/report/:postId', (req, res, next) => {
       if (!reported) {
         throw new ClientError(
           404,
-            `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${
-              postId}. It may have been deleted or not yet created.`
+          `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${
+            postId}. It may have been deleted or not yet created.`
         );
       }
       res.json(reported);
