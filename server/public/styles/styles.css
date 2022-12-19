@@ -137,6 +137,7 @@
 
 .cancel:focus-visible,
 .cancel:active,
+.cancel:focus,
 .cancel:active:focus {
   background: #797777;
   box-shadow: 0 0 0 0.25rem rgb(121, 119, 119);
