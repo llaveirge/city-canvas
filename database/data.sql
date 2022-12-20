@@ -12,7 +12,7 @@ insert into "users" (	"firstName",
 values ('Frank', 'Baggol', 'fbaggol@placeholdermail.com', 'TheRealSlimFrankie', 'https://citycanvaspins.s3.us-west-1.amazonaws.com/resized-image-1668114371449.jpg', 'dj43asldjhasjhawlejqwejnqmwnebmnabsdasuskyaudas1287361892763dajkshdlkj'),
 ('Wendy', 'Undomy', 'wundomy@placeholdermail.com', 'WendyU', 'https://citycanvaspins.s3.us-west-1.amazonaws.com/resized-image-1668114506686.jpg', 'd3342jasldjhasjhawlejqwejnqmasdasdasdasdasdasdaasdasdasd32423423492763dajkshdlkj'),
 ('Sam', 'Gambian', 'sgambian@placeholdermail.com', 'SamTheMan', 'https://citycanvaspins.s3.us-west-1.amazonaws.com/resized-image-1668114606313.jpg', 'd1jasdasdasdasdasjhawle234234jqwejnqmwnebmnabasdasds1287361892763dajkshdlkj'),
-('Dane', 'Doe', 'demo@placeholdermail.com', 'DemoDane', 'https://citycanvaspins.s3.us-west-1.amazonaws.com/resized-image-1668114669374.jpg', '$argon2i$v=19$m=4096,t=3,p=1$vn6B7nd7b/nOXkYg6VPT2Q$AeI9LSP3pKftIEJOYxLE5KMVDcdldA7ASjMPCYhiw/s');
+('Dane', 'Doe', 'demo@placeholdermail.com', 'DemoDane', 'https://citycanvaspins.s3.us-west-1.amazonaws.com/resized-image-1668114669374.jpg', '$argon2i$v=19$m=4096,t=3,p=1$iWp4oL/znMoW0Od6G3RV5w$wrVyD/Tld2oRcgr9Z3utMl7xoFo+u2+dWg8MSfjhNL4');
 
 
 insert into "posts" (

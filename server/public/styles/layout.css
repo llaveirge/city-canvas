@@ -12,11 +12,7 @@
   max-width: 370px;
 }
 
-.login-heading-row {
-  flex-basis: 100%;
-  flex-grow: 1;
-}
-
+.login-heading-row,
 .login-form-row {
   flex-basis: 100%;
   flex-grow: 1;
@@ -27,7 +23,6 @@
 }
 
 .reg-form-links {
-  align-self: center;
   text-align: center;
 }
 
@@ -57,10 +52,6 @@
   max-width: 1300px;
 }
 
-.art-info {
-  padding: 0 1rem;
-}
-
 .pin-img-top {
   height: 85vh;
   object-fit: cover;
@@ -69,7 +60,6 @@
 /* Maps */
 .form-map-cont {
   height: 320px;
-  width: 100%;
 }
 
 .form-map {
@@ -88,14 +78,13 @@
   height: 5%;
 }
 
-.form-container {
+.form-cont {
   max-width: 550px;
 }
 
 .info-img-cont {
   height: 140px;
   max-width: 200px;
-  padding: 0;
 }
 
 .info-img {
@@ -105,14 +94,6 @@
 }
 
 /* Custom Utilities */
-.mar-top-4r {
-  margin-top: 4rem;
-}
-
-.mar-bottom-4r {
-  margin-bottom: 4rem;
-}
-
 .absolute-right {
   position: absolute;
   right: 25px;
@@ -144,7 +125,7 @@
   height: 13px;
 }
 
-/* Smartphone/Responsive */
+/* Tablet/Desktop/Responsive */
 @media screen and (min-height: 380px) {
   .pin-img-top {
     max-height: 55vh;
@@ -159,13 +140,11 @@
 
 @media screen and (min-width: 365px) {
   .login-form-actions {
-    flex-wrap: nowrap;
     align-items: baseline;
     flex-direction: row;
   }
 
   .reg-form-links {
-    align-self: unset;
     text-align: unset;
   }
 }

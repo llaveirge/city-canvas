@@ -12,15 +12,11 @@
   font-family: "Rock Salt", cursive;
 }
 
-.feature-font {
+.fs-5-5 {
   font-size: 1.125rem;
 }
 
-.err-text {
-  line-height: 175%;
-}
-
-.report {
+.report-text {
   font-size: 0.875rem;
 }
 
@@ -60,11 +56,11 @@
 }
 
 .warning-bk {
-  background-color: #f54f31;
+  background: #db2a0a;
 }
 
 .grey {
-  color: #b6b6b6;
+  color: #767474;
 }
 
 .no-decoration {
@@ -88,55 +84,69 @@
   border-radius: 3px;
 }
 
-.no-decoration:hover {
+.save-button {
+  border: none;
+}
+
+.save-button:focus-visible > .not-saved {
+  color: #0eeaf8;
+}
+
+.save-button:focus-visible > .saved {
   color: #21cad6;
 }
 
-.ab-bottom:hover {
-  color: #f54f31;
+.no-decoration:hover,
+.no-decoration:active,
+.no-decoration:focus-visible {
+  color: #21cad6;
+}
+
+.ab-bottom:hover,
+.ab-bottom:focus-visible {
+  color: #db2a0a;
 }
 
 .del:hover {
-  background-color: #c7422b;
+  background: #c0412a;
 }
 
 .del:disabled {
-  background-color: #c7422b;
+  background: #c0412a;
   box-shadow: none;
 }
 
-.del:focus,
+.del:focus-visible,
 .del:active,
+.del:focus,
 .del:active:focus {
-  background-color: #c7422b;
-  box-shadow: 0 0 0 0.25rem rgb(199, 66, 43);
+  background: #c0412a;
+  box-shadow: 0 0 0 0.25rem #c0412a;
+  border: none;
 }
 
 .cancel {
-  background-color: #b6b6b6;
-}
-
-.cancel:hover {
-  background-color: #797777;
+  background: #b6b6b6;
 }
 
 .cancel:disabled {
-  background-color: #c9c7c7;
+  background: #c9c7c7;
   box-shadow: none;
   color: white;
 }
 
-.cancel:focus,
+.cancel:focus-visible,
 .cancel:active,
+.cancel:focus,
 .cancel:active:focus {
-  background-color: #797777;
+  background: #797777;
   box-shadow: 0 0 0 0.25rem rgb(121, 119, 119);
   color: white;
 }
 
-.link:focus {
+.link:focus-visible {
   color: #0eeaf8;
-  font-weight: bolder;
+  font-weight: 700;
   border: none;
   outline: none;
 }
@@ -155,15 +165,16 @@
   }
 
   .cancel:hover {
-    background-color: #797777;
+    background: #797777;
   }
 
   .del:hover {
-    background-color: #c7422b;
+    background: #c0412a;
   }
 
   .link:hover {
     color: #0eeaf8;
+    font-weight: 400;
   }
 
   .target:hover {
@@ -174,7 +185,7 @@
   .nav-drop:hover {
     color: #0eeaf8;
     background-color: white;
-    font-weight: bold;
+    font-weight: 700;
   }
 }
 
@@ -319,20 +330,14 @@
   }
 }
 
-/* Smartphone/Responsive */
+/* Tablet/Desktop/Responsive */
 @media screen and (min-width: 325px) {
-  .report {
+  .report-text {
     font-size: 1rem;
   }
 
   .postcard-title {
     font-size: 1.5rem;
-  }
-}
-
-@media screen and (min-width: 365px) {
-  .log-font {
-    font-size: 2.5rem;
   }
 }
 
@@ -349,7 +354,7 @@
     border-radius: 3px;
   }
 
-  .feature-font-sm {
+  .fs-5-5-sm {
     font-size: 1.125rem;
   }
 }

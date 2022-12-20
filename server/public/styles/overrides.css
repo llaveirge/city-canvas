@@ -2,79 +2,81 @@ body {
   min-width: 280px;
   margin: 0 auto;
   font-family: Montserrat, sans-serif;
-  color: #292929;
-  background-image: url("/city-canvas-images/white_brick_fade_dk.webp");
+  background-image: url("/city-canvas-images/white-brick-fade-dk.webp");
   background-attachment: fixed;
   background-position: center;
 }
 
 /* Buttons and Navbar */
 .btn {
-  background-color: #0eeaf8;
+  background: linear-gradient(#0eeaf8, #21cad6);
   border-style: none;
   font-size: 1.125rem;
   font-weight: 500;
 }
 
-.btn:hover {
-  background-color: #21cad6;
+.btn-primary:disabled,
+.btn-primary.disabled {
+  background: linear-gradient(#21cad6, #1dafb9);
+  border: none;
+  box-shadow: none;
 }
 
+.btn:focus-visible,
 .btn:focus,
-.btn-primary:focus,
+.btn-primary:focus-visible,
 .btn-primary:active:focus,
 .btn:active {
-  background-color: #21cad6;
+  background: linear-gradient(#21cad6, #1dafb9);
   border: none;
-  box-shadow: 0 0 0 0.25rem rgb(33 202 214);
-}
-
-.btn:disabled {
-  background-color: #21cad6;
-  border: none;
-  box-shadow: none;
-}
-
-.btn-primary.disabled {
-  background-color: #21cad6;
-  border: none;
-  box-shadow: none;
+  box-shadow: 0 0 0 0.25rem #1dafb9;
 }
 
 .navbar-brand {
   font-size: 1.5rem;
-  border: none;
-  box-shadow: none;
 }
 
-.navbar-brand.head-text:focus {
-  font-weight: bolder;
+.navbar-dark .navbar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.navbar-dark .navbar-nav .nav-link:focus,
+.navbar-dark .navbar-nav .nav-link:focus-visible,
+.navbar-dark .navbar-nav .nav-link:active {
+  color: #fff;
+  font-weight: 500;
+}
+
+.navbar-brand.head-text:focus,
+.navbar-brand.head-text:focus-visible,
+.navbar-brand.head-text:active {
+  font-weight: 700;
 }
 
 @media (hover: hover) {
   .btn:hover {
-    background-color: #21cad6;
+    background: linear-gradient(#21cad6, #1dafb9);
+  }
+
+  .navbar-dark .navbar-nav .nav-link:hover {
+    color: #fff;
+    font-weight: 500;
   }
 
   .navbar-brand.head-text:hover {
-    font-weight: bolder;
+    font-weight: 700;
   }
 }
 
 /* Utilities and Cards */
 .warning {
-  color: #f54f31;
+  color: #db2a0a;
 }
 
 .card {
   margin-bottom: 1.5rem;
   border: 1px solid #0eeaf8;
   filter: drop-shadow(2px 5px 2px #b9b8b89c);
-}
-
-.modal-backdrop {
-  width: 100%;
-  height: 100%;
 }
 
 /* Forms */
@@ -93,7 +95,7 @@ body {
   box-shadow: none;
 }
 
-/* Smartphone/Responsive */
+/* Tablet/Desktop/Responsive */
 @media screen and (min-width: 376px) {
   .card {
     margin-bottom: 2.8rem;

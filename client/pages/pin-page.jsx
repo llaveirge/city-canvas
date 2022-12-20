@@ -166,12 +166,11 @@ export default class PinPage extends React.Component {
     }
   }
 
-  // Show modal:
+  // Report modal:
   handleShow() {
     this.setState({ show: true });
   }
 
-  // Close modal:
   handleClose() {
     this.setState({ show: false });
   }
@@ -238,7 +237,7 @@ export default class PinPage extends React.Component {
             </h2>
           </Row>
           <Row className='text-center'>
-            <p className='msg-font err-text fw-bold pt-4 px-4'>
+            <p className='msg-font lh-base fw-bold pt-4 px-4'>
               We can&apos;t seem to find the pin you&apos;re looking for. The
               pin may have been removed or not yet created!
             <br />
@@ -261,14 +260,14 @@ export default class PinPage extends React.Component {
             </h2>
           </Row>
           <Row className='text-center'>
-            <p className='msg-font err-text fw-bold pt-4 px-4'>
+            <p className='msg-font lh-base fw-bold pt-4 px-4'>
               An account error has occurred. Please sign out and sign in again,
               or&nbsp;
               <a href='#registration' className='sec-color no-decoration'>
                 create an account
               </a>.
-            <br />
-            <br />
+              <br />
+              <br />
               <a
                 href='#registration'
                 className='sec-color fw-bold no-decoration'
@@ -290,15 +289,20 @@ export default class PinPage extends React.Component {
         <Container className='pin-cont d-flex align-items-center pt-sm-5 pt-3'>
           <Image
             className='profile-pic sec-bk-color'
+            alt={`Profile image for user ${pin.userName}.`}
             src={ pin.photoUrl }
           ></Image>
-          <p className='feature-font-sm mb-0 ms-3'>{ pin.username }</p>
+          <p className='fs-5-5-sm mb-0 ms-3'>{ pin.username }</p>
         </Container>
 
-        <Container className=' pin-cont mt-4'>
+        <Container className='pin-cont mt-4'>
           <Card className='flex-sm-row'>
             <Col>
-              <Card.Img className='full-pin-img' src={ pin.artPhotoUrl } />
+              <Card.Img
+                className='full-pin-img'
+                alt={`Image of '${pin.title}' street art by ${pin.artistName}.`}
+                src={ pin.artPhotoUrl }
+              />
             </Col>
 
             <Col className='custom-basis'>
@@ -326,9 +330,10 @@ export default class PinPage extends React.Component {
                   <Card.Link
                     href={
                       `#pin-map?pinId=${pin.postId}&lat=${pin.lat}&lng=${
-                        pin.lng}&img=${encodeURIComponent(pin.artPhotoUrl)}`
+                        pin.lng}&title=${pin.title}&img=${
+                        encodeURIComponent(pin.artPhotoUrl)}`
                     }
-                    className='sec-color feature-font no-decoration fw-bold'
+                    className='sec-color fs-5-5 no-decoration fw-bold'
                   >
                     <i className='fas fa-map-marker-alt fa-lg me-2'></i>
                     On The Map
@@ -340,24 +345,33 @@ export default class PinPage extends React.Component {
                   { !pin.reported
                     ? <Card.Link
                         role='button'
+                        type='button'
                         className={
                           !isSaving
-                            ? 'ab-bottom grey report me-5'
-                            : 'ab-bottom grey report pe-none me-5'}
+                            ? 'ab-bottom grey report-text me-5'
+                            : 'ab-bottom grey report-text pe-none me-5'}
                         tabIndex={ !isSaving ? '0' : '-1'}
                         aria-disabled={ isSaving }
                         onClick={ !isSaving ? this.handleShow : null }>
                           Report as removed from view
                       </Card.Link>
                     : <Card.Text
-                      className='ab-bottom report warning mb-0 me-5 pe-1'
+                      className='ab-bottom report-text warning mb-0 me-5 pe-1'
                       >
                         Reported as removed from view
                       </Card.Text>
                   }
 
                   { !isSaving
-                    ? <Card.Link className='bg-white ab-bottom-right'>
+                    ? <Card.Link
+                        role='button'
+                        as='button'
+                        type='button'
+                        aria-label={!pin.savedByCurrentUser
+                          ? 'Save pin button'
+                          : 'Remove save button'}
+                        className='save-button p-0 bg-white ab-bottom-right'
+                      >
                         <OverlayTrigger
                           placement='top'
                           delay={{ show: 450 }}
@@ -367,7 +381,8 @@ export default class PinPage extends React.Component {
                               ? 'Save pin'
                               : 'Remove save'}
                             </Tooltip>
-                          }>
+                          }
+                        >
                           <i className={ pin.savedByCurrentUser === null
                             ? 'grey not-saved fas fa-heart fa-lg'
                             : 'sec-color saved fas fa-heart fa-lg' }

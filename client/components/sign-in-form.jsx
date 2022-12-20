@@ -35,7 +35,6 @@ export default class SignInForm extends React.Component {
     this.setState({ isLoading: newStatus });
   }
 
-  // Display form field error to user when field doesn't meet requirements:
   errorMessage(message, idName) {
     if (message) {
       return (
@@ -46,7 +45,6 @@ export default class SignInForm extends React.Component {
     }
   }
 
-  // Update state with form field changes:
   handleChange(event) {
     const { name, value } = event.target;
     this.setState({ [name]: value });
@@ -57,12 +55,10 @@ export default class SignInForm extends React.Component {
     const { username, password, formErrors } = this.state;
     let errorsPresent = false;
 
-    // Clear any error messages from a previously failed form submission:
     if (formErrors) {
       this.setState({ formErrors: {}, error: null });
     }
 
-    // Check for empty fields and display error message where applicable:
     if (!username) {
       this.setState(oldState => ({
         formErrors: {
@@ -84,7 +80,6 @@ export default class SignInForm extends React.Component {
       errorsPresent = true;
     }
 
-    // If there are no form errors present, submit form data:
     if (!errorsPresent) {
       const req = {
         method: 'POST',
@@ -136,7 +131,9 @@ export default class SignInForm extends React.Component {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username: 'DemoDane', password: 'Password2' })
+        body: JSON.stringify({
+          username: 'guest username', password: 'guest password'
+        })
       };
       this.toggleLoadingSpinner(this.state.isLoading);
       fetch('/api/auth/sign-in', req)
@@ -203,14 +200,15 @@ export default class SignInForm extends React.Component {
         className='login-cont bg-white d-flex flex-wrap align-self-center px-4'
       >
         <Row className='login-heading-row'>
-          <h1
-            className='log-font head-text pri-color text-center my-4 pt-4 pb-1'
-          >
+          <h1 className='head-text pri-color text-center mt-4 mb-3 pt-4 pb-1'>
             City Canvas
           </h1>
+          <h2 className='msg-font fs-5-5 pri-color text-center mb-4 pb-3'>
+            Share and discover street art in your city and beyond!
+          </h2>
         </Row>
-        <Row className='login-form-row justify-content-center'>
 
+        <Row className='login-form-row justify-content-center'>
           <Form
             className='login-form position-relative pb-4 px-5 px-md-2'
             onSubmit={ handleSubmit }
@@ -257,13 +255,15 @@ export default class SignInForm extends React.Component {
               <Button
                 className='mt-1 mb-2'
                 type='submit'
-                disabled={ state.isLoading }>
-                  Submit
+                disabled={ state.isLoading }
+              >
+                Submit
               </Button>
                 <a
                   href='#registration?form=sign-up'
-                  className='reg-form-links pri-color link mt-2'>
-                    New here? Sign up
+                  className='reg-form-links pri-color link mt-2'
+                >
+                  New here? Sign up
                 </a>
             </div>
 
@@ -274,15 +274,16 @@ export default class SignInForm extends React.Component {
                   <Tooltip id='guest-login-tooltip'>
                     Sign in as guest, DemoDane
                   </Tooltip>
-                }>
-                  <Button
-                    type='button'
-                    size='lg'
-                    className='mt-1 mb-2'
-                    onClick={ this.guestLogin }
-                    disabled={ state.isLoading }>
-                      Sign In as Guest
-                  </Button>
+                }
+              >
+                <Button
+                  size='lg'
+                  className='mt-1 mb-2'
+                  onClick={ this.guestLogin }
+                  disabled={ state.isLoading }
+                >
+                  Sign In as Guest
+                </Button>
               </OverlayTrigger>
              </div>
             { state.isLoading
@@ -290,7 +291,6 @@ export default class SignInForm extends React.Component {
               : null
             }
           </Form>
-
         </Row>
       </Container>
     );

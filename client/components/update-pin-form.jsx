@@ -83,17 +83,16 @@ export default class UpdatePinForm extends React.Component {
       });
   }
 
-  // Show Reported modal:
+  // Reported modal:
   handleShowReported() {
     this.setState({ showReported: true });
   }
 
-  // Close Reported modal
   handleCloseReported() {
     this.setState({ showReported: false });
   }
 
-  // Show Delete modal:
+  // Delete modal:
   handleShowDelete() {
     if (this.state.showReported) {
       this.handleCloseReported();
@@ -102,7 +101,6 @@ export default class UpdatePinForm extends React.Component {
     this.setState({ showDelete: true });
   }
 
-  // Close Delete modal:
   handleCloseDelete() {
     this.setState({ showDelete: false });
   }
@@ -138,7 +136,6 @@ export default class UpdatePinForm extends React.Component {
       });
   }
 
-  // Display form field error to user when field doesn't meet requirements:
   errorMessage(message, idName) {
     if (message) {
       return (
@@ -149,7 +146,6 @@ export default class UpdatePinForm extends React.Component {
     }
   }
 
-  // Update state with form field changes:
   handleChange(event) {
     const { name, value } = event.target;
     this.setState({ [name]: value });
@@ -165,12 +161,10 @@ export default class UpdatePinForm extends React.Component {
     const { title, artist, info, marker, isLoading, formErrors } = this.state;
     let errorsPresent = false;
 
-    // Clear any error messages from a previously failed form submission:
     if (formErrors) {
       this.setState({ formErrors: {} });
     }
 
-    // Check for empty fields and display error message where applicable:
     if (!title || !checkAlphanumeric(title)) {
       this.setState(oldState => ({
         formErrors: {
@@ -212,7 +206,6 @@ export default class UpdatePinForm extends React.Component {
       errorsPresent = true;
     }
 
-    // If there are no form errors present, submit form data:
     if (!errorsPresent) {
       const formData = new FormData();
       formData.append('title', title);
@@ -284,7 +277,7 @@ export default class UpdatePinForm extends React.Component {
           showDelete={ handleShowDelete }
         />
 
-        <Container className = 'form-container px-0'>
+        <Container className = 'form-cont px-0'>
           <Form className='position-relative pb-3' onSubmit={ handleSubmit }>
             <Form.Label className='mt-2' htmlFor='title'>
               Street Art Title:
@@ -323,7 +316,9 @@ export default class UpdatePinForm extends React.Component {
               : null
             }
 
-            <Form.Label>Street Art Photo:</Form.Label>
+            <Form.Label htmlFor='image'>
+              Street Art Photo:
+            </Form.Label>
             <Form.Control
               id='image'
               type='file'
@@ -371,7 +366,6 @@ export default class UpdatePinForm extends React.Component {
 
             <Button
               className='del warning-bk float-end mt-3 mb-5'
-              type='button'
               onClick={ handleShowDelete }
               disabled={ state.isLoading }
             >

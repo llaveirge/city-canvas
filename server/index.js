@@ -233,10 +233,15 @@ app.get('/api/saved-pins/:userId', (req, res, next) => {
 // POST Requests
 // Authenticate user at sign-in:
 app.post('/api/auth/sign-in', (req, res, next) => {
-  const { username, password } = req.body;
+  let { username, password } = req.body;
 
   if (!username || !password) {
     throw new ClientError(401, 'Invalid login');
+  }
+
+  if (username === 'guest username' && password === 'guest password') {
+    username = process.env.DEMO_LOGIN_USERNAME;
+    password = process.env.DEMO_LOGIN_PASSWORD;
   }
 
   const sql = `
@@ -695,8 +700,8 @@ app.patch('/api/report/:postId', (req, res, next) => {
       if (!reported) {
         throw new ClientError(
           404,
-            `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${
-              postId}. It may have been deleted or not yet created.`
+          `This isn't the pin you're looking for... no, really, there is no pin with a postId of ${
+            postId}. It may have been deleted or not yet created.`
         );
       }
       res.json(reported);
@@ -746,7 +751,4 @@ app.delete('/api/delete-saved/:postId', (req, res, next) => {
 
 app.use(errorMiddleware);
 
-app.listen(process.env.PORT, () => {
-  // eslint-disable-next-line no-console
-  console.log(`express server listening on port ${process.env.PORT}`);
-});
+app.listen(process.env.PORT);
