@@ -25,3 +25,7 @@ City Canvas fills a void in the art-based image sharing social media realm. Afte
 - [Argon2](https://github.com/ranisalt/node-argon2#readme "Argon2 Documentation")
 - [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken#readme "jsonwebtoken Documentation")
 - [Dokku](https://dokku.com/docs/getting-started/installation/ "Dokku Documentation")
+
+## Live Application
+
+Try City Canvas live at [https://city-canvas.laveirge.dev](https://city-canvas.laveirge.dev "City Canvas"). Click on the "Sign In as Guest User" button to login in as a demo user with the username "DemoDane."
