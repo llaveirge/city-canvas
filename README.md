@@ -29,3 +29,26 @@ City Canvas fills a void in the art-based image sharing social media realm. Afte
 ## Live Application
 
 Try City Canvas live at [https://city-canvas.laveirge.dev](https://city-canvas.laveirge.dev "City Canvas"). Click on the "Sign In as Guest User" button to login in as a demo user with the username "DemoDane."
+
+
+## Features
+
+- User can create a profile and sign into the application
+- User can create a post sharing details of street art they created or encountered, including:
+  - image
+  - artist name
+  - artwork details/experience, etc.
+- User can add the location of the artwork in their posts using React Google Maps API and geolocation
+- User can access the posts they’ve created to update any information on the 'My Canvas' page via an update form
+- User can delete the posts they’ve created
+- User can view a feed of post previews sorted by date and time of posting with limited information from other users on the 'Home' page feed
+- User can view other users’ posts with complete information and location on a dedicated post page
+- User can view the map pin location of another user's post
+- User can get directions to street art post map pin
+- User can mark other users' posts as removed from view if street art is not at pinned location
+- User can view if any post is marked as removed from view on the 'Home' page feed and the post's dedicated post page
+- User can view if another user marked their post as removed from view on their post page, post preview, and on the post's update form
+- User can save posts from other users to their personal 'My Saved City Canvas' page feed
+- User can view saved posts on the 'My Saved City Canvas' page feed
+- User can remove saved posts from their personal 'My Saved City Canvas' page feed
+- User can view street art posts near them on the 'Art Finder' page map using geolocation or zoom function on the map
