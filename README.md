@@ -33,22 +33,22 @@ Try City Canvas live at [https://city-canvas.laveirge.dev](https://city-canvas.l
 
 ## Features
 
-- User can create a profile and sign into the application
-- User can create a post sharing details of street art they created or encountered, including:
-  - image
-  - artist name
-  - artwork details/experience, etc.
-- User can add the location of the artwork in their posts using React Google Maps API and geolocation
-- User can access the posts they’ve created to update any information on the 'My Canvas' page via an update form
-- User can delete the posts they’ve created
-- User can view a feed of post previews sorted by date and time of posting with limited information from other users on the 'Home' page feed
-- User can view other users’ posts with complete information and location on a dedicated post page
-- User can view the map pin location of another user's post
-- User can get directions to street art post map pin
-- User can mark other users' posts as removed from view if street art is not at pinned location
-- User can view if any post is marked as removed from view on the 'Home' page feed and the post's dedicated post page
-- User can view if another user marked their post as removed from view on their post page, post preview, and on the post's update form
-- User can save posts from other users to their personal 'My Saved City Canvas' page feed
-- User can view saved posts on the 'My Saved City Canvas' page feed
-- User can remove saved posts from their personal 'My Saved City Canvas' page feed
-- User can view street art posts near them on the 'Art Finder' page map using geolocation or zoom function on the map
+- User can create a profile and sign in to the application with a password
+- User can create a post, referred to as a City Canvas Pin, sharing details of street art they created or encountered, including:
+  - an image
+  - the artist's name
+  - artwork details, description, user's experience, etc.
+- User can add the location of the artwork in their City Canvas Pin post by dropping a pin on a Google Map on the New City Canvas Pin form using the geolocation target button or the map's zoom feature
+- User can access the City Canvas Pins they've created on the 'My City Canvas' page and update their Pins via an update form
+- User can delete the City Canvas Pins they've created
+- User can view previews of all City Canvas Pin posts sorted by creation date and time on the 'Home' page feed
+- User can view City Canvas Pins with complete information and location on a dedicated Pin page
+- User can view the pinned location of another user's City Canvas Pin on the Pin's map page
+- User can get directions to any City Canvas Pin on the Pin's map page, linked on the dedicated Pin page
+- User can mark another user's City Canvas Pin as removed from view if the described street art is not at the pinned location
+- User can view if any City Canvas Pin is marked as removed from view on the Pin preview in the 'Home' page feed and the Pin's dedicated Pin page
+- User can view if another user marked their City Canvas Pin as removed from view on the Pin's preview in the 'Home' page feed and the 'My City Canvas' page, on the Pin's dedicated Pin page, and the user will be alerted via a modal on the Pin's update form
+- User can save City Canvas Pins to their personal 'My Saved City Canvas' page from the Pin's dedicated Pin page for viewing later or as a list of favorites
+- User can view saved City Canvas Pins on the 'My Saved City Canvas' page
+- User can remove saved City Canvas Pins from their personal 'My Saved City Canvas' page feed from the Pin's dedicated Pin page
+- User can view City Canvas Pins near them on the 'Art Finder' page map using the geolocation target button or by using the map's zoom feature
