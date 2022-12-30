@@ -52,3 +52,8 @@ Try City Canvas live at [https://city-canvas.laveirge.dev](https://city-canvas.l
 - User can view saved City Canvas Pins on the 'My Saved City Canvas' page
 - User can remove saved City Canvas Pins from their personal 'My Saved City Canvas' page feed from the Pin's dedicated Pin page
 - User can view City Canvas Pins near them on the 'Art Finder' page map using the geolocation target button or by using the map's zoom feature
+
+## Additional Stretch Features Planned
+
+- User can search for City Canvas Pins near a zip code or street address on the 'Art Finder' page map
+- User can view another user's profile page showcasing that user's City Canvas Pins
