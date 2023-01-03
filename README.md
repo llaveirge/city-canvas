@@ -30,6 +30,16 @@ City Canvas fills a void in the art-based image sharing social media realm. Afte
 
 Try City Canvas live at [https://city-canvas.laveirge.dev](https://city-canvas.laveirge.dev "City Canvas"). Click on the "Sign In as Guest User" button to login in as a demo user with the username "DemoDane."
 
+## Application Preview
+
+**Desktop** | Signing in as guest user, 'DemoDane', and creating a City Canvas Pin:
+
+![Signing in as guest user 'Demo Dane' and creating a new City Canvas Pin](server\public\city-canvas-images\assets\readme-1.gif)
+
+
+**Mobile** | Using the 'Art Finder' page map to find street art near targeted location and adding pin to 'My Saved City Canvas' page:
+
+![Using the 'Art Finder' page map to find street art near targeted location and adding pin to 'My Saved City Canvas' page](server\public\city-canvas-images\assets\readme-2.gif)
 
 ## Features
 
