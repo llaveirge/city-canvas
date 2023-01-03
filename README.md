@@ -37,7 +37,7 @@ Try City Canvas live at [https://city-canvas.laveirge.dev](https://city-canvas.l
 ![Signing in as guest user 'Demo Dane' and creating a new City Canvas Pin](server\public\city-canvas-images\assets\readme-1.gif)
 
 
-**Mobile** | Using the 'Art Finder' page map to find street art near targeted location and adding pin to 'My Saved City Canvas' page:
+**Mobile** | Using the 'Art Finder' page map to find street art near targeted location and adding a Pin to the 'My Saved City Canvas' page:
 
 ![Using the 'Art Finder' page map to find street art near targeted location and adding pin to 'My Saved City Canvas' page](server\public\city-canvas-images\assets\readme-2.gif)
 
