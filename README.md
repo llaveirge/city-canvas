@@ -73,3 +73,26 @@ Try City Canvas live at [https://city-canvas.laveirge.dev](https://city-canvas.l
 - Node.js 16 or higher
 - npm 8 or higher
 - PostgreSQL 12 or higher
+
+## Getting Started
+
+1. Clone the repository:
+
+    ```shell
+    git clone https://github.com/llaveirge/city-canvas
+    cd city-canvas
+    ```
+2. Install all dependencies with npm:
+
+    ```shell
+    npm install
+    ```
+
+3. Google Maps Javascript API is necessary. Follow the [Google Maps Platform documentation](https://developers.google.com/maps/documentation/javascript/cloud-setup 'Google Maps Platform documentation') to set up a Google Cloud Project, enable the [Maps JavaScript API](https://developers.google.com/maps/documentation/javascript "Maps JavaScript API documentation"), and [create an API key](https://developers.google.com/maps/documentation/javascript/get-api-key).
+
+4. An Amazon S3 bucket is necessary to store images. Follow the [AWS Amazon S3 documentation](https://aws.amazon.com/s3/?nc2=h_ql_prod_fs_s3 "AWS Amazon S3 documentation") to create an account and set up a bucket with public access to store user uploads. A Free Tier account will be adequate, but be sure to keep an eye on storage limitations.
+
+4. Create a copy of the `.env.example` file and:
+
+
+<!--- Note map style options --->
