@@ -88,11 +88,53 @@ Try City Canvas live at [https://city-canvas.laveirge.dev](https://city-canvas.l
     npm install
     ```
 
-3. Google Maps Javascript API is necessary. Follow the [Google Maps Platform documentation](https://developers.google.com/maps/documentation/javascript/cloud-setup 'Google Maps Platform documentation') to set up a Google Cloud Project, enable the [Maps JavaScript API](https://developers.google.com/maps/documentation/javascript "Maps JavaScript API documentation"), and [create an API key](https://developers.google.com/maps/documentation/javascript/get-api-key).
+3. A Google Maps JavaScript API key is necessary for all map features. Follow the [Google Maps Platform documentation](https://developers.google.com/maps/documentation/javascript/cloud-setup 'Google Maps Platform documentation') to set up a Google Cloud Project, enable the [Maps JavaScript API](https://developers.google.com/maps/documentation/javascript "Maps JavaScript API documentation"), and [create an API key](https://developers.google.com/maps/documentation/javascript/get-api-key).
+   - Optional: Create a custom styled map to use on all map components following the [Google Maps Platform Cloud-based maps styling documentation](https://developers.google.com/maps/documentation/cloud-customization/overview#creating_map_styles "Maps Platform Cloud-based maps styling documentation"). You will need to update the ` mapId` value of the `options` object on all map component files to render your custom map styling.
 
-4. An Amazon S3 bucket is necessary to store images. Follow the [AWS Amazon S3 documentation](https://aws.amazon.com/s3/?nc2=h_ql_prod_fs_s3 "AWS Amazon S3 documentation") to create an account and set up a bucket with public access to store user uploads. A Free Tier account will be adequate, but be sure to keep an eye on storage limitations.
+4. An Amazon S3 bucket is necessary to store images uploaded by users. Follow the [AWS Amazon S3 documentation](https://aws.amazon.com/s3/?nc2=h_ql_prod_fs_s3 "AWS Amazon S3 documentation") to create an account and set up a bucket with public access to store user uploads. A Free Tier account will be adequate, but be sure to monitor on storage limitations.
 
-4. Create a copy of the `.env.example` file and:
+5. Make sure `postgresql` is running:
+
+    ```shell
+      sudo service postgresql start
+    ````
+
+6. Create a database, username, and password, and grant permissions as necessary. May need to update firewall to allow access to server, if appropriate. Replace `yourDatabaseName` below with the name of the database you created for the application:
+
+    ```shell
+    createdb yourDatabaseName
+    ```
+
+7. Create a copy of the `.env.example` file and update the following information:
+    - Update the `TOKEN_SECRET` value with a custom secret key to be used for signing the JSON Web Token.
+    - Update the `DATABASE_URL` value with your database name and information to resemble the following: `postgres://{username}:{password}@localhost/{database-name}`.
+    - Update the `REACT_APP_GOOGLE_MAPS_API_KEY` value with your Google Maps JavaScript API key.
+    - Update the `AWS_S3_REGION` with your AWS S3 bucket region.
+    - Update the `AWS_S3_BUCKET` with your AWS bucket name.
+    - Update the `AWS_ACCESS_KEY_ID` value with your AWS S3 bucket access key ID.
+    - Update the `AWS_SECRET_ACCESS_KEY` value with AWS S3 bucket access key.
+
+8. Import the provided database schema and demo data using the follow script:
+    ```shell
+    npm run db:import
+    ```
+
+9. Start the application with the provided `dev` script:
+    ```shell
+    npm run dev
+    ```
+
+10. Open the application in your browser at  `http://127.0.0.1:3000`
+
+11. To successfully  utilize the 'Guest User Login' feature, create a custom password using the the Argon2 implementation built into the application and update the `DEMO_LOGIN_PASSWORD` value  in the .env environment variables file with the password, and update the hashed password value on the 'data.sql' file. Then, reimport the demo data using the following script:
+
+    ```shell
+    npm run db:import
+    ```
 
 
-<!--- Note map style options --->
+-  Optionally, view your database with the [pgweb GUI tool](https://github.com/sosedoff/pgweb#pgweb "pgweb documentation") for PostgreSQL. [Download pgweb](https://sosedoff.github.io/pgweb/ "Download pgweb") and execute the following script after the application is:
+    ```shell
+    pgweb --db=yourDatabaseName
+    ```
+    Then visit `http://localhost:8081` to use the GUI.
