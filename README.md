@@ -67,3 +67,9 @@ Try City Canvas live at [https://city-canvas.laveirge.dev](https://city-canvas.l
 
 - User can search for City Canvas Pins near a zip code or street address on the 'Art Finder' page map
 - User can view another user's profile page showcasing that user's City Canvas Pins
+
+## System Requirements
+
+- Node.js 16 or higher
+- npm 8 or higher
+- PostgreSQL 12 or higher
