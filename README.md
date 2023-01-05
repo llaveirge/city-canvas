@@ -19,7 +19,7 @@ City Canvas fills a void in the art-based image sharing social media realm. Afte
 - [Bootstrap 5](https://getbootstrap.com/docs/5.1/getting-started/introduction/ "Bootstrap Documentation")
 - [React Bootstrap](https://react-bootstrap.github.io/getting-started/introduction/ "React Bootstrap Documentation")
 - [React Google Maps API](https://react-google-maps-api-docs.netlify.app/ "React Google Maps API Documentation")
-- [AWS Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/GetStartedWithS3.html "Getting started with Amazon S3 documentation")
+- [AWS Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/GetStartedWithS3.html "Getting started with Amazon S3 Documentation")
 - [AWS SDK for JavaScript S3 Client v3](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-s3/index.html "AWS SDK for JavaScript S3 Client Documentation")
 - [Multer](https://github.com/expressjs/multer#readme "Multer Documentation")
 - [sharp](https://sharp.pixelplumbing.com/ "sharp Documentation")
@@ -89,10 +89,10 @@ Try City Canvas live at [https://city-canvas.laveirge.dev](https://city-canvas.l
     npm install
     ```
 
-3. A Google Maps JavaScript API key is necessary for all map features. Follow the [Google Maps Platform documentation](https://developers.google.com/maps/documentation/javascript/cloud-setup 'Google Maps Platform documentation') to set up a Google Cloud Project, enable the [Maps JavaScript API](https://developers.google.com/maps/documentation/javascript "Maps JavaScript API documentation"), and [create an API key](https://developers.google.com/maps/documentation/javascript/get-api-key "Maps JavaScript API: Using API Keys documentation").
+3. A Google Maps JavaScript API key is necessary for all map features. Follow the [Google Maps Platform Documentation](https://developers.google.com/maps/documentation/javascript/cloud-setup 'Google Maps Platform documentation') to set up a Google Cloud Project, enable the [Maps JavaScript API](https://developers.google.com/maps/documentation/javascript "Maps JavaScript API documentation"), and [create an API key](https://developers.google.com/maps/documentation/javascript/get-api-key "Maps JavaScript API: Using API Keys Documentation").
    - Optional: Create a custom styled map to use on all map components following the [Google Maps Platform Maps Customization Guide](https://developers.google.com/maps/documentation/cloud-customization/overview#creating_map_styles "Maps Customization Guide for Cloud-based maps styling"). You will need to update the ` mapId` value of the `options` object on all map component files to render your custom map styling.
 
-4. An Amazon S3 bucket is necessary to store images uploaded by users. Follow the [AWS Amazon S3 documentation](https://aws.amazon.com/s3/?nc2=h_ql_prod_fs_s3 "AWS Amazon S3 documentation") to create an account and set up a bucket with public access to store user uploads. A Free Tier account will be adequate, but be sure to monitor on storage limitations.
+4. An Amazon S3 bucket is necessary to store images uploaded by users. Follow the [AWS Amazon S3 documentation](https://aws.amazon.com/s3/?nc2=h_ql_prod_fs_s3 "AWS Amazon S3 Documentation") to create an account and set up a bucket with public access to store user uploads. A Free Tier account will be adequate, but be sure to monitor on storage limitations.
 
 5. Make sure `postgresql` is running:
 
@@ -134,7 +134,7 @@ Try City Canvas live at [https://city-canvas.laveirge.dev](https://city-canvas.l
     ```
     :exclamation: If this step is skipped, this will result in an error when the 'Sign In as Guest' button is clicked on the 'sign-in-form' component. :exclamation:
 
--  Optionally, view your database with the [pgweb GUI tool](https://github.com/sosedoff/pgweb#pgweb "pgweb documentation") for PostgreSQL. [Download pgweb](https://sosedoff.github.io/pgweb/ "Download pgweb") and execute the following script after the application is:
+-  Optionally, view your database with the [pgweb GUI tool](https://github.com/sosedoff/pgweb#pgweb "pgweb Documentation") for PostgreSQL. [Download pgweb](https://sosedoff.github.io/pgweb/ "Download pgweb") and execute the following script after the application is:
     ```shell
     pgweb --db=yourDatabaseName
     ```
