@@ -10,16 +10,17 @@ City Canvas fills a void in the art-based image sharing social media realm. Afte
 
 - React.js
 - JavaScript ES6
-- HTML5
-- CSS3
-- [Bootstrap 5](https://getbootstrap.com/docs/5.1/getting-started/introduction/ "Bootstrap Documentation")
-- [React Bootstrap](https://react-bootstrap.github.io/getting-started/introduction/ "React Bootstrap Documentation")
 - Webpack
 - Node.js
 - Express
 - PostgreSQL
-- [AWS SDK for JavaScript S3 Client v3](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-s3/index.html "AWS SDK for JavaScript S3 Client Documentation")
+- HTML5
+- CSS3
+- [Bootstrap 5](https://getbootstrap.com/docs/5.1/getting-started/introduction/ "Bootstrap Documentation")
+- [React Bootstrap](https://react-bootstrap.github.io/getting-started/introduction/ "React Bootstrap Documentation")
 - [React Google Maps API](https://react-google-maps-api-docs.netlify.app/ "React Google Maps API Documentation")
+- [AWS Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/GetStartedWithS3.html "Getting started with Amazon S3 documentation")
+- [AWS SDK for JavaScript S3 Client v3](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-s3/index.html "AWS SDK for JavaScript S3 Client Documentation")
 - [Multer](https://github.com/expressjs/multer#readme "Multer Documentation")
 - [sharp](https://sharp.pixelplumbing.com/ "sharp Documentation")
 - [Argon2](https://github.com/ranisalt/node-argon2#readme "Argon2 Documentation")
@@ -56,11 +57,11 @@ Try City Canvas live at [https://city-canvas.laveirge.dev](https://city-canvas.l
 - User can view the pinned location of another user's City Canvas Pin on the Pin's map page
 - User can get directions to any City Canvas Pin on the Pin's map page, linked on the dedicated Pin page
 - User can mark another user's City Canvas Pin as removed from view if the described street art is not at the pinned location
-- User can view if any City Canvas Pin is marked as removed from view on the Pin preview in the 'Home' page feed and the Pin's dedicated Pin page
-- User can view if another user marked their City Canvas Pin as removed from view on the Pin's preview in the 'Home' page feed and the 'My City Canvas' page, on the Pin's dedicated Pin page, and the user will be alerted via a modal on the Pin's update form
+- User can view if any City Canvas Pin is marked as removed from view on the Pin's preview in the 'Home' page feed and the Pin's dedicated Pin page
+- User can view if another user marked their City Canvas Pin as removed from view on the Pin's preview in the 'Home' page feed, on the 'My City Canvas' page, on the Pin's dedicated Pin page, and the user will be alerted via a modal on the Pin's update form
 - User can save City Canvas Pins to their personal 'My Saved City Canvas' page from the Pin's dedicated Pin page for viewing later or as a list of favorites
 - User can view saved City Canvas Pins on the 'My Saved City Canvas' page
-- User can remove saved City Canvas Pins from their personal 'My Saved City Canvas' page feed from the Pin's dedicated Pin page
+- User can remove saved City Canvas Pins from their personal 'My Saved City Canvas' page from the Pin's dedicated Pin page
 - User can view City Canvas Pins near them on the 'Art Finder' page map using the geolocation target button or by using the map's zoom feature
 
 ## Additional Stretch Features Planned
@@ -88,8 +89,8 @@ Try City Canvas live at [https://city-canvas.laveirge.dev](https://city-canvas.l
     npm install
     ```
 
-3. A Google Maps JavaScript API key is necessary for all map features. Follow the [Google Maps Platform documentation](https://developers.google.com/maps/documentation/javascript/cloud-setup 'Google Maps Platform documentation') to set up a Google Cloud Project, enable the [Maps JavaScript API](https://developers.google.com/maps/documentation/javascript "Maps JavaScript API documentation"), and [create an API key](https://developers.google.com/maps/documentation/javascript/get-api-key).
-   - Optional: Create a custom styled map to use on all map components following the [Google Maps Platform Cloud-based maps styling documentation](https://developers.google.com/maps/documentation/cloud-customization/overview#creating_map_styles "Maps Platform Cloud-based maps styling documentation"). You will need to update the ` mapId` value of the `options` object on all map component files to render your custom map styling.
+3. A Google Maps JavaScript API key is necessary for all map features. Follow the [Google Maps Platform documentation](https://developers.google.com/maps/documentation/javascript/cloud-setup 'Google Maps Platform documentation') to set up a Google Cloud Project, enable the [Maps JavaScript API](https://developers.google.com/maps/documentation/javascript "Maps JavaScript API documentation"), and [create an API key](https://developers.google.com/maps/documentation/javascript/get-api-key "Maps JavaScript API: Using API Keys documentation").
+   - Optional: Create a custom styled map to use on all map components following the [Google Maps Platform Maps Customization Guide](https://developers.google.com/maps/documentation/cloud-customization/overview#creating_map_styles "Maps Customization Guide for Cloud-based maps styling"). You will need to update the ` mapId` value of the `options` object on all map component files to render your custom map styling.
 
 4. An Amazon S3 bucket is necessary to store images uploaded by users. Follow the [AWS Amazon S3 documentation](https://aws.amazon.com/s3/?nc2=h_ql_prod_fs_s3 "AWS Amazon S3 documentation") to create an account and set up a bucket with public access to store user uploads. A Free Tier account will be adequate, but be sure to monitor on storage limitations.
 
@@ -99,13 +100,13 @@ Try City Canvas live at [https://city-canvas.laveirge.dev](https://city-canvas.l
       sudo service postgresql start
     ````
 
-6. Create a database, username, and password, and grant permissions as necessary. May need to update firewall to allow access to server, if appropriate. Replace `yourDatabaseName` below with the name of the database you created for the application:
+6. Create a database, username, and password, and grant permissions as necessary. May need to update firewall to allow access to the server, if appropriate. Replace `yourDatabaseName` below with the name of the database you created for the application:
 
     ```shell
     createdb yourDatabaseName
     ```
 
-7. Create a copy of the `.env.example` file and update the following information:
+7. Create a copy of the '.env.example' file and save as your '.env' environment variables file and update the following information:
     - Update the `TOKEN_SECRET` value with a custom secret key to be used for signing the JSON Web Token.
     - Update the `DATABASE_URL` value with your database name and information to resemble the following: `postgres://{username}:{password}@localhost/{database-name}`.
     - Update the `REACT_APP_GOOGLE_MAPS_API_KEY` value with your Google Maps JavaScript API key.
@@ -124,17 +125,18 @@ Try City Canvas live at [https://city-canvas.laveirge.dev](https://city-canvas.l
     npm run dev
     ```
 
-10. Open the application in your browser at  `http://127.0.0.1:3000`
+10. Open the application in your browser at  [http://127.0.0.1:3000](http://127.0.0.1:3000).
 
-11. To successfully  utilize the 'Guest User Login' feature, create a custom password using the the Argon2 implementation built into the application and update the `DEMO_LOGIN_PASSWORD` value  in the .env environment variables file with the password, and update the hashed password value on the 'data.sql' file. Then, reimport the demo data using the following script:
+11. To successfully utilize the 'Guest User Login' feature, create a custom password using the the Argon2 implementation built into the application and update the `DEMO_LOGIN_PASSWORD` value in the '.env' environment variables file with the password. Next, update the hashed password string value for the user with username value 'DemoDane' in the 'users' table on the 'data.sql' file. Then, reimport the demo data using the following script:
 
     ```shell
     npm run db:import
     ```
+    :exclamation: If this step is skipped, this will result in an error when the 'Sign In as Guest' button is clicked on the 'sign-in-form' component. :exclamation:
 
 
 -  Optionally, view your database with the [pgweb GUI tool](https://github.com/sosedoff/pgweb#pgweb "pgweb documentation") for PostgreSQL. [Download pgweb](https://sosedoff.github.io/pgweb/ "Download pgweb") and execute the following script after the application is:
     ```shell
     pgweb --db=yourDatabaseName
     ```
-    Then visit `http://localhost:8081` to use the GUI.
+    Then visit [http://localhost:8081](http://localhost:8081) to use the GUI.
