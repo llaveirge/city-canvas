@@ -29,7 +29,7 @@ City Canvas fills a void in the art-based image sharing social media realm. Afte
 
 ## Live Application
 
-Try City Canvas live at [https://city-canvas.laveirge.dev](https://city-canvas.laveirge.dev "City Canvas"). Click on the "Sign In as Guest User" button to login in as a demo user with the username "DemoDane."
+Try City Canvas live at [https://city-canvas.laveirge.dev](https://city-canvas.laveirge.dev "City Canvas"). Click on the 'Sign In as Guest User' button to login in as a demo user with the username 'DemoDane.'
 
 ## Application Preview
 
@@ -127,13 +127,12 @@ Try City Canvas live at [https://city-canvas.laveirge.dev](https://city-canvas.l
 
 10. Open the application in your browser at  [http://127.0.0.1:3000](http://127.0.0.1:3000).
 
-11. To successfully utilize the 'Guest User Login' feature, create a custom password using the the Argon2 implementation built into the application and update the `DEMO_LOGIN_PASSWORD` value in the '.env' environment variables file with the password. Next, update the hashed password string value for the user with username value 'DemoDane' in the 'users' table on the 'data.sql' file. Then, reimport the demo data using the following script:
+11. To successfully utilize the 'Guest User Login' feature, create a custom password using the the Argon2 implementation built into the application and update the `DEMO_LOGIN_PASSWORD` value in the '.env' environment variables file with the password. Next, replace the the hashed password string value for the user with username value 'DemoDane' in the 'users' table on the 'data.sql' file with the new hashed password string value. Then, reimport the demo data using the following script:
 
     ```shell
     npm run db:import
     ```
     :exclamation: If this step is skipped, this will result in an error when the 'Sign In as Guest' button is clicked on the 'sign-in-form' component. :exclamation:
-
 
 -  Optionally, view your database with the [pgweb GUI tool](https://github.com/sosedoff/pgweb#pgweb "pgweb documentation") for PostgreSQL. [Download pgweb](https://sosedoff.github.io/pgweb/ "Download pgweb") and execute the following script after the application is:
     ```shell
