@@ -37,7 +37,6 @@ Try City Canvas live at [https://city-canvas.laveirge.dev](https://city-canvas.l
 
 ![Signing in as guest user 'Demo Dane' and creating a new City Canvas Pin](server/public/city-canvas-images/assets/readme-1.gif)
 
-
 **Mobile** | Using the 'Art Finder' page map to find street art near targeted location and adding a Pin to the 'My Saved City Canvas' page:
 
 ![Using the 'Art Finder' page map to find street art near targeted location and adding pin to 'My Saved City Canvas' page](server/public/city-canvas-images/assets/readme-2.gif)
@@ -72,8 +71,23 @@ Try City Canvas live at [https://city-canvas.laveirge.dev](https://city-canvas.l
 ## System Requirements
 
 - Node.js 16 or higher
+  - Check what version you have installed with the following command:
+
+    ```shell
+    node -v
+    ```
 - npm 8 or higher
+  - Check what version you have installed with the following command:
+
+    ```shell
+    npm -v
+    ```
+
 - PostgreSQL 12 or higher
+  - Check what version you have installed with the following command:
+    ```shell
+    psql -c 'SELECT version()'
+    ```
 
 ## Getting Started
 
@@ -106,7 +120,7 @@ Try City Canvas live at [https://city-canvas.laveirge.dev](https://city-canvas.l
     createdb yourDatabaseName
     ```
 
-7. Create a copy of the '.env.example' file and save as your '.env' environment variables file and update the following information:
+7. In the project directory, create a copy of the '.env.example' file and save as your '.env' environment variables file and update the following information:
     - Update the `TOKEN_SECRET` value with a custom secret key to be used for signing the JSON Web Token.
     - Update the `DATABASE_URL` value with your database name and information to resemble the following: `postgres://{username}:{password}@localhost/{database-name}`.
     - Update the `REACT_APP_GOOGLE_MAPS_API_KEY` value with your Google Maps JavaScript API key.
