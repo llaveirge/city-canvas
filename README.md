@@ -19,6 +19,7 @@ City Canvas fills a void in the art-based image sharing social media realm. Afte
 - [Bootstrap 5](https://getbootstrap.com/docs/5.1/getting-started/introduction/ "Bootstrap Documentation")
 - [React Bootstrap](https://react-bootstrap.github.io/getting-started/introduction/ "React Bootstrap Documentation")
 - [React Google Maps API](https://react-google-maps-api-docs.netlify.app/ "React Google Maps API Documentation")
+- [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript "Google Maps JavaScript API Documentation")
 - [AWS Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/GetStartedWithS3.html "Getting started with Amazon S3 Documentation")
 - [AWS SDK for JavaScript S3 Client v3](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-s3/index.html "AWS SDK for JavaScript S3 Client Documentation")
 - [Multer](https://github.com/expressjs/multer#readme "Multer Documentation")
@@ -29,7 +30,7 @@ City Canvas fills a void in the art-based image sharing social media realm. Afte
 
 ## Live Application
 
-Try City Canvas live at [https://city-canvas.laveirge.dev](https://city-canvas.laveirge.dev "City Canvas"). Click on the 'Sign In as Guest User' button to login in as a demo user with the username 'DemoDane.'
+Try City Canvas live at [https://city-canvas.laveirge.dev](https://city-canvas.laveirge.dev "City Canvas"). Click the 'Sign In as Guest User' button to login in as a demo user with the username 'DemoDane.'
 
 ## Application Preview
 
@@ -48,19 +49,19 @@ Try City Canvas live at [https://city-canvas.laveirge.dev](https://city-canvas.l
   - an image
   - the artist's name
   - artwork details, description, user's experience, etc.
-- User can add the location of the artwork in their City Canvas Pin post by dropping a pin on a Google Map on the New City Canvas Pin form using the geolocation target button or the map's zoom feature
+- User can add the location of the artwork in their City Canvas Pin post by dropping a pin on a Google Map on the 'New City Canvas Pin' form using the geolocation target button or the map's zoom feature
 - User can access the City Canvas Pins they've created on the 'My City Canvas' page and update their Pins via an update form
 - User can delete the City Canvas Pins they've created
 - User can view previews of all City Canvas Pin posts sorted by creation date and time on the 'Home' page feed
-- User can view City Canvas Pins with complete information and location on a dedicated Pin page
-- User can view the pinned location of another user's City Canvas Pin on the Pin's map page
-- User can get directions to any City Canvas Pin on the Pin's map page, linked on the dedicated Pin page
-- User can mark another user's City Canvas Pin as removed from view if the described street art is not at the pinned location
-- User can view if any City Canvas Pin is marked as removed from view on the Pin's preview in the 'Home' page feed and the Pin's dedicated Pin page
-- User can view if another user marked their City Canvas Pin as removed from view on the Pin's preview in the 'Home' page feed, on the 'My City Canvas' page, on the Pin's dedicated Pin page, and the user will be alerted via a modal on the Pin's update form
-- User can save City Canvas Pins to their personal 'My Saved City Canvas' page from the Pin's dedicated Pin page for viewing later or as a list of favorites
+- User can view any single City Canvas Pin with complete information and location on a dedicated Pin post page
+- User can view the pinned location of another user's City Canvas Pin on the Pin's map page, linked on the dedicated Pin page
+- User can get directions to any City Canvas Pin on the Pin's map page in the dropped map pin's info window
+- User can mark another user's City Canvas Pin as removed from view on the Pin's dedicated post page if the described street art is not at the pinned location
+- User can view if any City Canvas Pin is marked as removed from view on the Pin's preview in the 'Home' page feed and the Pin's dedicated post page
+- User can view if another user marked their City Canvas Pin as removed from view on the Pin's preview in the 'Home' page feed, on the 'My City Canvas' page, on the Pin's dedicated post page, and the user will be alerted via a modal on the Pin's update form
+- User can save City Canvas Pins to their personal 'My Saved City Canvas' page from the Pin's dedicated post page for viewing later or as a list of favorites
 - User can view saved City Canvas Pins on the 'My Saved City Canvas' page
-- User can remove saved City Canvas Pins from their personal 'My Saved City Canvas' page from the Pin's dedicated Pin page
+- User can remove saved City Canvas Pins from their personal 'My Saved City Canvas' page from the Pin's dedicated post page
 - User can view City Canvas Pins near them on the 'Art Finder' page map using the geolocation target button or by using the map's zoom feature
 
 ## Additional Stretch Features Planned
@@ -84,14 +85,15 @@ Try City Canvas live at [https://city-canvas.laveirge.dev](https://city-canvas.l
     ```
 
 - PostgreSQL 12 or higher
-  - Check what version you have installed with the following command:
+  - Check what version you have installed with the following `psql` command:
+
     ```shell
     psql -c 'SELECT version()'
     ```
 
 ## Getting Started
 
-1. Clone the repository:
+1. Clone the repository and change to the cloned directory:
 
     ```shell
     git clone https://github.com/llaveirge/city-canvas
@@ -103,7 +105,7 @@ Try City Canvas live at [https://city-canvas.laveirge.dev](https://city-canvas.l
     npm install
     ```
 
-3. A Google Maps JavaScript API key is necessary for all map features. Follow the [Google Maps Platform Documentation](https://developers.google.com/maps/documentation/javascript/cloud-setup 'Google Maps Platform documentation') to set up a Google Cloud Project, enable the [Maps JavaScript API](https://developers.google.com/maps/documentation/javascript "Maps JavaScript API documentation"), and [create an API key](https://developers.google.com/maps/documentation/javascript/get-api-key "Maps JavaScript API: Using API Keys Documentation").
+3. A Google Maps JavaScript API key is necessary for all map features. Follow the [Google Maps Platform Documentation](https://developers.google.com/maps/documentation/javascript/cloud-setup 'Google Maps Platform Documentation') to set up a Google Cloud Project, enable the [Maps JavaScript API](https://developers.google.com/maps/documentation/javascript "Maps JavaScript API Documentation"), and [create an API key](https://developers.google.com/maps/documentation/javascript/get-api-key "Maps JavaScript API: Using API Keys Documentation").
    - Optional: Create a custom styled map to use on all map components following the [Google Maps Platform Maps Customization Guide](https://developers.google.com/maps/documentation/cloud-customization/overview#creating_map_styles "Maps Customization Guide for Cloud-based maps styling"). You will need to update the ` mapId` value of the `options` object on all map component files to render your custom map styling.
 
 4. An Amazon S3 bucket is necessary to store images uploaded by users. Follow the [AWS Amazon S3 documentation](https://aws.amazon.com/s3/?nc2=h_ql_prod_fs_s3 "AWS Amazon S3 Documentation") to create an account and set up a bucket with public access to store user uploads. A Free Tier account will be adequate, but be sure to monitor on storage limitations.
@@ -127,28 +129,30 @@ Try City Canvas live at [https://city-canvas.laveirge.dev](https://city-canvas.l
     - Update the `AWS_S3_REGION` with your AWS S3 bucket region.
     - Update the `AWS_S3_BUCKET` with your AWS bucket name.
     - Update the `AWS_ACCESS_KEY_ID` value with your AWS S3 bucket access key ID.
-    - Update the `AWS_SECRET_ACCESS_KEY` value with AWS S3 bucket access key.
+    - Update the `AWS_SECRET_ACCESS_KEY` value with your secret AWS S3 bucket access key.
 
 8. Import the provided database schema and demo data using the follow script:
+
     ```shell
     npm run db:import
     ```
 
 9. Start the application with the provided `dev` script:
+
     ```shell
     npm run dev
     ```
 
 10. Open the application in your browser at  [http://127.0.0.1:3000](http://127.0.0.1:3000).
 
-11. To successfully utilize the 'Guest User Login' feature, create a custom password using the the Argon2 implementation built into the application and update the `DEMO_LOGIN_PASSWORD` value in the '.env' environment variables file with the password. Next, replace the the hashed password string value for the user with username value 'DemoDane' in the 'users' table on the 'data.sql' file with the new hashed password string value. Then, reimport the demo data using the following script:
+11. To successfully utilize the 'Guest User Login' feature, create a custom password using the the Argon2 implementation built into the application and update the `DEMO_LOGIN_PASSWORD` value in the '.env' environment variables file with the password. Next, replace the the hashed password string value for the user with the username value 'DemoDane' in the 'users' table on the 'data.sql' file with the new hashed password string value. (The simplest way to do this is to create a user with the desired password and copy the hashed password value from the database.) Then, reimport the demo data using the following script:
 
     ```shell
     npm run db:import
     ```
     :exclamation: If this step is skipped, this will result in an error when the 'Sign In as Guest' button is clicked on the 'sign-in-form' component. :exclamation:
 
--  Optionally, view your database with the [pgweb GUI tool](https://github.com/sosedoff/pgweb#pgweb "pgweb Documentation") for PostgreSQL. [Download pgweb](https://sosedoff.github.io/pgweb/ "Download pgweb") and execute the following script after the application is:
+-  Optional: View your database in your browser with the [pgweb GUI tool](https://github.com/sosedoff/pgweb#pgweb "pgweb Documentation") for PostgreSQL. [Download pgweb](https://sosedoff.github.io/pgweb/ "Download pgweb") and execute the following script after the application is:
     ```shell
     pgweb --db=yourDatabaseName
     ```
