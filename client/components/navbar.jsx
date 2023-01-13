@@ -26,7 +26,7 @@ export default class AppNav extends React.Component {
             <Nav.Link href='#art-finder'>Art Finder</Nav.Link>
               { user
                 ? <Nav.Link href='' onClick={ handleSignOut }>
-                    Sign Out, {user.username}
+                    Sign Out, { user.username }
                   </Nav.Link>
                 : null
               }
