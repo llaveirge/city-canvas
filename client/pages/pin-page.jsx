@@ -124,7 +124,7 @@ export default class PinPage extends React.Component {
           this.toggleSaving(this.state.isSaving);
         });
     } else if (pin.savedByCurrentUser) {
-      // Delete from saved:
+      // Delete pin from saved:
       const req = {
         method: 'DELETE',
         headers: {
@@ -289,7 +289,7 @@ export default class PinPage extends React.Component {
         <Container className='pin-cont d-flex align-items-center pt-sm-5 pt-3'>
           <Image
             className='profile-pic sec-bk-color'
-            alt={`Profile image for user ${pin.userName}.`}
+            alt={ `Profile image for user ${pin.userName}.` }
             src={ pin.photoUrl }
           ></Image>
           <p className='fs-5-5-sm mb-0 ms-3'>{ pin.username }</p>
@@ -297,10 +297,13 @@ export default class PinPage extends React.Component {
 
         <Container className='pin-cont mt-4'>
           <Card className='flex-sm-row'>
+
             <Col>
               <Card.Img
                 className='full-pin-img'
-                alt={`Image of '${pin.title}' street art by ${pin.artistName}.`}
+                alt={
+                  `Image of '${pin.title}' street art by ${pin.artistName}.`
+                }
                 src={ pin.artPhotoUrl }
               />
             </Col>
@@ -349,8 +352,9 @@ export default class PinPage extends React.Component {
                         className={
                           !isSaving
                             ? 'ab-bottom grey report-text me-5'
-                            : 'ab-bottom grey report-text pe-none me-5'}
-                        tabIndex={ !isSaving ? '0' : '-1'}
+                            : 'ab-bottom grey report-text pe-none me-5'
+                          }
+                        tabIndex={ !isSaving ? '0' : '-1' }
                         aria-disabled={ isSaving }
                         onClick={ !isSaving ? this.handleShow : null }>
                           Report as removed from view
@@ -367,9 +371,9 @@ export default class PinPage extends React.Component {
                         role='button'
                         as='button'
                         type='button'
-                        aria-label={!pin.savedByCurrentUser
+                        aria-label={ !pin.savedByCurrentUser
                           ? 'Save pin button'
-                          : 'Remove save button'}
+                          : 'Remove save button' }
                         className='save-button p-0 bg-white ab-bottom-right'
                       >
                         <OverlayTrigger
@@ -379,7 +383,7 @@ export default class PinPage extends React.Component {
                             <Tooltip id='save-pin-tooltip'>
                             { !pin.savedByCurrentUser
                               ? 'Save pin'
-                              : 'Remove save'}
+                              : 'Remove save' }
                             </Tooltip>
                           }
                         >
@@ -395,6 +399,7 @@ export default class PinPage extends React.Component {
                     }
               </Card.Body>
             </Col>
+
           </Card>
         </Container>
 

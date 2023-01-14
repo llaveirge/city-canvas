@@ -52,7 +52,7 @@ export default function PinMap(props) {
   }, []);
 
   const showTooltip = props => (
-    <Tooltip id='pm-target-button-tooltip' { ...props}>
+    <Tooltip id='pm-target-button-tooltip' { ...props }>
       Target my location
     </Tooltip>
   );
@@ -174,7 +174,8 @@ export default function PinMap(props) {
                   </div>
                 </InfoWindow>
               )
-            : null }
+            : null
+          }
         </GoogleMap>
       </div>
 

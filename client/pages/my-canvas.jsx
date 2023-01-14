@@ -69,7 +69,7 @@ export default class MyCanvas extends React.Component {
             </h2>
           </Row>
           <Row className='text-center'>
-            <p className='msg-font lh-base fw-bold pt-4 px-4 '>
+            <p className='msg-font lh-base fw-bold pt-4 px-4'>
               An account error has occurred. Please sign out and sign in again,
               or&nbsp;
               <a href='#registration' className='sec-color no-decoration'>

@@ -77,7 +77,7 @@ export default function ArtFinder(props) {
   }, []);
 
   const showTooltip = props => (
-    <Tooltip id='af-target-button-tooltip' { ...props}>
+    <Tooltip id='af-target-button-tooltip' { ...props }>
       Target my location
     </Tooltip>
   );
@@ -159,7 +159,7 @@ export default function ArtFinder(props) {
           zoom = { 5 }
           center ={ center }
           onLoad = { onMapLoad }
-          options = { options}
+          options = { options }
         >
 
           <GeoLocate panTo={ panTo } />
