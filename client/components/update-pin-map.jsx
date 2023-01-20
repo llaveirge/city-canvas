@@ -43,7 +43,7 @@ export default function UpdatePinMap(props) {
   }, []);
 
   const showTooltip = props => (
-    <Tooltip id='upm-target-button-tooltip' { ...props}>
+    <Tooltip id='upm-target-button-tooltip' { ...props }>
       Target my location
     </Tooltip>
   );

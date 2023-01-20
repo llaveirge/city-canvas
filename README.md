@@ -113,7 +113,7 @@ Try City Canvas live at [https://city-canvas.laveirge.dev](https://city-canvas.l
 5. Make sure `postgresql` is running:
 
     ```shell
-      sudo service postgresql start
+    sudo service postgresql start
     ````
 
 6. Create a database, username, and password, and grant permissions as necessary. May need to update firewall to allow access to the server, if appropriate. Replace `yourDatabaseName` below with the name of the database you created for the application:

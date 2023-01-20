@@ -41,7 +41,7 @@ export default function NewPinMap(props) {
   }, []);
 
   const showTooltip = props => (
-    <Tooltip id='npm-target-button-tooltip' { ...props}>
+    <Tooltip id='npm-target-button-tooltip' { ...props }>
       Target my location
     </Tooltip>
   );
